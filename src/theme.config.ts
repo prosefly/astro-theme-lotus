@@ -42,6 +42,22 @@ const themeConfig = {
         links: [
           { label: 'Getting Started', href: '/docs/guide/getting-started/' },
           { label: 'Configuration', href: '/docs/guide/configuration/' },
+          { label: 'Deployment', href: '/docs/guide/deployment/' },
+        ],
+      },
+      {
+        title: 'Components',
+        links: [
+          { label: 'Callout', href: '/docs/components/callout/' },
+          { label: 'Cards', href: '/docs/components/cards/' },
+          { label: 'Tabs', href: '/docs/components/tabs/' },
+        ],
+      },
+      {
+        title: 'References',
+        links: [
+          { label: 'Design System', href: '/docs/references/design-system/' },
+          { label: 'Markdown', href: '/docs/references/markdown/' },
         ],
       },
       {

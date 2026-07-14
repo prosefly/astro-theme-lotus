@@ -9,3 +9,51 @@ order: 1
 
 Astro Theme Lotus is a documentation starter for Astro v7, Tailwind CSS v4,
 and MDX.
+
+## Create the project
+
+Use the template to scaffold a new docs site:
+
+```sh
+npm create astro@latest -- --template prosefly/astro-theme-lotus
+```
+
+Then install dependencies inside the project:
+
+```sh
+npm install
+```
+
+## Start local development
+
+Lotus uses the standard Astro development workflow:
+
+```sh
+npm run dev
+```
+
+This starts the local server so you can edit docs content, update
+`src/theme.config.ts`, and preview MDX components in real pages.
+
+## Core scripts
+
+The starter keeps the script surface intentionally small:
+
+```sh
+npm run dev
+npm run check
+npm run build
+```
+
+- `npm run dev` starts the Astro development server.
+- `npm run check` runs `astro check` to validate content collections, MDX
+  imports, and TypeScript.
+- `npm run build` renders the production static site.
+
+## Where to begin
+
+1. Update `src/theme.config.ts` with your title, description, navigation, and
+   footer links.
+2. Replace or expand the starter docs in `src/content/docs/`.
+3. Reuse the shared MDX components from `src/components/mdx/` for callouts,
+   cards, steps, badges, and tabs.

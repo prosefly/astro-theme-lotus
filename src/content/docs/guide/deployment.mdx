@@ -1,0 +1,43 @@
+---
+title: Deployment
+description: Deploy Lotus to any static host supported by Astro output.
+section: guide
+order: 4
+---
+
+# Deployment
+
+Lotus builds to static output, so deployment works anywhere Astro static sites
+are supported.
+
+## Build before deploying
+
+Use the production build locally first:
+
+```sh
+npm run build
+```
+
+This verifies that your docs content, MDX imports, and theme configuration all
+render cleanly.
+
+## Common static hosts
+
+### Vercel
+
+Use the default Astro static build settings. The generated `dist/` directory is
+what Vercel publishes.
+
+### Netlify
+
+Point the build command to `npm run build` and publish the `dist/` directory.
+
+### Cloudflare Pages
+
+Use the same static output flow: install dependencies, run `npm run build`, and
+publish `dist/`.
+
+### Any static host
+
+If the host can serve files from `dist/`, Lotus can be deployed there. No
+server-side runtime is required for the first release.

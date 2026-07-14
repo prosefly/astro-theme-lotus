@@ -9,3 +9,48 @@ order: 1
 
 Lotus defines its visual language through theme tokens for color, typography,
 spacing, and shape.
+
+## Tailwind and Lotus tokens
+
+Tailwind handles page layout, spacing, typography utilities, and responsive
+behavior. Lotus tokens define the semantic layer on top of that utility system:
+surface colors, foreground colors, interactive accents, prose styling, fonts,
+and shared radius values.
+
+This split keeps authoring practical. Tailwind classes describe structure and
+composition, while `--lotus-*` tokens preserve a consistent visual language
+across layouts and MDX components.
+
+## Why Lotus uses semantic color tokens
+
+Lotus ships semantic tokens such as `--lotus-bg`, `--lotus-fg`, and
+`--lotus-accent` so components can respond to theme changes without rewriting
+every individual utility class. The default palette uses `oklch(...)` values
+because they are perceptually uniform and easier to tune across light and dark
+surfaces than raw `r g b` channel triplets.
+
+In practice, `oklch(...)` makes it easier to adjust contrast, chroma, and tone
+with predictable results while still exposing a semantic token API to the rest
+of the theme.
+
+## Radius and theme attributes
+
+The page shell reads `appearance.radius` from `src/theme.config.ts` and exposes
+it as a `data-radius="medium"` style attribute on the rendered document. Lotus
+components then consume the matching radius tokens so cards, callouts, and other
+surfaces stay aligned with the selected scale.
+
+```ts
+appearance: {
+  radius: 'medium',
+}
+```
+
+## Core tokens
+
+| Token | Purpose |
+|---|---|
+| `--lotus-bg` | Page background |
+| `--lotus-fg` | Main text |
+| `--lotus-accent` | Primary interactive color |
+| `--lotus-radius-md` | Medium component radius |
