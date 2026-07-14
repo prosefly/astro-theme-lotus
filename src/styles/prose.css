@@ -1,0 +1,110 @@
+.lotus-prose {
+  color: var(--lotus-fg);
+  max-width: var(--lotus-content-width);
+  line-height: 1.75;
+}
+
+.lotus-prose :where(h1, h2, h3, h4) {
+  color: var(--lotus-fg);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.lotus-prose h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem;
+}
+
+.lotus-prose h2 {
+  font-size: 2.25rem;
+  margin: 3rem 0 1rem;
+}
+
+.lotus-prose h3 {
+  font-size: 1.5rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.lotus-prose h4 {
+  font-size: 1.125rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.lotus-prose p {
+  color: var(--lotus-fg);
+  margin: 1rem 0;
+}
+
+.lotus-prose a {
+  color: var(--lotus-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--lotus-accent) 40%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.lotus-prose a:hover {
+  text-decoration-color: var(--lotus-accent);
+}
+
+.lotus-prose ul,
+.lotus-prose ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.lotus-prose li + li {
+  margin-top: 0.5rem;
+}
+
+.lotus-prose blockquote {
+  background: var(--lotus-muted-bg);
+  border-inline-start: 3px solid var(--lotus-accent);
+  border-radius: var(--lotus-radius-md);
+  color: var(--lotus-muted);
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+}
+
+.lotus-prose table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.lotus-prose th,
+.lotus-prose td {
+  border-bottom: 1px solid var(--lotus-border);
+  padding: 0.75rem 0.875rem;
+  text-align: left;
+}
+
+.lotus-prose th {
+  color: var(--lotus-fg);
+  font-weight: 600;
+}
+
+.lotus-prose :not(pre) > code {
+  background: var(--lotus-muted-bg);
+  border: 1px solid var(--lotus-border);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-fg);
+  font-size: 0.9em;
+  padding: 0.15rem 0.4rem;
+}
+
+.lotus-prose pre {
+  background: var(--lotus-muted-bg);
+  border: 1px solid var(--lotus-border);
+  border-radius: var(--lotus-radius-lg);
+  color: var(--lotus-fg);
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+}
+
+.lotus-prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}

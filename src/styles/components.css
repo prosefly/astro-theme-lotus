@@ -1,0 +1,28 @@
+.lotus-focus-ring:focus-visible {
+  outline: 2px solid var(--lotus-accent);
+  outline-offset: 2px;
+}
+
+.lotus-scrollbar {
+  scrollbar-color: var(--lotus-muted) transparent;
+  scrollbar-width: thin;
+}
+
+.lotus-scrollbar::-webkit-scrollbar {
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.lotus-scrollbar::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--lotus-muted) 70%, transparent);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.lotus-container {
+  margin-inline: auto;
+  max-width: calc(var(--lotus-content-width) + 2 * 1.5rem);
+  padding-inline: 1.5rem;
+  width: 100%;
+}
