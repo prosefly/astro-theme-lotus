@@ -1,31 +1,38 @@
 ---
-import '../styles/app.css';
-import { getThemeAttributes } from '../lib/appearance';
-
-const themeAttrs = getThemeAttributes();
+import Footer from '../components/layout/Footer.astro';
+import MainHeader from '../components/layout/MainHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<html lang="en" {...themeAttrs}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Astro Theme Lotus</title>
-  </head>
-  <body class="min-h-screen bg-[var(--lotus-bg)] text-[var(--lotus-fg)]">
-    <main class="mx-auto max-w-3xl px-6 py-16">
+<BaseLayout>
+  <MainHeader currentPath="/" />
+
+  <main class="mx-auto max-w-screen-xl px-4 py-20 sm:px-6">
+    <div class="max-w-3xl">
       <p class="text-sm font-medium text-[var(--lotus-accent)]">Astro Theme Lotus</p>
-      <h1 class="mt-3 text-4xl font-semibold tracking-normal">Documentation starts in /docs/</h1>
-      <p class="mt-4 text-[var(--lotus-muted)]">
-        The primary experience for this project is the documentation site.
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-[var(--lotus-fg)] sm:text-5xl">
+        Documentation starts in `/docs/`
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-7 text-[var(--lotus-muted)] sm:text-lg">
+        This project is organized as a documentation theme. The guide, component examples,
+        and reference material all live in the docs experience.
       </p>
-      <p class="mt-8">
+      <div class="mt-10 flex flex-wrap gap-4">
         <a
-          class="inline-flex items-center rounded-full border border-[var(--lotus-border)] px-5 py-3 text-sm font-medium text-[var(--lotus-fg)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
+          class="lotus-focus-ring inline-flex items-center rounded-[var(--lotus-radius-md)] bg-[var(--lotus-accent)] px-5 py-3 text-sm font-medium text-[var(--lotus-accent-fg)] transition-opacity hover:opacity-90"
           href="/docs/"
         >
           Open the docs
         </a>
-      </p>
-    </main>
-  </body>
-</html>
+        <a
+          class="lotus-focus-ring inline-flex items-center rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-5 py-3 text-sm font-medium text-[var(--lotus-fg)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
+          href="/docs/guide/getting-started/"
+        >
+          Start with the guide
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,68 @@
+---
+import type { DocsNavItem, DocsSectionNav } from '../lib/docs';
+import BaseLayout from './BaseLayout.astro';
+import Footer from '../components/layout/Footer.astro';
+import MainHeader from '../components/layout/MainHeader.astro';
+import Sidebar from '../components/layout/Sidebar.astro';
+import SubNav from '../components/layout/SubNav.astro';
+import TableOfContents from '../components/layout/TableOfContents.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  currentSlug?: string;
+  subnav: DocsSectionNav[];
+  sidebarItems: DocsNavItem[];
+  headings: Heading[];
+}
+
+const { title, description, currentSlug, subnav, sidebarItems, headings } = Astro.props;
+const currentPath = currentSlug ? `/docs/${currentSlug}/` : '/docs/';
+---
+
+<BaseLayout title={title} description={description}>
+  <MainHeader currentPath={currentPath} />
+  <SubNav sections={subnav} />
+
+  <main class="pb-16">
+    <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-4 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 lg:px-6 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
+      <aside class="hidden lg:block">
+        <div class="sticky top-[calc(var(--lotus-header-height)+var(--lotus-subnav-height)+2rem)] py-10">
+          {sidebarItems.length > 0 && <Sidebar items={sidebarItems} currentSlug={currentSlug} />}
+        </div>
+      </aside>
+
+      <article class="min-w-0 py-10">
+        <header class="border-b border-[var(--lotus-border)] pb-8">
+          <p class="text-sm font-medium text-[var(--lotus-accent)]">Documentation</p>
+          <h1 class="mt-3 text-4xl font-semibold leading-tight text-[var(--lotus-fg)] sm:text-5xl">
+            {title}
+          </h1>
+          {description && (
+            <p class="mt-4 max-w-3xl text-base leading-7 text-[var(--lotus-muted)] sm:text-lg">
+              {description}
+            </p>
+          )}
+        </header>
+
+        <div class="lotus-prose pt-8">
+          <slot />
+        </div>
+      </article>
+
+      <aside class="hidden xl:block">
+        <div class="sticky top-[calc(var(--lotus-header-height)+var(--lotus-subnav-height)+2rem)] py-10">
+          <TableOfContents headings={headings} />
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

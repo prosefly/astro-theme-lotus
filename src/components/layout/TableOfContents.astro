@@ -1,0 +1,38 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const visibleHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+{
+  visibleHeadings.length > 0 && (
+    <nav aria-label="On this page" class="space-y-3">
+      <p class="text-sm font-semibold text-[var(--lotus-fg)]">On this page</p>
+      <ul class="space-y-1">
+        {visibleHeadings.map((heading) => (
+          <li>
+            <a
+              class:list={[
+                'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
+                heading.depth === 3 ? 'pl-6' : 'pl-3',
+                'text-[var(--lotus-muted)] hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-fg)]',
+              ]}
+              href={`#${heading.slug}`}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

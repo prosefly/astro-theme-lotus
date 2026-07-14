@@ -1,8 +1,7 @@
 ---
 import type { MarkdownHeading } from 'astro';
-import '../../styles/app.css';
 import { render } from 'astro:content';
-import { getThemeAttributes } from '../../lib/appearance';
+import DocsLayout from '../../layouts/DocsLayout.astro';
 import { getDocsEntries, getDocsNavigation, getSidebarItems } from '../../lib/docs';
 
 export async function getStaticPaths() {
@@ -18,97 +17,15 @@ const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const subnav = await getDocsNavigation(entry.id);
 const sidebarItems = await getSidebarItems(entry.id);
-const themeAttrs = getThemeAttributes();
-const pageTitle = `${entry.data.title} | Docs`;
 ---
 
-<html lang="en" {...themeAttrs}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle}</title>
-    {entry.data.description && <meta name="description" content={entry.data.description} />}
-  </head>
-  <body class="min-h-screen bg-[var(--lotus-bg)] text-[var(--lotus-fg)]">
-    <main class="mx-auto grid max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[14rem_minmax(0,1fr)_16rem]">
-      <aside class="space-y-6">
-        <section>
-          <p class="text-xs font-semibold uppercase tracking-normal text-[var(--lotus-accent)]">
-            Sections
-          </p>
-          <ul class="mt-3 space-y-2">
-            {subnav.map((section) => (
-              <li>
-                <a
-                  class:list={[
-                    'text-sm transition-colors',
-                    section.active ? 'text-[var(--lotus-fg)]' : 'text-[var(--lotus-muted)]',
-                  ]}
-                  href={section.href}
-                >
-                  {section.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section>
-          <p class="text-xs font-semibold uppercase tracking-normal text-[var(--lotus-accent)]">
-            Sidebar
-          </p>
-          {sidebarItems.length > 0 ? (
-            <ul class="mt-3 space-y-2">
-              {sidebarItems.map((item) => (
-                <li>
-                  <a
-                    class:list={[
-                      'text-sm transition-colors',
-                      item.slug === entry.id ? 'text-[var(--lotus-fg)]' : 'text-[var(--lotus-muted)]',
-                    ]}
-                    href={item.href}
-                  >
-                    {item.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p class="mt-3 text-sm text-[var(--lotus-muted)]">No section-specific pages.</p>
-          )}
-        </section>
-      </aside>
-
-      <article class="min-w-0">
-        <p class="text-sm font-medium text-[var(--lotus-accent)]">Documentation</p>
-        <h1 class="mt-3 text-4xl font-semibold tracking-normal">{entry.data.title}</h1>
-        {entry.data.description && (
-          <p class="mt-4 text-base text-[var(--lotus-muted)]">{entry.data.description}</p>
-        )}
-
-        <div class="lotus-prose mt-10">
-          <Content />
-        </div>
-      </article>
-
-      <aside>
-        <p class="text-xs font-semibold uppercase tracking-normal text-[var(--lotus-accent)]">
-          On This Page
-        </p>
-        {headings.length > 0 ? (
-          <ul class="mt-3 space-y-2">
-            {headings.map((heading: MarkdownHeading) => (
-              <li>
-                <a class="text-sm text-[var(--lotus-muted)] transition-colors" href={`#${heading.slug}`}>
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="mt-3 text-sm text-[var(--lotus-muted)]">No headings available.</p>
-        )}
-      </aside>
-    </main>
-  </body>
-</html>
+<DocsLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  currentSlug={entry.id}
+  subnav={subnav}
+  sidebarItems={sidebarItems}
+  headings={headings as MarkdownHeading[]}
+>
+  <Content />
+</DocsLayout>

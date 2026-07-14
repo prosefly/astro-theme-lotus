@@ -1,0 +1,82 @@
+---
+import MobileMenu from './MobileMenu.astro';
+import themeConfig from '../../theme.config';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(href: string): boolean {
+  if (!currentPath) {
+    return false;
+  }
+
+  if (href === '/docs/') {
+    return currentPath === href || currentPath.startsWith('/docs/');
+  }
+
+  return currentPath === href || currentPath.startsWith(`${href}`);
+}
+
+function getActionLabel(label: string, icon?: string): string {
+  return icon ? `${label} (${icon})` : label;
+}
+---
+
+<header class="sticky top-0 z-40 h-[var(--lotus-header-height)] border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/95 backdrop-blur">
+  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-6 px-4 sm:px-6">
+    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-fg)]" href="/">
+      <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
+      <span class="truncate text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden min-w-0 flex-1 items-center gap-1 md:flex">
+      {themeConfig.nav.map((item) => (
+        <a
+          class:list={[
+            'lotus-focus-ring rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
+            isActive(item.href)
+              ? 'text-[var(--lotus-accent)]'
+              : 'text-[var(--lotus-muted)] hover:text-[var(--lotus-fg)]',
+          ]}
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="ml-auto hidden items-center gap-2 md:flex">
+      {themeConfig.actions.map((action) => (
+        <a
+          aria-label={getActionLabel(action.label, action.icon)}
+          class="lotus-focus-ring inline-flex items-center gap-2 rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-3 py-2 text-sm text-[var(--lotus-muted)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
+          href={action.href}
+          rel={action.external ? 'noreferrer' : undefined}
+          target={action.external ? '_blank' : undefined}
+        >
+          <span>{action.label}</span>
+          {action.external && (
+            <svg
+              aria-hidden="true"
+              class="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 17 17 7" />
+              <path d="M9 7h8v8" />
+            </svg>
+          )}
+        </a>
+      ))}
+    </div>
+
+    <MobileMenu currentPath={currentPath} />
+  </div>
+</header>

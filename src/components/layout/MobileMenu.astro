@@ -1,0 +1,63 @@
+---
+import themeConfig from '../../theme.config';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(href: string): boolean {
+  if (!currentPath) {
+    return false;
+  }
+
+  if (href === '/docs/') {
+    return currentPath === href || currentPath.startsWith('/docs/');
+  }
+
+  return currentPath === href || currentPath.startsWith(`${href}`);
+}
+---
+
+<details class="group relative md:hidden">
+  <summary class="lotus-focus-ring flex h-10 items-center rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-3 text-sm font-medium text-[var(--lotus-fg)] marker:hidden">
+    Menu
+  </summary>
+
+  <div class="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[var(--lotus-radius-lg)] border border-[var(--lotus-border)] bg-[var(--lotus-bg)] p-4 shadow-lg shadow-black/5">
+    <nav aria-label="Primary" class="space-y-4">
+      <div class="space-y-1">
+        {themeConfig.nav.map((item) => (
+          <a
+            class:list={[
+              'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
+              isActive(item.href)
+                ? 'bg-[var(--lotus-muted-bg)] text-[var(--lotus-accent)]'
+                : 'text-[var(--lotus-fg)] hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-accent)]',
+            ]}
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+
+      <div class="border-t border-[var(--lotus-border)] pt-4">
+        <p class="px-3 text-xs font-semibold uppercase text-[var(--lotus-muted)]">Links</p>
+        <div class="mt-2 space-y-1">
+          {themeConfig.actions.map((action) => (
+            <a
+              class="lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm text-[var(--lotus-fg)] transition-colors hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-accent)]"
+              href={action.href}
+              target={action.external ? '_blank' : undefined}
+              rel={action.external ? 'noreferrer' : undefined}
+            >
+              {action.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </div>
+</details>

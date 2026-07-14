@@ -1,0 +1,26 @@
+---
+import type { DocsNavItem } from '../../lib/docs';
+
+interface Props {
+  items: DocsNavItem[];
+  currentSlug?: string;
+}
+
+const { items, currentSlug } = Astro.props;
+---
+
+<nav aria-label="Sidebar" class="space-y-1">
+  {items.map((item) => (
+    <a
+      class:list={[
+        'lotus-focus-ring block rounded-[var(--lotus-radius-md)] border-l-2 px-4 py-2 text-sm transition-colors',
+        item.slug === currentSlug
+          ? 'border-[var(--lotus-accent)] bg-[var(--lotus-muted-bg)] text-[var(--lotus-fg)]'
+          : 'border-transparent text-[var(--lotus-muted)] hover:border-[var(--lotus-border)] hover:text-[var(--lotus-fg)]',
+      ]}
+      href={item.href}
+    >
+      {item.title}
+    </a>
+  ))}
+</nav>

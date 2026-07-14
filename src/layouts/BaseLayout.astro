@@ -1,0 +1,28 @@
+---
+import '../styles/app.css';
+import { getThemeAttributes } from '../lib/appearance';
+import themeConfig from '../theme.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = themeConfig.site.description } = Astro.props;
+const themeAttrs = getThemeAttributes();
+const pageTitle = title
+  ? `${title} - ${themeConfig.site.title}`
+  : themeConfig.site.title;
+---
+
+<html lang="en" {...themeAttrs}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="min-h-screen bg-[var(--lotus-bg)] text-[var(--lotus-fg)]">
+    <slot />
+  </body>
+</html>

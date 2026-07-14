@@ -1,0 +1,43 @@
+---
+import themeConfig from '../../theme.config';
+---
+
+<footer class="border-t border-[var(--lotus-border)] bg-[var(--lotus-bg)]">
+  <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
+    <div class="space-y-4">
+      <a class="lotus-focus-ring inline-flex items-center gap-3 text-[var(--lotus-fg)]" href="/">
+        <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
+        <span class="text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
+      </a>
+      <p class="max-w-sm text-sm leading-6 text-[var(--lotus-muted)]">
+        {themeConfig.footer.copyright}
+      </p>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2">
+      {themeConfig.footer.sections.map((section) => (
+        <section class="space-y-3">
+          <h2 class="text-sm font-semibold text-[var(--lotus-fg)]">{section.title}</h2>
+          <ul class="space-y-2">
+            {section.links.map((link) => {
+              const isExternal = 'external' in link && link.external;
+
+              return (
+                <li>
+                  <a
+                    class="lotus-focus-ring text-sm text-[var(--lotus-muted)] transition-colors hover:text-[var(--lotus-accent)]"
+                    href={link.href}
+                    rel={isExternal ? 'noreferrer' : undefined}
+                    target={isExternal ? '_blank' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</footer>

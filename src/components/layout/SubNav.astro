@@ -1,0 +1,32 @@
+---
+import type { DocsSectionNav } from '../../lib/docs';
+
+interface Props {
+  sections: DocsSectionNav[];
+}
+
+const { sections } = Astro.props;
+---
+
+<nav
+  aria-label="Documentation sections"
+  class="border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/90"
+>
+  <div class="mx-auto flex h-[var(--lotus-subnav-height)] max-w-screen-2xl items-center overflow-x-auto px-4 sm:px-6">
+    <div class="lotus-scrollbar flex min-w-full items-center gap-2 pb-1">
+      {sections.map((section) => (
+        <a
+          class:list={[
+            'lotus-focus-ring inline-flex h-[calc(var(--lotus-subnav-height)-0.75rem)] items-center border-b-2 px-1 text-sm font-medium whitespace-nowrap transition-colors',
+            section.active
+              ? 'border-[var(--lotus-accent)] text-[var(--lotus-accent)]'
+              : 'border-transparent text-[var(--lotus-muted)] hover:text-[var(--lotus-fg)]',
+          ]}
+          href={section.href}
+        >
+          {section.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
