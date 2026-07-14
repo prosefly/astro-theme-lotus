@@ -1,0 +1,23 @@
+---
+interface Props {
+  variant?: 'neutral' | 'accent' | 'success' | 'warning';
+}
+
+const { variant = 'neutral' } = Astro.props;
+
+const variants = {
+  neutral: 'border-[color:color-mix(in_oklab,var(--lotus-border)_85%,var(--lotus-fg)_15%)] bg-[var(--lotus-muted-bg)] text-[var(--lotus-fg)]',
+  accent: 'border-[color:color-mix(in_oklab,var(--lotus-accent)_25%,var(--lotus-border))] bg-[color:color-mix(in_oklab,var(--lotus-accent)_12%,var(--lotus-bg))] text-[var(--lotus-accent)]',
+  success: 'border-[color:color-mix(in_oklab,oklch(0.64_0.16_155)_28%,var(--lotus-border))] bg-[color:color-mix(in_oklab,oklch(0.64_0.16_155)_10%,var(--lotus-bg))] text-[color:oklch(0.45_0.13_155)] dark:text-[color:oklch(0.77_0.12_155)]',
+  warning: 'border-[color:color-mix(in_oklab,oklch(0.74_0.16_80)_32%,var(--lotus-border))] bg-[color:color-mix(in_oklab,oklch(0.74_0.16_80)_12%,var(--lotus-bg))] text-[color:oklch(0.5_0.12_80)] dark:text-[color:oklch(0.82_0.12_80)]',
+} as const;
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-[var(--lotus-radius-full,var(--lotus-radius-md))] border px-2.5 py-1 text-xs font-semibold leading-none',
+    variants[variant],
+  ]}
+>
+  <slot />
+</span>

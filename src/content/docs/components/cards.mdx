@@ -1,0 +1,47 @@
+---
+title: Cards
+description: Group related links and summaries with lightweight documentation cards.
+section: components
+order: 3
+---
+
+import { Card, CardGrid } from '../../../components/mdx';
+
+# Cards
+
+Use `CardGrid` and `Card` when a page needs a compact set of next-step links or
+feature summaries without introducing a heavy dashboard layout.
+
+## Import
+
+```mdx
+import { Card, CardGrid } from '../../../components/mdx';
+```
+
+## Example
+
+<CardGrid>
+  <Card title="Read the configuration guide" href="/docs/guide/configuration/">
+    Review theme settings, typography tokens, and navigation structure before
+    customising the theme.
+  </Card>
+  <Card title="Keep examples short">
+    Cards work best for one paragraph of context and a single destination or
+    action.
+  </Card>
+</CardGrid>
+
+## Props
+
+### `CardGrid`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| None | — | — | Creates a one-column mobile grid that expands to two columns on medium screens. |
+
+### `Card`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | required | Heading rendered at the top of the card. |
+| `href` | `string` | optional | When provided, the card renders as an anchor with link styling. |

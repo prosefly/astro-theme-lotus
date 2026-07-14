@@ -1,11 +1,59 @@
 ---
 title: Callout
-description: Document the planned callout component for docs content.
+description: Use callouts and badges to highlight important context in docs.
 section: components
 order: 1
 ---
 
+import { Badge, Callout } from '../../../components/mdx';
+
 # Callout
 
-Use callouts to highlight notes, tips, and warnings within Lotus
-documentation.
+Use `Callout` for inline guidance that needs more structure than a blockquote.
+Use `Badge` for short labels that reinforce status or intent inside prose and
+component demos.
+
+## Import
+
+```mdx
+import { Badge, Callout } from '../../../components/mdx';
+```
+
+## Example
+
+<Callout type="note" title="Document the default behavior">
+  The note variant is a safe default for implementation details, caveats, and
+  editorial guidance.
+</Callout>
+
+<Callout type="tip" title="Pair badges with compact labels">
+  Combine `Badge` with headings, links, or card metadata when you want a small
+  amount of emphasis without adding another container.
+</Callout>
+
+<p>
+  Status badges:
+  {' '}
+  <Badge>Neutral</Badge>
+  {' '}
+  <Badge variant="accent">Accent</Badge>
+  {' '}
+  <Badge variant="success">Stable</Badge>
+  {' '}
+  <Badge variant="warning">Review</Badge>
+</p>
+
+## Props
+
+### `Callout`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | variant label | Optional heading shown above the body copy. |
+| `type` | `'note' \| 'tip' \| 'warning' \| 'danger'` | `'note'` | Changes border, background, and accent treatment. |
+
+### `Badge`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `variant` | `'neutral' \| 'accent' \| 'success' \| 'warning'` | `'neutral'` | Adjusts badge tone while keeping the same shape and spacing. |

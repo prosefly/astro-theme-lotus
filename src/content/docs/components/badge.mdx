@@ -1,0 +1,38 @@
+---
+title: Badge
+description: Apply compact status labels that match the Lotus documentation palette.
+section: components
+order: 4
+---
+
+import { Badge } from '../../../components/mdx';
+
+# Badge
+
+`Badge` is a compact inline label for status, maturity, and contextual metadata.
+It is intentionally small so it can live inside paragraphs, headings, and card
+content without changing the surrounding layout.
+
+## Import
+
+```mdx
+import { Badge } from '../../../components/mdx';
+```
+
+## Example
+
+<p>
+  Components can ship in stages:
+  {' '}
+  <Badge variant="success">Released</Badge>
+  {' '}
+  <Badge variant="accent">New</Badge>
+  {' '}
+  <Badge variant="warning">Needs review</Badge>
+</p>
+
+## Props
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `variant` | `'neutral' \| 'accent' \| 'success' \| 'warning'` | `'neutral'` | Selects the badge colour treatment. |

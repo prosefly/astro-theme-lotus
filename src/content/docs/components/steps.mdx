@@ -1,10 +1,50 @@
 ---
 title: Steps
-description: Document the planned steps component for procedural guides.
+description: Structure procedures with step markers and supporting content.
 section: components
 order: 2
 ---
 
+import { Step, Steps } from '../../../components/mdx';
+
 # Steps
 
-The steps pattern helps break multi-step instructions into a readable sequence.
+Use `Steps` and `Step` for procedural content that benefits from a consistent
+rhythm, a visible guide line, and scannable step titles.
+
+## Import
+
+```mdx
+import { Step, Steps } from '../../../components/mdx';
+```
+
+## Example
+
+<Steps>
+  <Step title="Create the content file">
+    Add a new MDX page under `src/content/docs/` and include frontmatter for
+    `title`, `description`, and the section slug.
+  </Step>
+  <Step title="Import the components you need">
+    Import from the shared MDX entrypoint so examples stay consistent across the
+    docs site.
+  </Step>
+  <Step title="Render the pattern inline">
+    Write the procedural content directly inside each `Step` so authors can mix
+    paragraphs, lists, and code blocks.
+  </Step>
+</Steps>
+
+## Props
+
+### `Steps`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| None | — | — | `Steps` is a structural wrapper for one or more `Step` items. |
+
+### `Step`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | required | Renders the step heading above the body content. |

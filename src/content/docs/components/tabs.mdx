@@ -1,0 +1,57 @@
+---
+title: Tabs
+description: Present parallel examples as grouped static panels in first-release docs.
+section: components
+order: 5
+---
+
+import { TabItem, Tabs } from '../../../components/mdx';
+
+# Tabs
+
+`Tabs` and `TabItem` provide a first-release pattern for related variants. The
+current implementation is intentionally static: all panels render in sequence so
+the content works without client-side state or a UI framework.
+
+## Import
+
+```mdx
+import { TabItem, Tabs } from '../../../components/mdx';
+```
+
+## Example
+
+<Tabs defaultValue="npm">
+  <TabItem label="npm" value="npm">
+    ```sh
+    npm install
+    npm run dev
+    ```
+  </TabItem>
+  <TabItem label="Build" value="build">
+    ```sh
+    npm run check
+    npm run build
+    ```
+  </TabItem>
+</Tabs>
+
+## Limitation
+
+This first release does not hide inactive panels or provide keyboard-driven tab
+selection. Use it when readers benefit from seeing all alternatives together.
+
+## Props
+
+### `Tabs`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `defaultValue` | `string` | optional | Stored as metadata for future enhancement and documented intent. |
+
+### `TabItem`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `label` | `string` | required | Visible label for the panel. |
+| `value` | `string` | required | Stable identifier for the panel. |

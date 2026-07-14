@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  href?: string;
+}
+
+const { title, href } = Astro.props;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'block rounded-[var(--lotus-radius-lg)] border border-[var(--lotus-border)] bg-[var(--lotus-muted-bg)] px-5 py-5 transition-colors',
+    href
+      ? 'lotus-focus-ring hover:border-[var(--lotus-accent)] hover:bg-[color:color-mix(in_oklab,var(--lotus-accent)_6%,var(--lotus-bg))]'
+      : '',
+  ]}
+>
+  <div class="flex items-start justify-between gap-4">
+    <div class="space-y-2">
+      <h3 class="m-0 text-lg font-semibold leading-6 text-[var(--lotus-fg)]">{title}</h3>
+      <div class="text-sm leading-6 text-[var(--lotus-muted)]">
+        <slot />
+      </div>
+    </div>
+    {href && <span class="pt-0.5 text-sm font-medium text-[var(--lotus-accent)]">Open</span>}
+  </div>
+</Tag>

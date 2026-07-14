@@ -1,0 +1,24 @@
+---
+interface Props {
+  defaultValue?: string;
+}
+
+const { defaultValue } = Astro.props;
+---
+
+<section
+  class="my-8 rounded-[var(--lotus-radius-lg)] border border-[var(--lotus-border)] bg-[var(--lotus-muted-bg)] p-4 sm:p-5"
+  data-default-value={defaultValue}
+>
+  <div class="mb-4 flex items-center justify-between gap-3 border-b border-[var(--lotus-border)] pb-3">
+    <div>
+      <p class="text-sm font-semibold text-[var(--lotus-fg)]">Variant panels</p>
+      <p class="text-sm leading-6 text-[var(--lotus-muted)]">
+        First release tabs render all panels in sequence for static documentation.
+      </p>
+    </div>
+  </div>
+  <div class="space-y-4">
+    <slot />
+  </div>
+</section>
