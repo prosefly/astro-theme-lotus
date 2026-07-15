@@ -17,6 +17,9 @@ importers:
       '@prosefly/astro-components':
         specifier: workspace:*
         version: link:packages/astro-components
+      '@prosefly/astro-theme-lotus':
+        specifier: workspace:*
+        version: link:packages/astro-theme-lotus
       '@tailwindcss/vite':
         specifier: latest
         version: 4.3.2(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
@@ -32,6 +35,21 @@ importers:
 
   packages/astro-components:
     dependencies:
+      astro:
+        specifier: ^7.0.0
+        version: 7.0.9(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(jiti@2.7.0)(yaml@2.9.0)
+
+  packages/astro-theme-lotus:
+    dependencies:
+      '@astrojs/mdx':
+        specifier: latest
+        version: 7.0.3(@astrojs/markdown-satteri@0.3.4)(astro@7.0.9(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(jiti@2.7.0)(yaml@2.9.0))
+      '@prosefly/astro-components':
+        specifier: workspace:*
+        version: link:../astro-components
+      '@tailwindcss/vite':
+        specifier: latest
+        version: 4.3.2(vite@8.1.4(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
         specifier: ^7.0.0
         version: 7.0.9(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(jiti@2.7.0)(yaml@2.9.0)

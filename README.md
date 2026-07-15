@@ -5,6 +5,11 @@ MDX. It gives you a docs-first starter with configurable navigation, theme
 tokens, and shared MDX components so the sample content can serve as real
 project documentation instead of placeholder pages.
 
+Lotus is currently a starter theme. This repository also includes an
+`@prosefly/astro-theme-lotus` integration skeleton that wires MDX and Tailwind
+through `lotus()`, but full route, layout, and config ownership is a future
+migration phase. The integration package is not published yet.
+
 ## Installation
 
 Create a new project from the template:
@@ -51,6 +56,9 @@ npm run build
 │   │   └── docs/
 │   ├── lib/
 │   └── theme.config.ts
+├── packages/
+│   ├── astro-components/
+│   └── astro-theme-lotus/
 ├── public/
 └── package.json
 ```
@@ -59,8 +67,9 @@ npm run build
   docs sections, and footer links.
 - `src/content/docs/` holds the documentation pages that drive the homepage,
   subnav, and section sidebars.
-- `src/components/mdx/` contains the shared MDX components documented in the
-  docs site.
+- `packages/astro-components/` contains the shared MDX components documented in
+  the docs site.
+- `packages/astro-theme-lotus/` contains the local Astro integration skeleton.
 
 ## Theme configuration
 
@@ -76,9 +85,14 @@ today:
 
 Deferred for a later release:
 
+- Full migration from starter-owned `src/` files to the
+  `@prosefly/astro-theme-lotus` integration.
 - Search.
 - i18n.
 - Versioned docs.
+
+Future integration config is expected to use `lotus({ site, appearance, nav,
+actions, footer })`, with fields migrating from `src/theme.config.ts` over time.
 
 ## Content structure
 

@@ -1,0 +1,17 @@
+{
+  "name": "@prosefly/astro-theme-lotus",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "BSD-3-Clause",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "astro": "^7.0.0"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "latest",
+    "@prosefly/astro-components": "workspace:*",
+    "@tailwindcss/vite": "latest"
+  }
+}

@@ -15,6 +15,7 @@
     "@astrojs/mdx": "latest",
     "@tailwindcss/vite": "latest",
     "@prosefly/astro-components": "workspace:*",
+    "@prosefly/astro-theme-lotus": "workspace:*",
     "astro": "^7.0.0",
     "tailwindcss": "latest",
     "typescript": "^6.0.3"
