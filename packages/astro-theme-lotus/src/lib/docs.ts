@@ -49,6 +49,17 @@ export interface DocsSectionNav {
   items: DocsNavItem[];
 }
 
+export interface DocsPaginationItem {
+  label: string;
+  href: string;
+  slug: string;
+}
+
+export interface DocsPaginationNav {
+  previous?: DocsPaginationItem;
+  next?: DocsPaginationItem;
+}
+
 function getEntryOrder(entry: DocsEntry): number {
   return entry.data.order ?? Number.MAX_SAFE_INTEGER;
 }
@@ -278,6 +289,45 @@ export function getSidebarSectionTitle(
   const linkTitle = findItemSectionTitle(sidebar.links, currentSlug, '');
 
   return linkTitle || undefined;
+}
+
+function flattenSidebarPaginationItems(items: DocsSidebarItem[]): DocsPaginationItem[] {
+  return items.flatMap((item) => {
+    const childItems = item.items ? flattenSidebarPaginationItems(item.items) : [];
+
+    if (item.slug && item.href && !item.external) {
+      return [
+        {
+          label: item.label,
+          href: item.href,
+          slug: item.slug,
+        },
+        ...childItems,
+      ];
+    }
+
+    return childItems;
+  });
+}
+
+export function getSidebarPagination(
+  sidebar: DocsSidebarNav,
+  currentSlug: string,
+): DocsPaginationNav {
+  const items = [
+    ...flattenSidebarPaginationItems(sidebar.links),
+    ...sidebar.groups.flatMap((group) => flattenSidebarPaginationItems(group.items)),
+  ];
+  const currentIndex = items.findIndex((item) => item.slug === currentSlug);
+
+  if (currentIndex === -1) {
+    return {};
+  }
+
+  return {
+    previous: items[currentIndex - 1],
+    next: items[currentIndex + 1],
+  };
 }
 
 function getSidebarConfig(currentSection?: string): SidebarConfig | undefined {

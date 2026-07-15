@@ -7,7 +7,7 @@ import {
   type OverrideComponentsConfig,
   type PageActionConfig,
   type SidebarConfig,
-  type ThemeNavigationItem,
+  type ThemeNavbarItem,
   type ThemeSocialLink,
 } from './theme';
 
@@ -17,7 +17,7 @@ const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
 export interface LotusIntegrationOptions {
   site?: Partial<LotusThemeConfig['site']>;
   appearance?: Partial<LotusThemeConfig['appearance']>;
-  navigation?: ThemeNavigationItem[];
+  navbar?: ThemeNavbarItem[];
   socials?: ThemeSocialLink[];
   sidebars?: SidebarConfig[];
   pageActions?: PageActionConfig[];
@@ -44,7 +44,7 @@ const defaultConfig: LotusThemeConfig = {
     defaultTheme: 'system',
     radius: 'medium',
   },
-  navigation: [{ label: 'Docs', href: '/docs/' }],
+  navbar: [{ label: 'Docs', href: '/docs/' }],
   socials: [],
   sidebars: [],
   pageActions: [

@@ -1,5 +1,5 @@
 ---
-title: Navigation
+title: Navbar
 description: Configure header nav, docs base path, sidebars, and footer links.
 section: guide
 order: 5
@@ -10,12 +10,12 @@ footer sections.
 
 ## Header nav
 
-`navigation` is an ordered array of top-level destinations. Items without a
+`navbar` is an ordered array of top-level destinations. Items without a
 `variant` render as text links. Items with a `variant` render as button-like
 actions.
 
 ```ts
-navigation: [
+navbar: [
   { label: 'Docs', href: '/docs/' },
   { label: 'Components', href: '/docs/components/callout/' },
   { label: 'Dashboard', href: '/dashboard/', variant: 'soft' },
@@ -31,11 +31,11 @@ navigation: [
 
 ## Actions and socials
 
-Button-like actions live in `navigation` alongside regular links. `socials`
-renders compact icon links after the navigation items.
+Button-like actions live in `navbar` alongside regular links. `socials`
+renders compact icon links after the navbar items.
 
 ```ts
-navigation: [
+navbar: [
   { label: 'Docs', href: '/docs/' },
   { label: 'Dashboard', href: '/docs/', variant: 'soft', color: 'neutral' },
 ]

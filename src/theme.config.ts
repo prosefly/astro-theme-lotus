@@ -14,7 +14,7 @@ const themeConfig = {
     defaultTheme: 'system',
     radius: 'medium',
   },
-  navigation: [
+  navbar: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Components', href: '/docs/components/callout/' },
     { label: 'References', href: '/docs/references/design-system/' },

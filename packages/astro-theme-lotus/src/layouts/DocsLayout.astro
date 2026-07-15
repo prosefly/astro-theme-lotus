@@ -1,9 +1,10 @@
 ---
-import type { DocsSectionNav, DocsSidebarNav } from '../lib/docs';
+import type { DocsPaginationNav, DocsSectionNav, DocsSidebarNav } from '../lib/docs';
 import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import PageActions from '../components/layout/PageActions.astro';
+import PageNavigation from '../components/layout/PageNavigation.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
 import { getPageMarkdownHref } from '../lib/page-actions';
@@ -22,6 +23,7 @@ interface Props {
   sectionTitle?: string;
   currentSlug?: string;
   pageMarkdown?: string;
+  pageNavigation?: DocsPaginationNav;
   subnav: DocsSectionNav[];
   sidebar: DocsSidebarNav;
   sidebars?: Record<string, DocsSidebarNav>;
@@ -34,6 +36,7 @@ const {
   sectionTitle,
   currentSlug,
   pageMarkdown,
+  pageNavigation = {},
   subnav,
   sidebar,
   sidebars = {},
@@ -108,6 +111,7 @@ const pageActions = themeConfig.pageActions ?? [];
         <div class="lotus-prose py-8">
           <slot />
         </div>
+        <PageNavigation navigation={pageNavigation} />
       </article>
 
       <aside class="hidden xl:block">

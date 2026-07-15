@@ -8,24 +8,20 @@ export interface ThemeLink {
   external?: boolean;
 }
 
-export type ThemeNavigationVariant = 'soft' | 'outline' | 'solid';
+export type ThemeNavbarVariant = 'soft' | 'outline' | 'solid';
 
-export type ThemeNavigationColor = 'neutral' | 'accent';
+export type ThemeNavbarColor = 'neutral' | 'accent';
 
-export interface ThemeNavigationItem extends ThemeLink {
+export interface ThemeNavbarItem extends ThemeLink {
   icon?: string;
   trailingIcon?: string;
-  variant?: ThemeNavigationVariant;
-  color?: ThemeNavigationColor;
+  variant?: ThemeNavbarVariant;
+  color?: ThemeNavbarColor;
 }
 
 export interface ThemeSocialLink extends ThemeLink {
   icon: string;
 }
-
-export type ThemeAction = ThemeNavigationItem;
-export type ThemeActionVariant = ThemeNavigationVariant;
-export type ThemeActionColor = ThemeNavigationColor;
 
 export interface SidebarLinkItem {
   label: string;
@@ -97,7 +93,7 @@ export interface LotusThemeConfig {
     defaultTheme: ThemeMode;
     radius: RadiusScale;
   };
-  navigation: ThemeNavigationItem[];
+  navbar: ThemeNavbarItem[];
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
   pageActions: PageActionConfig[];

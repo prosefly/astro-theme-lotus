@@ -14,6 +14,7 @@ interface Props {
   block?: boolean;
   class?: string;
   type?: 'button' | 'submit' | 'reset';
+  [key: string]: unknown;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   block = false,
   class: className,
   type = 'button',
+  ...attrs
 } = Astro.props;
 const trailingIconName = trailingIcon ? resolveIconName(trailingIcon) : undefined;
 const baseClasses = [
@@ -58,12 +60,13 @@ const variantClasses = {
       href={href}
       rel={external ? 'noreferrer' : undefined}
       target={external ? '_blank' : undefined}
+      {...attrs}
     >
       <slot />
       {trailingIconName && <Icon aria-hidden="true" class="h-4 w-4" name={trailingIconName} />}
     </a>
   ) : (
-    <button class:list={[baseClasses, variantClasses, className]} type={type}>
+    <button class:list={[baseClasses, variantClasses, className]} type={type} {...attrs}>
       <slot />
       {trailingIconName && <Icon aria-hidden="true" class="h-4 w-4" name={trailingIconName} />}
     </button>

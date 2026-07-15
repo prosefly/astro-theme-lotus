@@ -4,6 +4,7 @@ import type { LotusThemeConfig, SidebarItemConfig } from './theme';
 const layoutIconNames = [
   'lucide:check',
   'lucide:chevron-down',
+  'lucide:chevron-left',
   'lucide:chevron-right',
   'lucide:copy',
   'lucide:file-text',
@@ -43,7 +44,7 @@ export function getIconPreloadNames(config: LotusThemeConfig): string[] {
     addIcon(icon);
   }
 
-  for (const item of config.navigation) {
+  for (const item of config.navbar) {
     addIcon(item.icon);
     addIcon(item.trailingIcon);
   }

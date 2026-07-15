@@ -15,7 +15,7 @@ interface Props {
 
 const { currentPath, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const navigation = themeConfig.navigation ?? [];
+const navbar = themeConfig.navbar ?? [];
 const socials = themeConfig.socials ?? [];
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
@@ -40,7 +40,7 @@ function getActionLabel(label: string, icon?: string): string {
   return icon ? `${label} (${icon})` : label;
 }
 
-function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boolean {
+function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
   return Boolean(item.variant);
 }
 
@@ -62,8 +62,8 @@ function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boole
 
     <div class="ml-auto hidden min-w-0 items-center gap-5 lg:flex">
       <nav aria-label="Primary" class="flex min-w-0 items-center gap-5">
-        {navigation.map((item) => (
-          isNavigationButton(item) ? (
+        {navbar.map((item) => (
+          isNavbarButton(item) ? (
             <Button
               color={item.color ?? 'neutral'}
               external={item.external}

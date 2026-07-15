@@ -7,6 +7,7 @@ import {
   getDocsNavigation,
   getEntrySection,
   getSidebarNavigation,
+  getSidebarPagination,
   getSidebarSectionTitle,
 } from '../lib/docs';
 import { createPageMarkdown } from '../lib/page-actions';
@@ -31,6 +32,7 @@ const sidebars = Object.fromEntries(
   ),
 );
 const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
+const pageNavigation = getSidebarPagination(sidebar, entry.id);
 const pageMarkdown = createPageMarkdown({
   title: entry.data.title,
   description: entry.data.description,
@@ -44,6 +46,7 @@ const pageMarkdown = createPageMarkdown({
   sectionTitle={sectionTitle}
   currentSlug={entry.id}
   pageMarkdown={pageMarkdown}
+  pageNavigation={pageNavigation}
   subnav={subnav}
   sidebar={sidebar}
   sidebars={sidebars}
