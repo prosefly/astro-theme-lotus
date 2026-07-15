@@ -1,0 +1,88 @@
+---
+interface Props {
+  title: string;
+  href?: string;
+}
+
+const { title, href } = Astro.props;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag
+  href={href}
+  class:list={['pl-card', href ? 'pl-card--link' : '']}
+>
+  <div class="pl-card__layout">
+    <div class="pl-card__body">
+      <h3 class="pl-card__title">{title}</h3>
+      <div class="pl-card__content">
+        <slot />
+      </div>
+    </div>
+    {href && <span class="pl-card__action">Open</span>}
+  </div>
+</Tag>
+
+<style>
+  .pl-card {
+    display: block;
+    border: 1px solid color-mix(in oklab, var(--pl-surface, #f4f6f8) 72%, var(--pl-text-muted, #667085));
+    border-radius: var(--pl-radius-lg, 0.75rem);
+    background: var(--pl-surface, #f4f6f8);
+    color: inherit;
+    padding: 1.25rem;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .pl-card--link:hover {
+    border-color: var(--pl-accent, #4f46e5);
+    background: color-mix(in oklab, var(--pl-accent, #4f46e5) 6%, var(--pl-background, #ffffff));
+  }
+
+  .pl-card--link:focus-visible {
+    outline: 2px solid var(--pl-accent, #4f46e5);
+    outline-offset: 2px;
+  }
+
+  .pl-card__layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .pl-card__body {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .pl-card__title {
+    margin: 0;
+    color: var(--pl-text, #182230);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+  }
+
+  .pl-card__content {
+    color: var(--pl-text-muted, #667085);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .pl-card__content :global(> * + *) {
+    margin-top: 0.5rem;
+  }
+
+  .pl-card__action {
+    flex: 0 0 auto;
+    padding-top: 0.125rem;
+    color: var(--pl-accent, #4f46e5);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+  }
+</style>

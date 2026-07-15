@@ -1,0 +1,12 @@
+{
+  "name": "@prosefly/astro-components",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "BSD-3-Clause",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "astro": "^7.0.0"
+  }
+}

@@ -12,6 +12,18 @@
   --lotus-accent: oklch(0.55 0.22 264);
   --lotus-accent-fg: oklch(1 0 0);
 
+  --pl-text: var(--lotus-text, var(--lotus-fg));
+  --pl-text-muted: var(--lotus-text-muted, var(--lotus-muted));
+  --pl-background: var(--lotus-background, var(--lotus-bg));
+  --pl-surface: var(--lotus-surface, var(--lotus-muted-bg));
+  --pl-accent: var(--lotus-accent);
+  --pl-accent-soft: var(--lotus-accent-soft, color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background, var(--lotus-bg))));
+  --pl-accent-contrast: var(--lotus-accent-contrast, var(--lotus-accent-fg));
+  --pl-radius-sm: var(--lotus-radius-sm);
+  --pl-radius-md: var(--lotus-radius-md);
+  --pl-radius-lg: var(--lotus-radius-lg);
+  --pl-radius-full: var(--lotus-radius-full, 999px);
+
   --lotus-header-height: 4rem;
   --lotus-subnav-height: 3rem;
   --lotus-sidebar-width: 17rem;

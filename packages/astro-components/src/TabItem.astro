@@ -1,0 +1,50 @@
+---
+interface Props {
+  label: string;
+  value: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<section class="pl-tab-item" data-tab-value={value}>
+  <div class="pl-tab-item__label">
+    {label}
+  </div>
+  <div class="pl-tab-item__content">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .pl-tab-item {
+    border: 1px solid color-mix(in oklab, var(--pl-surface, #f4f6f8) 72%, var(--pl-text-muted, #667085));
+    border-radius: var(--pl-radius-md, 0.5rem);
+    background: var(--pl-background, #ffffff);
+    padding: 1rem;
+  }
+
+  .pl-tab-item__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--pl-surface, #f4f6f8) 72%, var(--pl-text-muted, #667085));
+    border-radius: var(--pl-radius-full, var(--pl-radius-md, 999px));
+    background: var(--pl-surface, #f4f6f8);
+    color: var(--pl-text, #182230);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .pl-tab-item__content {
+    color: var(--pl-text-muted, #667085);
+    font-size: 0.875rem;
+    line-height: 1.75;
+  }
+
+  .pl-tab-item__content :global(> * + *) {
+    margin-top: 0.75rem;
+  }
+</style>
