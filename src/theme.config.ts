@@ -28,6 +28,7 @@ const themeConfig = {
     },
   ],
   docs: {
+    basePath: '/docs',
     sections: [
       { slug: 'guide', label: 'Guide', order: 1 },
       { slug: 'components', label: 'Components', order: 2 },

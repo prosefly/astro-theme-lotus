@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import type { LotusThemeConfig } from './theme';
+import { normalizeDocsBasePath, type LotusThemeConfig } from './theme';
 import { sortDocsSections } from './theme';
 
 type DocsEntry = CollectionEntry<'docs'>;
@@ -69,11 +69,13 @@ export async function getDocsEntries(): Promise<DocsEntry[]> {
 }
 
 export function entryToHref(entry: DocsEntry): string {
+  const basePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+
   if (entry.id === 'index') {
-    return '/docs/';
+    return basePath === '/' ? '/' : `${basePath}/`;
   }
 
-  return `/docs/${entry.id}/`;
+  return basePath === '/' ? `/${entry.id}/` : `${basePath}/${entry.id}/`;
 }
 
 export function getCurrentSection(slug: string | undefined): string | undefined {
@@ -107,7 +109,10 @@ export async function getDocsNavigation(
 
   return sortDocsSections(themeConfig.docs.sections).map((section) => {
     const items = sortNavItems(itemsBySection.get(section.slug) ?? []);
-    const href = items[0]?.href ?? `/docs/${section.slug}/`;
+    const basePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+    const href =
+      items[0]?.href ??
+      (basePath === '/' ? `/${section.slug}/` : `${basePath}/${section.slug}/`);
 
     return {
       slug: section.slug,

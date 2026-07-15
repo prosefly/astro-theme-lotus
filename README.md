@@ -30,11 +30,20 @@ Register the docs content collection:
 
 ```ts
 // src/content.config.ts
-export { collections } from '@prosefly/astro-theme-lotus/content';
+import { defineCollection } from 'astro:content';
+import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema,
+});
+
+export const collections = { docs };
 ```
 
-Create docs pages under `src/content/docs/`. Lotus injects `/docs/[...slug]`,
-so `src/content/docs/index.mdx` renders at `/docs/`.
+Create docs pages under `src/content/docs/`. Lotus injects the route from
+`themeConfig.docs.basePath`, so `src/content/docs/index.mdx` renders at
+`/docs/` when `basePath` is `/docs`.
 
 ## Development
 
@@ -83,7 +92,7 @@ pnpm run build
 - `packages/astro-components/` contains portable MDX components that consume
   `--pl-*` CSS variables.
 - `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
-  docs sections, and footer links for this example site.
+  docs base path, docs sections, and footer links for this example site.
 - `src/content/docs/` holds the documentation pages that drive subnav and
   section sidebars.
 
@@ -95,6 +104,7 @@ Lotus accepts configuration through `lotus(themeConfig)`.
 - Dark mode foundation with light, dark, or system defaults.
 - Configurable navigation, header actions, and footer sections.
 - Configurable accent palette, gray palette, fonts, and corner radius.
+- Configurable docs route base path.
 - Content-driven subnav and sidebar sections from `docs.sections` and page
   frontmatter.
 

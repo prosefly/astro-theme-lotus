@@ -19,9 +19,17 @@ export default defineConfig({
 
 ```ts
 // src/content.config.ts
-export { collections } from '@prosefly/astro-theme-lotus/content';
+import { defineCollection } from 'astro:content';
+import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema,
+});
+
+export const collections = { docs };
 ```
 
-Add MDX pages in `src/content/docs/`. Lotus injects the `/docs/[...slug]`
-route and renders the bundled docs layout, navigation, table of contents, and
-footer.
+Add MDX pages in `src/content/docs/`. Lotus injects the route from
+`themeConfig.docs.basePath` and renders the bundled docs layout, navigation,
+table of contents, and footer.

@@ -1,7 +1,7 @@
 ---
 import MobileMenu from './MobileMenu.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import type { LotusThemeConfig } from '../../lib/theme';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;
@@ -10,14 +10,20 @@ interface Props {
 
 const { currentPath, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+
+function normalizeHref(href: string): string {
+  return href.endsWith('/') ? href : `${href}/`;
+}
 
 function isActive(href: string): boolean {
   if (!currentPath) {
     return false;
   }
 
-  if (href === '/docs/') {
-    return currentPath === href || currentPath.startsWith('/docs/');
+  if (normalizeHref(href) === docsRootHref) {
+    return currentPath === docsRootHref || currentPath.startsWith(docsRootHref);
   }
 
   return currentPath === href || currentPath.startsWith(`${href}`);

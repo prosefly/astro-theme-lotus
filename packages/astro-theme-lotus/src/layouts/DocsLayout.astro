@@ -5,6 +5,8 @@ import DocsChrome from '../components/layout/DocsChrome.astro';
 import Footer from '../components/layout/Footer.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
 
 interface Heading {
   depth: number;
@@ -22,7 +24,15 @@ interface Props {
 }
 
 const { title, description, currentSlug, subnav, sidebarItems, headings } = Astro.props;
-const currentPath = currentSlug ? `/docs/${currentSlug}/` : '/docs/';
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+const currentPath =
+  currentSlug && currentSlug !== 'index'
+    ? docsBasePath === '/'
+      ? `/${currentSlug}/`
+      : `${docsBasePath}/${currentSlug}/`
+    : docsRootHref;
 ---
 
 <BaseLayout title={title} description={description}>

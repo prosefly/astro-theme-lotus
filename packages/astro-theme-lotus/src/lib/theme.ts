@@ -40,12 +40,19 @@ export interface LotusThemeConfig {
   nav: ThemeLink[];
   actions: ThemeAction[];
   docs: {
+    basePath: string;
     sections: DocsSection[];
   };
   footer: {
     copyright: string;
     sections: FooterSection[];
   };
+}
+
+export function normalizeDocsBasePath(basePath: string): string {
+  const normalized = `/${basePath}`.replace(/\/+/g, '/').replace(/\/$/, '');
+
+  return normalized || '/';
 }
 
 export function sortDocsSections(sections: DocsSection[]): DocsSection[] {

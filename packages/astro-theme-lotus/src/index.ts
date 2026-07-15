@@ -2,12 +2,32 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
-import type { LotusThemeConfig } from './lib/theme';
+import {
+  normalizeDocsBasePath,
+  type DocsSection,
+  type FooterSection,
+  type LotusThemeConfig,
+  type ThemeAction,
+  type ThemeLink,
+} from './lib/theme';
 
 const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
 const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
 
-export type LotusIntegrationOptions = Partial<LotusThemeConfig>;
+export interface LotusIntegrationOptions {
+  site?: Partial<LotusThemeConfig['site']>;
+  appearance?: Partial<LotusThemeConfig['appearance']>;
+  nav?: ThemeLink[];
+  actions?: ThemeAction[];
+  docs?: {
+    basePath?: string;
+    sections?: DocsSection[];
+  };
+  footer?: {
+    copyright?: string;
+    sections?: FooterSection[];
+  };
+}
 
 const defaultConfig: LotusThemeConfig = {
   site: {
@@ -26,6 +46,7 @@ const defaultConfig: LotusThemeConfig = {
   nav: [{ label: 'Docs', href: '/docs/' }],
   actions: [],
   docs: {
+    basePath: '/docs',
     sections: [
       { slug: 'guide', label: 'Guide', order: 1 },
       { slug: 'components', label: 'Components', order: 2 },
@@ -53,6 +74,9 @@ function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig 
     docs: {
       ...defaultConfig.docs,
       ...options.docs,
+      basePath: normalizeDocsBasePath(
+        options.docs?.basePath ?? defaultConfig.docs.basePath,
+      ),
     },
     footer: {
       ...defaultConfig.footer,
@@ -83,13 +107,17 @@ export function defineLotusConfig(config: LotusIntegrationOptions): LotusIntegra
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
+  const docsPattern =
+    config.docs.basePath === '/'
+      ? '/[...slug]'
+      : `${config.docs.basePath}/[...slug]`;
 
   return {
     name: '@prosefly/astro-theme-lotus',
     hooks: {
       'astro:config:setup': ({ injectRoute, updateConfig }) => {
         injectRoute({
-          pattern: '/docs/[...slug]',
+          pattern: docsPattern,
           entrypoint: new URL('./routes/docs/[...slug].astro', import.meta.url),
         });
 

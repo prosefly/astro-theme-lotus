@@ -20,7 +20,7 @@ const themeConfig = {
   appearance: { accent: 'indigo', gray: 'zinc', fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif', fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace', defaultTheme: 'system', radius: 'medium' },
   nav: [{ label: 'Docs', href: '/docs/' }],
   actions: [{ label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' }],
-  docs: { sections: [{ slug: 'guide', label: 'Guide', order: 1 }] },
+  docs: { basePath: '/docs', sections: [{ slug: 'guide', label: 'Guide', order: 1 }] },
   footer: { copyright: 'Copyright © 2026 Prosefly.', sections: [] },
 } satisfies LotusThemeConfig;
 
@@ -70,13 +70,18 @@ actions: [
 ]
 ```
 
-## `docs.sections`
+## `docs`
+
+`docs.basePath` controls where Lotus injects its catch-all route. Use `/docs`
+for `/docs/`, or another path such as `/guide` if the documentation should live
+elsewhere.
 
 `docs.sections` defines the top-level section labels and ordering used by the
 subnav. Each docs page then opts into one section through frontmatter.
 
 ```ts
 docs: {
+  basePath: '/docs',
   sections: [
     { slug: 'guide', label: 'Guide', order: 1 },
     { slug: 'components', label: 'Components', order: 2 },
