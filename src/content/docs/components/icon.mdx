@@ -41,3 +41,13 @@ import { Icon } from '@prosefly/astro-components';
 Icon data is loaded from the Iconify API during server rendering or static
 build. Builds therefore need network access unless you provide an internal
 Iconify-compatible API endpoint with `apiBase`.
+
+When the Lotus integration is installed, it preloads static Icon usage in
+Astro and MDX files and groups requests by Iconify prefix. For example,
+`lucide:star` and `lucide:search` can be fetched through one `lucide` request.
+Icons that cannot be detected statically still fall back to an individual API
+request.
+
+The preload behavior lives in the components package and can also be installed
+directly through the `@prosefly/astro-components/icons` integration. Lotus uses
+that integration internally and adds icons from the theme configuration.

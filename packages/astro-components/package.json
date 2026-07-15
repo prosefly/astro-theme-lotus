@@ -4,12 +4,14 @@
   "type": "module",
   "license": "BSD-3-Clause",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./icons": "./src/icon-integration.ts"
   },
   "peerDependencies": {
     "astro": "^7.0.0"
   },
   "dependencies": {
-    "@iconify/utils": "^3.1.4"
+    "@iconify/utils": "^3.1.4",
+    "@types/node": "latest"
   }
 }

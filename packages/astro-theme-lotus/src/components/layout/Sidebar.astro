@@ -1,27 +1,68 @@
 ---
-import type { DocsNavItem } from '../../lib/docs';
+import type { DocsSidebarNav } from '../../lib/docs';
+import SidebarItem from '../ui/SidebarItem.astro';
 
 interface Props {
-  items: DocsNavItem[];
-  currentSlug?: string;
+  sidebar: DocsSidebarNav;
+  currentPath?: string;
 }
 
-const { items, currentSlug } = Astro.props;
+const { sidebar, currentPath } = Astro.props;
 ---
 
-<nav aria-label="Sidebar" class="space-y-0.5">
-  {items.map((item) => (
-    <a
-      class:list={[
-        'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
-        item.slug === currentSlug
-          ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-text)]'
-          : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
-      ]}
-      aria-current={item.slug === currentSlug ? 'page' : undefined}
-      href={item.href}
-    >
-      {item.title}
-    </a>
-  ))}
-</nav>
+<div class="lotus-sidebar-scroll relative max-h-[calc(100vh-var(--lotus-docs-chrome-height))] overflow-hidden" data-lotus-sidebar-scroll>
+  <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
+  <nav aria-label="Sidebar" class="lotus-scrollbar max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
+    {sidebar.links.length > 0 && (
+      <div class="space-y-1">
+        {sidebar.links.map((item) => (
+          <SidebarItem item={item} currentPath={currentPath} />
+        ))}
+      </div>
+    )}
+
+    {sidebar.groups.map((group, index) => (
+      <section class:list={[index > 0 && 'lotus-border-subtle border-t pt-6']}>
+        <h2 class="mb-2 px-3 text-sm font-semibold leading-6 text-[var(--lotus-text)]">
+          {group.title}
+        </h2>
+        <div class="space-y-0.5">
+          {group.items.map((item) => (
+            <SidebarItem item={item} currentPath={currentPath} />
+          ))}
+        </div>
+      </section>
+    ))}
+  </nav>
+  <div class="lotus-sidebar-fade lotus-sidebar-fade-bottom" data-lotus-sidebar-fade-bottom></div>
+</div>
+
+<script is:inline>
+  (() => {
+    const containers = Array.from(document.querySelectorAll('[data-lotus-sidebar-scroll]'));
+
+    for (const container of containers) {
+      const scrollArea = container.querySelector('[data-lotus-sidebar-scroll-area]');
+      const topFade = container.querySelector('[data-lotus-sidebar-fade-top]');
+      const bottomFade = container.querySelector('[data-lotus-sidebar-fade-bottom]');
+
+      if (!scrollArea || !topFade || !bottomFade) {
+        continue;
+      }
+
+      const updateFades = () => {
+        const overflow = scrollArea.scrollHeight > scrollArea.clientHeight + 1;
+        const atTop = scrollArea.scrollTop <= 1;
+        const atBottom =
+          scrollArea.scrollTop + scrollArea.clientHeight >= scrollArea.scrollHeight - 1;
+
+        topFade.toggleAttribute('data-visible', overflow && !atTop);
+        bottomFade.toggleAttribute('data-visible', overflow && !atBottom);
+      };
+
+      scrollArea.addEventListener('scroll', updateFades, { passive: true });
+      window.addEventListener('resize', updateFades);
+      updateFades();
+    }
+  })();
+</script>

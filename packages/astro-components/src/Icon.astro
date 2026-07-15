@@ -15,6 +15,7 @@ interface Props {
 type IconCollection = ReturnType<typeof validateIconSet>;
 
 const iconDataCache = new Map<string, Promise<IconCollection>>();
+const preloadedIconDataCache = new WeakMap<object, IconCollection>();
 
 function parseIconName(name: string): { prefix: string; icon: string } {
   const separatorIndex = name.indexOf(':');
@@ -58,6 +59,34 @@ async function loadIconCollection(
   return request;
 }
 
+function getPreloadedIconCollection(prefix: string, icon: string): IconCollection | undefined {
+  const locals = Astro.locals as {
+    proseflyIconCollections?: Record<string, unknown>;
+  };
+  const rawCollection = locals.proseflyIconCollections?.[prefix];
+
+  if (!rawCollection || typeof rawCollection !== 'object') {
+    return undefined;
+  }
+
+  const rawCollectionObject = rawCollection as object;
+  const cachedCollection = preloadedIconDataCache.get(rawCollectionObject);
+
+  if (cachedCollection) {
+    return getIconData(cachedCollection, icon) ? cachedCollection : undefined;
+  }
+
+  const collection = validateIconSet(rawCollection);
+
+  if (!collection) {
+    return undefined;
+  }
+
+  preloadedIconDataCache.set(rawCollectionObject, collection);
+
+  return getIconData(collection, icon) ? collection : undefined;
+}
+
 const {
   name,
   title,
@@ -70,7 +99,8 @@ const {
   ...attributes
 } = Astro.props;
 const { prefix, icon } = parseIconName(name);
-const collection = await loadIconCollection(prefix, icon, apiBase);
+const collection =
+  getPreloadedIconCollection(prefix, icon) ?? (await loadIconCollection(prefix, icon, apiBase));
 const iconData = getIconData(collection, icon);
 
 if (!iconData) {

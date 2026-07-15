@@ -1,0 +1,74 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { resolveIconName } from '../../lib/icons';
+import type { DocsSidebarItem } from '../../lib/docs';
+
+interface Props {
+  item: DocsSidebarItem;
+  currentPath?: string;
+  depth?: number;
+}
+
+const { item, currentPath, depth = 0 } = Astro.props;
+const hasChildren = Boolean(item.items?.length);
+
+function normalizeHref(href: string): string {
+  return href.endsWith('/') ? href : `${href}/`;
+}
+
+function isItemActive(link: DocsSidebarItem): boolean {
+  if (!currentPath || !link.href) {
+    return false;
+  }
+
+  return normalizeHref(link.href) === normalizeHref(currentPath);
+}
+
+function hasActiveChild(link: DocsSidebarItem): boolean {
+  return Boolean(link.items?.some((child) => isItemActive(child) || hasActiveChild(child)));
+}
+
+const active = isItemActive(item);
+const expanded = active || hasActiveChild(item);
+const iconName = item.icon ? resolveIconName(item.icon) : undefined;
+const childItems = item.items ?? [];
+const linkClass = [
+  'lotus-focus-ring flex min-h-9 w-full items-center gap-3 rounded-[var(--lotus-radius-md)] px-3 py-1.5 text-sm transition-colors',
+  depth > 0 && 'pl-6',
+  active
+    ? 'bg-[var(--lotus-accent-soft)] font-medium text-[var(--lotus-accent)]'
+    : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
+];
+---
+
+{
+  hasChildren ? (
+    <details class="group/sidebar-item" open={expanded}>
+      <summary class:list={[linkClass, 'cursor-pointer marker:hidden']}>
+        {iconName && <Icon class="h-4 w-4 shrink-0 opacity-70" name={iconName} />}
+        <span class="min-w-0 flex-1 truncate">{item.label}</span>
+        <Icon
+          aria-hidden="true"
+          class="h-4 w-4 shrink-0 text-[var(--lotus-text-muted)] transition-transform group-open/sidebar-item:rotate-90"
+          name="lucide:chevron-right"
+        />
+      </summary>
+      <div class="mt-1 space-y-0.5">
+        {childItems.map((child) => (
+          <Astro.self item={child} currentPath={currentPath} depth={depth + 1} />
+        ))}
+      </div>
+    </details>
+  ) : (
+    <a
+      aria-current={active ? 'page' : undefined}
+      class:list={linkClass}
+      href={item.href ?? '#'}
+      rel={item.external ? 'noreferrer' : undefined}
+      target={item.external ? '_blank' : undefined}
+    >
+      {iconName && <Icon class="h-4 w-4 shrink-0 opacity-70" name={iconName} />}
+      <span class="min-w-0 flex-1 truncate">{item.label}</span>
+    </a>
+  )
+}

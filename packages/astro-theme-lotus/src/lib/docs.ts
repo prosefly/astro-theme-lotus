@@ -1,6 +1,11 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { normalizeDocsBasePath, type LotusThemeConfig } from './theme';
+import {
+  normalizeDocsBasePath,
+  type DocsSidebarGroup,
+  type DocsSidebarLink,
+  type LotusThemeConfig,
+} from './theme';
 import { sortDocsSections } from './theme';
 
 type DocsEntry = CollectionEntry<'docs'>;
@@ -12,6 +17,25 @@ export interface DocsNavItem {
   slug: string;
   section?: string;
   order: number;
+}
+
+export interface DocsSidebarItem {
+  label: string;
+  href?: string;
+  external?: boolean;
+  icon?: string;
+  slug?: string;
+  items?: DocsSidebarItem[];
+}
+
+export interface DocsSidebarGroupNav {
+  title: string;
+  items: DocsSidebarItem[];
+}
+
+export interface DocsSidebarNav {
+  links: DocsSidebarItem[];
+  groups: DocsSidebarGroupNav[];
 }
 
 export interface DocsSectionNav {
@@ -41,6 +65,31 @@ function toNavItem(entry: DocsEntry): DocsNavItem {
     slug: entry.id,
     section: getEntrySection(entry),
     order: getEntryOrder(entry),
+  };
+}
+
+function toSidebarItem(link: DocsSidebarLink): DocsSidebarItem {
+  return {
+    label: link.label,
+    href: link.href,
+    external: link.external,
+    icon: link.icon,
+    items: link.items?.map(toSidebarItem),
+  };
+}
+
+function toSidebarGroup(group: DocsSidebarGroup): DocsSidebarGroupNav {
+  return {
+    title: group.title,
+    items: group.items.map(toSidebarItem),
+  };
+}
+
+function navItemToSidebarItem(item: DocsNavItem): DocsSidebarItem {
+  return {
+    label: item.title,
+    href: item.href,
+    slug: item.slug,
   };
 }
 
@@ -124,20 +173,35 @@ export async function getDocsNavigation(
   });
 }
 
-export async function getSidebarItems(
+export async function getSidebarNavigation(
   currentSlug?: string,
-): Promise<DocsNavItem[]> {
+): Promise<DocsSidebarNav> {
   const currentSection = getCurrentSection(currentSlug);
 
   if (!currentSection) {
-    return [];
+    return { links: [], groups: [] };
+  }
+
+  const sectionConfig = sortDocsSections(themeConfig.docs.sections).find(
+    (section) => section.slug === currentSection,
+  );
+
+  if (sectionConfig?.sidebar) {
+    return {
+      links: sectionConfig.sidebar.links?.map(toSidebarItem) ?? [],
+      groups: sectionConfig.sidebar.groups?.map(toSidebarGroup) ?? [],
+    };
   }
 
   const entries = await getDocsEntries();
-
-  return sortNavItems(
+  const items = sortNavItems(
     entries
       .map(toNavItem)
       .filter((item) => item.section === currentSection),
-  );
+  ).map(navItemToSidebarItem);
+
+  return {
+    links: [],
+    groups: items.length > 0 ? [{ title: sectionConfig?.label ?? currentSection, items }] : [],
+  };
 }

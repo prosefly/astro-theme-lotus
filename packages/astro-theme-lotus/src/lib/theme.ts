@@ -18,10 +18,27 @@ export interface ThemeAction extends ThemeLink {
   color?: ThemeActionColor;
 }
 
+export interface DocsSidebarLink {
+  label: string;
+  href?: string;
+  external?: boolean;
+  icon?: string;
+  items?: DocsSidebarLink[];
+}
+
+export interface DocsSidebarGroup {
+  title: string;
+  items: DocsSidebarLink[];
+}
+
 export interface DocsSection {
   slug: string;
   label: string;
   order?: number;
+  sidebar?: {
+    links?: DocsSidebarLink[];
+    groups?: DocsSidebarGroup[];
+  };
 }
 
 export interface FooterSection {
@@ -49,6 +66,11 @@ export interface LotusThemeConfig {
   docs: {
     basePath?: string;
     sections: DocsSection[];
+  };
+  iconify?: {
+    apiBase?: string;
+    preload?: string[];
+    scan?: boolean;
   };
   footer: {
     copyright: string;

@@ -1,7 +1,9 @@
 import mdx from '@astrojs/mdx';
+import proseflyIcons from '@prosefly/astro-components/icons';
 import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
+import { resolveIconName } from './lib/icons';
 import {
   DEFAULT_DOCS_BASE_PATH,
   normalizeDocsBasePath,
@@ -25,6 +27,7 @@ export interface LotusIntegrationOptions {
     basePath?: string;
     sections?: DocsSection[];
   };
+  iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   footer?: {
     copyright?: string;
     sections?: FooterSection[];
@@ -33,7 +36,7 @@ export interface LotusIntegrationOptions {
 
 const defaultConfig: LotusThemeConfig = {
   site: {
-    title: 'Astro Theme Lotus',
+    title: 'Prosefly Lotus',
     description: 'A documentation theme for Astro.',
     logo: '/logo.svg',
   },
@@ -55,6 +58,11 @@ const defaultConfig: LotusThemeConfig = {
       { slug: 'components', label: 'Components', order: 2 },
       { slug: 'references', label: 'References', order: 3 },
     ],
+  },
+  iconify: {
+    apiBase: 'https://api.iconify.design',
+    preload: [],
+    scan: true,
   },
   footer: {
     copyright: 'Copyright © 2026 Prosefly.',
@@ -82,6 +90,10 @@ function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig 
         defaultConfig.docs.basePath,
       ),
     },
+    iconify: {
+      ...defaultConfig.iconify,
+      ...options.iconify,
+    },
     footer: {
       ...defaultConfig.footer,
       ...options.footer,
@@ -103,6 +115,41 @@ function lotusConfigPlugin(config: LotusThemeConfig): Plugin {
       }
     },
   };
+}
+
+function getIconPreloadNames(config: LotusThemeConfig): string[] {
+  const iconNames = new Set<string>();
+
+  function addIcon(icon?: string): void {
+    if (icon) {
+      iconNames.add(resolveIconName(icon));
+    }
+  }
+
+  function addSidebarItems(items = [] as NonNullable<LotusThemeConfig['docs']['sections'][number]['sidebar']>['links']): void {
+    for (const item of items ?? []) {
+      addIcon(item.icon);
+      addSidebarItems(item.items);
+    }
+  }
+
+  for (const item of [...config.actions, ...config.socials]) {
+    addIcon(item.icon);
+  }
+
+  for (const icon of config.iconify?.preload ?? []) {
+    addIcon(icon);
+  }
+
+  for (const section of config.docs.sections) {
+    addSidebarItems(section.sidebar?.links);
+
+    for (const group of section.sidebar?.groups ?? []) {
+      addSidebarItems(group.items);
+    }
+  }
+
+  return [...iconNames].sort();
 }
 
 export function defineLotusConfig(config: LotusIntegrationOptions): LotusIntegrationOptions {
@@ -127,7 +174,14 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         });
 
         updateConfig({
-          integrations: [mdx()],
+          integrations: [
+            mdx(),
+            proseflyIcons({
+              apiBase: config.iconify?.apiBase,
+              preload: getIconPreloadNames(config),
+              scan: config.iconify?.scan,
+            }),
+          ],
           vite: {
             plugins: [lotusConfigPlugin(config), tailwindcss()],
           },
@@ -140,6 +194,8 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
 export { lotus };
 export type {
   DocsSection,
+  DocsSidebarGroup,
+  DocsSidebarLink,
   FooterSection,
   LotusThemeConfig,
   RadiusScale,

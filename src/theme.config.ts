@@ -42,7 +42,71 @@ const themeConfig = {
   docs: {
     basePath: '/docs',
     sections: [
-      { slug: 'guide', label: 'Guide', order: 1 },
+      {
+        slug: 'guide',
+        label: 'Guide',
+        order: 1,
+        sidebar: {
+          links: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/prosefly/astro-theme-lotus',
+              external: true,
+              icon: 'github',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discord.gg/prosefly',
+              external: true,
+              icon: 'discord',
+            },
+            {
+              label: 'Blog',
+              href: '/docs/references/markdown/',
+              icon: 'lucide:newspaper',
+            },
+          ],
+          groups: [
+            {
+              title: 'Getting Started',
+              items: [
+                { label: 'Overview', href: '/docs/guide/getting-started/' },
+                { label: 'Configuration', href: '/docs/guide/configuration/' },
+                { label: 'Navigation', href: '/docs/guide/navigation/' },
+                { label: 'Deployment', href: '/docs/guide/deployment/' },
+              ],
+            },
+            {
+              title: 'Components',
+              items: [
+                {
+                  label: 'Content blocks',
+                  items: [
+                    { label: 'Callout', href: '/docs/components/callout/' },
+                    { label: 'Steps', href: '/docs/components/steps/' },
+                    { label: 'Cards', href: '/docs/components/cards/' },
+                  ],
+                },
+                {
+                  label: 'Inline elements',
+                  items: [
+                    { label: 'Badge', href: '/docs/components/badge/' },
+                    { label: 'Tabs', href: '/docs/components/tabs/' },
+                    { label: 'Icon', href: '/docs/components/icon/' },
+                  ],
+                },
+              ],
+            },
+            {
+              title: 'References',
+              items: [
+                { label: 'Design System', href: '/docs/references/design-system/' },
+                { label: 'Markdown', href: '/docs/references/markdown/' },
+              ],
+            },
+          ],
+        },
+      },
       { slug: 'components', label: 'Components', order: 2 },
       { slug: 'references', label: 'References', order: 3 },
     ],

@@ -44,6 +44,31 @@
   background: color-mix(in oklab, var(--lotus-background) 70%, black 30%);
 }
 
+.lotus-sidebar-fade {
+  height: 1.5rem;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0.5rem;
+  transition: opacity 120ms ease;
+  z-index: 1;
+}
+
+.lotus-sidebar-fade[data-visible] {
+  opacity: 1;
+}
+
+.lotus-sidebar-fade-top {
+  background: linear-gradient(var(--lotus-background), transparent);
+  top: 0;
+}
+
+.lotus-sidebar-fade-bottom {
+  background: linear-gradient(transparent, var(--lotus-background));
+  bottom: 0;
+}
+
 .lotus-subnav-link:hover {
   border-color: color-mix(in oklab, var(--lotus-text-muted) 42%, transparent);
 }

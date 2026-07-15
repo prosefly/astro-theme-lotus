@@ -1,5 +1,5 @@
 ---
-import type { DocsNavItem, DocsSectionNav } from '../lib/docs';
+import type { DocsSectionNav, DocsSidebarNav } from '../lib/docs';
 import BaseLayout from './BaseLayout.astro';
 import DocsChrome from '../components/layout/DocsChrome.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -19,11 +19,11 @@ interface Props {
   description?: string;
   currentSlug?: string;
   subnav: DocsSectionNav[];
-  sidebarItems: DocsNavItem[];
+  sidebar: DocsSidebarNav;
   headings: Heading[];
 }
 
-const { title, description, currentSlug, subnav, sidebarItems, headings } = Astro.props;
+const { title, description, currentSlug, subnav, sidebar, headings } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
@@ -41,8 +41,10 @@ const currentPath =
   <main class="pb-16">
     <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-5 sm:px-6 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
       <aside class="hidden lg:block">
-        <div class="sticky top-[calc(var(--lotus-docs-chrome-height)+2rem)] py-10">
-          {sidebarItems.length > 0 && <Sidebar items={sidebarItems} currentSlug={currentSlug} />}
+        <div class="sticky top-[var(--lotus-docs-chrome-height)]">
+          {(sidebar.links.length > 0 || sidebar.groups.length > 0) && (
+            <Sidebar currentPath={currentPath} sidebar={sidebar} />
+          )}
         </div>
       </aside>
 

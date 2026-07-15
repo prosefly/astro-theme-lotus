@@ -76,12 +76,27 @@ actions: [
 ## `socials`
 
 `socials` renders compact icon links after the actions. Supported icon names
-include `github`, `x`, `bluesky`, `discord`, and `external`.
+include `github`, `x`, `bluesky`, `discord`, and `external`. You can also use a
+full Iconify name such as `simple-icons:github`.
 
 ```ts
 socials: [
   { label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' },
 ]
+```
+
+## `iconify`
+
+Lotus scans static `<Icon name="...">` usage in Astro and MDX files, combines
+those names with `socials.icon`, and preloads Iconify data by prefix. Dynamic
+icon names still work, but they fall back to an individual request.
+
+```ts
+iconify: {
+  apiBase: 'https://api.iconify.design',
+  preload: ['lucide:search'],
+  scan: true,
+}
 ```
 
 ## `docs`
@@ -105,6 +120,48 @@ docs: {
 
 The sidebar is content-driven: once a page sets `section: guide`, it will be
 grouped under that section automatically and sorted by its `order`.
+
+Sections can also define an explicit sidebar. Use `links` for resource links at
+the top of the sidebar, `groups` for titled sections, and nested `items` for
+collapsible rows.
+
+```ts
+docs: {
+  sections: [
+    {
+      slug: 'guide',
+      label: 'Guide',
+      sidebar: {
+        links: [
+          { label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' },
+          { label: 'Blog', href: '/docs/references/markdown/', icon: 'lucide:newspaper' },
+        ],
+        groups: [
+          {
+            title: 'Getting Started',
+            items: [
+              { label: 'Overview', href: '/docs/guide/getting-started/' },
+              { label: 'Configuration', href: '/docs/guide/configuration/' },
+            ],
+          },
+          {
+            title: 'Components',
+            items: [
+              {
+                label: 'Content blocks',
+                items: [
+                  { label: 'Callout', href: '/docs/components/callout/' },
+                  { label: 'Steps', href: '/docs/components/steps/' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+}
+```
 
 ## `footer`
 

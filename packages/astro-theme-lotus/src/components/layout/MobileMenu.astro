@@ -1,7 +1,9 @@
 ---
 import { Icon } from '@prosefly/astro-components';
+import Button from '../ui/Button.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { resolveIconName } from '../../lib/icons';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
@@ -31,48 +33,6 @@ function isActive(href: string): boolean {
   return currentPath === href || currentPath.startsWith(`${href}`);
 }
 
-function getActionClass(action: (typeof actions)[number]): string {
-  const variant = action.variant ?? 'soft';
-  const color = action.color ?? 'neutral';
-  const base =
-    'lotus-focus-ring flex h-9 items-center rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors';
-
-  if (variant === 'solid') {
-    return color === 'accent'
-      ? `${base} bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90`
-      : `${base} bg-[var(--lotus-text)] text-[var(--lotus-background)] hover:opacity-90`;
-  }
-
-  if (variant === 'outline') {
-    return color === 'accent'
-      ? `${base} lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]`
-      : `${base} lotus-border-muted border text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]`;
-  }
-
-  return color === 'accent'
-    ? `${base} bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90`
-    : `${base} bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]`;
-}
-
-function getIconName(icon?: string): string {
-  if (!icon) {
-    return 'lucide:external-link';
-  }
-
-  if (icon.includes(':')) {
-    return icon;
-  }
-
-  const aliases: Record<string, string> = {
-    bluesky: 'simple-icons:bluesky',
-    discord: 'simple-icons:discord',
-    external: 'lucide:external-link',
-    github: 'simple-icons:github',
-    x: 'simple-icons:x',
-  };
-
-  return aliases[icon] ?? icon;
-}
 ---
 
 <details class="group relative lg:hidden">
@@ -98,14 +58,15 @@ function getIconName(icon?: string): string {
         <div class="lotus-border-subtle border-t pt-4">
           <div class="mt-2 space-y-2">
             {actions.map((action) => (
-              <a
-                class={getActionClass(action)}
+              <Button
+                block
+                color={action.color ?? 'neutral'}
+                external={action.external}
                 href={action.href}
-                target={action.external ? '_blank' : undefined}
-                rel={action.external ? 'noreferrer' : undefined}
+                variant={action.variant ?? 'soft'}
               >
                 {action.label}
-              </a>
+              </Button>
             ))}
           </div>
         </div>
@@ -121,7 +82,7 @@ function getIconName(icon?: string): string {
               target={social.external ? '_blank' : undefined}
               rel={social.external ? 'noreferrer' : undefined}
             >
-              <Icon name={getIconName(social.icon)} />
+              <Icon name={resolveIconName(social.icon)} />
             </a>
           ))}
         </div>

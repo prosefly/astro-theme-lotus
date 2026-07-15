@@ -1,9 +1,11 @@
 ---
 import { Icon } from '@prosefly/astro-components';
+import Button from '../ui/Button.astro';
 import MobileMenu from './MobileMenu.astro';
 import SearchDialog from './SearchDialog.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { resolveIconName } from '../../lib/icons';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
@@ -38,48 +40,6 @@ function getActionLabel(label: string, icon?: string): string {
   return icon ? `${label} (${icon})` : label;
 }
 
-function getIconName(icon?: string): string {
-  if (!icon) {
-    return 'lucide:external-link';
-  }
-
-  if (icon.includes(':')) {
-    return icon;
-  }
-
-  const aliases: Record<string, string> = {
-    bluesky: 'simple-icons:bluesky',
-    discord: 'simple-icons:discord',
-    external: 'lucide:external-link',
-    github: 'simple-icons:github',
-    x: 'simple-icons:x',
-  };
-
-  return aliases[icon] ?? icon;
-}
-
-function getActionClass(action: (typeof actions)[number]): string {
-  const variant = action.variant ?? 'soft';
-  const color = action.color ?? 'neutral';
-  const base =
-    'lotus-focus-ring inline-flex h-9 items-center rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors';
-
-  if (variant === 'solid') {
-    return color === 'accent'
-      ? `${base} bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90`
-      : `${base} bg-[var(--lotus-text)] text-[var(--lotus-background)] hover:opacity-90`;
-  }
-
-  if (variant === 'outline') {
-    return color === 'accent'
-      ? `${base} lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]`
-      : `${base} lotus-border-muted border text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]`;
-  }
-
-  return color === 'accent'
-    ? `${base} bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90`
-    : `${base} bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]`;
-}
 ---
 
 <header
@@ -112,14 +72,14 @@ function getActionClass(action: (typeof actions)[number]): string {
       {actions.length > 0 && (
         <div class="flex items-center gap-2">
           {actions.map((action) => (
-            <a
-              class={getActionClass(action)}
+            <Button
+              color={action.color ?? 'neutral'}
+              external={action.external}
               href={action.href}
-              rel={action.external ? 'noreferrer' : undefined}
-              target={action.external ? '_blank' : undefined}
+              variant={action.variant ?? 'soft'}
             >
               {action.label}
-            </a>
+            </Button>
           ))}
         </div>
       )}
@@ -134,7 +94,7 @@ function getActionClass(action: (typeof actions)[number]): string {
             rel={social.external ? 'noreferrer' : undefined}
             target={social.external ? '_blank' : undefined}
           >
-            <Icon name={getIconName(social.icon)} />
+            <Icon name={resolveIconName(social.icon)} />
           </a>
         ))}
         <ThemeSwitch />
