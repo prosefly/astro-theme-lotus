@@ -1,0 +1,37 @@
+---
+import ThemeModeController from './ThemeModeController.astro';
+---
+
+<div data-lotus-theme-switch>
+  <button
+    aria-label="Cycle theme mode"
+    class="lotus-focus-ring lotus-border-muted inline-flex h-9 items-center gap-2 rounded-[var(--lotus-radius-md)] border px-3 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+    data-theme-cycle
+    type="button"
+  >
+    <span data-theme-mode-icon="system">
+      <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+        <rect width="16" height="11" x="4" y="5" rx="2" />
+        <path d="M8 21h8" />
+        <path d="M12 16v5" />
+      </svg>
+    </span>
+    <span data-theme-mode-icon="light" hidden>
+      <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2" />
+        <path d="M12 20v2" />
+        <path d="M2 12h2" />
+        <path d="M20 12h2" />
+      </svg>
+    </span>
+    <span data-theme-mode-icon="dark" hidden>
+      <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+        <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.8 8.8 0 1 0 20.5 14.5Z" />
+      </svg>
+    </span>
+    <span class="hidden sm:inline" data-theme-current>System</span>
+  </button>
+</div>
+
+<ThemeModeController />

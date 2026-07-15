@@ -31,6 +31,66 @@ import { Callout } from '@prosefly/astro-components';
 
 ## Replace layout pieces carefully
 
-If a layout component needs to be replaced, keep the same content model and
-navigation URLs so docs remain portable between the default Lotus shell and the
-custom shell.
+Lotus exposes a small, stable override surface through the `components`
+configuration. Start with the smallest override that changes the behavior you
+need.
+
+```ts
+lotus({
+  components: {
+    SearchDialog: './src/components/SearchDialog.astro',
+    ThemeSwitch: './src/components/ThemeSwitch.astro',
+  },
+})
+```
+
+Override paths are resolved from the project root. The first supported override
+points are `SearchDialog` and `ThemeSwitch`.
+
+## Use theme components
+
+Composable theme components are exported from the theme package. Import them
+when you want to wrap Lotus behavior instead of replacing it from scratch.
+
+```astro
+---
+import { SearchDialog, ThemeModeButton } from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-lg border border-[var(--lotus-border-muted)] p-1">
+  <SearchDialog />
+</div>
+
+<ThemeModeButton />
+```
+
+Search can also be composed from its trigger and content:
+
+```astro
+---
+import {
+  SearchDialogContent,
+  SearchDialogTrigger,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-lg border border-[var(--lotus-border-muted)] p-1">
+  <SearchDialogTrigger />
+</div>
+<SearchDialogContent />
+```
+
+The theme itself imports override points through internal virtual modules. The
+public `components` export points to theme building blocks, so using it inside
+an override will not recursively import the override file.
+
+Available theme mode controls:
+
+```ts
+import {
+  ThemeModeButton,
+  ThemeModeSegmentedControl,
+  ThemeModeSelect,
+  ThemeModeSwitch,
+} from '@prosefly/astro-theme-lotus/components';
+```

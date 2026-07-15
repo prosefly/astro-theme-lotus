@@ -1,0 +1,39 @@
+---
+import ThemeModeController from './ThemeModeController.astro';
+---
+
+<div
+  aria-label="Theme mode"
+  class="lotus-border-muted grid h-9 grid-cols-2 rounded-full border p-0.5"
+  data-lotus-theme-switch
+  role="group"
+>
+  <button
+    aria-label="Light theme"
+    class="lotus-focus-ring inline-flex h-7 w-8 items-center justify-center rounded-full text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+    data-theme-mode="light"
+    title="Light theme"
+    type="button"
+  >
+    <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="M2 12h2" />
+      <path d="M20 12h2" />
+    </svg>
+  </button>
+  <button
+    aria-label="Dark theme"
+    class="lotus-focus-ring inline-flex h-7 w-8 items-center justify-center rounded-full text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+    data-theme-mode="dark"
+    title="Dark theme"
+    type="button"
+  >
+    <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+      <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.8 8.8 0 1 0 20.5 14.5Z" />
+    </svg>
+  </button>
+</div>
+
+<ThemeModeController />

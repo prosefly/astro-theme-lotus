@@ -65,6 +65,10 @@ export interface FooterSection {
   links: ThemeLink[];
 }
 
+export type OverrideComponentName = 'SearchDialog' | 'ThemeSwitch';
+
+export type OverrideComponentsConfig = Partial<Record<OverrideComponentName, string>>;
+
 export interface LotusThemeConfig {
   site: {
     title: string;
@@ -82,6 +86,7 @@ export interface LotusThemeConfig {
   navigation: ThemeNavigationItem[];
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
+  components?: OverrideComponentsConfig;
   docsBase: string;
   iconify?: {
     apiBase?: string;

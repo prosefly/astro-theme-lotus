@@ -1,0 +1,86 @@
+<script is:inline>
+  (() => {
+    if (window.__lotusThemeSwitchReady) {
+      return;
+    }
+
+    window.__lotusThemeSwitchReady = true;
+
+    const storageKey = 'lotus-theme';
+    const root = document.documentElement;
+    const modes = ['system', 'light', 'dark'];
+
+    const initThemeSwitches = () => {
+      const switches = Array.from(document.querySelectorAll('[data-lotus-theme-switch]'));
+
+      if (!switches.length) {
+        return;
+      }
+
+      const setTheme = (mode) => {
+        const nextMode = modes.includes(mode) ? mode : 'system';
+        root.dataset.theme = nextMode;
+
+        if (nextMode === 'system') {
+          window.localStorage.removeItem(storageKey);
+        } else {
+          window.localStorage.setItem(storageKey, nextMode);
+        }
+
+        switches.forEach((switcher) => {
+          switcher.querySelectorAll('[data-theme-mode]').forEach((control) => {
+            const active = control.getAttribute('data-theme-mode') === nextMode;
+            control.setAttribute('aria-pressed', active ? 'true' : 'false');
+            control.toggleAttribute('data-active', active);
+          });
+
+          switcher.querySelectorAll('[data-theme-select]').forEach((select) => {
+            select.value = nextMode;
+          });
+
+          switcher.querySelectorAll('[data-theme-current]').forEach((label) => {
+            label.textContent = nextMode[0].toUpperCase() + nextMode.slice(1);
+          });
+
+          switcher.querySelectorAll('[data-theme-mode-icon]').forEach((icon) => {
+            icon.hidden = icon.getAttribute('data-theme-mode-icon') !== nextMode;
+          });
+        });
+      };
+
+      const savedTheme = window.localStorage.getItem(storageKey);
+      setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : root.dataset.theme || 'system');
+
+      switches.forEach((switcher) => {
+        switcher.addEventListener('click', (event) => {
+          const cycleButton = event.target.closest('[data-theme-cycle]');
+
+          if (cycleButton) {
+            const currentMode = root.dataset.theme || 'system';
+            const currentIndex = modes.indexOf(currentMode);
+            setTheme(modes[(currentIndex + 1) % modes.length]);
+            return;
+          }
+
+          const button = event.target.closest('[data-theme-mode]');
+
+          if (button) {
+            setTheme(button.getAttribute('data-theme-mode'));
+          }
+        });
+
+        switcher.addEventListener('change', (event) => {
+          if (event.target.matches('[data-theme-select]')) {
+            setTheme(event.target.value);
+          }
+        });
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initThemeSwitches, { once: true });
+    } else {
+      initThemeSwitches();
+    }
+  })();
+</script>

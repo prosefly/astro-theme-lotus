@@ -1,4 +1,6 @@
 ---
+import ThemeModeController from './ThemeModeController.astro';
+
 const modes = [
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
@@ -45,60 +47,4 @@ const modes = [
   ))}
 </div>
 
-<script is:inline>
-  (() => {
-    if (window.__lotusThemeSwitchReady) {
-      return;
-    }
-
-    window.__lotusThemeSwitchReady = true;
-
-    const storageKey = 'lotus-theme';
-    const root = document.documentElement;
-
-    const initThemeSwitches = () => {
-      const switches = Array.from(document.querySelectorAll('[data-lotus-theme-switch]'));
-
-      if (!switches.length) {
-        return;
-      }
-
-      const setTheme = (mode) => {
-        root.dataset.theme = mode;
-
-        if (mode === 'system') {
-          window.localStorage.removeItem(storageKey);
-        } else {
-          window.localStorage.setItem(storageKey, mode);
-        }
-
-        switches.forEach((switcher) => {
-          switcher.querySelectorAll('[data-theme-mode]').forEach((button) => {
-            const active = button.getAttribute('data-theme-mode') === mode;
-            button.setAttribute('aria-pressed', active ? 'true' : 'false');
-            button.toggleAttribute('data-active', active);
-          });
-        });
-      };
-
-      const savedTheme = window.localStorage.getItem(storageKey);
-      setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : root.dataset.theme || 'system');
-
-      switches.forEach((switcher) => {
-        switcher.addEventListener('click', (event) => {
-          const button = event.target.closest('[data-theme-mode]');
-
-          if (button) {
-            setTheme(button.getAttribute('data-theme-mode'));
-          }
-        });
-      });
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initThemeSwitches, { once: true });
-    } else {
-      initThemeSwitches();
-    }
-  })();
-</script>
+<ThemeModeController />

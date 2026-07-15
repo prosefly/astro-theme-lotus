@@ -3,14 +3,15 @@ import proseflyIcons from '@prosefly/astro-components/icons';
 import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
-import { resolveIconName } from './lib/icons';
+import { componentOverridePlugin } from './lib/overriding';
+import { getIconPreloadNames } from './lib/preload-icons';
 import {
   DEFAULT_DOCS_BASE_PATH,
   normalizeDocsBasePath,
   type FooterSection,
   type LotusThemeConfig,
+  type OverrideComponentsConfig,
   type SidebarConfig,
-  type SidebarItemConfig,
   type ThemeNavigationItem,
   type ThemeSocialLink,
 } from './lib/theme';
@@ -24,6 +25,7 @@ export interface LotusIntegrationOptions {
   navigation?: ThemeNavigationItem[];
   socials?: ThemeSocialLink[];
   sidebars?: SidebarConfig[];
+  components?: OverrideComponentsConfig;
   docsBase?: string;
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   footer?: {
@@ -49,6 +51,7 @@ const defaultConfig: LotusThemeConfig = {
   navigation: [{ label: 'Docs', href: '/docs/' }],
   socials: [],
   sidebars: [],
+  components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
   iconify: {
     apiBase: 'https://api.iconify.design',
@@ -101,50 +104,6 @@ function lotusConfigPlugin(config: LotusThemeConfig): Plugin {
   };
 }
 
-function getIconPreloadNames(config: LotusThemeConfig): string[] {
-  const iconNames = new Set<string>();
-
-  function addIcon(icon?: string): void {
-    if (icon) {
-      iconNames.add(resolveIconName(icon));
-    }
-  }
-
-  function addSidebarItems(items: SidebarItemConfig[] = []): void {
-    for (const item of items) {
-      if (typeof item === 'string' || 'autogenerate' in item) {
-        continue;
-      }
-
-      addIcon(item.icon);
-
-      if ('items' in item) {
-        addSidebarItems(item.items);
-      }
-    }
-  }
-
-  for (const item of config.navigation) {
-    addIcon(item.icon);
-    addIcon(item.trailingIcon);
-  }
-
-  for (const item of config.socials) {
-    addIcon(item.icon);
-  }
-
-  for (const icon of config.iconify?.preload ?? []) {
-    addIcon(icon);
-  }
-
-  for (const sidebar of config.sidebars) {
-    addIcon(sidebar.icon);
-    addSidebarItems(sidebar.items);
-  }
-
-  return [...iconNames].sort();
-}
-
 export function defineLotusConfig(config: LotusIntegrationOptions): LotusIntegrationOptions {
   return config;
 }
@@ -160,7 +119,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
   return {
     name: '@prosefly/astro-theme-lotus',
     hooks: {
-      'astro:config:setup': ({ injectRoute, updateConfig }) => {
+      'astro:config:setup': ({ config: astroConfig, injectRoute, updateConfig }) => {
         injectRoute({
           pattern: docsPattern,
           entrypoint: new URL('./routes/docs/[...slug].astro', import.meta.url),
@@ -176,7 +135,11 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
             }),
           ],
           vite: {
-            plugins: [lotusConfigPlugin(config), tailwindcss()],
+            plugins: [
+              lotusConfigPlugin(config),
+              componentOverridePlugin(config.components ?? {}, astroConfig.root),
+              tailwindcss(),
+            ],
           },
         });
       },
@@ -188,6 +151,8 @@ export { lotus };
 export type {
   FooterSection,
   LotusThemeConfig,
+  OverrideComponentName,
+  OverrideComponentsConfig,
   RadiusScale,
   SidebarAutogenerateItem,
   SidebarConfig,

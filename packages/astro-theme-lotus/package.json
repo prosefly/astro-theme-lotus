@@ -5,6 +5,7 @@
   "license": "BSD-3-Clause",
   "exports": {
     ".": "./src/index.ts",
+    "./components": "./src/components.ts",
     "./content": "./src/content.ts"
   },
   "files": [

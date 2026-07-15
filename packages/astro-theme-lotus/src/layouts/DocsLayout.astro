@@ -1,8 +1,8 @@
 ---
 import type { DocsSectionNav, DocsSidebarNav } from '../lib/docs';
 import BaseLayout from './BaseLayout.astro';
-import DocsChrome from '../components/layout/DocsChrome.astro';
 import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
@@ -45,7 +45,7 @@ const currentPath =
 ---
 
 <BaseLayout title={title} description={description}>
-  <DocsChrome currentPath={currentPath} sections={subnav} />
+  <Header currentPath={currentPath} sections={subnav} />
 
   <main class="pb-16">
     <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-5 sm:px-6 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
