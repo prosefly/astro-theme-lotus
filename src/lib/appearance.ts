@@ -12,11 +12,9 @@ function serializeStyleVariables(
 
 export function getThemeAttributes(): Record<string, string> {
   const defaultTheme = themeConfig.appearance.defaultTheme as ThemeMode;
-  const theme =
-    defaultTheme === 'dark' ? 'dark' : 'light';
 
   return {
-    'data-theme': theme,
+    'data-theme': defaultTheme,
     'data-radius': themeConfig.appearance.radius,
     style: serializeStyleVariables({
       '--lotus-font-sans': themeConfig.appearance.fontSans,

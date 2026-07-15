@@ -29,7 +29,7 @@ const currentPath = currentSlug ? `/docs/${currentSlug}/` : '/docs/';
   <DocsChrome currentPath={currentPath} sections={subnav} />
 
   <main class="pb-16">
-    <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-4 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 lg:px-6 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
+    <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-5 sm:px-6 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
       <aside class="hidden lg:block">
         <div class="sticky top-[calc(var(--lotus-docs-chrome-height)+2rem)] py-10">
           {sidebarItems.length > 0 && <Sidebar items={sidebarItems} currentSlug={currentSlug} />}
@@ -37,13 +37,13 @@ const currentPath = currentSlug ? `/docs/${currentSlug}/` : '/docs/';
       </aside>
 
       <article class="min-w-0 py-10">
-        <header class="border-b border-[var(--lotus-border)] pb-8">
+        <header class="lotus-border-muted border-b pb-8">
           <p class="text-sm font-medium text-[var(--lotus-accent)]">Documentation</p>
-          <h1 class="mt-3 text-4xl font-semibold leading-tight text-[var(--lotus-fg)] sm:text-5xl">
+          <h1 class="mt-3 text-3xl font-semibold leading-tight text-[var(--lotus-text)] sm:text-4xl">
             {title}
           </h1>
           {description && (
-            <p class="mt-4 max-w-3xl text-base leading-7 text-[var(--lotus-muted)] sm:text-lg">
+            <p class="mt-4 max-w-3xl text-base leading-7 text-[var(--lotus-text-muted)] sm:text-lg">
               {description}
             </p>
           )}

@@ -3,8 +3,12 @@
   outline-offset: 2px;
 }
 
+.lotus-border-muted {
+  border-color: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
+}
+
 .lotus-scrollbar {
-  scrollbar-color: var(--lotus-muted) transparent;
+  scrollbar-color: var(--lotus-text-muted) transparent;
   scrollbar-width: thin;
 }
 
@@ -14,7 +18,7 @@
 }
 
 .lotus-scrollbar::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--lotus-muted) 70%, transparent);
+  background: color-mix(in oklab, var(--lotus-text-muted) 70%, transparent);
   border: 2px solid transparent;
   border-radius: 999px;
   background-clip: padding-box;
@@ -43,8 +47,8 @@
 }
 
 .lotus-toc-link[aria-current="true"] {
-  background: var(--lotus-muted-bg);
-  color: var(--lotus-fg);
+  background: var(--lotus-accent-soft);
+  color: var(--lotus-text);
 }
 
 .lotus-toc-link[aria-current="true"]::before {

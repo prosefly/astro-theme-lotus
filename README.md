@@ -104,10 +104,14 @@ templates.
 
 ## Design system
 
-Lotus combines Tailwind utilities for layout and spacing with semantic `--lotus-*`
-tokens for background, text, accent color, fonts, radius, and prose styling.
-The theme config sets high-level appearance choices, while the design system
-reference documents how those choices map to rendered UI.
+Lotus combines Tailwind utilities for layout and spacing with semantic
+`--lotus-*` tokens such as `--lotus-background`, `--lotus-text`,
+`--lotus-accent`, radius tokens, and `--lotus-docs-chrome-height`. The theme
+config sets high-level appearance choices, including `system` theme mode, while
+the design system reference documents how those choices map to rendered UI.
+
+Package MDX components continue to consume the `--pl-*` bridge variables that
+Lotus maps from its theme tokens.
 
 ## MDX components
 

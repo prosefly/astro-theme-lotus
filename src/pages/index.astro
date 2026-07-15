@@ -10,22 +10,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <main class="mx-auto max-w-screen-xl px-4 py-20 sm:px-6">
     <div class="max-w-3xl">
       <p class="text-sm font-medium text-[var(--lotus-accent)]">Astro Theme Lotus</p>
-      <h1 class="mt-4 text-4xl font-semibold leading-tight text-[var(--lotus-fg)] sm:text-5xl">
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-[var(--lotus-text)] sm:text-5xl">
         Documentation starts in `/docs/`
       </h1>
-      <p class="mt-6 max-w-2xl text-base leading-7 text-[var(--lotus-muted)] sm:text-lg">
+      <p class="mt-6 max-w-2xl text-base leading-7 text-[var(--lotus-text-muted)] sm:text-lg">
         This project is organized as a documentation theme. The guide, component examples,
         and reference material all live in the docs experience.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a
-          class="lotus-focus-ring inline-flex items-center rounded-[var(--lotus-radius-md)] bg-[var(--lotus-accent)] px-5 py-3 text-sm font-medium text-[var(--lotus-accent-fg)] transition-opacity hover:opacity-90"
+          class="lotus-focus-ring inline-flex items-center rounded-[var(--lotus-radius-md)] bg-[var(--lotus-accent)] px-5 py-3 text-sm font-medium text-[var(--lotus-accent-contrast)] transition-opacity hover:opacity-90"
           href="/docs/"
         >
           Open the docs
         </a>
         <a
-          class="lotus-focus-ring inline-flex items-center rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-5 py-3 text-sm font-medium text-[var(--lotus-fg)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
+          class="lotus-focus-ring lotus-border-muted inline-flex items-center rounded-[var(--lotus-radius-md)] border px-5 py-3 text-sm font-medium text-[var(--lotus-text)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
           href="/docs/guide/getting-started/"
         >
           Start with the guide

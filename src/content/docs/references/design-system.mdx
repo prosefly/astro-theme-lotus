@@ -23,7 +23,7 @@ across layouts and MDX components.
 
 ## Why Lotus uses semantic color tokens
 
-Lotus ships semantic tokens such as `--lotus-bg`, `--lotus-fg`, and
+Lotus ships semantic tokens such as `--lotus-background`, `--lotus-text`, and
 `--lotus-accent` so components can respond to theme changes without rewriting
 every individual utility class. The default palette uses `oklch(...)` values
 because they are perceptually uniform and easier to tune across light and dark
@@ -35,22 +35,42 @@ of the theme.
 
 ## Radius and theme attributes
 
-The page shell reads `appearance.radius` from `src/theme.config.ts` and exposes
-it as a `data-radius="medium"` style attribute on the rendered document. Lotus
-components then consume the matching radius tokens so cards, callouts, and other
-surfaces stay aligned with the selected scale.
+The page shell reads `appearance.defaultTheme` and `appearance.radius` from
+`src/theme.config.ts` and exposes them as document attributes. A system default
+renders as `data-theme="system"` so CSS can follow the visitor's
+`prefers-color-scheme` setting, while explicit light and dark defaults render
+the matching fixed theme.
+
+Lotus components consume the matching radius tokens so cards, callouts, and
+other surfaces stay aligned with the selected scale.
 
 ```ts
 appearance: {
+  defaultTheme: 'system',
   radius: 'medium',
 }
 ```
+
+## Package component bridge
+
+The shared package components remain package-owned and read `--pl-*` variables.
+Lotus maps those bridge variables to the semantic theme layer in
+`src/styles/tokens.css`, including `--pl-text`, `--pl-background`,
+`--pl-accent`, `--pl-accent-soft`, `--pl-accent-contrast`, and the radius
+tokens. This keeps package components portable while letting Lotus own the
+release palette.
 
 ## Core tokens
 
 | Token | Purpose |
 |---|---|
-| `--lotus-bg` | Page background |
-| `--lotus-fg` | Main text |
+| `--lotus-background` | Page background |
+| `--lotus-surface` | Subtle panels and code surfaces |
+| `--lotus-text` | Main text |
+| `--lotus-text-muted` | Secondary text |
 | `--lotus-accent` | Primary interactive color |
+| `--lotus-accent-soft` | Muted active and hover backgrounds |
+| `--lotus-accent-contrast` | Text on accent backgrounds |
 | `--lotus-radius-md` | Medium component radius |
+| `--lotus-radius-full` | Fully rounded controls and badges |
+| `--lotus-docs-chrome-height` | Combined header and subnav height for sticky offsets |

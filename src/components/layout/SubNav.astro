@@ -17,8 +17,9 @@ const { sections } = Astro.props;
             'lotus-focus-ring inline-flex h-[calc(var(--lotus-subnav-height)-0.75rem)] items-center border-b-2 px-1 text-sm font-medium whitespace-nowrap transition-colors',
             section.active
               ? 'border-[var(--lotus-accent)] text-[var(--lotus-accent)]'
-              : 'border-transparent text-[var(--lotus-muted)] hover:text-[var(--lotus-fg)]',
+              : 'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
           ]}
+          aria-current={section.active ? 'page' : undefined}
           href={section.href}
         >
           {section.label}

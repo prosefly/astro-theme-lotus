@@ -29,11 +29,11 @@ function getActionLabel(label: string, icon?: string): string {
 <header
   class:list={[
     'h-[var(--lotus-header-height)]',
-    surface && 'border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/95 backdrop-blur',
+    surface && 'lotus-border-muted border-b bg-[var(--lotus-background)]/95 backdrop-blur',
   ]}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-6 px-4 sm:px-6">
-    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-fg)]" href="/">
+    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text)]" href="/">
       <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
       <span class="truncate text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
     </a>
@@ -44,9 +44,10 @@ function getActionLabel(label: string, icon?: string): string {
           class:list={[
             'lotus-focus-ring rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
             isActive(item.href)
-              ? 'text-[var(--lotus-accent)]'
-              : 'text-[var(--lotus-muted)] hover:text-[var(--lotus-fg)]',
+              ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)]'
+              : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
           ]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
           href={item.href}
         >
           {item.label}
@@ -58,7 +59,7 @@ function getActionLabel(label: string, icon?: string): string {
       {themeConfig.actions.map((action) => (
         <a
           aria-label={getActionLabel(action.label, action.icon)}
-          class="lotus-focus-ring inline-flex items-center gap-2 rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-3 py-2 text-sm text-[var(--lotus-muted)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
+          class="lotus-focus-ring lotus-border-muted inline-flex items-center gap-2 rounded-[var(--lotus-radius-md)] border px-3 py-2 text-sm text-[var(--lotus-text-muted)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
           href={action.href}
           rel={action.external ? 'noreferrer' : undefined}
           target={action.external ? '_blank' : undefined}

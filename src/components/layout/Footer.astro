@@ -2,14 +2,14 @@
 import themeConfig from '../../theme.config';
 ---
 
-<footer class="border-t border-[var(--lotus-border)] bg-[var(--lotus-bg)]">
+<footer class="lotus-border-muted border-t bg-[var(--lotus-background)]">
   <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
     <div class="space-y-4">
-      <a class="lotus-focus-ring inline-flex items-center gap-3 text-[var(--lotus-fg)]" href="/">
+      <a class="lotus-focus-ring inline-flex items-center gap-3 text-[var(--lotus-text)]" href="/">
         <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
         <span class="text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
       </a>
-      <p class="max-w-sm text-sm leading-6 text-[var(--lotus-muted)]">
+      <p class="max-w-sm text-sm leading-6 text-[var(--lotus-text-muted)]">
         {themeConfig.footer.copyright}
       </p>
     </div>
@@ -17,7 +17,7 @@ import themeConfig from '../../theme.config';
     <div class="grid gap-8 sm:grid-cols-2">
       {themeConfig.footer.sections.map((section) => (
         <section class="space-y-3">
-          <h2 class="text-sm font-semibold text-[var(--lotus-fg)]">{section.title}</h2>
+          <h2 class="text-sm font-semibold text-[var(--lotus-text)]">{section.title}</h2>
           <ul class="space-y-2">
             {section.links.map((link) => {
               const isExternal = 'external' in link && link.external;
@@ -25,12 +25,27 @@ import themeConfig from '../../theme.config';
               return (
                 <li>
                   <a
-                    class="lotus-focus-ring text-sm text-[var(--lotus-muted)] transition-colors hover:text-[var(--lotus-accent)]"
+                    class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-accent)]"
                     href={link.href}
                     rel={isExternal ? 'noreferrer' : undefined}
                     target={isExternal ? '_blank' : undefined}
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    {isExternal && (
+                      <svg
+                        aria-hidden="true"
+                        class="h-3.5 w-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M7 17 17 7" />
+                        <path d="M9 7h8v8" />
+                      </svg>
+                    )}
                   </a>
                 </li>
               );

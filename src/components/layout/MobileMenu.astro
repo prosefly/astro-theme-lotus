@@ -21,11 +21,11 @@ function isActive(href: string): boolean {
 ---
 
 <details class="group relative md:hidden">
-  <summary class="lotus-focus-ring flex h-10 items-center rounded-[var(--lotus-radius-md)] border border-[var(--lotus-border)] px-3 text-sm font-medium text-[var(--lotus-fg)] marker:hidden">
+  <summary class="lotus-focus-ring lotus-border-muted flex h-10 items-center rounded-[var(--lotus-radius-md)] border px-3 text-sm font-medium text-[var(--lotus-text)] marker:hidden">
     Menu
   </summary>
 
-  <div class="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[var(--lotus-radius-lg)] border border-[var(--lotus-border)] bg-[var(--lotus-bg)] p-4 shadow-lg shadow-black/5">
+  <div class="lotus-border-muted absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-4 shadow-lg shadow-black/5">
     <nav aria-label="Primary" class="space-y-4">
       <div class="space-y-1">
         {themeConfig.nav.map((item) => (
@@ -33,9 +33,10 @@ function isActive(href: string): boolean {
             class:list={[
               'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
               isActive(item.href)
-                ? 'bg-[var(--lotus-muted-bg)] text-[var(--lotus-accent)]'
-                : 'text-[var(--lotus-fg)] hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-accent)]',
+                ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)]'
+                : 'text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-accent)]',
             ]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
             href={item.href}
           >
             {item.label}
@@ -43,17 +44,32 @@ function isActive(href: string): boolean {
         ))}
       </div>
 
-      <div class="border-t border-[var(--lotus-border)] pt-4">
-        <p class="px-3 text-xs font-semibold uppercase text-[var(--lotus-muted)]">Links</p>
+      <div class="lotus-border-muted border-t pt-4">
+        <p class="px-3 text-xs font-semibold uppercase text-[var(--lotus-text-muted)]">Links</p>
         <div class="mt-2 space-y-1">
           {themeConfig.actions.map((action) => (
             <a
-              class="lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm text-[var(--lotus-fg)] transition-colors hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-accent)]"
+              class="lotus-focus-ring flex items-center justify-between gap-3 rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm text-[var(--lotus-text)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-accent)]"
               href={action.href}
               target={action.external ? '_blank' : undefined}
               rel={action.external ? 'noreferrer' : undefined}
             >
-              {action.label}
+              <span>{action.label}</span>
+              {action.external && (
+                <svg
+                  aria-hidden="true"
+                  class="h-3.5 w-3.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M7 17 17 7" />
+                  <path d="M9 7h8v8" />
+                </svg>
+              )}
             </a>
           ))}
         </div>

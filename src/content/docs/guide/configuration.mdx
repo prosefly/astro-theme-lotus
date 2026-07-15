@@ -40,7 +40,8 @@ The `site` object defines the project identity used across the docs shell.
 - `accent` selects the primary interactive color family.
 - `gray` selects the neutral palette used by surfaces and borders.
 - `fontSans` and `fontMono` set the runtime CSS variables for typography.
-- `defaultTheme` accepts `light`, `dark`, or `system`.
+- `defaultTheme` accepts `light`, `dark`, or `system`. The system option renders
+  `data-theme="system"` and follows `prefers-color-scheme` in CSS.
 - `radius` accepts the supported radius scale and becomes the
   `data-radius` attribute on the rendered page shell.
 
