@@ -1,134 +1,226 @@
 .lotus-prose {
+  --lotus-prose-font-body: var(--lotus-font-sans);
+  --lotus-prose-font-heading: var(--lotus-font-sans);
+  --lotus-prose-font-mono: var(--lotus-font-mono);
+  --lotus-prose-size: 1rem;
+  --lotus-prose-leading: 1.75;
+  --lotus-prose-flow: 1.25rem;
+  --lotus-prose-heading-leading: 1.35;
+  --lotus-prose-border: color-mix(in oklab, var(--lotus-text-subtle) 24%, transparent);
+  --lotus-prose-row-background: color-mix(in oklab, var(--lotus-surface) 58%, transparent);
+
   color: var(--lotus-text);
-  max-width: var(--lotus-content-width);
-  line-height: 1.75;
+  font-family: var(--lotus-prose-font-body);
+  font-size: var(--lotus-prose-size);
+  line-height: var(--lotus-prose-leading);
+}
+
+.lotus-prose :where(*) {
+  margin-block: 0;
 }
 
 .lotus-prose :where(h1, h2, h3, h4) {
-  color: var(--lotus-text);
+  color: var(--lotus-text-strong);
+  font-family: var(--lotus-prose-font-heading);
   font-weight: 600;
   letter-spacing: 0;
+  line-height: var(--lotus-prose-heading-leading);
+  text-wrap: balance;
+}
+
+.lotus-prose :where(h1) {
+  font-size: 2em;
+  font-weight: 700;
   line-height: 1.2;
 }
 
-.lotus-prose h1 {
-  font-size: 2.25rem;
-  margin: 0 0 1rem;
+.lotus-prose :where(h2) {
+  font-size: 1.25em;
+  line-height: 1.4;
+  margin-block-start: 2rem;
 }
 
-.lotus-prose h2 {
-  font-size: 1.875rem;
-  margin: 3rem 0 1rem;
+.lotus-prose :where(h3) {
+  font-size: 1.125em;
+  line-height: 1.45;
+  margin-block-start: 1.75rem;
 }
 
-.lotus-prose h3 {
-  font-size: 1.5rem;
-  margin: 2rem 0 0.75rem;
+.lotus-prose :where(h4) {
+  font-size: 1em;
+  line-height: 1.5;
+  margin-block-start: 1.5rem;
 }
 
 .lotus-prose :where(h2, h3) {
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
-.lotus-prose h4 {
-  font-size: 1.125rem;
-  margin: 1.5rem 0 0.5rem;
+.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video) {
+  margin-block-start: var(--lotus-prose-flow);
 }
 
-.lotus-prose p {
+.lotus-prose > :where(:first-child) {
+  margin-block-start: 0;
+}
+
+.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre) {
+  margin-block-start: 0.75rem;
+}
+
+.lotus-prose :where(p, li) {
   color: var(--lotus-text);
-  margin: 1rem 0;
 }
 
-.lotus-prose a {
+.lotus-prose :where(a) {
   color: var(--lotus-accent);
+  font-weight: 500;
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--lotus-accent) 40%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--lotus-accent) 38%, transparent);
   text-underline-offset: 0.18em;
 }
 
-.lotus-prose a:hover {
+.lotus-prose :where(a:hover) {
   text-decoration-color: var(--lotus-accent);
 }
 
-.lotus-prose a:focus-visible {
+.lotus-prose :where(a:focus-visible) {
   border-radius: var(--lotus-radius-sm);
   outline: 2px solid var(--lotus-accent);
   outline-offset: 0.15em;
 }
 
-.lotus-prose ul,
-.lotus-prose ol {
-  margin: 1.25rem 0;
-  padding-left: 1.5rem;
-}
-
-.lotus-prose li + li {
-  margin-top: 0.5rem;
-}
-
-.lotus-prose blockquote {
-  background: var(--lotus-surface);
-  border-inline-start: 3px solid var(--lotus-accent);
-  border-radius: var(--lotus-radius-md);
-  color: var(--lotus-text-muted);
-  margin: 1.5rem 0;
-  padding: 1rem 1.25rem;
-}
-
-.lotus-prose table {
-  border-collapse: collapse;
-  display: block;
-  margin: 1.5rem 0;
-  max-width: 100%;
-  overflow-x: auto;
-  width: 100%;
-}
-
-.lotus-prose th,
-.lotus-prose td {
-  border-bottom: 1px solid color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
-  padding: 0.625rem 0.75rem;
-  text-align: left;
-}
-
-.lotus-prose th {
-  color: var(--lotus-text);
+.lotus-prose :where(strong) {
+  color: var(--lotus-text-strong);
   font-weight: 600;
 }
 
-.lotus-prose :not(pre) > code {
-  background: var(--lotus-surface);
-  border: 1px solid color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
-  border-radius: var(--lotus-radius-sm);
-  color: var(--lotus-text);
-  font-size: 0.9em;
-  padding: 0.15rem 0.4rem;
+.lotus-prose :where(ul, ol) {
+  padding-inline-start: 1.5rem;
 }
 
-.lotus-prose pre {
-  background: var(--lotus-surface);
-  border: 1px solid color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
+.lotus-prose :where(ul) {
+  list-style-type: disc;
+}
+
+.lotus-prose :where(ol) {
+  list-style-type: decimal;
+}
+
+.lotus-prose :where(li + li) {
+  margin-block-start: 0.375rem;
+}
+
+.lotus-prose :where(li > ul, li > ol) {
+  margin-block-start: 0.5rem;
+}
+
+.lotus-prose :where(blockquote) {
+  border-inline-start: 2px solid var(--lotus-prose-border);
+  color: var(--lotus-text);
+  padding-inline-start: 1rem;
+}
+
+.lotus-prose :where(hr) {
+  border: 0;
+  border-block-start: 1px solid var(--lotus-prose-border);
+  margin-block-start: 2rem;
+}
+
+.lotus-prose :where(table) {
+  border-collapse: collapse;
+  display: table;
+  max-width: 100%;
+  table-layout: auto;
+  width: 100%;
+}
+
+.lotus-prose :where(thead) {
+  border-block-end: 1px solid var(--lotus-prose-border);
+}
+
+.lotus-prose :where(tr) {
+  border-block-end: 1px solid var(--lotus-prose-border);
+}
+
+.lotus-prose :where(tbody tr:nth-child(even)) {
+  background: var(--lotus-prose-row-background);
+}
+
+.lotus-prose :where(th, td) {
+  padding: 0.5rem 0.75rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.lotus-prose :where(th) {
+  color: var(--lotus-text-strong);
+  font-weight: 600;
+}
+
+.lotus-prose :where(td) {
+  color: var(--lotus-text-muted);
+}
+
+.lotus-prose :where(:not(pre) > code) {
+  background: var(--lotus-code-background);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-strong);
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.875em;
+  font-weight: 600;
+  padding: 0.12em 0.32em;
+}
+
+.lotus-prose :where(pre) {
+  background: var(--lotus-code-background);
+  border: 1px solid var(--lotus-code-border);
   border-radius: var(--lotus-radius-lg);
   color: var(--lotus-text);
-  margin: 1.5rem 0;
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.875em;
+  line-height: 1.7;
   max-width: 100%;
   overflow-x: auto;
-  padding: 1rem 1.25rem;
+  padding: 0.875rem 1rem;
 }
 
-.lotus-prose pre code {
+.lotus-prose :where(pre code) {
   background: transparent;
-  border: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
   padding: 0;
 }
 
-@media (min-width: 640px) {
-  .lotus-prose h1 {
-    font-size: 3rem;
-  }
+/* Astro/Shiki emits light inline styles plus dark CSS variables. */
+:root[data-theme="dark"] .lotus-prose :where(.astro-code, .astro-code span) {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
 
-  .lotus-prose h2 {
-    font-size: 2.25rem;
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .lotus-prose :where(.astro-code, .astro-code span) {
+    background-color: var(--shiki-dark-bg) !important;
+    color: var(--shiki-dark) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+.lotus-prose :where(img, video) {
+  border-radius: var(--lotus-radius-lg);
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .lotus-prose :where(table) {
+    display: block;
+    overflow-x: auto;
   }
 }

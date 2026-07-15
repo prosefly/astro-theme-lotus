@@ -19,13 +19,19 @@ This split keeps authoring practical. Tailwind classes describe structure and
 composition, while `--lotus-*` tokens preserve a consistent visual language
 across layouts and MDX components.
 
+The `appearance.gray` setting renders as an attribute such as
+`data-gray="neutral"`. Lotus maps that selector to `--lotus-gray-*` aliases, then
+derives `--lotus-text`, `--lotus-text-strong`, `--lotus-surface`, code
+backgrounds, borders, and subtle dividers from that scale. The theme uses
+`@theme static` to keep supported Tailwind color variables in the generated CSS.
+
 ## Why Lotus uses semantic color tokens
 
-Lotus ships semantic tokens such as `--lotus-background`, `--lotus-text`, and
-`--lotus-accent` so components can respond to theme changes without rewriting
-every individual utility class. The default palette uses `oklch(...)` values
-because they are perceptually uniform and easier to tune across light and dark
-surfaces than raw `r g b` channel triplets.
+Lotus ships semantic tokens such as `--lotus-background`, `--lotus-text-strong`,
+`--lotus-text`, and `--lotus-accent` so components can respond to theme changes
+without rewriting every individual utility class. The default palette uses
+`oklch(...)` values because they are perceptually uniform and easier to tune
+across light and dark surfaces than raw `r g b` channel triplets.
 
 In practice, `oklch(...)` makes it easier to adjust contrast, chroma, and tone
 with predictable results while still exposing a semantic token API to the rest
@@ -62,10 +68,15 @@ release palette.
 
 | Token | Purpose |
 |---|---|
+| `--lotus-gray-50` ... `--lotus-gray-950` | Alias for the configured Tailwind neutral scale |
 | `--lotus-background` | Page background |
-| `--lotus-surface` | Subtle panels and code surfaces |
-| `--lotus-text` | Main text |
-| `--lotus-text-muted` | Secondary text |
+| `--lotus-surface` | Subtle panels and neutral surfaces |
+| `--lotus-code-background` | Code block and inline code background |
+| `--lotus-code-border` | Code block border |
+| `--lotus-text-strong` | Headings, section labels, active text |
+| `--lotus-text` | Main body text |
+| `--lotus-text-muted` | Secondary text and inactive navigation |
+| `--lotus-text-subtle` | Low-emphasis affordances, borders, separators |
 | `--lotus-accent` | Primary interactive color |
 | `--lotus-accent-soft` | Muted active and hover backgrounds |
 | `--lotus-accent-contrast` | Text on accent backgrounds |

@@ -35,19 +35,19 @@ const variantClasses = {
   solid:
     color === 'accent'
       ? 'bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90'
-      : 'bg-[var(--lotus-text)] text-[var(--lotus-background)] hover:opacity-90',
+      : 'bg-[var(--lotus-text-strong)] text-[var(--lotus-background)] hover:opacity-90',
   outline:
     color === 'accent'
       ? 'lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]'
-      : 'lotus-border-muted border text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]',
+      : 'lotus-border-muted border text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-surface)]',
   soft:
     color === 'accent'
       ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90'
-      : 'bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]',
+      : 'bg-[var(--lotus-surface)] text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-accent-soft)]',
   ghost:
     color === 'accent'
       ? 'text-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]'
-      : 'text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]',
+      : 'text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-surface)]',
 }[variant];
 ---
 

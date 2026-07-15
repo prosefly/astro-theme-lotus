@@ -11,7 +11,7 @@ const modes = [
 <div class="relative" data-lotus-theme-switch>
   <select
     aria-label="Theme mode"
-    class="lotus-focus-ring lotus-border-muted h-9 rounded-[var(--lotus-radius-md)] border bg-[var(--lotus-background)] px-3 text-sm font-medium text-[var(--lotus-text)] sm:hidden"
+    class="lotus-focus-ring lotus-border-muted h-9 rounded-[var(--lotus-radius-md)] border bg-[var(--lotus-background)] px-3 text-sm font-medium text-[var(--lotus-text-strong)] sm:hidden"
     data-theme-select
   >
     {modes.map((mode) => (
@@ -20,7 +20,7 @@ const modes = [
   </select>
 
   <details class="group/theme-select relative hidden sm:block">
-    <summary class="lotus-focus-ring lotus-border-muted flex h-9 cursor-pointer items-center gap-2 rounded-[var(--lotus-radius-md)] border px-3 text-sm font-medium text-[var(--lotus-text)] marker:hidden">
+    <summary class="lotus-focus-ring lotus-border-muted flex h-9 cursor-pointer items-center gap-2 rounded-[var(--lotus-radius-md)] border px-3 text-sm font-medium text-[var(--lotus-text-strong)] marker:hidden">
       <span data-theme-current>System</span>
       <svg aria-hidden="true" class="h-3.5 w-3.5 text-[var(--lotus-text-muted)] transition-transform group-open/theme-select:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
         <path d="m6 9 6 6 6-6" />
@@ -29,7 +29,7 @@ const modes = [
     <div class="lotus-border-muted absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-32 rounded-[var(--lotus-radius-md)] border bg-[var(--lotus-background)] p-1 shadow-lg shadow-black/5">
       {modes.map((mode) => (
         <button
-          class="lotus-focus-ring flex w-full items-center rounded-[calc(var(--lotus-radius-md)-2px)] px-2.5 py-1.5 text-left text-sm text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+          class="lotus-focus-ring flex w-full items-center rounded-[calc(var(--lotus-radius-md)-2px)] px-2.5 py-1.5 text-left text-sm text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
           data-theme-mode={mode.value}
           type="button"
         >

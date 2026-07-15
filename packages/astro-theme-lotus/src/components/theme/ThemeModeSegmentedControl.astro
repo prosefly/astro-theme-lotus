@@ -15,7 +15,7 @@ const modes = [
   {modes.map((mode) => (
     <button
       aria-label={`${mode.label} theme`}
-      class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+      class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
       data-theme-mode={mode.value}
       title={`${mode.label} theme`}
       type="button"

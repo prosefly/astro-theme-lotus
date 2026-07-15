@@ -1,0 +1,102 @@
+---
+title: Typography
+description: Review the default prose scale, spacing, and markdown element styles.
+section: references
+order: 2
+---
+
+This page collects common markdown patterns in one place so typography changes
+can be reviewed without jumping between feature pages. It intentionally uses
+plain content elements rather than custom layout components.
+
+## Section heading
+
+Lotus prose is tuned for documentation pages with side navigation and a table
+of contents. Body text should feel readable beside dense navigation, while
+headings should mark sections without becoming page-level display type.
+
+The spacing between paragraphs should be clear enough for scanning but compact
+enough that a medium-length guide still feels continuous. Inline links such as
+[the installation guide](/docs/installation/) should remain visible without
+pulling too much attention away from the sentence.
+
+### Subsection heading
+
+Subsections are smaller than section headings but still need enough weight for
+long technical pages. Use them for focused topics, configuration groups, or
+steps inside a larger section.
+
+#### Small heading
+
+Small headings are useful inside dense references, especially before short
+paragraphs or lists.
+
+## Lists
+
+Use unordered lists for related notes or capabilities:
+
+- Configure site metadata, navigation, footer links, and appearance tokens.
+- Author pages with MDX and the default documentation layout.
+- Override selected theme components when a project needs custom behavior.
+
+Use ordered lists for procedural content:
+
+1. Install the theme package and Astro integration.
+2. Add documentation content under the configured docs collection.
+3. Start the dev server and review the generated navigation.
+
+Nested lists should stay compact:
+
+- Appearance
+  - Accent color
+  - Gray scale
+  - Radius
+- Navigation
+  - Header links
+  - Sidebar groups
+  - Footer sections
+
+## Emphasis and inline code
+
+Use **strong text** when a term needs emphasis. Use _italic text_ sparingly for
+phrasing, citations, or quoted labels. Inline code like `docsBase`,
+`themeConfig.sidebars`, and `--lotus-text-muted` should sit comfortably inside a
+line of prose without changing the paragraph rhythm.
+
+## Blockquote
+
+> Documentation typography should make structure obvious without forcing every
+> section to become a visual component.
+
+## Code block
+
+```ts
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+import themeConfig from './src/theme.config';
+
+export default defineConfig({
+  integrations: [lotus(themeConfig)],
+});
+```
+
+## Table
+
+| Element | Purpose | Visual target |
+|---|---|---|
+| Paragraph | Main reading text | Comfortable line height and steady rhythm |
+| Heading 2 | Major content section | Compact but easy to scan |
+| Heading 3 | Subsection | Clear hierarchy without oversized type |
+| Inline code | Token or API name | Visible, but not visually heavy |
+| Table | Reference data | Dense enough for repeated scanning |
+
+## Horizontal rule
+
+Content above the rule should feel related to the page. Content below the rule
+should read as a separate closing block.
+
+---
+
+Final paragraphs can be used to check the visual relationship between body copy,
+rules, and following content. This line should not feel detached from the rest
+of the article.

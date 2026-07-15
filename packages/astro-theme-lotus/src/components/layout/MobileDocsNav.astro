@@ -45,7 +45,7 @@ function getPageCountLabel(count: number): string {
   <div class="lotus-border-subtle flex h-[var(--lotus-subnav-height)] items-center gap-3 border-t px-2 sm:px-4">
     <button
       aria-label="Open documentation menu"
-      class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-[var(--lotus-radius-md)] text-left text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]"
+      class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-[var(--lotus-radius-md)] text-left text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text-strong)]"
       data-lotus-mobile-sidebar-open
       type="button"
     >
@@ -55,19 +55,19 @@ function getPageCountLabel(count: number): string {
       <span class="flex min-w-0 flex-1 items-center gap-2 text-sm leading-5">
         {sectionTitle ? (
           <>
-            <span class="truncate font-medium text-[var(--lotus-text)]">{sectionTitle}</span>
+            <span class="truncate font-medium text-[var(--lotus-text-strong)]">{sectionTitle}</span>
             <span aria-hidden="true" class="shrink-0 text-[var(--lotus-text-muted)]">›</span>
             <span class="truncate text-[var(--lotus-text-muted)]">{title}</span>
           </>
         ) : (
-          <span class="truncate font-medium text-[var(--lotus-text)]">{title}</span>
+          <span class="truncate font-medium text-[var(--lotus-text-strong)]">{title}</span>
         )}
       </span>
     </button>
 
     {visibleHeadings.length > 0 && (
       <details class="relative shrink-0" data-lotus-mobile-toc-menu>
-        <summary class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center rounded-[var(--lotus-radius-md)] px-2.5 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)] marker:hidden">
+        <summary class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center rounded-[var(--lotus-radius-md)] px-2.5 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text-strong)] marker:hidden">
           On this page
         </summary>
         <div class="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-3 shadow-xl">
@@ -80,7 +80,7 @@ function getPageCountLabel(count: number): string {
                     class:list={[
                       'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
                       heading.depth === 3 ? 'pl-5' : 'pl-3',
-                      'text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
+                      'text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text-strong)]',
                     ]}
                     data-toc-link={heading.slug}
                     href={`#${heading.slug}`}
@@ -113,13 +113,13 @@ function getPageCountLabel(count: number): string {
       class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-[var(--lotus-background)] shadow-2xl"
     >
       <div class="lotus-border-subtle flex h-[var(--lotus-header-height)] shrink-0 items-center justify-between border-b px-4">
-        <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text)]" href="/">
+        <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text-strong)]" href="/">
           <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
           <span class="truncate text-sm font-semibold">{themeConfig.site.title}</span>
         </a>
         <button
           aria-label="Close documentation menu"
-          class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]"
+          class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text-strong)]"
           data-lotus-mobile-sidebar-close
           type="button"
         >
@@ -130,7 +130,7 @@ function getPageCountLabel(count: number): string {
       <div class="shrink-0 p-4">
         {activeSection ? (
           <details class="group/lotus-section-switch relative" data-lotus-section-switch>
-            <summary class="lotus-focus-ring flex min-h-12 cursor-pointer list-none items-center gap-3 rounded-[var(--lotus-radius-md)] bg-[var(--lotus-surface)] px-3 py-2 text-[var(--lotus-text)] marker:hidden">
+            <summary class="lotus-focus-ring flex min-h-12 cursor-pointer list-none items-center gap-3 rounded-[var(--lotus-radius-md)] bg-[var(--lotus-surface)] px-3 py-2 text-[var(--lotus-text-strong)] marker:hidden">
               <span class="relative h-5 w-5 shrink-0">
                 {sections.map((section) => (
                   section.icon && (
@@ -196,7 +196,7 @@ function getPageCountLabel(count: number): string {
             </div>
           </details>
         ) : (
-          <p class="text-sm font-medium text-[var(--lotus-text-muted)]">Documentation</p>
+          <p class="text-sm font-medium text-[var(--lotus-text-strong)]">Documentation</p>
         )}
       </div>
 

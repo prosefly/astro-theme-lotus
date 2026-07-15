@@ -42,7 +42,7 @@ const defaultConfig: LotusThemeConfig = {
   },
   appearance: {
     accent: 'indigo',
-    gray: 'zinc',
+    gray: 'neutral',
     fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
     defaultTheme: 'system',
@@ -126,6 +126,14 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         });
 
         updateConfig({
+          markdown: {
+            shikiConfig: {
+              themes: {
+                light: 'github-light',
+                dark: 'github-dark',
+              },
+            },
+          },
           integrations: [
             mdx(),
             proseflyIcons({

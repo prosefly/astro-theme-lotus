@@ -4,11 +4,11 @@
 }
 
 .lotus-border-muted {
-  border-color: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
+  border-color: color-mix(in oklab, var(--lotus-text-subtle) 32%, transparent);
 }
 
 .lotus-border-subtle {
-  border-color: color-mix(in oklab, var(--lotus-text-muted) 14%, transparent);
+  border-color: color-mix(in oklab, var(--lotus-text-subtle) 20%, transparent);
 }
 
 .lotus-scrollbar {
@@ -95,12 +95,12 @@
 
 .lotus-mobile-section-option:hover {
   background: var(--lotus-surface);
-  color: var(--lotus-text);
+  color: var(--lotus-text-strong);
 }
 
 .lotus-mobile-section-option[data-active] {
   background: var(--lotus-surface);
-  color: var(--lotus-text);
+  color: var(--lotus-text-strong);
 }
 
 .lotus-mobile-section-icon {
@@ -126,7 +126,7 @@
 }
 
 .lotus-subnav-link:hover {
-  border-color: color-mix(in oklab, var(--lotus-text-muted) 42%, transparent);
+  border-color: color-mix(in oklab, var(--lotus-text-subtle) 54%, transparent);
 }
 
 .lotus-subnav-link[aria-current="page"]:hover {
@@ -153,10 +153,10 @@
 }
 
 .lotus-toc-link[aria-current="true"] {
-  color: var(--lotus-text);
+  color: var(--lotus-text-strong);
 }
 
 [data-lotus-theme-switch] [data-active] {
   background: var(--lotus-accent-soft);
-  color: var(--lotus-text);
+  color: var(--lotus-text-strong);
 }

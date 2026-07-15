@@ -8,7 +8,7 @@ const themeConfig = {
   },
   appearance: {
     accent: 'indigo',
-    gray: 'zinc',
+    gray: 'neutral',
     fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
     fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
     defaultTheme: 'system',
