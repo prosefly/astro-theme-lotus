@@ -1,8 +1,8 @@
 ---
 title: Overview
 description: Learn what Lotus provides and how the documentation theme is organized.
-section: guide
-order: 1
+sidebar:
+  order: 1
 ---
 
 Lotus is an installable documentation theme for Astro v7, Tailwind CSS v4, and
@@ -23,8 +23,8 @@ rebuilding the chrome from scratch.
 ## How the docs tree works
 
 Write pages under `src/content/docs/`. Pages can live at the docs root or in
-nested folders. The frontmatter `section` field decides which sidebar and
-subnav section owns the page.
+nested folders. The `sidebars` config decides which sidebar and subnav section
+owns each page.
 
 ```txt
 src/content/docs/

@@ -3,7 +3,7 @@ import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
 const docs = defineCollection({
   loader: docsLoader(),
-  schema: docsSchema,
+  schema: docsSchema(),
 });
 
 export const collections = { docs };

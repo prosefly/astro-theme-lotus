@@ -10,7 +10,19 @@ interface Props {
 }
 
 const { headings } = Astro.props;
-const visibleHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const visibleHeadings = headings;
+
+function getHeadingIndent(depth: number): string {
+  if (depth <= 2) {
+    return 'pl-3';
+  }
+
+  if (depth === 3) {
+    return 'pl-5';
+  }
+
+  return 'pl-7';
+}
 ---
 
 {
@@ -24,7 +36,7 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
             <a
               class:list={[
                 'lotus-focus-ring lotus-toc-link block py-1 pr-2 text-sm leading-5 transition-colors',
-                heading.depth === 3 ? 'pl-5' : 'pl-3',
+                getHeadingIndent(heading.depth),
                 'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
               ]}
               data-depth={heading.depth}

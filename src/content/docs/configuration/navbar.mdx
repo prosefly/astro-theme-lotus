@@ -1,8 +1,8 @@
 ---
 title: Navbar
 description: Configure header nav, docs base path, sidebars, and footer links.
-section: guide
-order: 5
+sidebar:
+  order: 5
 ---
 
 Lotus separates navigation into header links, the docs base path, sidebars, and
@@ -101,8 +101,8 @@ sidebars: [
 ```
 
 `slug` is optional. If omitted, Lotus derives it from the label, so `Components`
-becomes `components`. Add `slug` when the label and frontmatter section differ,
-such as `label: 'Guides'` with `section: 'guide'`.
+becomes `components`. Add `slug` when you need a stable subnav id that differs
+from the visible label, such as `label: 'Guides'` with `slug: 'guide'`.
 
 `icon` is also optional. When present, it appears in the docs subnav before the
 section label.

@@ -5,6 +5,7 @@ import DocsLayout from '../layouts/DocsLayout.astro';
 import {
   getDocsEntries,
   getDocsNavigation,
+  getEntrySlug,
   getEntrySection,
   getSidebarNavigation,
   getSidebarPagination,
@@ -12,18 +13,37 @@ import {
 } from '../lib/docs';
 import { createPageMarkdown } from '../lib/page-actions';
 
+function getTableOfContentsHeadings(
+  headings: MarkdownHeading[],
+  tableOfContents: false | { minHeadingLevel?: number; maxHeadingLevel?: number } | undefined,
+): MarkdownHeading[] {
+  if (tableOfContents === false) {
+    return [];
+  }
+
+  const minHeadingLevel = tableOfContents?.minHeadingLevel ?? 2;
+  const maxHeadingLevel = tableOfContents?.maxHeadingLevel ?? 3;
+
+  return headings.filter(
+    (heading) => heading.depth >= minHeadingLevel && heading.depth <= maxHeadingLevel,
+  );
+}
+
 export async function getStaticPaths() {
   const entries = await getDocsEntries();
 
   return entries.map((entry) => ({
-    params: { slug: entry.id === 'index' ? undefined : entry.id },
-    props: { entry },
+    params: { slug: getEntrySlug(entry) === 'index' ? undefined : getEntrySlug(entry) },
+    props: { entry, currentSection: getEntrySection(entry, entries) },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, currentSection } = Astro.props;
 const { Content, headings } = await render(entry);
-const currentSection = getEntrySection(entry);
+const tocHeadings = getTableOfContentsHeadings(
+  headings as MarkdownHeading[],
+  entry.data.tableOfContents,
+);
 const subnav = await getDocsNavigation(currentSection);
 const sidebar = await getSidebarNavigation(currentSection);
 const sidebars = Object.fromEntries(
@@ -32,7 +52,10 @@ const sidebars = Object.fromEntries(
   ),
 );
 const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
-const pageNavigation = getSidebarPagination(sidebar, entry.id);
+const pageNavigation = getSidebarPagination(sidebar, entry.id, {
+  previous: entry.data.prev,
+  next: entry.data.next,
+});
 const pageMarkdown = createPageMarkdown({
   title: entry.data.title,
   description: entry.data.description,
@@ -44,13 +67,13 @@ const pageMarkdown = createPageMarkdown({
   title={entry.data.title}
   description={entry.data.description}
   sectionTitle={sectionTitle}
-  currentSlug={entry.id}
+  currentSlug={getEntrySlug(entry)}
   pageMarkdown={pageMarkdown}
   pageNavigation={pageNavigation}
   subnav={subnav}
   sidebar={sidebar}
   sidebars={sidebars}
-  headings={headings as MarkdownHeading[]}
+  headings={tocHeadings}
 >
   <Content />
 </DocsLayout>

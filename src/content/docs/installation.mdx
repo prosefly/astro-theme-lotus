@@ -1,8 +1,8 @@
 ---
 title: Installation
 description: Install Lotus and register the integration in an Astro project.
-section: guide
-order: 2
+sidebar:
+  order: 2
 ---
 
 Install the theme and shared components in an Astro project:
@@ -36,7 +36,7 @@ import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
 const docs = defineCollection({
   loader: docsLoader(),
-  schema: docsSchema,
+  schema: docsSchema(),
 });
 
 export const collections = { docs };

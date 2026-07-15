@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
-import { getDocsEntries } from '../lib/docs';
+import { getDocsEntries, getEntrySlug } from '../lib/docs';
 import { createPageMarkdown } from '../lib/page-actions';
 
 export async function getStaticPaths() {
   const entries = await getDocsEntries();
 
   return entries.map((entry) => ({
-    params: { slug: entry.id === 'index' ? 'index' : entry.id },
+    params: { slug: getEntrySlug(entry) === 'index' ? 'index' : getEntrySlug(entry) },
     props: { entry },
   }));
 }
