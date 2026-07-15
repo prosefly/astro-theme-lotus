@@ -18,12 +18,23 @@ const pageTitle = title
   ? `${title} - ${themeConfig.site.title}`
   : themeConfig.site.title;
 const fontCssVariables = getFontCssVariables(themeConfig);
+const themeInitScript = `
+(() => {
+  try {
+    const savedTheme = window.localStorage.getItem('lotus-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+  } catch {}
+})();
+`;
 ---
 
 <html lang="en" {...themeAttrs}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={themeInitScript}></script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {fontCssVariables.map((cssVariable) => <Font cssVariable={cssVariable} />)}
