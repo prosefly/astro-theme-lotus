@@ -1,0 +1,43 @@
+---
+title: Icon
+description: Render Iconify icons from a prefix and icon name.
+section: components
+order: 6
+---
+
+import { Icon } from '@prosefly/astro-components';
+
+# Icon
+
+`Icon` renders SVG icons from Iconify data. Pass a full Iconify name in the
+`prefix:icon` format.
+
+## Import
+
+```mdx
+import { Icon } from '@prosefly/astro-components';
+```
+
+## Example
+
+<div class="inline-flex items-center gap-2">
+  <Icon name="lucide:star" title="Star" />
+  <span>Favorite this page</span>
+</div>
+
+## Props
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `name` | `string` | required | Iconify name such as `lucide:star`. |
+| `title` | `string` | optional | Adds an accessible SVG title. |
+| `size` | `string \| number` | `1em` | Sets width and height together. |
+| `width` | `string \| number` | `size` | Overrides SVG width. |
+| `height` | `string \| number` | `size` | Overrides SVG height. |
+| `apiBase` | `string` | `https://api.iconify.design` | Iconify API endpoint. |
+
+## Notes
+
+Icon data is loaded from the Iconify API during server rendering or static
+build. Builds therefore need network access unless you provide an internal
+Iconify-compatible API endpoint with `apiBase`.

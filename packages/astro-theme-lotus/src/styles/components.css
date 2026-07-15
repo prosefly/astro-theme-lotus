@@ -7,6 +7,10 @@
   border-color: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
 }
 
+.lotus-border-subtle {
+  border-color: color-mix(in oklab, var(--lotus-text-muted) 14%, transparent);
+}
+
 .lotus-scrollbar {
   scrollbar-color: var(--lotus-text-muted) transparent;
   scrollbar-width: thin;

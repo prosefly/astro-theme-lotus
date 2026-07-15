@@ -8,5 +8,8 @@
   },
   "peerDependencies": {
     "astro": "^7.0.0"
+  },
+  "dependencies": {
+    "@iconify/utils": "^3.1.4"
   }
 }

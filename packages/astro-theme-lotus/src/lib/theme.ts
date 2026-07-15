@@ -13,7 +13,7 @@ export type ThemeActionVariant = 'soft' | 'outline' | 'solid';
 export type ThemeActionColor = 'neutral' | 'accent';
 
 export interface ThemeAction extends ThemeLink {
-  icon?: 'github' | 'x' | 'bluesky' | 'discord' | 'external';
+  icon?: string;
   variant?: ThemeActionVariant;
   color?: ThemeActionColor;
 }

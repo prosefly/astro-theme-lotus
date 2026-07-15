@@ -1,5 +1,5 @@
 ---
-import SocialIcon from './SocialIcon.astro';
+import { Icon } from '@prosefly/astro-components';
 import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
@@ -53,6 +53,26 @@ function getActionClass(action: (typeof actions)[number]): string {
     ? `${base} bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90`
     : `${base} bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]`;
 }
+
+function getIconName(icon?: string): string {
+  if (!icon) {
+    return 'lucide:external-link';
+  }
+
+  if (icon.includes(':')) {
+    return icon;
+  }
+
+  const aliases: Record<string, string> = {
+    bluesky: 'simple-icons:bluesky',
+    discord: 'simple-icons:discord',
+    external: 'lucide:external-link',
+    github: 'simple-icons:github',
+    x: 'simple-icons:x',
+  };
+
+  return aliases[icon] ?? icon;
+}
 ---
 
 <details class="group relative lg:hidden">
@@ -75,7 +95,7 @@ function getActionClass(action: (typeof actions)[number]): string {
       </div>
 
       {actions.length > 0 && (
-        <div class="lotus-border-muted border-t pt-4">
+        <div class="lotus-border-subtle border-t pt-4">
           <div class="mt-2 space-y-2">
             {actions.map((action) => (
               <a
@@ -91,7 +111,7 @@ function getActionClass(action: (typeof actions)[number]): string {
         </div>
       )}
 
-      <div class="lotus-border-muted flex items-center justify-between gap-3 border-t pt-4">
+      <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
         <div class="flex items-center gap-1">
           {socials.map((social) => (
             <a
@@ -101,7 +121,7 @@ function getActionClass(action: (typeof actions)[number]): string {
               target={social.external ? '_blank' : undefined}
               rel={social.external ? 'noreferrer' : undefined}
             >
-              <SocialIcon icon={social.icon} />
+              <Icon name={getIconName(social.icon)} />
             </a>
           ))}
         </div>

@@ -1,7 +1,7 @@
 ---
+import { Icon } from '@prosefly/astro-components';
 import MobileMenu from './MobileMenu.astro';
 import SearchDialog from './SearchDialog.astro';
-import SocialIcon from './SocialIcon.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
@@ -38,6 +38,26 @@ function getActionLabel(label: string, icon?: string): string {
   return icon ? `${label} (${icon})` : label;
 }
 
+function getIconName(icon?: string): string {
+  if (!icon) {
+    return 'lucide:external-link';
+  }
+
+  if (icon.includes(':')) {
+    return icon;
+  }
+
+  const aliases: Record<string, string> = {
+    bluesky: 'simple-icons:bluesky',
+    discord: 'simple-icons:discord',
+    external: 'lucide:external-link',
+    github: 'simple-icons:github',
+    x: 'simple-icons:x',
+  };
+
+  return aliases[icon] ?? icon;
+}
+
 function getActionClass(action: (typeof actions)[number]): string {
   const variant = action.variant ?? 'soft';
   const color = action.color ?? 'neutral';
@@ -65,7 +85,7 @@ function getActionClass(action: (typeof actions)[number]): string {
 <header
   class:list={[
     'h-[var(--lotus-header-height)]',
-    surface && 'lotus-border-muted border-b bg-[var(--lotus-background)]/95 backdrop-blur',
+    surface && 'lotus-border-subtle border-b bg-[var(--lotus-background)]/95 backdrop-blur',
   ]}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
@@ -105,7 +125,7 @@ function getActionClass(action: (typeof actions)[number]): string {
       )}
 
       <div class="flex items-center gap-2">
-        <div class="lotus-border-muted h-5 border-l"></div>
+        <div class="lotus-border-subtle h-5 border-l"></div>
         {socials.map((social) => (
           <a
             aria-label={getActionLabel(social.label, social.icon)}
@@ -114,7 +134,7 @@ function getActionClass(action: (typeof actions)[number]): string {
             rel={social.external ? 'noreferrer' : undefined}
             target={social.external ? '_blank' : undefined}
           >
-            <SocialIcon icon={social.icon} />
+            <Icon name={getIconName(social.icon)} />
           </a>
         ))}
         <ThemeSwitch />

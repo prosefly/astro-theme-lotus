@@ -17,7 +17,7 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
   visibleHeadings.length > 0 && (
     <nav aria-label="On this page" class="space-y-2">
       <p class="text-[0.8125rem] font-semibold leading-5 text-[var(--lotus-text)]">On this page</p>
-      <ul class="lotus-border-muted space-y-0.5 border-l">
+      <ul class="lotus-border-subtle space-y-0.5 border-l">
         {visibleHeadings.map((heading) => (
           <li>
             <a
