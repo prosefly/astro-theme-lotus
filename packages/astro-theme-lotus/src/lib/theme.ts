@@ -8,37 +8,56 @@ export interface ThemeLink {
   external?: boolean;
 }
 
-export type ThemeActionVariant = 'soft' | 'outline' | 'solid';
+export type ThemeNavigationVariant = 'soft' | 'outline' | 'solid';
 
-export type ThemeActionColor = 'neutral' | 'accent';
+export type ThemeNavigationColor = 'neutral' | 'accent';
 
-export interface ThemeAction extends ThemeLink {
+export interface ThemeNavigationItem extends ThemeLink {
   icon?: string;
-  variant?: ThemeActionVariant;
-  color?: ThemeActionColor;
+  trailingIcon?: string;
+  variant?: ThemeNavigationVariant;
+  color?: ThemeNavigationColor;
 }
 
-export interface DocsSidebarLink {
+export interface ThemeSocialLink extends ThemeLink {
+  icon: string;
+}
+
+export type ThemeAction = ThemeNavigationItem;
+export type ThemeActionVariant = ThemeNavigationVariant;
+export type ThemeActionColor = ThemeNavigationColor;
+
+export interface SidebarLinkItem {
   label: string;
-  href?: string;
+  link: string;
   external?: boolean;
   icon?: string;
-  items?: DocsSidebarLink[];
 }
 
-export interface DocsSidebarGroup {
-  title: string;
-  items: DocsSidebarLink[];
-}
-
-export interface DocsSection {
-  slug: string;
+export interface SidebarGroupItem {
   label: string;
-  order?: number;
-  sidebar?: {
-    links?: DocsSidebarLink[];
-    groups?: DocsSidebarGroup[];
+  icon?: string;
+  collapsed?: boolean;
+  items: SidebarItemConfig[];
+}
+
+export interface SidebarAutogenerateItem {
+  autogenerate: {
+    directory: string;
   };
+}
+
+export type SidebarItemConfig =
+  | string
+  | SidebarLinkItem
+  | SidebarGroupItem
+  | SidebarAutogenerateItem;
+
+export interface SidebarConfig {
+  slug?: string;
+  label: string;
+  icon?: string;
+  items: SidebarItemConfig[];
 }
 
 export interface FooterSection {
@@ -60,13 +79,10 @@ export interface LotusThemeConfig {
     defaultTheme: ThemeMode;
     radius: RadiusScale;
   };
-  nav: ThemeLink[];
-  actions: ThemeAction[];
-  socials: ThemeAction[];
-  docs: {
-    basePath?: string;
-    sections: DocsSection[];
-  };
+  navigation: ThemeNavigationItem[];
+  socials: ThemeSocialLink[];
+  sidebars: SidebarConfig[];
+  docsBase: string;
   iconify?: {
     apiBase?: string;
     preload?: string[];
@@ -88,19 +104,6 @@ export function normalizeDocsBasePath(
   const normalized = `/${input}`.replace(/\/+/g, '/').replace(/\/$/, '');
 
   return normalized || '/';
-}
-
-export function sortDocsSections(sections: DocsSection[]): DocsSection[] {
-  return [...sections].sort((left, right) => {
-    const leftOrder = left.order ?? Number.MAX_SAFE_INTEGER;
-    const rightOrder = right.order ?? Number.MAX_SAFE_INTEGER;
-
-    if (leftOrder !== rightOrder) {
-      return leftOrder - rightOrder;
-    }
-
-    return left.label.localeCompare(right.label);
-  });
 }
 
 export function getSectionForSlug(slug: string): string | undefined {

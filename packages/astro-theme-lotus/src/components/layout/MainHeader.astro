@@ -15,9 +15,9 @@ interface Props {
 
 const { currentPath, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const actions = themeConfig.actions ?? [];
+const navigation = themeConfig.navigation ?? [];
 const socials = themeConfig.socials ?? [];
-const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
 
 function normalizeHref(href: string): string {
@@ -40,6 +40,10 @@ function getActionLabel(label: string, icon?: string): string {
   return icon ? `${label} (${icon})` : label;
 }
 
+function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boolean {
+  return Boolean(item.variant);
+}
+
 ---
 
 <header
@@ -58,31 +62,33 @@ function getActionLabel(label: string, icon?: string): string {
 
     <div class="ml-auto hidden min-w-0 items-center gap-5 lg:flex">
       <nav aria-label="Primary" class="flex min-w-0 items-center gap-5">
-        {themeConfig.nav.map((item) => (
-          <a
-            class="lotus-focus-ring text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            href={item.href}
-          >
-            {item.label}
-          </a>
+        {navigation.map((item) => (
+          isNavigationButton(item) ? (
+            <Button
+              color={item.color ?? 'neutral'}
+              external={item.external}
+              href={item.href}
+              trailingIcon={item.trailingIcon}
+              variant={item.variant}
+            >
+              {item.label}
+            </Button>
+          ) : (
+            <a
+              class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              href={item.href}
+              rel={item.external ? 'noreferrer' : undefined}
+              target={item.external ? '_blank' : undefined}
+            >
+              <span>{item.label}</span>
+              {item.trailingIcon && (
+                <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
+              )}
+            </a>
+          )
         ))}
       </nav>
-
-      {actions.length > 0 && (
-        <div class="flex items-center gap-2">
-          {actions.map((action) => (
-            <Button
-              color={action.color ?? 'neutral'}
-              external={action.external}
-              href={action.href}
-              variant={action.variant ?? 'soft'}
-            >
-              {action.label}
-            </Button>
-          ))}
-        </div>
-      )}
 
       <div class="flex items-center gap-2">
         <div class="lotus-border-subtle h-5 border-l"></div>

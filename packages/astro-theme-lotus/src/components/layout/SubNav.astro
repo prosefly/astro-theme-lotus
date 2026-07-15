@@ -1,5 +1,7 @@
 ---
+import { Icon } from '@prosefly/astro-components';
 import type { DocsSectionNav } from '../../lib/docs';
+import { resolveIconName } from '../../lib/icons';
 
 interface Props {
   sections: DocsSectionNav[];
@@ -14,7 +16,7 @@ const { sections } = Astro.props;
       {sections.map((section) => (
         <a
           class:list={[
-            'lotus-focus-ring lotus-subnav-link -mb-px inline-flex h-full items-center border-b-2 px-1 text-sm font-medium whitespace-nowrap transition-colors',
+            'lotus-focus-ring lotus-subnav-link -mb-px inline-flex h-full items-center gap-1.5 border-b-2 px-1 text-sm font-medium whitespace-nowrap transition-colors',
             section.active
               ? 'border-[var(--lotus-accent)] text-[var(--lotus-accent)]'
               : 'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
@@ -22,7 +24,10 @@ const { sections } = Astro.props;
           aria-current={section.active ? 'page' : undefined}
           href={section.href}
         >
-          {section.label}
+          {section.icon && (
+            <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(section.icon)} />
+          )}
+          <span>{section.label}</span>
         </a>
       ))}
     </div>

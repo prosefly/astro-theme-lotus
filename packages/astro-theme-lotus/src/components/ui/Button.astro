@@ -1,4 +1,7 @@
 ---
+import { Icon } from '@prosefly/astro-components';
+import { resolveIconName } from '../../lib/icons';
+
 type ButtonVariant = 'soft' | 'outline' | 'solid' | 'ghost';
 type ButtonColor = 'neutral' | 'accent';
 
@@ -7,6 +10,7 @@ interface Props {
   external?: boolean;
   variant?: ButtonVariant;
   color?: ButtonColor;
+  trailingIcon?: string;
   block?: boolean;
   class?: string;
   type?: 'button' | 'submit' | 'reset';
@@ -17,12 +21,14 @@ const {
   external = false,
   variant = 'soft',
   color = 'neutral',
+  trailingIcon,
   block = false,
   class: className,
   type = 'button',
 } = Astro.props;
+const trailingIconName = trailingIcon ? resolveIconName(trailingIcon) : undefined;
 const baseClasses = [
-  'lotus-focus-ring h-9 items-center justify-center rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors',
+  'lotus-focus-ring h-9 items-center justify-center gap-2 rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors',
   block ? 'flex w-full' : 'inline-flex',
 ];
 const variantClasses = {
@@ -54,10 +60,12 @@ const variantClasses = {
       target={external ? '_blank' : undefined}
     >
       <slot />
+      {trailingIconName && <Icon aria-hidden="true" class="h-4 w-4" name={trailingIconName} />}
     </a>
   ) : (
     <button class:list={[baseClasses, variantClasses, className]} type={type}>
       <slot />
+      {trailingIconName && <Icon aria-hidden="true" class="h-4 w-4" name={trailingIconName} />}
     </button>
   )
 }

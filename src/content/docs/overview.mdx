@@ -1,0 +1,54 @@
+---
+title: Overview
+description: Learn what Lotus provides and how the documentation theme is organized.
+section: guide
+order: 1
+---
+
+Lotus is an installable documentation theme for Astro v7, Tailwind CSS v4, and
+MDX. It provides the page shell, docs route, navigation model, theme tokens, and
+shared MDX components needed to start a project documentation site without
+rebuilding the chrome from scratch.
+
+## What Lotus includes
+
+- A sticky main header and docs subnav.
+- A content layout with sidebar, main content, table of contents, and footer.
+- Configurable site metadata, nav links, actions, social icons, footer links,
+  color tokens, fonts, and radius.
+- MDX support through the Lotus integration.
+- Shared Prosefly components for callouts, steps, cards, badges, tabs, and
+  Iconify icons.
+
+## How the docs tree works
+
+Write pages under `src/content/docs/`. Pages can live at the docs root or in
+nested folders. The frontmatter `section` field decides which sidebar and
+subnav section owns the page.
+
+```txt
+src/content/docs/
+  index.mdx
+  overview.mdx
+  installation.mdx
+  configuration/
+    site.mdx
+    appearance.mdx
+    navigation.mdx
+  deployment.mdx
+  essentials/
+    markdown-syntax.mdx
+    frontmatter.mdx
+  customization/
+    css-styling.mdx
+    overriding-components.mdx
+  components/
+    callout.mdx
+    steps.mdx
+```
+
+## First steps
+
+Start with Installation, then configure site identity, appearance, and
+navigation. Once the shell is in place, replace the example pages with your own
+product or project docs.

@@ -1,0 +1,43 @@
+---
+title: Site
+description: Configure the public identity used across the Lotus docs shell.
+section: guide
+order: 3
+---
+
+The `site` object defines the project identity used in metadata, the header,
+and the footer.
+
+```ts
+site: {
+  title: 'Astro Theme Lotus',
+  description: 'A documentation theme for Astro.',
+  logo: '/logo.svg',
+}
+```
+
+## Title
+
+`site.title` appears in the header next to the logo and is used to compose page
+titles.
+
+## Description
+
+`site.description` is the default summary for the documentation site. Individual
+pages can still provide their own `description` frontmatter.
+
+## Logo
+
+`site.logo` points to an image in `public/`. Keep the asset square and readable
+at small sizes because it appears in compact header and footer contexts.
+
+## Docs base
+
+`docsBase` controls where Lotus mounts the generated documentation route.
+
+```ts
+docsBase: '/docs'
+```
+
+Set it to `/manual`, `/guide`, or `/` when the documentation should live at a
+different path.

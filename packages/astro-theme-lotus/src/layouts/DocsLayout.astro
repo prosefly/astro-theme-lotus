@@ -17,15 +17,24 @@ interface Heading {
 interface Props {
   title: string;
   description?: string;
+  sectionTitle?: string;
   currentSlug?: string;
   subnav: DocsSectionNav[];
   sidebar: DocsSidebarNav;
   headings: Heading[];
 }
 
-const { title, description, currentSlug, subnav, sidebar, headings } = Astro.props;
+const {
+  title,
+  description,
+  sectionTitle = 'Documentation',
+  currentSlug,
+  subnav,
+  sidebar,
+  headings,
+} = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
 const currentPath =
   currentSlug && currentSlug !== 'index'
@@ -50,7 +59,7 @@ const currentPath =
 
       <article class="min-w-0 py-10">
         <header class="lotus-border-subtle border-b pb-8">
-          <p class="text-sm font-medium text-[var(--lotus-accent)]">Documentation</p>
+          <p class="text-sm font-medium text-[var(--lotus-accent)]">{sectionTitle}</p>
           <h1 class="mt-3 text-3xl font-semibold leading-tight text-[var(--lotus-text)] sm:text-4xl">
             {title}
           </h1>

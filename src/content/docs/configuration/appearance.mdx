@@ -1,0 +1,37 @@
+---
+title: Appearance
+description: Set the theme mode, accent color, fonts, and radius scale.
+section: guide
+order: 4
+---
+
+`appearance` controls the shared visual tokens that Lotus applies to layouts
+and package components.
+
+```ts
+appearance: {
+  accent: 'indigo',
+  gray: 'zinc',
+  fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
+  fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
+  defaultTheme: 'system',
+  radius: 'medium',
+}
+```
+
+## Theme mode
+
+`defaultTheme` accepts `light`, `dark`, or `system`. The system option renders
+`data-theme="system"` and follows the visitor's `prefers-color-scheme` setting.
+
+## Radius
+
+`radius` controls the `data-radius` attribute on the page shell. Lotus maps that
+attribute to radius tokens so buttons, cards, sidebar items, and MDX components
+share the same shape language.
+
+## Fonts
+
+Use `fontSans` and `fontMono` to set runtime CSS variables. Lotus does not load
+remote fonts for you, so add font files or external font styles in the host
+project when needed.

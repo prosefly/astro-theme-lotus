@@ -1,10 +1,19 @@
-# @prosefly/astro-theme-lotus
+---
+title: Installation
+description: Install Lotus and register the integration in an Astro project.
+section: guide
+order: 2
+---
 
-Installable Astro documentation theme for Astro v7, Tailwind CSS v4, and MDX.
+Install the theme and shared components in an Astro project:
 
 ```sh
 npm install @prosefly/astro-theme-lotus @prosefly/astro-components
 ```
+
+## Add the integration
+
+Configure Astro with the Lotus integration:
 
 ```ts
 // astro.config.ts
@@ -17,8 +26,11 @@ export default defineConfig({
 });
 ```
 
+## Register the content collection
+
+Create `src/content.config.ts` and use the loader and schema from Lotus:
+
 ```ts
-// src/content.config.ts
 import { defineCollection } from 'astro:content';
 import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
@@ -30,6 +42,13 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
-Add MDX pages in `src/content/docs/`. Lotus injects the route from
-`themeConfig.docsBase` and renders the bundled docs layout, navigation, table
-of contents, and footer.
+## Start development
+
+Run the standard Astro development server:
+
+```sh
+npm run dev
+```
+
+Use `npm run check` before shipping changes. It validates content collections,
+MDX imports, and TypeScript.

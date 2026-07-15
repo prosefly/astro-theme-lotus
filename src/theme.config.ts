@@ -14,15 +14,21 @@ const themeConfig = {
     defaultTheme: 'system',
     radius: 'medium',
   },
-  nav: [
+  navigation: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Components', href: '/docs/components/callout/' },
     { label: 'References', href: '/docs/references/design-system/' },
-  ],
-  actions: [
     {
       label: 'Dashboard',
       href: '/docs/',
+      variant: 'soft',
+    },
+    {
+      label: 'Get started',
+      href: '/docs/overview/',
+      variant: 'solid',
+      color: 'accent',
+      trailingIcon: 'lucide:chevron-right',
     },
   ],
   socials: [
@@ -39,87 +45,73 @@ const themeConfig = {
       icon: 'x',
     },
   ],
-  docs: {
-    basePath: '/docs',
-    sections: [
-      {
-        slug: 'guide',
-        label: 'Guide',
-        order: 1,
-        sidebar: {
-          links: [
+  docsBase: '/docs',
+  sidebars: [
+    {
+      slug: 'guide',
+      label: 'Guides',
+      icon: 'lucide:rocket',
+      items: [
+        {
+          label: 'GitHub',
+          link: 'https://github.com/prosefly/astro-theme-lotus',
+          external: true,
+          icon: 'simple-icons:github',
+        },
+        {
+          label: 'Discord',
+          link: 'https://discord.gg/prosefly',
+          external: true,
+          icon: 'simple-icons:discord',
+        },
+        {
+          label: 'Blog',
+          link: '/docs/essentials/markdown-syntax/',
+          icon: 'lucide:newspaper',
+        },
+        {
+          label: 'Getting Started',
+          items: [
+            'overview',
+            'installation',
             {
-              label: 'GitHub',
-              href: 'https://github.com/prosefly/astro-theme-lotus',
-              external: true,
-              icon: 'github',
+              label: 'Configuration',
+              items: [{ autogenerate: { directory: 'configuration' } }],
             },
-            {
-              label: 'Discord',
-              href: 'https://discord.gg/prosefly',
-              external: true,
-              icon: 'discord',
-            },
-            {
-              label: 'Blog',
-              href: '/docs/references/markdown/',
-              icon: 'lucide:newspaper',
-            },
-          ],
-          groups: [
-            {
-              title: 'Getting Started',
-              items: [
-                { label: 'Overview', href: '/docs/guide/getting-started/' },
-                { label: 'Configuration', href: '/docs/guide/configuration/' },
-                { label: 'Navigation', href: '/docs/guide/navigation/' },
-                { label: 'Deployment', href: '/docs/guide/deployment/' },
-              ],
-            },
-            {
-              title: 'Components',
-              items: [
-                {
-                  label: 'Content blocks',
-                  items: [
-                    { label: 'Callout', href: '/docs/components/callout/' },
-                    { label: 'Steps', href: '/docs/components/steps/' },
-                    { label: 'Cards', href: '/docs/components/cards/' },
-                  ],
-                },
-                {
-                  label: 'Inline elements',
-                  items: [
-                    { label: 'Badge', href: '/docs/components/badge/' },
-                    { label: 'Tabs', href: '/docs/components/tabs/' },
-                    { label: 'Icon', href: '/docs/components/icon/' },
-                  ],
-                },
-              ],
-            },
-            {
-              title: 'References',
-              items: [
-                { label: 'Design System', href: '/docs/references/design-system/' },
-                { label: 'Markdown', href: '/docs/references/markdown/' },
-              ],
-            },
+            'deployment',
           ],
         },
-      },
-      { slug: 'components', label: 'Components', order: 2 },
-      { slug: 'references', label: 'References', order: 3 },
-    ],
-  },
+        {
+          label: 'Essentials',
+          items: [{ autogenerate: { directory: 'essentials' } }],
+        },
+        {
+          label: 'Customization',
+          items: [{ autogenerate: { directory: 'customization' } }],
+        },
+      ],
+    },
+    {
+      label: 'Components',
+      icon: 'lucide:blocks',
+      items: [{ autogenerate: { directory: 'components' } }],
+    },
+    {
+      label: 'References',
+      icon: 'lucide:book-open',
+      items: [{ autogenerate: { directory: 'references' } }],
+    },
+  ],
   footer: {
     copyright: 'Copyright © 2026 Prosefly.',
     sections: [
       {
         title: 'Docs',
         links: [
-          { label: 'Getting Started', href: '/docs/guide/getting-started/' },
-          { label: 'Configuration', href: '/docs/guide/configuration/' },
-          { label: 'Deployment', href: '/docs/guide/deployment/' },
+          { label: 'Overview', href: '/docs/overview/' },
+          { label: 'Installation', href: '/docs/installation/' },
+          { label: 'Configuration', href: '/docs/configuration/site/' },
+          { label: 'Deployment', href: '/docs/deployment/' },
         ],
       },
       {
@@ -134,7 +126,7 @@ const themeConfig = {
         title: 'References',
         links: [
           { label: 'Design System', href: '/docs/references/design-system/' },
-          { label: 'Markdown', href: '/docs/references/markdown/' },
+          { label: 'Markdown Syntax', href: '/docs/essentials/markdown-syntax/' },
         ],
       },
       {

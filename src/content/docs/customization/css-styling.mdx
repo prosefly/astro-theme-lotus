@@ -1,0 +1,34 @@
+---
+title: CSS & Styling
+description: Customize Lotus with semantic tokens and scoped CSS.
+section: guide
+order: 9
+---
+
+Lotus styles are built on Tailwind utilities and semantic CSS variables. The
+theme exposes `--lotus-*` tokens for layout and shell styling, while shared MDX
+components consume portable `--pl-*` variables.
+
+## Theme tokens
+
+Use semantic tokens when customizing surfaces, text, accent color, or radius.
+
+```css
+:root {
+  --lotus-accent: oklch(0.55 0.22 264);
+  --lotus-radius-md: 0.5rem;
+}
+```
+
+## Component bridge
+
+Lotus maps component package variables to theme variables:
+
+```css
+--pl-text: var(--lotus-text);
+--pl-background: var(--lotus-background);
+--pl-accent: var(--lotus-accent);
+```
+
+This keeps `@prosefly/astro-components` portable while letting Lotus own the
+site palette.

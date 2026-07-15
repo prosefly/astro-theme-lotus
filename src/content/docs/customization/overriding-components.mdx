@@ -1,0 +1,36 @@
+---
+title: Overriding Components
+description: Replace or wrap Lotus pieces when a project needs custom behavior.
+section: guide
+order: 10
+---
+
+Lotus is designed to provide a strong default shell while keeping project
+customization possible. Prefer configuration and CSS tokens first; reach for
+component overrides only when the structure or behavior needs to change.
+
+## Start with configuration
+
+Many common changes belong in `src/theme.config.ts`: nav labels, footer links,
+sidebar structure, actions, social icons, fonts, radius, and theme defaults.
+
+## Wrap shared components
+
+For content components, create local wrappers that import from
+`@prosefly/astro-components` and set project-specific defaults.
+
+```astro
+---
+import { Callout } from '@prosefly/astro-components';
+---
+
+<Callout type="note">
+  <slot />
+</Callout>
+```
+
+## Replace layout pieces carefully
+
+If a layout component needs to be replaced, keep the same content model and
+navigation URLs so docs remain portable between the default Lotus shell and the
+custom shell.

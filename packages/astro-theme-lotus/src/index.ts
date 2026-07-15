@@ -7,11 +7,12 @@ import { resolveIconName } from './lib/icons';
 import {
   DEFAULT_DOCS_BASE_PATH,
   normalizeDocsBasePath,
-  type DocsSection,
   type FooterSection,
   type LotusThemeConfig,
-  type ThemeAction,
-  type ThemeLink,
+  type SidebarConfig,
+  type SidebarItemConfig,
+  type ThemeNavigationItem,
+  type ThemeSocialLink,
 } from './lib/theme';
 
 const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
@@ -20,13 +21,10 @@ const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
 export interface LotusIntegrationOptions {
   site?: Partial<LotusThemeConfig['site']>;
   appearance?: Partial<LotusThemeConfig['appearance']>;
-  nav?: ThemeLink[];
-  actions?: ThemeAction[];
-  socials?: ThemeAction[];
-  docs?: {
-    basePath?: string;
-    sections?: DocsSection[];
-  };
+  navigation?: ThemeNavigationItem[];
+  socials?: ThemeSocialLink[];
+  sidebars?: SidebarConfig[];
+  docsBase?: string;
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   footer?: {
     copyright?: string;
@@ -48,17 +46,10 @@ const defaultConfig: LotusThemeConfig = {
     defaultTheme: 'system',
     radius: 'medium',
   },
-  nav: [{ label: 'Docs', href: '/docs/' }],
-  actions: [],
+  navigation: [{ label: 'Docs', href: '/docs/' }],
   socials: [],
-  docs: {
-    basePath: DEFAULT_DOCS_BASE_PATH,
-    sections: [
-      { slug: 'guide', label: 'Guide', order: 1 },
-      { slug: 'components', label: 'Components', order: 2 },
-      { slug: 'references', label: 'References', order: 3 },
-    ],
-  },
+  sidebars: [],
+  docsBase: DEFAULT_DOCS_BASE_PATH,
   iconify: {
     apiBase: 'https://api.iconify.design',
     preload: [],
@@ -82,14 +73,7 @@ function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig 
       ...defaultConfig.appearance,
       ...options.appearance,
     },
-    docs: {
-      ...defaultConfig.docs,
-      ...options.docs,
-      basePath: normalizeDocsBasePath(
-        options.docs?.basePath,
-        defaultConfig.docs.basePath,
-      ),
-    },
+    docsBase: normalizeDocsBasePath(options.docsBase, defaultConfig.docsBase),
     iconify: {
       ...defaultConfig.iconify,
       ...options.iconify,
@@ -126,14 +110,26 @@ function getIconPreloadNames(config: LotusThemeConfig): string[] {
     }
   }
 
-  function addSidebarItems(items = [] as NonNullable<LotusThemeConfig['docs']['sections'][number]['sidebar']>['links']): void {
-    for (const item of items ?? []) {
+  function addSidebarItems(items: SidebarItemConfig[] = []): void {
+    for (const item of items) {
+      if (typeof item === 'string' || 'autogenerate' in item) {
+        continue;
+      }
+
       addIcon(item.icon);
-      addSidebarItems(item.items);
+
+      if ('items' in item) {
+        addSidebarItems(item.items);
+      }
     }
   }
 
-  for (const item of [...config.actions, ...config.socials]) {
+  for (const item of config.navigation) {
+    addIcon(item.icon);
+    addIcon(item.trailingIcon);
+  }
+
+  for (const item of config.socials) {
     addIcon(item.icon);
   }
 
@@ -141,12 +137,9 @@ function getIconPreloadNames(config: LotusThemeConfig): string[] {
     addIcon(icon);
   }
 
-  for (const section of config.docs.sections) {
-    addSidebarItems(section.sidebar?.links);
-
-    for (const group of section.sidebar?.groups ?? []) {
-      addSidebarItems(group.items);
-    }
+  for (const sidebar of config.sidebars) {
+    addIcon(sidebar.icon);
+    addSidebarItems(sidebar.items);
   }
 
   return [...iconNames].sort();
@@ -158,7 +151,7 @@ export function defineLotusConfig(config: LotusIntegrationOptions): LotusIntegra
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
-  const docsBasePath = normalizeDocsBasePath(config.docs.basePath);
+  const docsBasePath = normalizeDocsBasePath(config.docsBase);
   const docsPattern =
     docsBasePath === '/'
       ? '/[...slug]'
@@ -193,15 +186,21 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
 
 export { lotus };
 export type {
-  DocsSection,
-  DocsSidebarGroup,
-  DocsSidebarLink,
   FooterSection,
   LotusThemeConfig,
   RadiusScale,
+  SidebarAutogenerateItem,
+  SidebarConfig,
+  SidebarGroupItem,
+  SidebarItemConfig,
+  SidebarLinkItem,
   ThemeAction,
   ThemeActionColor,
   ThemeActionVariant,
   ThemeLink,
   ThemeMode,
+  ThemeNavigationColor,
+  ThemeNavigationItem,
+  ThemeNavigationVariant,
+  ThemeSocialLink,
 } from './lib/theme';

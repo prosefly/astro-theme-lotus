@@ -1,0 +1,51 @@
+---
+title: Markdown Syntax
+description: Reference the core Markdown patterns supported inside Lotus docs.
+section: guide
+order: 7
+---
+
+Lotus uses Astro content collections and MDX, so standard Markdown remains the
+default authoring format for most docs pages.
+
+## Headings
+
+Use headings to create page structure and table-of-contents anchors.
+
+```md
+## Section title
+### Subsection title
+```
+
+Do not add a top-level `# Heading` at the start of the MDX body. Lotus renders
+the page title from frontmatter in the layout.
+
+## Lists
+
+Ordered and unordered lists render with the shared prose styles.
+
+```md
+- Install the package.
+- Configure the integration.
+- Add documentation content.
+```
+
+## Code blocks
+
+Fence code blocks with a language name when possible:
+
+````md
+```ts
+export const value = true;
+```
+````
+
+## Tables
+
+Tables are supported for compact reference material.
+
+```md
+| Option | Purpose |
+| --- | --- |
+| `basePath` | Docs route prefix |
+```

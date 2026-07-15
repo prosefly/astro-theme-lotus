@@ -12,9 +12,9 @@ interface Props {
 
 const { currentPath } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const actions = themeConfig.actions ?? [];
+const navigation = themeConfig.navigation ?? [];
 const socials = themeConfig.socials ?? [];
-const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
 
 function normalizeHref(href: string): string {
@@ -33,6 +33,10 @@ function isActive(href: string): boolean {
   return currentPath === href || currentPath.startsWith(`${href}`);
 }
 
+function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boolean {
+  return Boolean(item.variant);
+}
+
 ---
 
 <details class="group relative lg:hidden">
@@ -43,34 +47,34 @@ function isActive(href: string): boolean {
   <div class="lotus-border-muted absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-4 shadow-lg shadow-black/5">
     <nav aria-label="Primary" class="space-y-4">
       <div class="space-y-1">
-        {themeConfig.nav.map((item) => (
-          <a
-            class="lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            href={item.href}
-          >
-            {item.label}
-          </a>
+        {navigation.map((item) => (
+          isNavigationButton(item) ? (
+            <Button
+              block
+              color={item.color ?? 'neutral'}
+              external={item.external}
+              href={item.href}
+              trailingIcon={item.trailingIcon}
+              variant={item.variant}
+            >
+              {item.label}
+            </Button>
+          ) : (
+            <a
+              class="lotus-focus-ring flex items-center gap-1.5 rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              href={item.href}
+              rel={item.external ? 'noreferrer' : undefined}
+              target={item.external ? '_blank' : undefined}
+            >
+              <span>{item.label}</span>
+              {item.trailingIcon && (
+                <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
+              )}
+            </a>
+          )
         ))}
       </div>
-
-      {actions.length > 0 && (
-        <div class="lotus-border-subtle border-t pt-4">
-          <div class="mt-2 space-y-2">
-            {actions.map((action) => (
-              <Button
-                block
-                color={action.color ?? 'neutral'}
-                external={action.external}
-                href={action.href}
-                variant={action.variant ?? 'soft'}
-              >
-                {action.label}
-              </Button>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
         <div class="flex items-center gap-1">
