@@ -7,7 +7,7 @@ export interface LotusIntegrationOptions {
   appearance?: LotusAppearanceOptions;
   nav?: LotusLink[];
   actions?: LotusLink[];
-  footer?: LotusFooterSection[];
+  footer?: LotusFooterOptions;
 }
 
 export interface LotusSiteOptions {
@@ -18,8 +18,8 @@ export interface LotusSiteOptions {
 
 export interface LotusAppearanceOptions {
   accent?: string;
-  gray?: string;
-  radius?: string;
+  gray?: 'slate' | 'zinc' | 'neutral' | 'stone';
+  radius?: 'none' | 'small' | 'medium' | 'large' | 'full';
 }
 
 export interface LotusLink {
@@ -30,6 +30,10 @@ export interface LotusLink {
 export interface LotusFooterSection {
   title: string;
   links: LotusLink[];
+}
+
+export interface LotusFooterOptions {
+  sections?: LotusFooterSection[];
 }
 
 export default function lotus(_options: LotusIntegrationOptions = {}): AstroIntegration {

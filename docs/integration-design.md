@@ -45,7 +45,7 @@ export default defineConfig({
       appearance: {
         accent: 'emerald',
         gray: 'zinc',
-        radius: 'md',
+        radius: 'medium',
       },
       nav: [
         { label: 'Docs', href: '/docs/' },
@@ -54,12 +54,14 @@ export default defineConfig({
       actions: [
         { label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus' },
       ],
-      footer: [
-        {
-          title: 'Resources',
-          links: [{ label: 'Getting started', href: '/docs/guide/getting-started/' }],
-        },
-      ],
+      footer: {
+        sections: [
+          {
+            title: 'Resources',
+            links: [{ label: 'Getting started', href: '/docs/guide/getting-started/' }],
+          },
+        ],
+      },
     }),
   ],
 });
@@ -81,7 +83,7 @@ forcing users to rewrite content:
   current appearance config and generated CSS variables.
 - `nav` maps to the current top navigation links.
 - `actions` maps to the current header action links.
-- `footer` maps to the current footer section model.
+- `footer.sections` maps to the current footer section model.
 - Docs sections should continue to come from content collections and page
   frontmatter until the integration owns the docs shell.
 

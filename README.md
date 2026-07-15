@@ -50,8 +50,7 @@ npm run build
 .
 ├── src/
 │   ├── components/
-│   │   ├── layout/
-│   │   └── mdx/
+│   │   └── layout/
 │   ├── content/
 │   │   └── docs/
 │   ├── lib/
@@ -92,7 +91,8 @@ Deferred for a later release:
 - Versioned docs.
 
 Future integration config is expected to use `lotus({ site, appearance, nav,
-actions, footer })`, with fields migrating from `src/theme.config.ts` over time.
+actions, footer: { sections } })`, with fields migrating from
+`src/theme.config.ts` over time.
 
 ## Content structure
 
