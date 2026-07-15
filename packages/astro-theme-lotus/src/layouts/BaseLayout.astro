@@ -1,13 +1,15 @@
 ---
 import '../styles/app.css';
 import { getThemeAttributes } from '../lib/appearance';
-import themeConfig from '../theme.config';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 const { title, description = themeConfig.site.description } = Astro.props;
 const themeAttrs = getThemeAttributes();
 const pageTitle = title

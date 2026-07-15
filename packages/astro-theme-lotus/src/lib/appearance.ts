@@ -1,4 +1,7 @@
-import themeConfig from '../theme.config';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from './theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 import type { ThemeMode } from './theme';
 
 function serializeStyleVariables(

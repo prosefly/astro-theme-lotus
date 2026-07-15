@@ -1,4 +1,4 @@
-import type { LotusThemeConfig } from './lib/theme';
+import type { LotusThemeConfig } from '@prosefly/astro-theme-lotus';
 
 const themeConfig = {
   site: {

@@ -13,7 +13,7 @@ Set branding, navigation, actions, appearance, and footer content in
 ## Example
 
 ```ts
-import type { LotusThemeConfig } from './lib/theme';
+import type { LotusThemeConfig } from '@prosefly/astro-theme-lotus';
 
 const themeConfig = {
   site: { title: 'Astro Theme Lotus', description: 'A documentation theme for Astro.', logo: '/logo.svg' },
@@ -23,6 +23,8 @@ const themeConfig = {
   docs: { sections: [{ slug: 'guide', label: 'Guide', order: 1 }] },
   footer: { copyright: 'Copyright © 2026 Prosefly.', sections: [] },
 } satisfies LotusThemeConfig;
+
+export default themeConfig;
 ```
 
 ## `site`

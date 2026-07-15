@@ -45,7 +45,7 @@ importers:
         specifier: latest
         version: 7.0.3(@astrojs/markdown-satteri@0.3.4)(astro@7.0.9(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(jiti@2.7.0)(yaml@2.9.0))
       '@prosefly/astro-components':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../astro-components
       '@tailwindcss/vite':
         specifier: latest

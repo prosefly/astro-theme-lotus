@@ -1,5 +1,8 @@
 ---
-import themeConfig from '../../theme.config';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 ---
 
 <footer class="lotus-border-muted border-t bg-[var(--lotus-background)]">

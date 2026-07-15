@@ -1,8 +1,10 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import themeConfig from '../theme.config';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from './theme';
 import { sortDocsSections } from './theme';
 
 type DocsEntry = CollectionEntry<'docs'>;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 
 export interface DocsNavItem {
   title: string;

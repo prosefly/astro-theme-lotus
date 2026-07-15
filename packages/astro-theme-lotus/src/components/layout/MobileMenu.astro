@@ -1,11 +1,13 @@
 ---
-import themeConfig from '../../theme.config';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;
 }
 
 const { currentPath } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 
 function isActive(href: string): boolean {
   if (!currentPath) {

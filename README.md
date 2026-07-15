@@ -1,79 +1,95 @@
 # Astro Theme Lotus
 
-Astro Theme Lotus is a documentation theme for Astro v7, Tailwind CSS v4, and
-MDX. It gives you a docs-first starter with configurable navigation, theme
-tokens, and shared MDX components so the sample content can serve as real
-project documentation instead of placeholder pages.
-
-Lotus is currently a starter theme. This repository also includes an
-`@prosefly/astro-theme-lotus` integration skeleton that wires MDX and Tailwind
-through `lotus()`, but full route, layout, and config ownership is a future
-migration phase. The integration package is not published yet.
+Astro Theme Lotus is an installable documentation theme for Astro v7, Tailwind
+CSS v4, and MDX. The `@prosefly/astro-theme-lotus` package owns the docs route,
+layouts, navigation chrome, footer, styles, and token system. Your project owns
+content and configuration.
 
 ## Installation
 
-Create a new project from the template:
+Install the theme package in an Astro project:
 
 ```sh
-npm create astro@latest -- --template prosefly/astro-theme-lotus
+npm install @prosefly/astro-theme-lotus @prosefly/astro-components
 ```
 
-Install dependencies after the project is created:
+Add the integration:
 
-```sh
-npm install
+```ts
+// astro.config.ts
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+import themeConfig from './src/theme.config';
+
+export default defineConfig({
+  integrations: [lotus(themeConfig)],
+});
 ```
+
+Register the docs content collection:
+
+```ts
+// src/content.config.ts
+export { collections } from '@prosefly/astro-theme-lotus/content';
+```
+
+Create docs pages under `src/content/docs/`. Lotus injects `/docs/[...slug]`,
+so `src/content/docs/index.mdx` renders at `/docs/`.
 
 ## Development
 
 Run the local development server:
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 Validate content and types:
 
 ```sh
-npm run check
+pnpm run check
 ```
 
 Build the static site:
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 ## Project structure
 
 ```txt
 .
-├── src/
-│   ├── components/
-│   │   └── layout/
-│   ├── content/
-│   │   └── docs/
-│   ├── lib/
-│   └── theme.config.ts
 ├── packages/
 │   ├── astro-components/
 │   └── astro-theme-lotus/
-├── public/
+│       └── src/
+│           ├── components/
+│           ├── layouts/
+│           ├── lib/
+│           ├── routes/
+│           └── styles/
+├── src/
+│   ├── content/
+│   │   └── docs/
+│   ├── content.config.ts
+│   ├── pages/
+│   └── theme.config.ts
 └── package.json
 ```
 
+- `packages/astro-theme-lotus/` contains the installable Astro integration and
+  bundled theme templates.
+- `packages/astro-components/` contains portable MDX components that consume
+  `--pl-*` CSS variables.
 - `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
-  docs sections, and footer links.
-- `src/content/docs/` holds the documentation pages that drive the homepage,
-  subnav, and section sidebars.
-- `packages/astro-components/` contains the shared MDX components documented in
-  the docs site.
-- `packages/astro-theme-lotus/` contains the local Astro integration skeleton.
+  docs sections, and footer links for this example site.
+- `src/content/docs/` holds the documentation pages that drive subnav and
+  section sidebars.
 
 ## Theme configuration
 
-Lotus keeps first-release customization in `src/theme.config.ts`. Supported
-today:
+Lotus accepts configuration through `lotus(themeConfig)`.
 
 - MDX-powered documentation pages.
 - Dark mode foundation with light, dark, or system defaults.
@@ -81,18 +97,6 @@ today:
 - Configurable accent palette, gray palette, fonts, and corner radius.
 - Content-driven subnav and sidebar sections from `docs.sections` and page
   frontmatter.
-
-Deferred for a later release:
-
-- Full migration from starter-owned `src/` files to the
-  `@prosefly/astro-theme-lotus` integration.
-- Search.
-- i18n.
-- Versioned docs.
-
-Future integration config is expected to use `lotus({ site, appearance, nav,
-actions, footer: { sections } })`, with fields migrating from
-`src/theme.config.ts` over time.
 
 ## Content structure
 
@@ -110,20 +114,8 @@ Lotus combines Tailwind utilities for layout and spacing with semantic
 config sets high-level appearance choices, including `system` theme mode, while
 the design system reference documents how those choices map to rendered UI.
 
-Package MDX components continue to consume the `--pl-*` bridge variables that
-Lotus maps from its theme tokens.
-
-## MDX components
-
-The first release includes shared MDX components for common docs patterns:
-
-- `Callout` and `Badge` for status and editorial guidance.
-- `Steps` and `Step` for procedures.
-- `CardGrid` and `Card` for grouped links.
-- `Tabs` and `TabItem` for static side-by-side variants.
-
-Each component page includes an import snippet, a rendered example, a props
-table, and any first-release limitations.
+Package MDX components consume the `--pl-*` bridge variables that Lotus maps
+from its theme tokens.
 
 ## License
 
