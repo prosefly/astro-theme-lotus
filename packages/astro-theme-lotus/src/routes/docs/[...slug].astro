@@ -24,6 +24,11 @@ const { Content, headings } = await render(entry);
 const currentSection = getEntrySection(entry);
 const subnav = await getDocsNavigation(currentSection);
 const sidebar = await getSidebarNavigation(currentSection);
+const sidebars = Object.fromEntries(
+  await Promise.all(
+    subnav.map(async (section) => [section.slug, await getSidebarNavigation(section.slug)]),
+  ),
+);
 const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
 ---
 
@@ -34,6 +39,7 @@ const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
   currentSlug={entry.id}
   subnav={subnav}
   sidebar={sidebar}
+  sidebars={sidebars}
   headings={headings as MarkdownHeading[]}
 >
   <Content />

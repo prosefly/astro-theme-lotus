@@ -2,7 +2,11 @@ import { resolveIconName } from './icons';
 import type { LotusThemeConfig, SidebarItemConfig } from './theme';
 
 const layoutIconNames = [
+  'lucide:check',
+  'lucide:chevron-down',
   'lucide:chevron-right',
+  'lucide:menu',
+  'lucide:x',
 ] as const;
 
 export function getIconPreloadNames(config: LotusThemeConfig): string[] {

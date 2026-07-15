@@ -5,14 +5,23 @@ import SidebarItem from '../ui/SidebarItem.astro';
 interface Props {
   sidebar: DocsSidebarNav;
   currentPath?: string;
+  maxHeight?: string;
 }
 
-const { sidebar, currentPath } = Astro.props;
+const {
+  sidebar,
+  currentPath,
+  maxHeight = 'calc(100vh - var(--lotus-docs-chrome-height))',
+} = Astro.props;
 ---
 
-<div class="lotus-sidebar-scroll relative max-h-[calc(100vh-var(--lotus-docs-chrome-height))] overflow-hidden" data-lotus-sidebar-scroll>
+<div
+  class="lotus-sidebar-scroll relative h-full min-h-0 flex-1 max-h-[var(--lotus-sidebar-max-height)] overflow-hidden"
+  data-lotus-sidebar-scroll
+  style={`--lotus-sidebar-max-height: ${maxHeight}`}
+>
   <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
-  <nav aria-label="Sidebar" class="lotus-scrollbar max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
+  <nav aria-label="Sidebar" class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
     {sidebar.links.length > 0 && (
       <div class="space-y-1">
         {sidebar.links.map((item) => (
@@ -42,6 +51,12 @@ const { sidebar, currentPath } = Astro.props;
     const containers = Array.from(document.querySelectorAll('[data-lotus-sidebar-scroll]'));
 
     for (const container of containers) {
+      if (container.hasAttribute('data-lotus-sidebar-ready')) {
+        continue;
+      }
+
+      container.setAttribute('data-lotus-sidebar-ready', '');
+
       const scrollArea = container.querySelector('[data-lotus-sidebar-scroll-area]');
       const topFade = container.querySelector('[data-lotus-sidebar-fade-top]');
       const bottomFade = container.querySelector('[data-lotus-sidebar-fade-bottom]');

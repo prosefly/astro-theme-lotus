@@ -69,6 +69,62 @@
   bottom: 0;
 }
 
+.lotus-mobile-sidebar {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.lotus-mobile-sidebar[data-open] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lotus-mobile-sidebar-panel {
+  transform: translateX(-100%);
+  transition: transform 180ms ease;
+}
+
+.lotus-mobile-sidebar[data-open] .lotus-mobile-sidebar-panel {
+  transform: translateX(0);
+}
+
+.lotus-mobile-section-option {
+  color: var(--lotus-text-muted);
+}
+
+.lotus-mobile-section-option:hover {
+  background: var(--lotus-surface);
+  color: var(--lotus-text);
+}
+
+.lotus-mobile-section-option[data-active] {
+  background: var(--lotus-surface);
+  color: var(--lotus-text);
+}
+
+.lotus-mobile-section-icon {
+  opacity: 0.75;
+}
+
+.lotus-mobile-section-option[data-active] .lotus-mobile-section-icon {
+  color: var(--lotus-accent);
+  opacity: 1;
+}
+
+.lotus-mobile-section-option[data-active] .lotus-mobile-section-check {
+  display: inline-flex;
+}
+
+.lotus-mobile-section-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.lotus-mobile-section-panel[hidden] {
+  display: none;
+}
+
 .lotus-subnav-link:hover {
   border-color: color-mix(in oklab, var(--lotus-text-muted) 42%, transparent);
 }

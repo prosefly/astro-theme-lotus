@@ -1,17 +1,50 @@
 ---
-import type { DocsSectionNav } from '../../lib/docs';
+import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import MainHeader from './MainHeader.astro';
+import MobileDocsNav from './MobileDocsNav.astro';
 import SubNav from './SubNav.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   currentPath?: string;
+  headings?: Heading[];
+  sectionTitle?: string;
   sections: DocsSectionNav[];
+  sidebar?: DocsSidebarNav;
+  sidebars?: Record<string, DocsSidebarNav>;
+  title?: string;
 }
 
-const { currentPath, sections } = Astro.props;
+const {
+  currentPath,
+  headings = [],
+  sectionTitle,
+  sections,
+  sidebar,
+  sidebars = {},
+  title = '',
+} = Astro.props;
 ---
 
 <div class="lotus-border-subtle sticky top-0 z-40 border-b bg-[var(--lotus-background)]/95 backdrop-blur">
   <MainHeader currentPath={currentPath} surface={false} />
-  <SubNav sections={sections} />
+  <div class="hidden lg:block">
+    <SubNav sections={sections} />
+  </div>
+  {sidebar && (
+    <MobileDocsNav
+      currentPath={currentPath}
+      headings={headings}
+      sectionTitle={sectionTitle}
+      sections={sections}
+      sidebar={sidebar}
+      sidebars={sidebars}
+      title={title}
+    />
+  )}
 </div>

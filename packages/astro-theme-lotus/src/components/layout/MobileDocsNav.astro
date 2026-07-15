@@ -1,0 +1,325 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
+import { resolveIconName } from '../../lib/icons';
+import Sidebar from './Sidebar.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  currentPath?: string;
+  headings?: Heading[];
+  sectionTitle?: string;
+  sections: DocsSectionNav[];
+  sidebar: DocsSidebarNav;
+  sidebars?: Record<string, DocsSidebarNav>;
+  title: string;
+}
+
+const {
+  currentPath,
+  headings = [],
+  sectionTitle,
+  sections,
+  sidebar,
+  sidebars = {},
+  title,
+} = Astro.props;
+const activeSection = sections.find((section) => section.active) ?? sections[0];
+const activeSectionSlug = activeSection?.slug;
+const visibleHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+
+function getPageCountLabel(count: number): string {
+  return `${count} ${count === 1 ? 'page' : 'pages'}`;
+}
+---
+
+<div class="lg:hidden">
+  <div class="lotus-border-subtle flex h-[var(--lotus-subnav-height)] items-center gap-3 border-t px-2 sm:px-4">
+    <button
+      aria-label="Open documentation menu"
+      class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-[var(--lotus-radius-md)] text-left text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]"
+      data-lotus-mobile-sidebar-open
+      type="button"
+    >
+      <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center">
+        <Icon aria-hidden="true" class="h-5 w-5" name="lucide:menu" />
+      </span>
+      <span class="flex min-w-0 flex-1 items-center gap-2 text-sm leading-5">
+        {sectionTitle ? (
+          <>
+            <span class="truncate font-medium text-[var(--lotus-text)]">{sectionTitle}</span>
+            <span aria-hidden="true" class="shrink-0 text-[var(--lotus-text-muted)]">›</span>
+            <span class="truncate text-[var(--lotus-text-muted)]">{title}</span>
+          </>
+        ) : (
+          <span class="truncate font-medium text-[var(--lotus-text)]">{title}</span>
+        )}
+      </span>
+    </button>
+
+    {visibleHeadings.length > 0 && (
+      <details class="relative shrink-0" data-lotus-mobile-toc-menu>
+        <summary class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center rounded-[var(--lotus-radius-md)] px-2.5 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)] marker:hidden">
+          On this page
+        </summary>
+        <div class="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-3 shadow-xl">
+          <nav aria-label="On this page">
+            <ul class="lotus-border-subtle space-y-0.5 border-l">
+              {visibleHeadings.map((heading) => (
+                <li>
+                  <a
+                    class:list={[
+                      'lotus-focus-ring lotus-toc-link -ml-px block border-l-2 py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
+                      heading.depth === 3 ? 'pl-5' : 'pl-3',
+                      'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
+                    ]}
+                    data-toc-link={heading.slug}
+                    href={`#${heading.slug}`}
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </details>
+    )}
+  </div>
+
+  <div
+    class="lotus-mobile-sidebar fixed h-screen inset-0 z-50 lg:hidden"
+    data-lotus-mobile-sidebar
+    hidden
+    inert
+  >
+    <button
+      aria-label="Close documentation menu"
+      class="lotus-mobile-sidebar-backdrop absolute inset-0 bg-black/30"
+      data-lotus-mobile-sidebar-close
+      type="button"
+    ></button>
+    <aside
+      aria-label="Documentation menu"
+      class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-[var(--lotus-background)] shadow-2xl"
+    >
+      <div class="lotus-border-subtle flex h-[var(--lotus-header-height)] shrink-0 items-center justify-between border-b px-4">
+        <p class="text-sm font-semibold text-[var(--lotus-text)]">Documentation</p>
+        <button
+          aria-label="Close documentation menu"
+          class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]"
+          data-lotus-mobile-sidebar-close
+          type="button"
+        >
+          <Icon aria-hidden="true" class="h-5 w-5" name="lucide:x" />
+        </button>
+      </div>
+
+      <div class="lotus-border-subtle shrink-0 border-b p-4">
+        {activeSection ? (
+          <details class="group/lotus-section-switch relative" data-lotus-section-switch>
+            <summary class="lotus-focus-ring flex min-h-12 cursor-pointer list-none items-center gap-3 rounded-[var(--lotus-radius-md)] bg-[var(--lotus-surface)] px-3 py-2 text-[var(--lotus-text)] marker:hidden">
+              <span class="relative h-5 w-5 shrink-0">
+                {sections.map((section) => (
+                  section.icon && (
+                    <Icon
+                      aria-hidden="true"
+                      class:list={[
+                        'absolute inset-0 h-5 w-5 text-[var(--lotus-accent)]',
+                        section.slug !== activeSectionSlug && 'hidden',
+                      ]}
+                      data-lotus-section-summary-icon={section.slug}
+                      name={resolveIconName(section.icon)}
+                    />
+                  )
+                ))}
+              </span>
+              <span class="min-w-0 flex-1">
+                <span class="block truncate text-base font-semibold" data-lotus-section-summary-label>
+                  {activeSection.label}
+                </span>
+                <span class="block truncate text-xs text-[var(--lotus-text-muted)]" data-lotus-section-summary-count>
+                  {getPageCountLabel(activeSection.items.length)}
+                </span>
+              </span>
+              <Icon
+                aria-hidden="true"
+                class="h-4 w-4 shrink-0 text-[var(--lotus-text-muted)] transition-transform group-open/lotus-section-switch:rotate-180"
+                name="lucide:chevron-down"
+              />
+            </summary>
+            <div class="lotus-border-subtle absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 space-y-1 rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-1.5 shadow-lg">
+              {sections.map((section) => (
+                <button
+                  aria-current={section.slug === activeSectionSlug ? 'page' : undefined}
+                  class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-[var(--lotus-radius-md)] px-3 py-2 text-left transition-colors"
+                  data-active={section.slug === activeSectionSlug ? '' : undefined}
+                  data-lotus-section-count={getPageCountLabel(section.items.length)}
+                  data-lotus-section-label={section.label}
+                  data-lotus-section-option={section.slug}
+                  type="button"
+                >
+                  {section.icon && (
+                    <Icon
+                      aria-hidden="true"
+                      class="lotus-mobile-section-icon h-5 w-5 shrink-0"
+                      name={resolveIconName(section.icon)}
+                    />
+                  )}
+                  <span class="min-w-0 flex-1">
+                    <span class="block truncate text-sm font-semibold">{section.label}</span>
+                    <span class="block truncate text-xs text-[var(--lotus-text-muted)]">
+                      {getPageCountLabel(section.items.length)}
+                    </span>
+                  </span>
+                  <span class="lotus-mobile-section-check ml-auto hidden h-4 w-4 shrink-0">
+                    <Icon
+                      aria-hidden="true"
+                      class="h-4 w-4 text-[var(--lotus-accent)]"
+                      name="lucide:check"
+                    />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </details>
+        ) : (
+          <p class="text-sm font-medium text-[var(--lotus-text-muted)]">Documentation</p>
+        )}
+      </div>
+
+      <div class="flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3">
+        {sections.map((section) => {
+          const sectionSidebar = sidebars[section.slug] ?? (section.slug === activeSectionSlug ? sidebar : undefined);
+
+          return sectionSidebar && (
+            <div
+              class="lotus-mobile-section-panel min-h-0 flex-1"
+              data-lotus-section-panel={section.slug}
+              hidden={section.slug !== activeSectionSlug}
+            >
+              <Sidebar currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />
+            </div>
+          );
+        })}
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const drawer = document.querySelector('[data-lotus-mobile-sidebar]');
+    const openButtons = Array.from(document.querySelectorAll('[data-lotus-mobile-sidebar-open]'));
+    const closeButtons = drawer
+      ? Array.from(drawer.querySelectorAll('[data-lotus-mobile-sidebar-close]'))
+      : [];
+    const tocMenu = document.querySelector('[data-lotus-mobile-toc-menu]');
+    const sectionSwitch = document.querySelector('[data-lotus-section-switch]');
+    const sectionOptions = Array.from(document.querySelectorAll('[data-lotus-section-option]'));
+    const sectionPanels = Array.from(document.querySelectorAll('[data-lotus-section-panel]'));
+    const summaryLabel = document.querySelector('[data-lotus-section-summary-label]');
+    const summaryCount = document.querySelector('[data-lotus-section-summary-count]');
+    const summaryIcons = Array.from(document.querySelectorAll('[data-lotus-section-summary-icon]'));
+
+    if (!drawer || !openButtons.length) {
+      return;
+    }
+
+    let closeTimer;
+    let previousOverflow = '';
+    let previousFocus;
+
+    const openDrawer = () => {
+      window.clearTimeout(closeTimer);
+      previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      drawer.hidden = false;
+      drawer.removeAttribute('inert');
+      previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      window.requestAnimationFrame(() => {
+        drawer.setAttribute('data-open', '');
+      });
+    };
+
+    const closeDrawer = () => {
+      drawer.removeAttribute('data-open');
+      document.documentElement.style.overflow = previousOverflow;
+      previousFocus?.focus({ preventScroll: true });
+      drawer.setAttribute('inert', '');
+      closeTimer = window.setTimeout(() => {
+        drawer.hidden = true;
+      }, 180);
+    };
+
+    openButtons.forEach((button) => {
+      button.addEventListener('click', openDrawer);
+    });
+
+    closeButtons.forEach((button) => {
+      button.addEventListener('click', closeDrawer);
+    });
+
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeDrawer);
+    });
+
+    sectionOptions.forEach((option) => {
+      option.addEventListener('click', () => {
+        const slug = option.getAttribute('data-lotus-section-option');
+
+        if (!slug) {
+          return;
+        }
+
+        sectionOptions.forEach((item) => {
+          const active = item.getAttribute('data-lotus-section-option') === slug;
+          item.toggleAttribute('data-active', active);
+
+          if (active) {
+            item.setAttribute('aria-current', 'page');
+          } else {
+            item.removeAttribute('aria-current');
+          }
+        });
+
+        sectionPanels.forEach((panel) => {
+          panel.hidden = panel.getAttribute('data-lotus-section-panel') !== slug;
+        });
+        window.dispatchEvent(new Event('resize'));
+
+        summaryIcons.forEach((icon) => {
+          icon.classList.toggle('hidden', icon.getAttribute('data-lotus-section-summary-icon') !== slug);
+        });
+
+        if (summaryLabel) {
+          summaryLabel.textContent = option.getAttribute('data-lotus-section-label') ?? '';
+        }
+
+        if (summaryCount) {
+          summaryCount.textContent = option.getAttribute('data-lotus-section-count') ?? '';
+        }
+
+        sectionSwitch?.removeAttribute('open');
+      });
+    });
+
+    tocMenu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        tocMenu.removeAttribute('open');
+      });
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeDrawer();
+        tocMenu?.removeAttribute('open');
+      }
+    });
+  })();
+</script>
