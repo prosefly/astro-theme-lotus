@@ -65,6 +65,20 @@ export interface FooterSection {
   links: ThemeLink[];
 }
 
+export type PageActionType =
+  | 'copy-page'
+  | 'view-markdown'
+  | 'open-chatgpt'
+  | 'open-claude';
+
+export interface PageActionConfig {
+  type?: PageActionType | (string & {});
+  label?: string;
+  icon?: string;
+  href?: string;
+  external?: boolean;
+}
+
 export type OverrideComponentName = 'SearchDialog' | 'ThemeSwitch';
 
 export type OverrideComponentsConfig = Partial<Record<OverrideComponentName, string>>;
@@ -86,6 +100,7 @@ export interface LotusThemeConfig {
   navigation: ThemeNavigationItem[];
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
+  pageActions: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase: string;
   iconify?: {

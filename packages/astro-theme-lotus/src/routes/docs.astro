@@ -1,14 +1,15 @@
 ---
 import type { MarkdownHeading } from 'astro';
 import { render } from 'astro:content';
-import DocsLayout from '../../layouts/DocsLayout.astro';
+import DocsLayout from '../layouts/DocsLayout.astro';
 import {
   getDocsEntries,
   getDocsNavigation,
   getEntrySection,
   getSidebarNavigation,
   getSidebarSectionTitle,
-} from '../../lib/docs';
+} from '../lib/docs';
+import { createPageMarkdown } from '../lib/page-actions';
 
 export async function getStaticPaths() {
   const entries = await getDocsEntries();
@@ -30,6 +31,11 @@ const sidebars = Object.fromEntries(
   ),
 );
 const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
+const pageMarkdown = createPageMarkdown({
+  title: entry.data.title,
+  description: entry.data.description,
+  body: entry.body,
+});
 ---
 
 <DocsLayout
@@ -37,6 +43,7 @@ const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
   description={entry.data.description}
   sectionTitle={sectionTitle}
   currentSlug={entry.id}
+  pageMarkdown={pageMarkdown}
   subnav={subnav}
   sidebar={sidebar}
   sidebars={sidebars}

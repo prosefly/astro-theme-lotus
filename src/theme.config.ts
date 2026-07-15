@@ -45,6 +45,12 @@ const themeConfig = {
       icon: 'x',
     },
   ],
+  pageActions: [
+    { type: 'copy-page' },
+    { type: 'view-markdown' },
+    { type: 'open-chatgpt' },
+    { type: 'open-claude' },
+  ],
   docsBase: '/docs',
   sidebars: [
     {

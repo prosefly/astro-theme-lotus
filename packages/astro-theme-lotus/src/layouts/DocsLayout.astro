@@ -3,8 +3,10 @@ import type { DocsSectionNav, DocsSidebarNav } from '../lib/docs';
 import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
+import PageActions from '../components/layout/PageActions.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
+import { getPageMarkdownHref } from '../lib/page-actions';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
 
@@ -19,6 +21,7 @@ interface Props {
   description?: string;
   sectionTitle?: string;
   currentSlug?: string;
+  pageMarkdown?: string;
   subnav: DocsSectionNav[];
   sidebar: DocsSidebarNav;
   sidebars?: Record<string, DocsSidebarNav>;
@@ -30,6 +33,7 @@ const {
   description,
   sectionTitle,
   currentSlug,
+  pageMarkdown,
   subnav,
   sidebar,
   sidebars = {},
@@ -44,6 +48,10 @@ const currentPath =
       ? `/${currentSlug}/`
       : `${docsBasePath}/${currentSlug}/`
     : docsRootHref;
+const markdownHref = getPageMarkdownHref(currentSlug, docsBasePath);
+const pageUrl = new URL(currentPath, Astro.site ?? Astro.url).toString();
+const markdownUrl = new URL(markdownHref, Astro.site ?? Astro.url).toString();
+const pageActions = themeConfig.pageActions ?? [];
 ---
 
 <BaseLayout title={title} description={description}>
@@ -69,20 +77,35 @@ const currentPath =
 
       <article class="min-w-0 pt-6 pb-10">
         <header class="lotus-border-subtle border-b pb-8">
-          {sectionTitle && (
-            <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
-          )}
-          <h1 class="mt-3 text-3xl font-semibold leading-tight text-(--lotus-text-strong) sm:text-4xl">
-            {title}
-          </h1>
-          {description && (
-            <p class="mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted) sm:text-lg">
-              {description}
-            </p>
-          )}
+          <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div class="min-w-0">
+              {sectionTitle && (
+                <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
+              )}
+              <h1 class="mt-3 text-3xl font-semibold leading-tight text-(--lotus-text-strong) sm:text-4xl">
+                {title}
+              </h1>
+              {description && (
+                <p class="mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted) sm:text-lg">
+                  {description}
+                </p>
+              )}
+            </div>
+            {pageActions.length > 0 && pageMarkdown && (
+              <div class="shrink-0 sm:pt-1">
+                <PageActions
+                  actions={pageActions}
+                  markdown={pageMarkdown}
+                  markdownUrl={markdownUrl}
+                  pageUrl={pageUrl}
+                  title={title}
+                />
+              </div>
+            )}
+          </div>
         </header>
 
-        <div class="lotus-prose py-4">
+        <div class="lotus-prose py-8">
           <slot />
         </div>
       </article>

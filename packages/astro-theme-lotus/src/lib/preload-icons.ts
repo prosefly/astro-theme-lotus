@@ -5,11 +5,15 @@ const layoutIconNames = [
   'lucide:check',
   'lucide:chevron-down',
   'lucide:chevron-right',
+  'lucide:copy',
+  'lucide:file-text',
   'lucide:menu',
   'lucide:monitor',
   'lucide:moon',
   'lucide:sun',
   'lucide:x',
+  'simple-icons:claude',
+  'simple-icons:openai',
 ] as const;
 
 export function getIconPreloadNames(config: LotusThemeConfig): string[] {
@@ -45,6 +49,10 @@ export function getIconPreloadNames(config: LotusThemeConfig): string[] {
   }
 
   for (const item of config.socials) {
+    addIcon(item.icon);
+  }
+
+  for (const item of config.pageActions) {
     addIcon(item.icon);
   }
 

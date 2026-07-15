@@ -1,0 +1,261 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { resolveIconName } from '../../lib/icons';
+import type { PageActionConfig, PageActionType } from '../../lib/theme';
+
+interface ResolvedPageAction {
+  type?: string;
+  label: string;
+  icon: string;
+  href?: string;
+  external: boolean;
+  isCopy: boolean;
+}
+
+interface Props {
+  actions?: PageActionConfig[];
+  title: string;
+  markdown: string;
+  pageUrl: string;
+  markdownUrl: string;
+}
+
+const { actions = [], title, markdown, pageUrl, markdownUrl } = Astro.props;
+
+const defaultActionMeta: Record<PageActionType, { label: string; icon: string }> = {
+  'copy-page': { label: 'Copy page', icon: 'lucide:copy' },
+  'view-markdown': { label: 'View as Markdown', icon: 'lucide:file-text' },
+  'open-chatgpt': { label: 'Open in ChatGPT', icon: 'simple-icons:openai' },
+  'open-claude': { label: 'Open in Claude', icon: 'simple-icons:claude' },
+};
+
+function isKnownAction(type?: string): type is PageActionType {
+  return Boolean(type && type in defaultActionMeta);
+}
+
+function createAssistantPrompt(targetUrl: string): string {
+  return `Read this documentation page: ${targetUrl}`;
+}
+
+function interpolateHref(template: string): string {
+  const replacements: Record<string, string> = {
+    title,
+    url: pageUrl,
+    markdownUrl,
+    encodedTitle: encodeURIComponent(title),
+    encodedUrl: encodeURIComponent(pageUrl),
+    encodedMarkdownUrl: encodeURIComponent(markdownUrl),
+  };
+
+  return template.replace(
+    /\{(title|url|markdownUrl|encodedTitle|encodedUrl|encodedMarkdownUrl)\}/g,
+    (_, key: keyof typeof replacements) => replacements[key],
+  );
+}
+
+function getDefaultHref(type?: string): string | undefined {
+  if (type === 'view-markdown') {
+    return markdownUrl;
+  }
+
+  if (type === 'open-chatgpt') {
+    return `https://chatgpt.com/?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
+  if (type === 'open-claude') {
+    return `https://claude.ai/new?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
+  return undefined;
+}
+
+function resolveAction(action: PageActionConfig): ResolvedPageAction | undefined {
+  const meta = isKnownAction(action.type) ? defaultActionMeta[action.type] : undefined;
+  const href = action.href ? interpolateHref(action.href) : getDefaultHref(action.type);
+  const isCopy = action.type === 'copy-page';
+
+  if (!isCopy && !href) {
+    return undefined;
+  }
+
+  return {
+    type: action.type,
+    label: action.label ?? meta?.label ?? 'Open link',
+    icon: resolveIconName(action.icon ?? meta?.icon),
+    href,
+    external: action.external ?? Boolean(href && /^[a-z][a-z\d+.-]*:/i.test(href)),
+    isCopy,
+  };
+}
+
+const resolvedActions = actions.map(resolveAction).filter((action): action is ResolvedPageAction => Boolean(action));
+const primaryAction =
+  resolvedActions.find((action) => action.isCopy) ??
+  resolvedActions[0];
+const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
+---
+
+{primaryAction && resolvedActions.length > 0 && (
+  <div
+    class="relative inline-flex items-center rounded-(--lotus-radius-md) border lotus-border-muted bg-(--lotus-background) text-sm"
+    data-lotus-page-actions
+  >
+    <script is:inline type="application/json" data-lotus-page-copy-source set:html={copySourceJson}></script>
+    {primaryAction.isCopy ? (
+      <button
+        class="lotus-focus-ring inline-flex h-9 items-center gap-2 rounded-l-(--lotus-radius-md) px-3 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        data-lotus-copy-page
+        type="button"
+      >
+        <Icon aria-hidden="true" class="h-4 w-4" name={primaryAction.icon} />
+        <span data-lotus-copy-label>{primaryAction.label}</span>
+      </button>
+    ) : (
+      <a
+        class="lotus-focus-ring inline-flex h-9 items-center gap-2 rounded-l-(--lotus-radius-md) px-3 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        href={primaryAction.href}
+        rel={primaryAction.external ? 'noreferrer' : undefined}
+        target={primaryAction.external ? '_blank' : undefined}
+      >
+        <Icon aria-hidden="true" class="h-4 w-4" name={primaryAction.icon} />
+        <span>{primaryAction.label}</span>
+      </a>
+    )}
+    <details class="group">
+      <summary
+        aria-label="Show page actions"
+        class="lotus-focus-ring flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-r-(--lotus-radius-md) border-l lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) [&::-webkit-details-marker]:hidden"
+      >
+        <Icon
+          aria-hidden="true"
+          class="h-4 w-4 transition-transform group-open:rotate-180"
+          name="lucide:chevron-down"
+        />
+      </summary>
+      <div class="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-(--lotus-radius-lg) border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:left-auto sm:right-0 sm:w-56">
+        {resolvedActions.map((action) => (
+          action.isCopy ? (
+            <button
+              class="lotus-focus-ring flex w-full items-center gap-2 rounded-(--lotus-radius-md) px-3 py-2 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+              data-lotus-copy-page
+              type="button"
+            >
+              <Icon aria-hidden="true" class="h-4 w-4 text-(--lotus-text-muted)" name={action.icon} />
+              <span data-lotus-copy-label>{action.label}</span>
+            </button>
+          ) : (
+            <a
+              class="lotus-focus-ring flex items-center gap-2 rounded-(--lotus-radius-md) px-3 py-2 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+              href={action.href}
+              rel={action.external ? 'noreferrer' : undefined}
+              target={action.external ? '_blank' : undefined}
+            >
+              <Icon aria-hidden="true" class="h-4 w-4 text-(--lotus-text-muted)" name={action.icon} />
+              <span>{action.label}</span>
+            </a>
+          )
+        ))}
+      </div>
+    </details>
+  </div>
+)}
+
+<script>
+  function getLotusCopyText(root: Element) {
+    const source = root.querySelector('[data-lotus-page-copy-source]');
+
+    if (!source) {
+      return '';
+    }
+
+    try {
+      return JSON.parse(source.textContent || '""');
+    } catch {
+      return source.textContent || '';
+    }
+  }
+
+  async function writeLotusClipboard(text: string) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  }
+
+  function initLotusPageActions() {
+    document.querySelectorAll('[data-lotus-page-actions]').forEach((root) => {
+      if (!(root instanceof HTMLElement) || root.dataset.lotusPageActionsReady) {
+        return;
+      }
+
+      root.dataset.lotusPageActionsReady = 'true';
+      const details = root.querySelector('details');
+
+      if (details) {
+        document.addEventListener('click', (event) => {
+          if (!details.open || !(event.target instanceof Node) || root.contains(event.target)) {
+            return;
+          }
+
+          details.open = false;
+        });
+
+        details.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+
+          details.open = false;
+          details.querySelector('summary')?.focus();
+        });
+      }
+
+      root.querySelectorAll('[data-lotus-copy-page]').forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const label = button.querySelector('[data-lotus-copy-label]');
+        const originalLabel = label?.textContent ?? 'Copy page';
+
+        button.addEventListener('click', async () => {
+          try {
+            await writeLotusClipboard(getLotusCopyText(root));
+
+            if (label) {
+              label.textContent = 'Copied';
+              window.setTimeout(() => {
+                label.textContent = originalLabel;
+              }, 1600);
+            }
+
+            const details = button.closest('details');
+            if (details) {
+              details.open = false;
+            }
+          } catch {
+            if (label) {
+              label.textContent = 'Copy failed';
+              window.setTimeout(() => {
+                label.textContent = originalLabel;
+              }, 1600);
+            }
+          }
+        });
+      });
+    });
+  }
+
+  initLotusPageActions();
+  document.addEventListener('astro:page-load', initLotusPageActions);
+</script>

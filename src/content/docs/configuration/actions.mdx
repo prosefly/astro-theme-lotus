@@ -40,3 +40,40 @@ socials: [
 
 Lotus preloads icons from the theme configuration and from static `<Icon
 name="...">` usage in Astro and MDX files.
+
+## Page actions
+
+Page actions appear near the article title. The default actions copy the current
+page, open the Markdown version, and pass the page URL to ChatGPT or Claude.
+
+```ts
+pageActions: [
+  { type: 'copy-page' },
+  { type: 'view-markdown' },
+  { type: 'open-chatgpt' },
+  { type: 'open-claude' },
+]
+```
+
+Set `pageActions` to an empty array to hide the control:
+
+```ts
+pageActions: []
+```
+
+Each action can override its label, icon, and URL:
+
+```ts
+pageActions: [
+  { type: 'copy-page', label: 'Copy' },
+  {
+    label: 'Open issue',
+    icon: 'lucide:bug',
+    href: 'https://github.com/prosefly/astro-theme-lotus/issues/new?title={encodedTitle}',
+    external: true,
+  },
+]
+```
+
+Custom `href` values can use `{title}`, `{url}`, `{markdownUrl}` and their
+encoded variants: `{encodedTitle}`, `{encodedUrl}`, `{encodedMarkdownUrl}`.
