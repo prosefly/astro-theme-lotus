@@ -4,9 +4,10 @@ import themeConfig from '../../theme.config';
 
 interface Props {
   currentPath?: string;
+  surface?: boolean;
 }
 
-const { currentPath } = Astro.props;
+const { currentPath, surface = true } = Astro.props;
 
 function isActive(href: string): boolean {
   if (!currentPath) {
@@ -25,7 +26,12 @@ function getActionLabel(label: string, icon?: string): string {
 }
 ---
 
-<header class="sticky top-0 z-40 h-[var(--lotus-header-height)] border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/95 backdrop-blur">
+<header
+  class:list={[
+    'h-[var(--lotus-header-height)]',
+    surface && 'border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/95 backdrop-blur',
+  ]}
+>
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-6 px-4 sm:px-6">
     <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-fg)]" href="/">
       <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />

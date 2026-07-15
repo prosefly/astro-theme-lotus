@@ -8,10 +8,7 @@ interface Props {
 const { sections } = Astro.props;
 ---
 
-<nav
-  aria-label="Documentation sections"
-  class="border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/90"
->
+<nav aria-label="Documentation sections">
   <div class="mx-auto flex h-[var(--lotus-subnav-height)] max-w-screen-2xl items-center overflow-x-auto px-4 sm:px-6">
     <div class="lotus-scrollbar flex min-w-full items-center gap-2 pb-1">
       {sections.map((section) => (

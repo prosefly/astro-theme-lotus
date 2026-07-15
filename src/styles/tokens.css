@@ -26,6 +26,7 @@
 
   --lotus-header-height: 4rem;
   --lotus-subnav-height: 3rem;
+  --lotus-docs-chrome-height: calc(var(--lotus-header-height) + var(--lotus-subnav-height));
   --lotus-sidebar-width: 17rem;
   --lotus-toc-width: 14rem;
   --lotus-content-width: 48rem;

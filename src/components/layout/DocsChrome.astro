@@ -1,0 +1,17 @@
+---
+import type { DocsSectionNav } from '../../lib/docs';
+import MainHeader from './MainHeader.astro';
+import SubNav from './SubNav.astro';
+
+interface Props {
+  currentPath?: string;
+  sections: DocsSectionNav[];
+}
+
+const { currentPath, sections } = Astro.props;
+---
+
+<div class="sticky top-0 z-40 border-b border-[var(--lotus-border)] bg-[var(--lotus-bg)]/95 backdrop-blur">
+  <MainHeader currentPath={currentPath} surface={false} />
+  <SubNav sections={sections} />
+</div>
