@@ -19,7 +19,8 @@ const themeConfig = {
   site: { title: 'Astro Theme Lotus', description: 'A documentation theme for Astro.', logo: '/logo.svg' },
   appearance: { accent: 'indigo', gray: 'zinc', fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif', fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace', defaultTheme: 'system', radius: 'medium' },
   nav: [{ label: 'Docs', href: '/docs/' }],
-  actions: [{ label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' }],
+  actions: [{ label: 'Dashboard', href: '/docs/' }],
+  socials: [{ label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' }],
   docs: { basePath: '/docs', sections: [{ slug: 'guide', label: 'Guide', order: 1 }] },
   footer: { copyright: 'Copyright © 2026 Prosefly.', sections: [] },
 } satisfies LotusThemeConfig;
@@ -61,11 +62,24 @@ nav: [
 
 ## `actions`
 
-`actions` renders compact call-to-action links in the header. Actions support
-the same link fields as `nav`, plus an optional icon name for supported icons.
+`actions` renders button-like call-to-action links in the header. Actions
+support the same link fields as `nav`, plus optional `variant` and `color`
+fields. The default is a neutral soft button.
 
 ```ts
 actions: [
+  { label: 'Dashboard', href: '/docs/', variant: 'soft', color: 'neutral' },
+  { label: 'Login', href: '/login/', variant: 'solid', color: 'accent' },
+]
+```
+
+## `socials`
+
+`socials` renders compact icon links after the actions. Supported icon names
+include `github`, `x`, `bluesky`, `discord`, and `external`.
+
+```ts
+socials: [
   { label: 'GitHub', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, icon: 'github' },
 ]
 ```

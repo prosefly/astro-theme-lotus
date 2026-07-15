@@ -9,14 +9,14 @@ interface Props {
 const { items, currentSlug } = Astro.props;
 ---
 
-<nav aria-label="Sidebar" class="space-y-1">
+<nav aria-label="Sidebar" class="space-y-0.5">
   {items.map((item) => (
     <a
       class:list={[
-        'lotus-focus-ring block rounded-[var(--lotus-radius-md)] border-l-2 px-4 py-2 text-sm transition-colors',
+        'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
         item.slug === currentSlug
-          ? 'border-[var(--lotus-accent)] bg-[var(--lotus-accent-soft)] text-[var(--lotus-text)]'
-          : 'border-transparent text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
+          ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-text)]'
+          : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
       ]}
       aria-current={item.slug === currentSlug ? 'page' : undefined}
       href={item.href}

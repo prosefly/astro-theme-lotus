@@ -1,0 +1,104 @@
+---
+const modes = [
+  { value: 'light', label: 'Light' },
+  { value: 'dark', label: 'Dark' },
+  { value: 'system', label: 'System' },
+];
+---
+
+<div
+  class="lotus-border-muted flex h-9 items-center rounded-[var(--lotus-radius-md)] border p-0.5"
+  data-lotus-theme-switch
+>
+  {modes.map((mode) => (
+    <button
+      aria-label={`${mode.label} theme`}
+      class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+      data-theme-mode={mode.value}
+      title={`${mode.label} theme`}
+      type="button"
+    >
+      {mode.value === 'light' ? (
+        <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2" />
+          <path d="M12 20v2" />
+          <path d="m4.9 4.9 1.4 1.4" />
+          <path d="m17.7 17.7 1.4 1.4" />
+          <path d="M2 12h2" />
+          <path d="M20 12h2" />
+          <path d="m4.9 19.1 1.4-1.4" />
+          <path d="m17.7 6.3 1.4-1.4" />
+        </svg>
+      ) : mode.value === 'dark' ? (
+        <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+          <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.8 8.8 0 1 0 20.5 14.5Z" />
+        </svg>
+      ) : (
+        <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+          <rect width="16" height="11" x="4" y="5" rx="2" />
+          <path d="M8 21h8" />
+          <path d="M12 16v5" />
+        </svg>
+      )}
+    </button>
+  ))}
+</div>
+
+<script is:inline>
+  (() => {
+    if (window.__lotusThemeSwitchReady) {
+      return;
+    }
+
+    window.__lotusThemeSwitchReady = true;
+
+    const storageKey = 'lotus-theme';
+    const root = document.documentElement;
+
+    const initThemeSwitches = () => {
+      const switches = Array.from(document.querySelectorAll('[data-lotus-theme-switch]'));
+
+      if (!switches.length) {
+        return;
+      }
+
+      const setTheme = (mode) => {
+        root.dataset.theme = mode;
+
+        if (mode === 'system') {
+          window.localStorage.removeItem(storageKey);
+        } else {
+          window.localStorage.setItem(storageKey, mode);
+        }
+
+        switches.forEach((switcher) => {
+          switcher.querySelectorAll('[data-theme-mode]').forEach((button) => {
+            const active = button.getAttribute('data-theme-mode') === mode;
+            button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            button.toggleAttribute('data-active', active);
+          });
+        });
+      };
+
+      const savedTheme = window.localStorage.getItem(storageKey);
+      setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : root.dataset.theme || 'system');
+
+      switches.forEach((switcher) => {
+        switcher.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-theme-mode]');
+
+          if (button) {
+            setTheme(button.getAttribute('data-theme-mode'));
+          }
+        });
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initThemeSwitches, { once: true });
+    } else {
+      initThemeSwitches();
+    }
+  })();
+</script>

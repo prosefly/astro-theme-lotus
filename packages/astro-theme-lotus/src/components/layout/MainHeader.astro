@@ -1,5 +1,8 @@
 ---
 import MobileMenu from './MobileMenu.astro';
+import SearchDialog from './SearchDialog.astro';
+import SocialIcon from './SocialIcon.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
@@ -10,6 +13,8 @@ interface Props {
 
 const { currentPath, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
+const actions = themeConfig.actions ?? [];
+const socials = themeConfig.socials ?? [];
 const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
 
@@ -32,6 +37,29 @@ function isActive(href: string): boolean {
 function getActionLabel(label: string, icon?: string): string {
   return icon ? `${label} (${icon})` : label;
 }
+
+function getActionClass(action: (typeof actions)[number]): string {
+  const variant = action.variant ?? 'soft';
+  const color = action.color ?? 'neutral';
+  const base =
+    'lotus-focus-ring inline-flex h-9 items-center rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors';
+
+  if (variant === 'solid') {
+    return color === 'accent'
+      ? `${base} bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90`
+      : `${base} bg-[var(--lotus-text)] text-[var(--lotus-background)] hover:opacity-90`;
+  }
+
+  if (variant === 'outline') {
+    return color === 'accent'
+      ? `${base} lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]`
+      : `${base} lotus-border-muted border text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]`;
+  }
+
+  return color === 'accent'
+    ? `${base} bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90`
+    : `${base} bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]`;
+}
 ---
 
 <header
@@ -40,56 +68,57 @@ function getActionLabel(label: string, icon?: string): string {
     surface && 'lotus-border-muted border-b bg-[var(--lotus-background)]/95 backdrop-blur',
   ]}
 >
-  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-6 px-4 sm:px-6">
+  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
     <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text)]" href="/">
       <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
       <span class="truncate text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
     </a>
 
-    <nav aria-label="Primary" class="hidden min-w-0 flex-1 items-center gap-1 md:flex">
-      {themeConfig.nav.map((item) => (
-        <a
-          class:list={[
-            'lotus-focus-ring rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
-            isActive(item.href)
-              ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)]'
-              : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
-          ]}
-          aria-current={isActive(item.href) ? 'page' : undefined}
-          href={item.href}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
+    <SearchDialog />
 
-    <div class="ml-auto hidden items-center gap-2 md:flex">
-      {themeConfig.actions.map((action) => (
-        <a
-          aria-label={getActionLabel(action.label, action.icon)}
-          class="lotus-focus-ring lotus-border-muted inline-flex items-center gap-2 rounded-[var(--lotus-radius-md)] border px-3 py-2 text-sm text-[var(--lotus-text-muted)] transition-colors hover:border-[var(--lotus-accent)] hover:text-[var(--lotus-accent)]"
-          href={action.href}
-          rel={action.external ? 'noreferrer' : undefined}
-          target={action.external ? '_blank' : undefined}
-        >
-          <span>{action.label}</span>
-          {action.external && (
-            <svg
-              aria-hidden="true"
-              class="h-3.5 w-3.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.8"
-              viewBox="0 0 24 24"
+    <div class="ml-auto hidden min-w-0 items-center gap-5 lg:flex">
+      <nav aria-label="Primary" class="flex min-w-0 items-center gap-5">
+        {themeConfig.nav.map((item) => (
+          <a
+            class="lotus-focus-ring text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      {actions.length > 0 && (
+        <div class="flex items-center gap-2">
+          {actions.map((action) => (
+            <a
+              class={getActionClass(action)}
+              href={action.href}
+              rel={action.external ? 'noreferrer' : undefined}
+              target={action.external ? '_blank' : undefined}
             >
-              <path d="M7 17 17 7" />
-              <path d="M9 7h8v8" />
-            </svg>
-          )}
-        </a>
-      ))}
+              {action.label}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <div class="flex items-center gap-2">
+        <div class="lotus-border-muted h-5 border-l"></div>
+        {socials.map((social) => (
+          <a
+            aria-label={getActionLabel(social.label, social.icon)}
+            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+            href={social.href}
+            rel={social.external ? 'noreferrer' : undefined}
+            target={social.external ? '_blank' : undefined}
+          >
+            <SocialIcon icon={social.icon} />
+          </a>
+        ))}
+        <ThemeSwitch />
+      </div>
     </div>
 
     <MobileMenu currentPath={currentPath} />

@@ -15,16 +15,16 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
 
 {
   visibleHeadings.length > 0 && (
-    <nav aria-label="On this page" class="space-y-3">
-      <p class="text-sm font-semibold text-[var(--lotus-text)]">On this page</p>
-      <ul class="space-y-1">
+    <nav aria-label="On this page" class="space-y-2">
+      <p class="text-[0.8125rem] font-semibold leading-5 text-[var(--lotus-text)]">On this page</p>
+      <ul class="lotus-border-muted space-y-0.5 border-l">
         {visibleHeadings.map((heading) => (
           <li>
             <a
               class:list={[
-                'lotus-focus-ring lotus-toc-link block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
-                heading.depth === 3 ? 'pl-6' : 'pl-3',
-                'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]',
+                'lotus-focus-ring lotus-toc-link -ml-px block border-l-2 py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
+                heading.depth === 3 ? 'pl-5' : 'pl-3',
+                'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
               ]}
               data-depth={heading.depth}
               data-toc-link={heading.slug}

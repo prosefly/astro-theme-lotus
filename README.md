@@ -92,7 +92,8 @@ pnpm run build
 - `packages/astro-components/` contains portable MDX components that consume
   `--pl-*` CSS variables.
 - `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
-  docs base path, docs sections, and footer links for this example site.
+  socials, docs base path, docs sections, and footer links for this example
+  site.
 - `src/content/docs/` holds the documentation pages that drive subnav and
   section sidebars.
 
@@ -102,7 +103,7 @@ Lotus accepts configuration through `lotus(themeConfig)`.
 
 - MDX-powered documentation pages.
 - Dark mode foundation with light, dark, or system defaults.
-- Configurable navigation, header actions, and footer sections.
+- Configurable navigation, header actions, social links, and footer sections.
 - Configurable accent palette, gray palette, fonts, and corner radius.
 - Configurable docs route base path.
 - Content-driven subnav and sidebar sections from `docs.sections` and page

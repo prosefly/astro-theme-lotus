@@ -8,8 +8,14 @@ export interface ThemeLink {
   external?: boolean;
 }
 
+export type ThemeActionVariant = 'soft' | 'outline' | 'solid';
+
+export type ThemeActionColor = 'neutral' | 'accent';
+
 export interface ThemeAction extends ThemeLink {
-  icon?: 'github' | 'x' | 'discord' | 'external';
+  icon?: 'github' | 'x' | 'bluesky' | 'discord' | 'external';
+  variant?: ThemeActionVariant;
+  color?: ThemeActionColor;
 }
 
 export interface DocsSection {
@@ -39,8 +45,9 @@ export interface LotusThemeConfig {
   };
   nav: ThemeLink[];
   actions: ThemeAction[];
+  socials: ThemeAction[];
   docs: {
-    basePath: string;
+    basePath?: string;
     sections: DocsSection[];
   };
   footer: {
@@ -49,8 +56,14 @@ export interface LotusThemeConfig {
   };
 }
 
-export function normalizeDocsBasePath(basePath: string): string {
-  const normalized = `/${basePath}`.replace(/\/+/g, '/').replace(/\/$/, '');
+export const DEFAULT_DOCS_BASE_PATH = '/docs';
+
+export function normalizeDocsBasePath(
+  basePath?: string,
+  fallback = DEFAULT_DOCS_BASE_PATH,
+): string {
+  const input = basePath?.trim() || fallback;
+  const normalized = `/${input}`.replace(/\/+/g, '/').replace(/\/$/, '');
 
   return normalized || '/';
 }

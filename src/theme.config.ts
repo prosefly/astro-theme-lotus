@@ -21,10 +21,22 @@ const themeConfig = {
   ],
   actions: [
     {
+      label: 'Dashboard',
+      href: '/docs/',
+    },
+  ],
+  socials: [
+    {
       label: 'GitHub',
       href: 'https://github.com/prosefly/astro-theme-lotus',
       external: true,
       icon: 'github',
+    },
+    {
+      label: 'X',
+      href: 'https://x.com/prosefly',
+      external: true,
+      icon: 'x',
     },
   ],
   docs: {

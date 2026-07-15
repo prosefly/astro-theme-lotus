@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
 import {
+  DEFAULT_DOCS_BASE_PATH,
   normalizeDocsBasePath,
   type DocsSection,
   type FooterSection,
@@ -19,6 +20,7 @@ export interface LotusIntegrationOptions {
   appearance?: Partial<LotusThemeConfig['appearance']>;
   nav?: ThemeLink[];
   actions?: ThemeAction[];
+  socials?: ThemeAction[];
   docs?: {
     basePath?: string;
     sections?: DocsSection[];
@@ -45,8 +47,9 @@ const defaultConfig: LotusThemeConfig = {
   },
   nav: [{ label: 'Docs', href: '/docs/' }],
   actions: [],
+  socials: [],
   docs: {
-    basePath: '/docs',
+    basePath: DEFAULT_DOCS_BASE_PATH,
     sections: [
       { slug: 'guide', label: 'Guide', order: 1 },
       { slug: 'components', label: 'Components', order: 2 },
@@ -75,7 +78,8 @@ function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig 
       ...defaultConfig.docs,
       ...options.docs,
       basePath: normalizeDocsBasePath(
-        options.docs?.basePath ?? defaultConfig.docs.basePath,
+        options.docs?.basePath,
+        defaultConfig.docs.basePath,
       ),
     },
     footer: {
@@ -107,10 +111,11 @@ export function defineLotusConfig(config: LotusIntegrationOptions): LotusIntegra
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
+  const docsBasePath = normalizeDocsBasePath(config.docs.basePath);
   const docsPattern =
-    config.docs.basePath === '/'
+    docsBasePath === '/'
       ? '/[...slug]'
-      : `${config.docs.basePath}/[...slug]`;
+      : `${docsBasePath}/[...slug]`;
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -139,6 +144,8 @@ export type {
   LotusThemeConfig,
   RadiusScale,
   ThemeAction,
+  ThemeActionColor,
+  ThemeActionVariant,
   ThemeLink,
   ThemeMode,
 } from './lib/theme';

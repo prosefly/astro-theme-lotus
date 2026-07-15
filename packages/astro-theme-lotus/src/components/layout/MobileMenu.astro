@@ -1,4 +1,6 @@
 ---
+import SocialIcon from './SocialIcon.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
@@ -8,6 +10,8 @@ interface Props {
 
 const { currentPath } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
+const actions = themeConfig.actions ?? [];
+const socials = themeConfig.socials ?? [];
 const docsBasePath = normalizeDocsBasePath(themeConfig.docs.basePath);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
 
@@ -26,9 +30,32 @@ function isActive(href: string): boolean {
 
   return currentPath === href || currentPath.startsWith(`${href}`);
 }
+
+function getActionClass(action: (typeof actions)[number]): string {
+  const variant = action.variant ?? 'soft';
+  const color = action.color ?? 'neutral';
+  const base =
+    'lotus-focus-ring flex h-9 items-center rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors';
+
+  if (variant === 'solid') {
+    return color === 'accent'
+      ? `${base} bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90`
+      : `${base} bg-[var(--lotus-text)] text-[var(--lotus-background)] hover:opacity-90`;
+  }
+
+  if (variant === 'outline') {
+    return color === 'accent'
+      ? `${base} lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]`
+      : `${base} lotus-border-muted border text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)]`;
+  }
+
+  return color === 'accent'
+    ? `${base} bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90`
+    : `${base} bg-[var(--lotus-surface)] text-[var(--lotus-text)] hover:bg-[var(--lotus-accent-soft)]`;
+}
 ---
 
-<details class="group relative md:hidden">
+<details class="group relative lg:hidden">
   <summary class="lotus-focus-ring lotus-border-muted flex h-10 items-center rounded-[var(--lotus-radius-md)] border px-3 text-sm font-medium text-[var(--lotus-text)] marker:hidden">
     Menu
   </summary>
@@ -38,12 +65,7 @@ function isActive(href: string): boolean {
       <div class="space-y-1">
         {themeConfig.nav.map((item) => (
           <a
-            class:list={[
-              'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
-              isActive(item.href)
-                ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)]'
-                : 'text-[var(--lotus-text)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-accent)]',
-            ]}
+            class="lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
             aria-current={isActive(item.href) ? 'page' : undefined}
             href={item.href}
           >
@@ -52,35 +74,38 @@ function isActive(href: string): boolean {
         ))}
       </div>
 
-      <div class="lotus-border-muted border-t pt-4">
-        <p class="px-3 text-xs font-semibold uppercase text-[var(--lotus-text-muted)]">Links</p>
-        <div class="mt-2 space-y-1">
-          {themeConfig.actions.map((action) => (
+      {actions.length > 0 && (
+        <div class="lotus-border-muted border-t pt-4">
+          <div class="mt-2 space-y-2">
+            {actions.map((action) => (
+              <a
+                class={getActionClass(action)}
+                href={action.href}
+                target={action.external ? '_blank' : undefined}
+                rel={action.external ? 'noreferrer' : undefined}
+              >
+                {action.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="lotus-border-muted flex items-center justify-between gap-3 border-t pt-4">
+        <div class="flex items-center gap-1">
+          {socials.map((social) => (
             <a
-              class="lotus-focus-ring flex items-center justify-between gap-3 rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm text-[var(--lotus-text)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-accent)]"
-              href={action.href}
-              target={action.external ? '_blank' : undefined}
-              rel={action.external ? 'noreferrer' : undefined}
+              aria-label={social.label}
+              class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text)]"
+              href={social.href}
+              target={social.external ? '_blank' : undefined}
+              rel={social.external ? 'noreferrer' : undefined}
             >
-              <span>{action.label}</span>
-              {action.external && (
-                <svg
-                  aria-hidden="true"
-                  class="h-3.5 w-3.5 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.8"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M7 17 17 7" />
-                  <path d="M9 7h8v8" />
-                </svg>
-              )}
+              <SocialIcon icon={social.icon} />
             </a>
           ))}
         </div>
+        <ThemeSwitch />
       </div>
     </nav>
   </div>

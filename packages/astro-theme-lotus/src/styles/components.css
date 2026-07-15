@@ -31,26 +31,29 @@
   width: 100%;
 }
 
-.lotus-toc-link {
-  position: relative;
+.lotus-search-dialog {
+  margin: auto;
 }
 
-.lotus-toc-link::before {
-  background: transparent;
-  border-radius: 999px;
-  bottom: 0.625rem;
-  content: "";
-  left: 0.375rem;
-  position: absolute;
-  top: 0.625rem;
-  width: 0.125rem;
+.lotus-search-dialog::backdrop {
+  backdrop-filter: blur(4px);
+  background: color-mix(in oklab, var(--lotus-background) 70%, black 30%);
+}
+
+.lotus-subnav-link:hover {
+  border-color: color-mix(in oklab, var(--lotus-text-muted) 42%, transparent);
+}
+
+.lotus-subnav-link[aria-current="page"]:hover {
+  border-color: var(--lotus-accent);
 }
 
 .lotus-toc-link[aria-current="true"] {
-  background: var(--lotus-accent-soft);
+  border-color: var(--lotus-accent);
   color: var(--lotus-text);
 }
 
-.lotus-toc-link[aria-current="true"]::before {
-  background: var(--lotus-accent);
+[data-lotus-theme-switch] [data-active] {
+  background: var(--lotus-accent-soft);
+  color: var(--lotus-text);
 }
