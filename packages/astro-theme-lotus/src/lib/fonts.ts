@@ -2,6 +2,20 @@ import { fontProviders } from 'astro/config';
 import type { LotusThemeConfig } from './theme';
 
 type LotusFontCssVariable = '--font-inter' | '--font-jetbrains-mono';
+type LotusFontFallbackVariable = '--lotus-system-sans' | '--lotus-system-mono';
+type BuiltinFont = {
+  cssVariable: LotusFontCssVariable;
+  fallbackVariable: LotusFontFallbackVariable;
+  config: {
+    provider: ReturnType<typeof fontProviders.fontsource>;
+    name: string;
+    cssVariable: LotusFontCssVariable;
+    weights: [number, ...number[]];
+    styles: ['normal'];
+    subsets: [string, ...string[]];
+    formats: ['woff2'];
+  };
+};
 
 const builtinFonts = {
   Inter: {
@@ -30,11 +44,11 @@ const builtinFonts = {
       formats: ['woff2'],
     },
   },
-} as const;
+} satisfies Record<string, BuiltinFont>;
 
 type BuiltinFontName = keyof typeof builtinFonts;
 
-function getBuiltinFont(name: string): (typeof builtinFonts)[BuiltinFontName] | undefined {
+function getBuiltinFont(name: string): BuiltinFont | undefined {
   return builtinFonts[name as BuiltinFontName];
 }
 

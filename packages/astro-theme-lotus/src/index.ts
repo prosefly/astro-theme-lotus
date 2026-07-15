@@ -24,6 +24,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
     docsBasePath === '/'
       ? '/[...slug].md'
       : `${docsBasePath}/[...slug].md`;
+  const searchPattern =
+    docsBasePath === '/'
+      ? '/search.json'
+      : `${docsBasePath}/search.json`;
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -36,6 +40,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         injectRoute({
           pattern: markdownPattern,
           entrypoint: new URL('./routes/docs.md.ts', import.meta.url),
+        });
+        injectRoute({
+          pattern: searchPattern,
+          entrypoint: new URL('./routes/search.json.ts', import.meta.url),
         });
 
         const lotusFonts = getAstroFontConfigs(config);

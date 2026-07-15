@@ -36,12 +36,41 @@
 }
 
 .lotus-search-dialog {
-  margin: auto;
+  inset-block-start: min(6rem, 12dvh);
+  inset-inline-start: 50%;
+  margin: 0;
+  max-height: calc(100dvh - 2rem);
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+.lotus-search-dialog[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .lotus-search-dialog::backdrop {
-  backdrop-filter: blur(4px);
-  background: color-mix(in oklab, var(--lotus-background) 70%, black 30%);
+  backdrop-filter: blur(2px);
+  background: rgb(0 0 0 / 28%);
+}
+
+:root[data-theme="dark"] .lotus-search-dialog::backdrop {
+  background: rgb(0 0 0 / 42%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .lotus-search-dialog::backdrop {
+    background: rgb(0 0 0 / 42%);
+  }
+}
+
+.lotus-search-result:hover,
+.lotus-search-result[data-active] {
+  background: var(--lotus-surface);
+}
+
+.lotus-search-result[data-active] {
+  box-shadow: inset 0 0 0 1px var(--lotus-border-subtle);
 }
 
 .lotus-sidebar-fade {

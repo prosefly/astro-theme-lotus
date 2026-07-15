@@ -3,21 +3,24 @@ import '../styles/app.css';
 import { Font } from 'astro:assets';
 import { getThemeAttributes } from '../lib/appearance';
 import { getFontCssVariables } from '../lib/fonts';
+import { stringifyJsonLd, type JsonLdNode } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
   title?: string;
   description?: string;
+  jsonLd?: JsonLdNode | JsonLdNode[];
 }
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const { title, description = themeConfig.site.description } = Astro.props;
+const { title, description = themeConfig.site.description, jsonLd } = Astro.props;
 const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.site.title}`
   : themeConfig.site.title;
 const fontCssVariables = getFontCssVariables(themeConfig);
+const jsonLdContent = jsonLd ? stringifyJsonLd(jsonLd) : undefined;
 const themeInitScript = `
 (() => {
   try {
@@ -38,6 +41,9 @@ const themeInitScript = `
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {fontCssVariables.map((cssVariable) => <Font cssVariable={cssVariable} />)}
+    {jsonLdContent && (
+      <script is:inline type="application/ld+json" set:html={jsonLdContent}></script>
+    )}
   </head>
   <body class="min-h-screen bg-(--lotus-background) text-(--lotus-text)">
     <slot />

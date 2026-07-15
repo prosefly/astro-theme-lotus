@@ -73,6 +73,14 @@ tableOfContents: false
 ---
 ```
 
+## Structured data
+
+Lotus automatically renders schema.org JSON-LD for docs pages. The generated
+graph includes `WebSite`, `WebPage`, `TechArticle`, and `BreadcrumbList` data.
+`title` and `description` are used for page names and summaries, sidebar
+ownership is used for breadcrumbs and article sections, and `lastUpdated` is
+used as `dateModified` when it is a date.
+
 ## Previous and next
 
 Lotus generates previous and next links from the current sidebar order. Override

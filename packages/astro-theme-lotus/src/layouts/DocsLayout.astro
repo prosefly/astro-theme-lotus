@@ -8,6 +8,7 @@ import PageNavigation from '../components/layout/PageNavigation.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
 import { getPageMarkdownHref } from '../lib/page-actions';
+import { createDocsJsonLd } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
 
@@ -24,6 +25,7 @@ interface Props {
   currentSlug?: string;
   pageMarkdown?: string;
   pageNavigation?: DocsPaginationNav;
+  lastUpdated?: Date | boolean;
   subnav: DocsSectionNav[];
   sidebar: DocsSidebarNav;
   sidebars?: Record<string, DocsSidebarNav>;
@@ -37,6 +39,7 @@ const {
   currentSlug,
   pageMarkdown,
   pageNavigation = {},
+  lastUpdated,
   subnav,
   sidebar,
   sidebars = {},
@@ -52,12 +55,51 @@ const currentPath =
       : `${docsBasePath}/${currentSlug}/`
     : docsRootHref;
 const markdownHref = getPageMarkdownHref(currentSlug, docsBasePath);
-const pageUrl = new URL(currentPath, Astro.site ?? Astro.url).toString();
-const markdownUrl = new URL(markdownHref, Astro.site ?? Astro.url).toString();
+const baseUrl = Astro.site ?? Astro.url;
+const pageUrl = new URL(currentPath, baseUrl).toString();
+const markdownUrl = new URL(markdownHref, baseUrl).toString();
 const pageActions = themeConfig.pageActions ?? [];
+const activeSection = subnav.find((section) => section.active);
+const breadcrumbs: { label: string; href: string }[] = [];
+
+function addBreadcrumb(label: string | undefined, href: string | undefined) {
+  if (!label || !href) {
+    return;
+  }
+
+  const previous = breadcrumbs.at(-1);
+
+  if (previous?.href === href) {
+    breadcrumbs[breadcrumbs.length - 1] = { label, href };
+    return;
+  }
+
+  breadcrumbs.push({ label, href });
+}
+
+addBreadcrumb(themeConfig.site.title, '/');
+
+if (docsBasePath !== '/') {
+  addBreadcrumb('Docs', docsRootHref);
+}
+
+addBreadcrumb(activeSection?.label, activeSection?.href);
+addBreadcrumb(title, currentPath);
+
+const jsonLd = createDocsJsonLd({
+  themeConfig,
+  baseUrl,
+  pageUrl,
+  title,
+  description,
+  sectionTitle,
+  breadcrumbs,
+  markdownUrl,
+  lastUpdated,
+});
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <Header
     currentPath={currentPath}
     headings={headings}
