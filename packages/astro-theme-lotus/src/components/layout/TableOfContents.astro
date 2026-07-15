@@ -17,14 +17,15 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
   visibleHeadings.length > 0 && (
     <nav aria-label="On this page" class="space-y-2">
       <p class="text-[0.8125rem] font-semibold leading-5 text-[var(--lotus-text)]">On this page</p>
-      <ul class="lotus-border-subtle space-y-0.5 border-l">
+      <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
+        <li aria-hidden="true" class="lotus-toc-indicator"></li>
         {visibleHeadings.map((heading) => (
           <li>
             <a
               class:list={[
-                'lotus-focus-ring lotus-toc-link -ml-px block border-l-2 py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
+                'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
                 heading.depth === 3 ? 'pl-5' : 'pl-3',
-                'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
+                'text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
               ]}
               data-depth={heading.depth}
               data-toc-link={heading.slug}
@@ -43,24 +44,30 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
   (() => {
     const links = Array.from(document.querySelectorAll('a[data-toc-link]'));
 
-    if (!links.length || !('IntersectionObserver' in window)) {
+    if (!links.length) {
       return;
     }
 
-    const headings = links
-      .map((link) => {
-        const slug = link.getAttribute('data-toc-link');
-        const heading = slug ? document.getElementById(slug) : null;
+    const headingsBySlug = new Map();
 
-        return heading ? { heading, slug } : null;
-      })
-      .filter(Boolean);
+    links.forEach((link) => {
+      const slug = link.getAttribute('data-toc-link');
+      const heading = slug ? document.getElementById(slug) : null;
+
+      if (slug && heading && !headingsBySlug.has(slug)) {
+        headingsBySlug.set(slug, { heading, slug });
+      }
+    });
+
+    const headings = Array.from(headingsBySlug.values());
 
     if (!headings.length) {
       return;
     }
 
-    const fallbackSlug = links[0].getAttribute('data-toc-link') ?? headings[0].slug;
+    const tocLists = Array.from(document.querySelectorAll('[data-toc-list]'));
+    let ticking = false;
+    let headingPositions = [];
 
     const setActiveLink = (activeSlug) => {
       links.forEach((link) => {
@@ -70,35 +77,119 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
           link.removeAttribute('aria-current');
         }
       });
+
+      tocLists.forEach((list) => {
+        const indicator = list.querySelector('.lotus-toc-indicator');
+        const listLinks = Array.from(list.querySelectorAll('a[data-toc-link]'));
+        const activeLink = activeSlug
+          ? listLinks.find((link) => link.getAttribute('data-toc-link') === activeSlug)
+          : null;
+
+        if (!indicator) {
+          return;
+        }
+
+        if (!activeLink) {
+          indicator.removeAttribute('data-visible');
+          return;
+        }
+
+        indicator.style.height = `${activeLink.offsetHeight}px`;
+        indicator.style.transform = `translateY(${activeLink.offsetTop}px)`;
+        indicator.setAttribute('data-visible', '');
+      });
     };
 
-    const getClosestHeadingSlug = () => {
+    const parsePixels = (value) => {
+      const parsed = Number.parseFloat(value);
+
+      return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const getChromeHeight = () => {
       const chromeHeight = getComputedStyle(document.documentElement)
         .getPropertyValue('--lotus-docs-chrome-height')
         .trim();
-      const parsedChromeHeight = Number.parseFloat(chromeHeight);
-      const offset = Number.isFinite(parsedChromeHeight) ? parsedChromeHeight + 24 : 120;
+      const parsedChromeHeight = parsePixels(chromeHeight);
 
-      for (let index = headings.length - 1; index >= 0; index -= 1) {
-        if (headings[index].heading.getBoundingClientRect().top <= offset) {
-          return headings[index].slug;
+      return parsedChromeHeight || 112;
+    };
+
+    const getActivationOffset = () => {
+      const firstHeading = headings[0]?.heading;
+
+      if (!firstHeading) {
+        return getChromeHeight() + 24;
+      }
+
+      const scrollMarginTop = parsePixels(getComputedStyle(firstHeading).scrollMarginTop);
+
+      return Math.max(scrollMarginTop + 1, getChromeHeight() + 24);
+    };
+
+    const measureHeadings = () => {
+      headingPositions = headings
+        .map(({ heading, slug }) => ({
+          slug,
+          top: heading.getBoundingClientRect().top + window.scrollY,
+        }))
+        .sort((left, right) => left.top - right.top);
+    };
+
+    const getActiveSlug = () => {
+      if (!headingPositions.length) {
+        measureHeadings();
+      }
+
+      const currentPosition = window.scrollY + getActivationOffset();
+      let activeSlug;
+
+      for (const position of headingPositions) {
+        if (position.top <= currentPosition) {
+          activeSlug = position.slug;
+        } else {
+          break;
         }
       }
 
-      return fallbackSlug;
+      return activeSlug;
     };
 
-    const observer = new IntersectionObserver(
-      () => {
-        setActiveLink(getClosestHeadingSlug());
-      },
-      {
-        rootMargin: '-30% 0px -60% 0px',
-        threshold: 0,
-      },
-    );
+    const updateActiveLink = () => {
+      if (ticking) {
+        return;
+      }
 
-    headings.forEach(({ heading }) => observer.observe(heading));
-    setActiveLink(getClosestHeadingSlug());
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setActiveLink(getActiveSlug());
+        ticking = false;
+      });
+    };
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        const slug = link.getAttribute('data-toc-link');
+
+        if (slug) {
+          setActiveLink(slug);
+        }
+      });
+    });
+
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    window.addEventListener('resize', () => {
+      measureHeadings();
+      updateActiveLink();
+    });
+    window.addEventListener('load', () => {
+      measureHeadings();
+      updateActiveLink();
+    });
+    document.querySelectorAll('[data-lotus-mobile-toc-menu]').forEach((menu) => {
+      menu.addEventListener('toggle', updateActiveLink);
+    });
+    measureHeadings();
+    setActiveLink(getActiveSlug());
   })();
 </script>

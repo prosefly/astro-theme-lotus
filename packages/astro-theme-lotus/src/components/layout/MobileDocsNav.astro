@@ -2,7 +2,9 @@
 import { Icon } from '@prosefly/astro-components';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import { resolveIconName } from '../../lib/icons';
+import type { LotusThemeConfig } from '../../lib/theme';
 import Sidebar from './Sidebar.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 
 interface Heading {
   depth: number;
@@ -31,6 +33,7 @@ const {
 } = Astro.props;
 const activeSection = sections.find((section) => section.active) ?? sections[0];
 const activeSectionSlug = activeSection?.slug;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 const visibleHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 
 function getPageCountLabel(count: number): string {
@@ -69,14 +72,15 @@ function getPageCountLabel(count: number): string {
         </summary>
         <div class="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-3 shadow-xl">
           <nav aria-label="On this page">
-            <ul class="lotus-border-subtle space-y-0.5 border-l">
+            <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
+              <li aria-hidden="true" class="lotus-toc-indicator"></li>
               {visibleHeadings.map((heading) => (
                 <li>
                   <a
                     class:list={[
-                      'lotus-focus-ring lotus-toc-link -ml-px block border-l-2 py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
+                      'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-[0.8125rem] leading-5 transition-colors',
                       heading.depth === 3 ? 'pl-5' : 'pl-3',
-                      'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
+                      'text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text)]',
                     ]}
                     data-toc-link={heading.slug}
                     href={`#${heading.slug}`}
@@ -109,7 +113,10 @@ function getPageCountLabel(count: number): string {
       class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-[var(--lotus-background)] shadow-2xl"
     >
       <div class="lotus-border-subtle flex h-[var(--lotus-header-height)] shrink-0 items-center justify-between border-b px-4">
-        <p class="text-sm font-semibold text-[var(--lotus-text)]">Documentation</p>
+        <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text)]" href="/">
+          <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
+          <span class="truncate text-sm font-semibold">{themeConfig.site.title}</span>
+        </a>
         <button
           aria-label="Close documentation menu"
           class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text)]"
@@ -120,7 +127,7 @@ function getPageCountLabel(count: number): string {
         </button>
       </div>
 
-      <div class="lotus-border-subtle shrink-0 border-b p-4">
+      <div class="shrink-0 p-4">
         {activeSection ? (
           <details class="group/lotus-section-switch relative" data-lotus-section-switch>
             <summary class="lotus-focus-ring flex min-h-12 cursor-pointer list-none items-center gap-3 rounded-[var(--lotus-radius-md)] bg-[var(--lotus-surface)] px-3 py-2 text-[var(--lotus-text)] marker:hidden">

@@ -133,8 +133,26 @@
   border-color: var(--lotus-accent);
 }
 
+.lotus-toc-indicator {
+  background: var(--lotus-accent);
+  border-radius: 999px;
+  left: -1px;
+  list-style: none;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition:
+    transform 180ms ease,
+    height 180ms ease,
+    opacity 120ms ease;
+  width: 2px;
+}
+
+.lotus-toc-indicator[data-visible] {
+  opacity: 1;
+}
+
 .lotus-toc-link[aria-current="true"] {
-  border-color: var(--lotus-accent);
   color: var(--lotus-text);
 }
 

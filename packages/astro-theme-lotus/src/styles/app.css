@@ -2,3 +2,13 @@
 @import "./tokens.css";
 @import "./prose.css";
 @import "./components.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
