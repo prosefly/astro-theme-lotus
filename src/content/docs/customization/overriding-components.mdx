@@ -57,7 +57,7 @@ when you want to wrap Lotus behavior instead of replacing it from scratch.
 import { SearchDialog, ThemeModeButton } from '@prosefly/astro-theme-lotus/components';
 ---
 
-<div class="rounded-lg border border-[var(--lotus-border-muted)] p-1">
+<div class="rounded-lg border border-(--lotus-border-muted) p-1">
   <SearchDialog />
 </div>
 
@@ -74,7 +74,7 @@ import {
 } from '@prosefly/astro-theme-lotus/components';
 ---
 
-<div class="rounded-lg border border-[var(--lotus-border-muted)] p-1">
+<div class="rounded-lg border border-(--lotus-border-muted) p-1">
   <SearchDialogTrigger />
 </div>
 <SearchDialogContent />

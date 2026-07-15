@@ -28,26 +28,26 @@ const {
 } = Astro.props;
 const trailingIconName = trailingIcon ? resolveIconName(trailingIcon) : undefined;
 const baseClasses = [
-  'lotus-focus-ring h-9 items-center justify-center gap-2 rounded-[var(--lotus-radius-md)] px-3 text-sm font-medium transition-colors',
+  'lotus-focus-ring h-9 items-center justify-center gap-2 rounded-(--lotus-radius-md) px-3 text-sm font-medium transition-colors',
   block ? 'flex w-full' : 'inline-flex',
 ];
 const variantClasses = {
   solid:
     color === 'accent'
-      ? 'bg-[var(--lotus-accent)] text-[var(--lotus-accent-contrast)] hover:opacity-90'
-      : 'bg-[var(--lotus-text-strong)] text-[var(--lotus-background)] hover:opacity-90',
+      ? 'bg-(--lotus-accent) text-(--lotus-accent-contrast) hover:opacity-90'
+      : 'bg-(--lotus-text-strong) text-(--lotus-background) hover:opacity-90',
   outline:
     color === 'accent'
-      ? 'lotus-border-muted border text-[var(--lotus-accent)] hover:border-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]'
-      : 'lotus-border-muted border text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-surface)]',
+      ? 'lotus-border-muted border text-(--lotus-accent) hover:border-(--lotus-accent) hover:bg-(--lotus-accent-soft)'
+      : 'lotus-border-muted border text-(--lotus-text-strong) hover:bg-(--lotus-surface)',
   soft:
     color === 'accent'
-      ? 'bg-[var(--lotus-accent-soft)] text-[var(--lotus-accent)] hover:opacity-90'
-      : 'bg-[var(--lotus-surface)] text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-accent-soft)]',
+      ? 'bg-(--lotus-accent-soft) text-(--lotus-accent) hover:opacity-90'
+      : 'bg-(--lotus-surface) text-(--lotus-text-strong) hover:bg-(--lotus-accent-soft)',
   ghost:
     color === 'accent'
-      ? 'text-[var(--lotus-accent)] hover:bg-[var(--lotus-accent-soft)]'
-      : 'text-[var(--lotus-text-strong)] hover:bg-[var(--lotus-surface)]',
+      ? 'text-(--lotus-accent) hover:bg-(--lotus-accent-soft)'
+      : 'text-(--lotus-text-strong) hover:bg-(--lotus-surface)',
 }[variant];
 ---
 

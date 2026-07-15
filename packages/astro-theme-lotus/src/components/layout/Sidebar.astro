@@ -16,7 +16,7 @@ const {
 ---
 
 <div
-  class="lotus-sidebar-scroll relative h-full min-h-0 flex-1 max-h-[var(--lotus-sidebar-max-height)] overflow-hidden"
+  class="lotus-sidebar-scroll relative h-full min-h-0 flex-1 max-h-(--lotus-sidebar-max-height) overflow-hidden"
   data-lotus-sidebar-scroll
   style={`--lotus-sidebar-max-height: ${maxHeight}`}
 >
@@ -32,7 +32,7 @@ const {
 
     {sidebar.groups.map((group, index) => (
       <section class:list={[index > 0 && 'lotus-border-subtle border-t pt-6']}>
-        <h2 class="mb-2 px-3 text-sm font-semibold leading-6 text-[var(--lotus-text-strong)]">
+        <h2 class="mb-2 px-3 text-sm font-semibold leading-6 text-(--lotus-text-strong)">
           {group.title}
         </h2>
         <div class="space-y-0.5">

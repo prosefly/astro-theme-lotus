@@ -60,7 +60,7 @@ const currentPath =
   <main class="pb-16">
     <div class="mx-auto grid max-w-screen-2xl grid-cols-1 gap-y-10 px-5 sm:px-6 lg:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))] lg:gap-x-10 xl:grid-cols-[var(--lotus-sidebar-width)_minmax(0,var(--lotus-content-width))_var(--lotus-toc-width)] xl:gap-x-12">
       <aside class="hidden lg:block">
-        <div class="sticky top-[var(--lotus-docs-chrome-height)]">
+        <div class="sticky top-(--lotus-docs-chrome-height)">
           {(sidebar.links.length > 0 || sidebar.groups.length > 0) && (
             <Sidebar currentPath={currentPath} sidebar={sidebar} />
           )}
@@ -70,13 +70,13 @@ const currentPath =
       <article class="min-w-0 pt-6 pb-10">
         <header class="lotus-border-subtle border-b pb-8">
           {sectionTitle && (
-            <p class="text-sm font-medium text-[var(--lotus-accent)]">{sectionTitle}</p>
+            <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
           )}
-          <h1 class="mt-3 text-3xl font-semibold leading-tight text-[var(--lotus-text-strong)] sm:text-4xl">
+          <h1 class="mt-3 text-3xl font-semibold leading-tight text-(--lotus-text-strong) sm:text-4xl">
             {title}
           </h1>
           {description && (
-            <p class="mt-4 max-w-3xl text-base leading-7 text-[var(--lotus-text-muted)] sm:text-lg">
+            <p class="mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted) sm:text-lg">
               {description}
             </p>
           )}
@@ -88,7 +88,7 @@ const currentPath =
       </article>
 
       <aside class="hidden xl:block">
-        <div class="sticky top-[var(--lotus-docs-chrome-height)] pt-6 pb-8">
+        <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
           <TableOfContents headings={headings} />
         </div>
       </aside>

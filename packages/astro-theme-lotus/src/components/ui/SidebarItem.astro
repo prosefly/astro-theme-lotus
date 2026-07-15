@@ -33,11 +33,11 @@ const expanded = active || hasActiveChild(item);
 const iconName = item.icon ? resolveIconName(item.icon) : undefined;
 const childItems = item.items ?? [];
 const linkClass = [
-  'lotus-focus-ring flex min-h-9 w-full items-center gap-3 rounded-[var(--lotus-radius-md)] px-3 py-1.5 text-sm transition-colors',
+  'lotus-focus-ring flex min-h-9 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-1 text-sm transition-colors',
   depth > 0 && 'pl-6',
   active
-    ? 'bg-[var(--lotus-accent-soft)] font-medium text-[var(--lotus-accent)]'
-    : 'text-[var(--lotus-text-muted)] hover:bg-[var(--lotus-surface)] hover:text-[var(--lotus-text-strong)]',
+    ? 'bg-(--lotus-accent-soft) font-medium text-(--lotus-accent)'
+    : 'text-(--lotus-text-muted) hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)',
 ];
 ---
 
@@ -49,11 +49,11 @@ const linkClass = [
         <span class="min-w-0 flex-1 truncate">{item.label}</span>
         <Icon
           aria-hidden="true"
-          class="h-4 w-4 shrink-0 text-[var(--lotus-text-muted)] transition-transform group-open/sidebar-item:rotate-90"
+          class="h-4 w-4 shrink-0 text-(--lotus-text-muted) transition-transform group-open/sidebar-item:rotate-90"
           name="lucide:chevron-right"
         />
       </summary>
-      <div class="mt-1 space-y-0.5">
+      <div class="mt-1">
         {childItems.map((child) => (
           <Astro.self item={child} currentPath={currentPath} depth={depth + 1} />
         ))}

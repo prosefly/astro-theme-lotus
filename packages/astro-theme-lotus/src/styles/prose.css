@@ -4,10 +4,11 @@
   --lotus-prose-font-mono: var(--lotus-font-mono);
   --lotus-prose-size: 1rem;
   --lotus-prose-leading: 1.75;
-  --lotus-prose-flow: 1.25rem;
-  --lotus-prose-heading-leading: 1.35;
-  --lotus-prose-border: color-mix(in oklab, var(--lotus-text-subtle) 24%, transparent);
-  --lotus-prose-row-background: color-mix(in oklab, var(--lotus-surface) 58%, transparent);
+  --lotus-prose-flow: 1.25em;
+  --lotus-prose-heading-leading: 1.25;
+  --lotus-prose-border: color-mix(in oklab, var(--lotus-text-subtle) 30%, transparent);
+  --lotus-prose-marker: color-mix(in oklab, var(--lotus-text-muted) 62%, transparent);
+  --lotus-prose-row-background: color-mix(in oklab, var(--lotus-surface) 45%, transparent);
 
   color: var(--lotus-text);
   font-family: var(--lotus-prose-font-body);
@@ -29,34 +30,36 @@
 }
 
 .lotus-prose :where(h1) {
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 2.25em;
+  font-weight: 800;
+  line-height: 1.1111111;
 }
 
 .lotus-prose :where(h2) {
-  font-size: 1.25em;
-  line-height: 1.4;
-  margin-block-start: 2rem;
+  font-size: 1.5em;
+  font-weight: 700;
+  line-height: 1.3333333;
+  margin-block-start: 2em;
 }
 
 .lotus-prose :where(h3) {
-  font-size: 1.125em;
-  line-height: 1.45;
-  margin-block-start: 1.75rem;
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-block-start: 1.6em;
 }
 
 .lotus-prose :where(h4) {
   font-size: 1em;
   line-height: 1.5;
-  margin-block-start: 1.5rem;
+  margin-block-start: 1.5em;
 }
 
 .lotus-prose :where(h2, h3) {
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
-.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video) {
+.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video, figure) {
   margin-block-start: var(--lotus-prose-flow);
 }
 
@@ -64,12 +67,16 @@
   margin-block-start: 0;
 }
 
-.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre) {
-  margin-block-start: 0.75rem;
+.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre, figure) {
+  margin-block-start: 1em;
 }
 
 .lotus-prose :where(p, li) {
   color: var(--lotus-text);
+}
+
+.lotus-prose :where(blockquote > :first-child, li > :first-child) {
+  margin-block-start: 0;
 }
 
 .lotus-prose :where(a) {
@@ -92,11 +99,11 @@
 
 .lotus-prose :where(strong) {
   color: var(--lotus-text-strong);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .lotus-prose :where(ul, ol) {
-  padding-inline-start: 1.5rem;
+  padding-inline-start: 1.625em;
 }
 
 .lotus-prose :where(ul) {
@@ -107,29 +114,45 @@
   list-style-type: decimal;
 }
 
-.lotus-prose :where(li + li) {
-  margin-block-start: 0.375rem;
+.lotus-prose :where(li) {
+  padding-inline-start: 0.375em;
+}
+
+.lotus-prose :where(li)::marker {
+  color: var(--lotus-prose-marker);
+  font-weight: 400;
+}
+
+.lotus-prose :where(li + li, li > p + p) {
+  margin-block-start: 0.5em;
 }
 
 .lotus-prose :where(li > ul, li > ol) {
-  margin-block-start: 0.5rem;
+  margin-block-start: 0.75em;
 }
 
 .lotus-prose :where(blockquote) {
-  border-inline-start: 2px solid var(--lotus-prose-border);
-  color: var(--lotus-text);
+  border-inline-start: 0.25rem solid var(--lotus-prose-border);
+  color: var(--lotus-text-strong);
+  font-weight: 500;
   padding-inline-start: 1rem;
+}
+
+.lotus-prose :where(blockquote p) {
+  color: inherit;
 }
 
 .lotus-prose :where(hr) {
   border: 0;
   border-block-start: 1px solid var(--lotus-prose-border);
-  margin-block-start: 2rem;
+  margin-block-start: 3em;
 }
 
 .lotus-prose :where(table) {
   border-collapse: collapse;
   display: table;
+  font-size: 0.875em;
+  line-height: 1.7142857;
   max-width: 100%;
   table-layout: auto;
   width: 100%;
@@ -148,9 +171,17 @@
 }
 
 .lotus-prose :where(th, td) {
-  padding: 0.5rem 0.75rem;
+  padding: 0.5714286em 0.5714286em;
   text-align: start;
   vertical-align: top;
+}
+
+.lotus-prose :where(th:first-child, td:first-child) {
+  padding-inline-start: 0;
+}
+
+.lotus-prose :where(th:last-child, td:last-child) {
+  padding-inline-end: 0;
 }
 
 .lotus-prose :where(th) {
@@ -169,7 +200,7 @@
   font-family: var(--lotus-prose-font-mono);
   font-size: 0.875em;
   font-weight: 600;
-  padding: 0.12em 0.32em;
+  padding: 0.15em 0.35em;
 }
 
 .lotus-prose :where(pre) {
@@ -179,10 +210,10 @@
   color: var(--lotus-text);
   font-family: var(--lotus-prose-font-mono);
   font-size: 0.875em;
-  line-height: 1.7;
+  line-height: 1.7142857;
   max-width: 100%;
   overflow-x: auto;
-  padding: 0.875rem 1rem;
+  padding: 0.8571429em 1.1428571em;
 }
 
 .lotus-prose :where(pre code) {
@@ -216,6 +247,13 @@
 .lotus-prose :where(img, video) {
   border-radius: var(--lotus-radius-lg);
   max-width: 100%;
+}
+
+.lotus-prose :where(figcaption) {
+  color: var(--lotus-text-muted);
+  font-size: 0.875em;
+  line-height: 1.4285714;
+  margin-block-start: 0.8571429em;
 }
 
 @media (max-width: 640px) {

@@ -11,15 +11,15 @@ const { sections } = Astro.props;
 ---
 
 <nav aria-label="Documentation sections">
-  <div class="mx-auto flex h-[var(--lotus-subnav-height)] max-w-screen-2xl items-center overflow-x-auto px-4 sm:px-6">
+  <div class="mx-auto flex h-(--lotus-subnav-height) max-w-screen-2xl items-center overflow-x-auto px-4 sm:px-6">
     <div class="lotus-scrollbar flex h-full min-w-full items-stretch gap-5">
       {sections.map((section) => (
         <a
           class:list={[
             'lotus-focus-ring lotus-subnav-link -mb-px inline-flex h-full items-center gap-1.5 border-b-2 px-1 text-sm font-medium whitespace-nowrap transition-colors',
             section.active
-              ? 'border-[var(--lotus-accent)] text-[var(--lotus-accent)]'
-              : 'border-transparent text-[var(--lotus-text-muted)] hover:text-[var(--lotus-text-strong)]',
+              ? 'border-(--lotus-accent) text-(--lotus-accent)'
+              : 'border-transparent text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
           ]}
           aria-current={section.active ? 'page' : undefined}
           href={section.href}

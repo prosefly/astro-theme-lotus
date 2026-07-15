@@ -1,23 +1,23 @@
 <dialog
   aria-label="Search documentation"
-  class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[var(--lotus-radius-lg)] border bg-[var(--lotus-background)] p-0 text-[var(--lotus-text)] shadow-xl shadow-black/10"
+  class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-(--lotus-radius-lg) border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
   data-lotus-search-dialog
 >
   <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
-    <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-[var(--lotus-text-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+    <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-3.5-3.5" />
     </svg>
     <input
       aria-label="Search documentation"
-      class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-[var(--lotus-text-muted)]"
+      class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
       data-lotus-search-input
       placeholder="Search docs"
       type="search"
     />
     <button
       aria-label="Close search"
-      class="lotus-focus-ring inline-flex h-8 w-8 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
+      class="lotus-focus-ring inline-flex h-8 w-8 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
       data-lotus-search-close
       type="button"
     >
@@ -27,7 +27,7 @@
       </svg>
     </button>
   </form>
-  <div class="px-4 py-10 text-center text-sm text-[var(--lotus-text-muted)]">
+  <div class="px-4 py-10 text-center text-sm text-(--lotus-text-muted)">
     No results
   </div>
 </dialog>

@@ -9,13 +9,13 @@ const modes = [
 ---
 
 <div
-  class="lotus-border-muted flex h-9 items-center rounded-[var(--lotus-radius-md)] border p-0.5"
+  class="lotus-border-muted flex h-9 items-center rounded-(--lotus-radius-md) border p-0.5"
   data-lotus-theme-switch
 >
   {modes.map((mode) => (
     <button
       aria-label={`${mode.label} theme`}
-      class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
+      class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
       data-theme-mode={mode.value}
       title={`${mode.label} theme`}
       type="button"

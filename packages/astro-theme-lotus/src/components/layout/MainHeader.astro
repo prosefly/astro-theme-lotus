@@ -48,13 +48,13 @@ function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boole
 
 <header
   class:list={[
-    'h-[var(--lotus-header-height)]',
-    surface && 'lotus-border-subtle border-b bg-[var(--lotus-background)]/95 backdrop-blur',
+    'h-(--lotus-header-height)',
+    surface && 'lotus-border-subtle border-b bg-(--lotus-background)/95 backdrop-blur',
   ]}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
-    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-[var(--lotus-text-strong)]" href="/">
-      <img alt="" class="h-8 w-8 rounded-[var(--lotus-radius-md)]" src={themeConfig.site.logo} />
+    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-(--lotus-text-strong)" href="/">
+      <img alt="" class="h-8 w-8 rounded-(--lotus-radius-md)" src={themeConfig.site.logo} />
       <span class="truncate text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
     </a>
 
@@ -75,7 +75,7 @@ function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boole
             </Button>
           ) : (
             <a
-              class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm font-medium text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
+              class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
               aria-current={isActive(item.href) ? 'page' : undefined}
               href={item.href}
               rel={item.external ? 'noreferrer' : undefined}
@@ -95,7 +95,7 @@ function isNavigationButton(item: LotusThemeConfig['navigation'][number]): boole
         {socials.map((social) => (
           <a
             aria-label={getActionLabel(social.label, social.icon)}
-            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-[var(--lotus-radius-md)] text-[var(--lotus-text-muted)] transition-colors hover:text-[var(--lotus-text-strong)]"
+            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
             href={social.href}
             rel={social.external ? 'noreferrer' : undefined}
             target={social.external ? '_blank' : undefined}
