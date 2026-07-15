@@ -22,10 +22,12 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
           <li>
             <a
               class:list={[
-                'lotus-focus-ring block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
+                'lotus-focus-ring lotus-toc-link block rounded-[var(--lotus-radius-md)] px-3 py-2 text-sm transition-colors',
                 heading.depth === 3 ? 'pl-6' : 'pl-3',
                 'text-[var(--lotus-muted)] hover:bg-[var(--lotus-muted-bg)] hover:text-[var(--lotus-fg)]',
               ]}
+              data-depth={heading.depth}
+              data-toc-link={heading.slug}
               href={`#${heading.slug}`}
             >
               {heading.text}
@@ -36,3 +38,67 @@ const visibleHeadings = headings.filter((heading) => heading.depth === 2 || head
     </nav>
   )
 }
+
+<script is:inline>
+  (() => {
+    const links = Array.from(document.querySelectorAll('a[data-toc-link]'));
+
+    if (!links.length || !('IntersectionObserver' in window)) {
+      return;
+    }
+
+    const headings = links
+      .map((link) => {
+        const slug = link.getAttribute('data-toc-link');
+        const heading = slug ? document.getElementById(slug) : null;
+
+        return heading ? { heading, slug } : null;
+      })
+      .filter(Boolean);
+
+    if (!headings.length) {
+      return;
+    }
+
+    const fallbackSlug = links[0].getAttribute('data-toc-link') ?? headings[0].slug;
+
+    const setActiveLink = (activeSlug) => {
+      links.forEach((link) => {
+        if (link.getAttribute('data-toc-link') === activeSlug) {
+          link.setAttribute('aria-current', 'true');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const getClosestHeadingSlug = () => {
+      const chromeHeight = getComputedStyle(document.documentElement)
+        .getPropertyValue('--lotus-docs-chrome-height')
+        .trim();
+      const parsedChromeHeight = Number.parseFloat(chromeHeight);
+      const offset = Number.isFinite(parsedChromeHeight) ? parsedChromeHeight + 24 : 120;
+
+      for (let index = headings.length - 1; index >= 0; index -= 1) {
+        if (headings[index].heading.getBoundingClientRect().top <= offset) {
+          return headings[index].slug;
+        }
+      }
+
+      return fallbackSlug;
+    };
+
+    const observer = new IntersectionObserver(
+      () => {
+        setActiveLink(getClosestHeadingSlug());
+      },
+      {
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0,
+      },
+    );
+
+    headings.forEach(({ heading }) => observer.observe(heading));
+    setActiveLink(getClosestHeadingSlug());
+  })();
+</script>

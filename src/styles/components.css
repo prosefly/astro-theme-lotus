@@ -26,3 +26,27 @@
   padding-inline: 1.5rem;
   width: 100%;
 }
+
+.lotus-toc-link {
+  position: relative;
+}
+
+.lotus-toc-link::before {
+  background: transparent;
+  border-radius: 999px;
+  bottom: 0.625rem;
+  content: "";
+  left: 0.375rem;
+  position: absolute;
+  top: 0.625rem;
+  width: 0.125rem;
+}
+
+.lotus-toc-link[aria-current="true"] {
+  background: var(--lotus-muted-bg);
+  color: var(--lotus-fg);
+}
+
+.lotus-toc-link[aria-current="true"]::before {
+  background: var(--lotus-accent);
+}

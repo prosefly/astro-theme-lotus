@@ -26,6 +26,10 @@
   margin: 2rem 0 0.75rem;
 }
 
+.lotus-prose :where(h2, h3) {
+  scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
+}
+
 .lotus-prose h4 {
   font-size: 1.125rem;
   margin: 1.5rem 0 0.5rem;
