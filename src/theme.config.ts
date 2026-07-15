@@ -9,8 +9,8 @@ const themeConfig = {
   appearance: {
     accent: 'indigo',
     gray: 'neutral',
-    fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
-    fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
+    fontSans: 'Inter',
+    fontMono: 'JetBrains Mono',
     defaultTheme: 'system',
     radius: 'medium',
   },

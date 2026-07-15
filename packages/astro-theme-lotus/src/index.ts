@@ -3,6 +3,7 @@ import proseflyIcons from '@prosefly/astro-components/icons';
 import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
 import type { Plugin } from 'vite';
+import { getAstroFontConfigs } from './lib/fonts';
 import { componentOverridePlugin } from './lib/overriding';
 import { getIconPreloadNames } from './lib/preload-icons';
 import {
@@ -43,8 +44,8 @@ const defaultConfig: LotusThemeConfig = {
   appearance: {
     accent: 'indigo',
     gray: 'neutral',
-    fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
-    fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
+    fontSans: 'Inter',
+    fontMono: 'JetBrains Mono',
     defaultTheme: 'system',
     radius: 'medium',
   },
@@ -125,6 +126,8 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
           entrypoint: new URL('./routes/docs/[...slug].astro', import.meta.url),
         });
 
+        const lotusFonts = getAstroFontConfigs(config);
+
         updateConfig({
           markdown: {
             shikiConfig: {
@@ -134,6 +137,12 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               },
             },
           },
+          fonts: lotusFonts.length > 0
+            ? [
+                ...(astroConfig.fonts ?? []),
+                ...lotusFonts,
+              ]
+            : astroConfig.fonts,
           integrations: [
             mdx(),
             proseflyIcons({

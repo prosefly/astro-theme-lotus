@@ -6,7 +6,7 @@
   --lotus-prose-leading: 1.75;
   --lotus-prose-flow: 1.25em;
   --lotus-prose-heading-leading: 1.25;
-  --lotus-prose-border: color-mix(in oklab, var(--lotus-text-subtle) 30%, transparent);
+  --lotus-prose-border: var(--lotus-border-muted);
   --lotus-prose-marker: color-mix(in oklab, var(--lotus-text-muted) 62%, transparent);
   --lotus-prose-row-background: color-mix(in oklab, var(--lotus-surface) 45%, transparent);
 
@@ -133,8 +133,7 @@
 
 .lotus-prose :where(blockquote) {
   border-inline-start: 0.25rem solid var(--lotus-prose-border);
-  color: var(--lotus-text-strong);
-  font-weight: 500;
+  color: var(--lotus-text-muted);
   padding-inline-start: 1rem;
 }
 

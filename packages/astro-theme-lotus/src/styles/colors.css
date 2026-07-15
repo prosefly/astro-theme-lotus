@@ -80,12 +80,14 @@
 
   --lotus-background: oklch(1 0 0);
   --lotus-text-strong: var(--lotus-gray-950);
-  --lotus-text: var(--lotus-gray-800);
+  --lotus-text: var(--lotus-gray-700);
   --lotus-text-muted: var(--lotus-gray-600);
-  --lotus-text-subtle: var(--lotus-gray-400);
+  --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-400) 32%, transparent);
+  --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-400) 20%, transparent);
+  --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-400) 54%, transparent);
   --lotus-surface: var(--lotus-gray-100);
   --lotus-code-background: var(--lotus-gray-50);
-  --lotus-code-border: color-mix(in oklab, var(--lotus-text-subtle) 24%, transparent);
+  --lotus-code-border: color-mix(in oklab, var(--lotus-gray-400) 24%, transparent);
   --lotus-accent: var(--lotus-accent-light);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background));
   --lotus-accent-contrast: oklch(1 0 0);
@@ -93,7 +95,6 @@
   --pl-text-strong: var(--lotus-text-strong);
   --pl-text: var(--lotus-text);
   --pl-text-muted: var(--lotus-text-muted);
-  --pl-text-subtle: var(--lotus-text-subtle);
   --pl-background: var(--lotus-background);
   --pl-surface: var(--lotus-surface);
   --pl-accent: var(--lotus-accent);
@@ -164,10 +165,12 @@
   --lotus-text-strong: var(--lotus-gray-50);
   --lotus-text: var(--lotus-gray-200);
   --lotus-text-muted: var(--lotus-gray-400);
-  --lotus-text-subtle: var(--lotus-gray-500);
+  --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-500) 32%, transparent);
+  --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
+  --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
   --lotus-surface: var(--lotus-gray-900);
   --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
-  --lotus-code-border: color-mix(in oklab, var(--lotus-text-subtle) 28%, transparent);
+  --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
   --lotus-accent: var(--lotus-accent-dark);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
   --lotus-accent-contrast: var(--lotus-gray-950);
@@ -181,10 +184,12 @@
     --lotus-text-strong: var(--lotus-gray-50);
     --lotus-text: var(--lotus-gray-200);
     --lotus-text-muted: var(--lotus-gray-400);
-    --lotus-text-subtle: var(--lotus-gray-500);
+    --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-500) 32%, transparent);
+    --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
+    --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
     --lotus-surface: var(--lotus-gray-900);
     --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
-    --lotus-code-border: color-mix(in oklab, var(--lotus-text-subtle) 28%, transparent);
+    --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
     --lotus-accent: var(--lotus-accent-dark);
     --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
     --lotus-accent-contrast: var(--lotus-gray-950);

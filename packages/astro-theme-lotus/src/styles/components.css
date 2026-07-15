@@ -4,11 +4,11 @@
 }
 
 .lotus-border-muted {
-  border-color: color-mix(in oklab, var(--lotus-text-subtle) 32%, transparent);
+  border-color: var(--lotus-border-muted);
 }
 
 .lotus-border-subtle {
-  border-color: color-mix(in oklab, var(--lotus-text-subtle) 20%, transparent);
+  border-color: var(--lotus-border-subtle);
 }
 
 .lotus-scrollbar {
@@ -126,7 +126,7 @@
 }
 
 .lotus-subnav-link:hover {
-  border-color: color-mix(in oklab, var(--lotus-text-subtle) 54%, transparent);
+  border-color: var(--lotus-border-hover);
 }
 
 .lotus-subnav-link[aria-current="page"]:hover {

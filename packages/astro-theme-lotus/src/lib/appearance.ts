@@ -1,4 +1,5 @@
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getFontStack } from './fonts';
 import type { LotusThemeConfig, ThemeMode } from './theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
@@ -41,14 +42,20 @@ function getAccentVariables(accent: string): Record<string, string> {
 
 export function getThemeAttributes(): Record<string, string> {
   const defaultTheme = themeConfig.appearance.defaultTheme as ThemeMode;
+  const fontSans = getFontStack(themeConfig.appearance.fontSans, '--lotus-system-sans');
+  const fontMono = getFontStack(themeConfig.appearance.fontMono, '--lotus-system-mono');
 
   return {
     'data-theme': defaultTheme,
     'data-radius': themeConfig.appearance.radius,
     'data-gray': themeConfig.appearance.gray,
     style: serializeStyleVariables({
-      '--lotus-font-sans': themeConfig.appearance.fontSans,
-      '--lotus-font-mono': themeConfig.appearance.fontMono,
+      '--lotus-font-sans': fontSans,
+      '--lotus-font-mono': fontMono,
+      '--default-font-family': 'var(--lotus-font-sans)',
+      '--default-mono-font-family': 'var(--lotus-font-mono)',
+      '--default-font-feature-settings': '"cv02", "cv03", "cv04", "cv11"',
+      '--default-mono-font-feature-settings': '"ss02", "zero"',
       ...getAccentVariables(themeConfig.appearance.accent),
     }),
   };

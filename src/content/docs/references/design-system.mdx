@@ -22,7 +22,7 @@ across layouts and MDX components.
 The `appearance.gray` setting renders as an attribute such as
 `data-gray="neutral"`. Lotus maps that selector to `--lotus-gray-*` aliases, then
 derives `--lotus-text`, `--lotus-text-strong`, `--lotus-surface`, code
-backgrounds, borders, and subtle dividers from that scale. The theme uses
+backgrounds, borders, and dividers from that scale. The theme uses
 `@theme static` to keep supported Tailwind color variables in the generated CSS.
 
 ## Why Lotus uses semantic color tokens
@@ -76,7 +76,8 @@ release palette.
 | `--lotus-text-strong` | Headings, section labels, active text |
 | `--lotus-text` | Main body text |
 | `--lotus-text-muted` | Secondary text and inactive navigation |
-| `--lotus-text-subtle` | Low-emphasis affordances, borders, separators |
+| `--lotus-border-muted` | Default component and content borders |
+| `--lotus-border-subtle` | Low-emphasis dividers and chrome separators |
 | `--lotus-accent` | Primary interactive color |
 | `--lotus-accent-soft` | Muted active and hover backgrounds |
 | `--lotus-accent-contrast` | Text on accent backgrounds |

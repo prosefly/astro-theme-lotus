@@ -12,8 +12,8 @@ and package components.
 appearance: {
   accent: 'indigo',
   gray: 'neutral',
-  fontSans: 'Inter, ui-sans-serif, system-ui, sans-serif',
-  fontMono: 'JetBrains Mono, ui-monospace, SFMono-Regular, monospace',
+  fontSans: 'Inter',
+  fontMono: 'JetBrains Mono',
   defaultTheme: 'system',
   radius: 'medium',
 }
@@ -48,6 +48,21 @@ share the same shape language.
 
 ## Fonts
 
-Use `fontSans` and `fontMono` to set runtime CSS variables. Lotus does not load
-remote fonts for you, so add font files or external font styles in the host
-project when needed.
+Lotus includes default Astro Fonts definitions for Inter and JetBrains Mono
+using the Fontsource provider. When `fontSans` or `fontMono` matches one of
+those built-in names, Lotus registers the font with Astro and renders Astro's
+`<Font />` component in the document head. The font files are downloaded,
+cached, and served by Astro instead of being referenced as a plain external
+stylesheet.
+
+Use `fontSans` and `fontMono` to set the primary font for each stack. Lotus
+adds system fallbacks in CSS through `--lotus-system-sans` and
+`--lotus-system-mono`, so the configuration only needs the preferred font:
+
+```ts
+fontSans: 'Inter'
+fontMono: 'JetBrains Mono'
+```
+
+You can still replace these with project-specific variables or a system font
+stack when a site owns its font loading strategy.

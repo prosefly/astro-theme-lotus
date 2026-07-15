@@ -6,6 +6,9 @@ const layoutIconNames = [
   'lucide:chevron-down',
   'lucide:chevron-right',
   'lucide:menu',
+  'lucide:monitor',
+  'lucide:moon',
+  'lucide:sun',
   'lucide:x',
 ] as const;
 

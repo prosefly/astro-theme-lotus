@@ -1,6 +1,8 @@
 ---
 import '../styles/app.css';
+import { Font } from 'astro:assets';
 import { getThemeAttributes } from '../lib/appearance';
+import { getFontCssVariables } from '../lib/fonts';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 
@@ -15,6 +17,7 @@ const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.site.title}`
   : themeConfig.site.title;
+const fontCssVariables = getFontCssVariables(themeConfig);
 ---
 
 <html lang="en" {...themeAttrs}>
@@ -23,6 +26,7 @@ const pageTitle = title
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {fontCssVariables.map((cssVariable) => <Font cssVariable={cssVariable} />)}
   </head>
   <body class="min-h-screen bg-(--lotus-background) text-(--lotus-text)">
     <slot />
