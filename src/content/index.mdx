@@ -1,30 +1,41 @@
 ---
 title: Astro Theme Lotus
-description: Overview of the Lotus documentation structure.
+description: A documentation theme for Astro with configurable navigation, appearance tokens, MDX components, search, and Markdown source routes.
+template: splash
+tableOfContents: false
+hero:
+  title: Astro Theme Lotus
+  tagline: Build product documentation with Astro, MDX, Tailwind CSS, theme tokens, and reusable Prosefly components.
+  actions:
+    - text: Get started
+      link: /docs/overview/
+      variant: primary
+      icon: lucide:chevron-right
+    - text: Browse components
+      link: /docs/components/icon/
+      variant: secondary
 sidebar:
-  order: 0
+  hidden: true
 ---
 
-Lotus is an installable documentation theme for Astro v7 with a declarative
-theme config, a docs-first content model, and shared MDX building blocks for
-real project documentation.
+## Documentation Shell
 
-It is designed for teams that want docs they can ship quickly without rewriting
-the entire shell. Install `@prosefly/astro-theme-lotus`, configure the site in
-`src/theme.config.ts`, write pages in `src/content/docs/`, and let the content
-tree drive section navigation.
+Lotus provides the page chrome, docs route, search index, Markdown source
+routes, and responsive navigation model for Astro documentation sites. Install
+the integration, configure `src/theme.config.ts`, and let the content tree drive
+the subnav, sidebar, table of contents, and previous/next links.
 
-## First-release scope
+## What It Includes
 
-- MDX content with authored guide, components, and references sections.
-- Built-in search dialog backed by a generated `search.json` index.
-- Markdown source export for every docs page through a sibling `.md` route.
-- Dark mode foundation with configurable light, dark, or system defaults.
-- Configurable nav links, header actions, footer sections, accent palette,
-  fonts, and radius.
-- Content-driven subnav and section sidebars.
+- An Astro integration that mounts docs pages from `docsBase`.
+- MDX support with Expressive Code, package manager tabs, and image galleries.
+- Configurable navbar, sidebars, footer links, page actions, favicon, and logo.
+- Theme tokens for accent color, gray scale, dark mode, and radius.
+- Overrideable theme components for search, header, page actions, and page nav.
+- Shared `@prosefly/astro-components` for common documentation UI.
 
-Deferred for later releases:
+## Designed For Real Docs
 
-- i18n.
-- Versioned docs.
+The default content structure separates guides, essentials, customization,
+components, and references. That keeps the first install useful while still
+leaving the information architecture fully configurable.

@@ -1,0 +1,173 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Footer from '../components/layout/Footer.astro';
+import MainHeader from '../components/layout/MainHeader.astro';
+import Button from '../components/ui/Button.astro';
+import { resolveIconName } from '../lib/icons';
+
+interface HeroAction {
+  text: string;
+  link: string;
+  variant?: 'primary' | 'secondary' | 'minimal';
+  icon?: string;
+  attrs?: Record<string, string | number | boolean | undefined>;
+}
+
+interface HeroImage {
+  file?: string;
+  light?: string;
+  dark?: string;
+  alt?: string;
+  html?: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  hero?: {
+    title?: string;
+    tagline?: string;
+    image?: HeroImage;
+    actions?: HeroAction[];
+  };
+}
+
+const { title, description, hero } = Astro.props;
+const heroTitle = hero?.title ?? title;
+const heroTagline = hero?.tagline ?? description;
+const actions = hero?.actions ?? [];
+
+function getButtonVariant(action: HeroAction): 'soft' | 'outline' | 'solid' | 'ghost' {
+  if (action.variant === 'primary') {
+    return 'solid';
+  }
+
+  if (action.variant === 'minimal') {
+    return 'ghost';
+  }
+
+  return 'outline';
+}
+
+function getButtonColor(action: HeroAction): 'neutral' | 'accent' {
+  return action.variant === 'primary' ? 'accent' : 'neutral';
+}
+---
+
+<BaseLayout title={title} description={description}>
+  <MainHeader surface />
+
+  <main>
+    <section class="lotus-border-subtle border-b">
+      <div class="mx-auto max-w-screen-2xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
+        <div class="mx-auto max-w-4xl text-center">
+          <h1 class="text-4xl font-semibold leading-tight tracking-normal text-(--lotus-text-strong) sm:text-5xl lg:text-6xl">
+            {heroTitle}
+          </h1>
+          {heroTagline && (
+            <p class="mx-auto mt-5 max-w-2xl text-base leading-8 text-(--lotus-text-muted) sm:text-lg">
+              {heroTagline}
+            </p>
+          )}
+          {actions.length > 0 && (
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+              {actions.map((action) => (
+                <Button
+                  color={getButtonColor(action)}
+                  href={action.link}
+                  trailingIcon={action.icon ? resolveIconName(action.icon) : undefined}
+                  variant={getButtonVariant(action)}
+                  {...(action.attrs ?? {})}
+                >
+                  {action.text}
+                </Button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {hero?.image && (
+          <div class="mx-auto mt-12 max-w-5xl">
+            {hero.image.html ? (
+              <div class="lotus-splash-visual" set:html={hero.image.html} />
+            ) : hero.image.file ? (
+              <img
+                alt={hero.image.alt ?? ''}
+                class="lotus-splash-image"
+                loading="eager"
+                src={hero.image.file}
+              />
+            ) : hero.image.light && hero.image.dark ? (
+              <div class="lotus-splash-picture">
+                <img
+                  alt={hero.image.alt ?? ''}
+                  class="lotus-splash-image lotus-splash-image-light"
+                  loading="eager"
+                  src={hero.image.light}
+                />
+                <img
+                  alt={hero.image.alt ?? ''}
+                  class="lotus-splash-image lotus-splash-image-dark"
+                  loading="eager"
+                  src={hero.image.dark}
+                />
+              </div>
+            ) : null}
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 sm:py-16">
+      <div class="lotus-splash-content lotus-prose mx-auto max-w-4xl">
+        <slot />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .lotus-splash-visual,
+  .lotus-splash-image {
+    border-radius: min(var(--lotus-radius-lg), 1.25rem);
+  }
+
+  .lotus-splash-visual,
+  .lotus-splash-image {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .lotus-splash-picture {
+    display: contents;
+  }
+
+  .lotus-splash-image-dark {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .lotus-splash-image-light {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .lotus-splash-image-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="system"] .lotus-splash-image-light {
+      display: none;
+    }
+
+    :root[data-theme="system"] .lotus-splash-image-dark {
+      display: block;
+    }
+  }
+
+  .lotus-splash-content :global(> :first-child) {
+    margin-top: 0;
+  }
+</style>
