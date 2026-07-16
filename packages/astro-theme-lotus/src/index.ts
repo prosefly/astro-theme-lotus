@@ -1,5 +1,5 @@
 import mdx from '@astrojs/mdx';
-import proseflyIcons from '@prosefly/astro-components/icons';
+import proseflyIcon from '@prosefly/astro-components/icon';
 import tailwindcss from '@tailwindcss/vite';
 import astroExpressiveCode from 'astro-expressive-code';
 import type { AstroIntegration } from 'astro';
@@ -57,7 +57,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               ? []
               : [astroExpressiveCode(expressiveCodeOptions)]),
             mdx(),
-            proseflyIcons({
+            proseflyIcon({
               apiBase: config.iconify?.apiBase,
               preload: getIconPreloadNames(config),
               scan: config.iconify?.scan,

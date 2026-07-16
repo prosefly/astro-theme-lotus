@@ -11,7 +11,7 @@ export interface IconIntegrationOptions {
   scan?: boolean;
 }
 
-const virtualIconConfigModuleId = 'virtual:prosefly/astro-components/icons/config';
+const virtualIconConfigModuleId = 'virtual:prosefly/astro-components/icon/config';
 const resolvedVirtualIconConfigModuleId = `\0${virtualIconConfigModuleId}`;
 
 interface IconPreloadConfig {
@@ -113,7 +113,7 @@ function groupIconNames(iconNames: Iterable<string>): Record<string, string[]> {
 
 function iconConfigPlugin(config: IconPreloadConfig): Plugin {
   return {
-    name: '@prosefly/astro-components/icons/config',
+    name: '@prosefly/astro-components/icon/config',
     resolveId(id) {
       if (id === virtualIconConfigModuleId) {
         return resolvedVirtualIconConfigModuleId;
@@ -127,9 +127,9 @@ function iconConfigPlugin(config: IconPreloadConfig): Plugin {
   };
 }
 
-export default function icons(options: IconIntegrationOptions = {}): AstroIntegration {
+export default function icon(options: IconIntegrationOptions = {}): AstroIntegration {
   return {
-    name: '@prosefly/astro-components/icons',
+    name: '@prosefly/astro-components/icon',
     hooks: {
       'astro:config:setup': async ({ addMiddleware, config, updateConfig }) => {
         const iconNames = new Set<string>();
@@ -167,7 +167,7 @@ export default function icons(options: IconIntegrationOptions = {}): AstroIntegr
 
         addMiddleware({
           order: 'pre',
-          entrypoint: new URL('./icon-middleware.ts', import.meta.url),
+          entrypoint: new URL('./middleware.ts', import.meta.url),
         });
       },
     },

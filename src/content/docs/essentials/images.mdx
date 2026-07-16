@@ -1,0 +1,161 @@
+---
+title: Images
+description: Author images, galleries, figures, and iframe embeds in Lotus docs.
+sidebar:
+  order: 8
+---
+
+Lotus supports standard Markdown images, raw HTML images, figures with captions,
+image galleries, and iframe embeds written directly in MDX content.
+
+## Markdown Images
+
+Use standard Markdown image syntax for most content images.
+
+```md
+![A calm mountain lake at sunset](https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&h=875&q=80)
+```
+
+![A calm mountain lake at sunset](https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&h=875&q=80)
+
+Always write meaningful alt text for content images. If an image is purely
+decorative, keep the alt text empty.
+
+```md
+![](/decorative-divider.png)
+```
+
+## Local Images
+
+Use root-relative paths for images in `public/`.
+
+```md
+![Product screenshot](/images/product-screenshot.png)
+```
+
+Use imported images when the project wants Astro's asset pipeline.
+
+```mdx
+import screenshot from '../../../assets/screenshot.png';
+
+<img src={screenshot.src} alt="Product screenshot" />
+```
+
+## Image Galleries
+
+When a paragraph contains only images, Lotus converts that paragraph into a
+horizontal image gallery with previous and next controls.
+
+```md
+![A wide valley with low clouds](https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&h=600&q=80)
+![A vertical mountain ridge above a forest](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=720&h=1000&q=80)
+![A square waterfall in a green canyon](https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=900&h=900&q=80)
+![A panoramic tropical coastline](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1300&h=560&q=80)
+```
+
+![A wide valley with low clouds](https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&h=600&q=80)
+![A vertical mountain ridge above a forest](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=720&h=1000&q=80)
+![A square waterfall in a green canyon](https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=900&h=900&q=80)
+![A panoramic tropical coastline](https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1300&h=560&q=80)
+
+The gallery transform only runs when the paragraph contains images and
+whitespace. If text appears in the same paragraph, Lotus keeps it as normal
+inline content.
+
+## Figures
+
+Use raw HTML when an image needs a caption.
+
+```mdx
+<figure>
+  <img
+    alt="A dark mountain landscape under a starry night sky"
+    src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80"
+  />
+  <figcaption>
+    Captions can contain regular MDX text. MDX may wrap this content in a
+    paragraph, and Lotus styles that case correctly.
+  </figcaption>
+</figure>
+```
+
+<figure>
+  <img
+    alt="A dark mountain landscape under a starry night sky"
+    src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80"
+  />
+  <figcaption>
+    Captions can contain regular MDX text. MDX may wrap this content in a
+    paragraph, and Lotus styles that case correctly.
+  </figcaption>
+</figure>
+
+## Raw HTML Images
+
+Use raw `<img>` when you need attributes that Markdown syntax does not expose.
+
+```mdx
+<img
+  alt="A winding road through a mountain valley"
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&h=875&q=80"
+/>
+```
+
+Lotus styles raw images the same way it styles Markdown images.
+
+## Iframe Embeds
+
+Users can write raw iframes directly in MDX. Lotus applies prose spacing,
+border, radius, and responsive sizing.
+
+```mdx
+<iframe
+  height="180"
+  srcdoc="<main style='align-items:center;background:#f8fafc;color:#334155;display:flex;font:16px system-ui;height:100%;justify-content:center;margin:0'>Generic iframe content</main>"
+  title="Generic iframe example"
+  width="640"
+></iframe>
+```
+
+<iframe
+  height="180"
+  srcdoc="<main style='align-items:center;background:#f8fafc;color:#334155;display:flex;font:16px system-ui;height:100%;justify-content:center;margin:0'>Generic iframe content</main>"
+  title="Generic iframe example"
+  width="640"
+></iframe>
+
+Video embeds from YouTube and Vimeo are rendered responsively with a `16 / 9`
+aspect ratio.
+
+```mdx
+<iframe
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ"
+  title="YouTube video example"
+  width="560"
+></iframe>
+```
+
+<iframe
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ"
+  title="YouTube video example"
+  width="560"
+></iframe>
+
+## Styling Behavior
+
+Lotus prose applies these defaults:
+
+- Images, videos, and iframes inherit the prose radius.
+- Images and iframes never exceed the content column width.
+- Image-only paragraphs are converted into `.pl-image-gallery`.
+- Multi-image galleries use horizontal scroll snap with overlay controls.
+- Gallery items calculate a shared height from image ratios and available width.
+- Multi-image galleries show the current image plus a preview of the next image.
+- `figcaption` uses muted text and handles nested paragraphs.

@@ -1,4 +1,4 @@
-import iconConfig from 'virtual:prosefly/astro-components/icons/config';
+import iconConfig from 'virtual:prosefly/astro-components/icon/config';
 import type { MiddlewareHandler } from 'astro';
 
 let collectionsPromise: Promise<Record<string, unknown>> | undefined;

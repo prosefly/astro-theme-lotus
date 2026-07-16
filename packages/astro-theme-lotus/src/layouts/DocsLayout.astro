@@ -5,6 +5,7 @@ import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
+import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getPageMarkdownHref } from '../lib/page-actions';
@@ -143,4 +144,5 @@ const jsonLd = createDocsJsonLd({
   </main>
 
   <Footer />
+  <ImageGallery />
 </BaseLayout>

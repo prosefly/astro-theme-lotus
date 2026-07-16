@@ -5,8 +5,9 @@
   "license": "BSD-3-Clause",
   "exports": {
     ".": "./src/index.ts",
-    "./icons": "./src/integrations/icons.ts",
-    "./package-manager-tabs": "./src/integrations/package-manager-tabs.ts"
+    "./icon": "./src/icon/index.ts",
+    "./markdown": "./src/markdown/index.ts",
+    "./markdown/ImageGallery.astro": "./src/markdown/ImageGallery.astro"
   },
   "peerDependencies": {
     "astro": "^7.0.0"

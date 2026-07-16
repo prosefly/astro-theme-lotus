@@ -1,4 +1,4 @@
-declare module 'virtual:prosefly/astro-components/icons/config' {
+declare module 'virtual:prosefly/astro-components/icon/config' {
   const config: {
     apiBase: string;
     iconsByPrefix: Record<string, string[]>;

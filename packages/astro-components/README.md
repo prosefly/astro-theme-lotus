@@ -27,16 +27,16 @@ The main entry exports:
 
 ## Icon Integration
 
-Use the `@prosefly/astro-components/icons` integration when a project wants
+Use the `@prosefly/astro-components/icon` integration when a project wants
 Iconify preloading without the full Lotus theme:
 
 ```ts
 import { defineConfig } from 'astro/config';
-import proseflyIcons from '@prosefly/astro-components/icons';
+import proseflyIcon from '@prosefly/astro-components/icon';
 
 export default defineConfig({
   integrations: [
-    proseflyIcons({
+    proseflyIcon({
       preload: ['lucide:star', 'simple-icons:github'],
     }),
   ],
@@ -47,24 +47,37 @@ The integration can scan `src/**/*.astro`, `src/**/*.md`, and `src/**/*.mdx`
 for static icon usage. Set `scan: false` to disable that behavior or `apiBase`
 to point at an internal Iconify-compatible endpoint.
 
-## Package Manager Tabs
+## Markdown Transforms
 
-Use the `@prosefly/astro-components/package-manager-tabs` remark plugin to turn
-compatible shell snippets into synced tab groups:
+Use `@prosefly/astro-components/markdown` for optional markdown transforms:
 
 ```ts
 import { defineConfig } from 'astro/config';
-import { remarkPackageManagerTabs } from '@prosefly/astro-components/package-manager-tabs';
+import { rehypeImageGallery, remarkPackageManagerTabs } from '@prosefly/astro-components/markdown';
 
 export default defineConfig({
   markdown: {
     remarkPlugins: [remarkPackageManagerTabs],
+    rehypePlugins: [rehypeImageGallery],
   },
 });
 ```
 
-The plugin recognizes common `npm` commands and can generate tabs for Node and
-Python package managers. Lotus enables this transform by default.
+`remarkPackageManagerTabs` recognizes common `npm` commands and can generate
+tabs for Node and Python package managers. `rehypeImageGallery` turns paragraphs
+that contain only images into gallery figures. Lotus enables both transforms by
+default.
+
+Render `ImageGallery` once in the page shell to load styles and enable previous
+and next controls for galleries produced by `rehypeImageGallery`:
+
+```astro
+---
+import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
+---
+
+<ImageGallery />
+```
 
 ## Styling
 

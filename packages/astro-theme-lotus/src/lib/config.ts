@@ -1,6 +1,6 @@
 import { isUnifiedProcessor, unified } from '@astrojs/markdown-remark';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
-import { remarkPackageManagerTabs } from '@prosefly/astro-components/package-manager-tabs';
+import { rehypeImageGallery, remarkPackageManagerTabs } from '@prosefly/astro-components/markdown';
 import { mergeEcConfigOptions, type AstroExpressiveCodeOptions } from 'astro-expressive-code';
 import type { AstroConfig } from 'astro';
 import type { Plugin } from 'vite';
@@ -134,6 +134,10 @@ export function resolveMarkdownConfig(
     ...(unifiedOptions?.remarkPlugins ?? markdownConfig?.remarkPlugins ?? []),
     ...(options.packageManagerTabs === false ? [] : [remarkPackageManagerTabs]),
   ];
+  const rehypePlugins = [
+    ...(unifiedOptions?.rehypePlugins ?? markdownConfig?.rehypePlugins ?? []),
+    rehypeImageGallery,
+  ];
 
   return {
     ...(expressiveCodeOptions === false
@@ -148,7 +152,7 @@ export function resolveMarkdownConfig(
       : {}),
     processor: unified({
       remarkPlugins,
-      rehypePlugins: unifiedOptions?.rehypePlugins ?? markdownConfig?.rehypePlugins,
+      rehypePlugins,
       remarkRehype: unifiedOptions?.remarkRehype ?? markdownConfig?.remarkRehype,
       gfm: unifiedOptions?.gfm ?? markdownConfig?.gfm,
       smartypants: unifiedOptions?.smartypants ?? markdownConfig?.smartypants,
