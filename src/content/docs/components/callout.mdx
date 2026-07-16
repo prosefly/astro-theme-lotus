@@ -29,17 +29,13 @@ import { Badge, Callout } from '@prosefly/astro-components';
   amount of emphasis without adding another container.
 </Callout>
 
-<p>
-  Status badges:
-  {' '}
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <span>Status badges:</span>
   <Badge>Neutral</Badge>
-  {' '}
-  <Badge variant="accent">Accent</Badge>
-  {' '}
-  <Badge variant="success">Stable</Badge>
-  {' '}
-  <Badge variant="warning">Review</Badge>
-</p>
+  <Badge color="accent">Accent</Badge>
+  <Badge color="success">Stable</Badge>
+  <Badge color="warning">Review</Badge>
+</div>
 
 ## Props
 
@@ -54,7 +50,8 @@ import { Badge, Callout } from '@prosefly/astro-components';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `variant` | `'neutral' \| 'accent' \| 'success' \| 'warning'` | `'neutral'` | Adjusts badge tone while keeping the same shape and spacing. |
+| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline' \| 'ghost'` | `'soft'` | Adjusts the badge visual treatment. |
+| `color` | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | Adjusts the badge tone while keeping the same shape and spacing. |
 
 ## Notes
 

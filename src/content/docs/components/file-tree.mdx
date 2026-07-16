@@ -1,0 +1,94 @@
+---
+title: File Tree
+description: Display directory structures with collapsible folders and file metadata.
+sidebar:
+  order: 6
+---
+
+import { FileTree } from '@prosefly/astro-components';
+
+Use `FileTree` to show the shape of a project, package, or documentation
+folder. The syntax follows Starlight: write a single unordered Markdown list
+inside the component.
+
+## Import
+
+```mdx
+import { FileTree } from '@prosefly/astro-components';
+```
+
+## Example
+
+<FileTree>
+
+- astro.config.mjs
+- package.json
+- README.md project overview
+- src
+  - content
+    - docs
+      - index.mdx
+      - components/
+  - theme.config.ts
+- public/
+
+</FileTree>
+
+## Highlight Entries
+
+Make a file or directory stand out by making its name bold.
+
+<FileTree>
+
+- src
+  - components
+    - **FileTree.astro**
+    - Tabs.astro
+
+</FileTree>
+
+## Add Comments
+
+Add a comment to a file or directory by writing more text after the name. Inline
+Markdown formatting is supported in comments.
+
+<FileTree>
+
+- src
+  - content contains the documentation collection
+    - docs generated from `themeConfig.sidebars`
+  - theme.config.ts the **main** Lotus configuration file
+
+</FileTree>
+
+## Add Placeholders
+
+Use `...` or `…` to indicate hidden or omitted files.
+
+<FileTree>
+
+- src
+  - components
+    - Header.astro
+    - …
+  - pages/
+
+</FileTree>
+
+## Escape Special Names
+
+Wrap filenames in backticks when they contain spaces or characters that Markdown
+would otherwise treat as formatting.
+
+<FileTree>
+
+- `__init__.py`
+- `Hello world.txt`
+- **`READ ME FIRST.md`**
+
+</FileTree>
+
+## Props
+
+`FileTree` does not accept props. Its content must be a single unordered list
+with at least one item.

@@ -15,14 +15,64 @@ Use headings to create page structure and table-of-contents anchors.
 ```md
 ## Section title
 ### Subsection title
+#### Detail title
 ```
 
 Do not add a top-level `# Heading` at the start of the MDX body. Lotus renders
 the page title from frontmatter in the layout.
 
+## Paragraphs
+
+Separate paragraphs with a blank line.
+
+```md
+This is the first paragraph.
+
+This is the second paragraph.
+```
+
+Line breaks inside a paragraph are collapsed by default. Use a blank line when
+you want a new paragraph.
+
+## Emphasis
+
+Use emphasis for inline stress and strong emphasis for important terms.
+
+```md
+This sentence has *emphasis* and **strong emphasis**.
+
+You can also combine ***strong emphasis with emphasis***.
+```
+
+## Links
+
+Use inline links for most references.
+
+```md
+Read the [Astro documentation](https://docs.astro.build/).
+```
+
+Reference-style links are useful when the same URL appears repeatedly.
+
+```md
+Read the [Astro documentation][astro-docs].
+
+[astro-docs]: https://docs.astro.build/
+```
+
+## Images
+
+Images use the same bracket syntax as links, with a leading `!`.
+
+```md
+![Lotus screenshot](/images/lotus-screenshot.png)
+```
+
+Use meaningful alt text. If the image is decorative, keep the alt text empty.
+
 ## Lists
 
-Ordered and unordered lists render with the shared prose styles.
+Unordered lists use `-`, `*`, or `+`. Lotus examples prefer `-`.
 
 ```md
 - Install the package.
@@ -30,15 +80,62 @@ Ordered and unordered lists render with the shared prose styles.
 - Add documentation content.
 ```
 
-## Code blocks
+Ordered lists use numbers.
 
-Fence code blocks with a language name when possible:
+```md
+1. Install dependencies.
+2. Configure Astro.
+3. Start the dev server.
+```
+
+Nested lists are indented by two or four spaces.
+
+```md
+- Configuration
+  - Site
+  - Appearance
+  - Navbar
+```
+
+## Task Lists
+
+Task lists are supported through GitHub Flavored Markdown.
+
+```md
+- [x] Create the docs structure
+- [ ] Publish the package
+```
+
+## Blockquotes
+
+Use blockquotes for quoted material or important contextual notes.
+
+```md
+> Lotus is designed for documentation that should feel compact, readable, and
+> easy to scan.
+```
+
+## Inline Code
+
+Use backticks for inline code, commands, file names, and identifiers.
+
+```md
+Run `pnpm dev` and edit `src/theme.config.ts`.
+```
+
+## Code Blocks
+
+Use fenced code blocks for longer snippets. Add a language name when possible.
 
 ````md
 ```ts
-export const value = true;
+export const enabled = true;
 ```
 ````
+
+Lotus uses Expressive Code for fenced code blocks by default. See
+[Code Blocks](/docs/essentials/code-blocks/) for titles, highlighted lines,
+copy buttons, package-manager tabs, and configuration.
 
 ## Tables
 
@@ -47,5 +144,32 @@ Tables are supported for compact reference material.
 ```md
 | Option | Purpose |
 | --- | --- |
-| `basePath` | Docs route prefix |
+| `docsBase` | Docs route prefix |
+| `navbar` | Main navigation items |
 ```
+
+## Horizontal Rules
+
+Use a horizontal rule to separate large sections.
+
+```md
+---
+```
+
+## Escaping Characters
+
+Use a backslash when Markdown punctuation should render literally.
+
+```md
+\*This text is not emphasized.\*
+```
+
+## Raw HTML And MDX
+
+MDX allows HTML elements and imported Astro components in the same file.
+
+```mdx
+<kbd>Ctrl</kbd> + <kbd>K</kbd>
+```
+
+Prefer Markdown syntax for prose and MDX components for reusable UI patterns.

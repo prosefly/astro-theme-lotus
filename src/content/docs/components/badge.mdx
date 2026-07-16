@@ -19,21 +19,39 @@ import { Badge } from '@prosefly/astro-components';
 
 ## Example
 
-<p>
-  Components can ship in stages:
-  {' '}
-  <Badge variant="success">Released</Badge>
-  {' '}
-  <Badge variant="accent">New</Badge>
-  {' '}
-  <Badge variant="warning">Needs review</Badge>
-</p>
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <span>Components can ship in stages:</span>
+  <Badge color="success">Released</Badge>
+  <Badge color="accent">New</Badge>
+  <Badge color="warning">Needs review</Badge>
+</div>
+
+## Variants
+
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <Badge variant="solid" color="accent">Solid</Badge>
+  <Badge variant="soft" color="accent">Soft</Badge>
+  <Badge variant="subtle" color="accent">Subtle</Badge>
+  <Badge variant="outline" color="accent">Outline</Badge>
+  <Badge variant="ghost" color="accent">Ghost</Badge>
+</div>
+
+## Colors
+
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <Badge color="neutral">Neutral</Badge>
+  <Badge color="accent">Accent</Badge>
+  <Badge color="success">Success</Badge>
+  <Badge color="warning">Warning</Badge>
+  <Badge color="danger">Danger</Badge>
+</div>
 
 ## Props
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `variant` | `'neutral' \| 'accent' \| 'success' \| 'warning'` | `'neutral'` | Selects the badge colour treatment. |
+| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline' \| 'ghost'` | `'soft'` | Selects the visual treatment. |
+| `color` | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | Selects the semantic color. |
 
 ## Notes
 

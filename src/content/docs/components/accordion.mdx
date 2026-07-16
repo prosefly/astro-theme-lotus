@@ -1,0 +1,93 @@
+---
+title: Accordion
+description: Hide and reveal related documentation sections with accessible disclosure controls.
+sidebar:
+  order: 7
+---
+
+import { AccordionItem, Accordions } from '@prosefly/astro-components';
+
+Use accordions for compact FAQ sections, optional details, and progressive
+disclosure inside long guides. The syntax follows Fumadocs: wrap one or more
+`AccordionItem` items in `Accordions`.
+
+## Import
+
+```mdx
+import { AccordionItem, Accordions } from '@prosefly/astro-components';
+```
+
+## Example
+
+<Accordions>
+  <AccordionItem title="What is Lotus?">
+    Lotus is an Astro documentation theme with a configurable shell, docs
+    routing, navigation, theme tokens, and shared MDX components.
+  </AccordionItem>
+  <AccordionItem title="Can I use MDX components inside?">
+    Yes. Accordion content can include paragraphs, lists, callouts, code blocks,
+    and other MDX components.
+  </AccordionItem>
+  <AccordionItem title="Does it require client framework runtime?">
+    No. The component uses native disclosure elements and a small script for
+    grouped behavior.
+  </AccordionItem>
+</Accordions>
+
+## Multiple Items
+
+Use `multiple` when readers should be able to keep more than one item open.
+
+<Accordions multiple>
+  <AccordionItem title="Configuration files" defaultOpen>
+    Use `astro.config.mjs`, `src/theme.config.ts`, and `src/content.config.ts`
+    to configure the theme and docs collection.
+  </AccordionItem>
+  <AccordionItem title="Content files">
+    Write documentation pages as MDX under `src/content/docs/`.
+  </AccordionItem>
+</Accordions>
+
+## Linking
+
+Add an `id` to an item to make it linkable. When the page loads with that hash,
+the matching accordion opens automatically.
+
+<Accordions>
+  <AccordionItem title="Linkable answer" id="linkable-answer">
+    Navigate to `#linkable-answer` to open this item directly.
+  </AccordionItem>
+  <AccordionItem title="Another answer">
+    The `value` defaults to the `id` when present, otherwise to the title.
+  </AccordionItem>
+</Accordions>
+
+## Disabled Items
+
+<Accordions>
+  <AccordionItem title="Available section">
+    This section can be opened.
+  </AccordionItem>
+  <AccordionItem title="Disabled section" disabled>
+    This content is intentionally unavailable.
+  </AccordionItem>
+</Accordions>
+
+## Props
+
+### `Accordions`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `multiple` | `boolean` | `false` | Allows more than one item to stay open. |
+| `defaultValue` | `string \| string[]` | optional | Opens matching item values on page load. |
+
+### `AccordionItem`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | required | Summary text shown in the trigger. |
+| `id` | `string` | optional | Adds a hash target and is used as the default value. |
+| `value` | `string` | `id ?? title` | Stable value used by `Accordions defaultValue`. |
+| `defaultOpen` | `boolean` | `false` | Renders the item open by default. |
+| `disabled` | `boolean` | `false` | Prevents opening or closing the item through the trigger. |

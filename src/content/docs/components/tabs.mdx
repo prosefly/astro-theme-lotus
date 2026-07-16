@@ -1,15 +1,15 @@
 ---
 title: Tabs
-description: Present parallel examples as grouped static panels in first-release docs.
+description: Present parallel examples as one selectable set of tab panels.
 sidebar:
   order: 5
 ---
 
 import { TabItem, Tabs } from '@prosefly/astro-components';
 
-`Tabs` and `TabItem` provide a first-release pattern for related variants. The
-current implementation is intentionally static: all panels render in sequence so
-the content works without client-side state or a UI framework.
+`Tabs` and `TabItem` group related variants while keeping each panel addressable
+as accessible tab content. The authoring syntax follows Starlight: put one or
+more `TabItem` components inside `Tabs`.
 
 ## Import
 
@@ -19,25 +19,43 @@ import { TabItem, Tabs } from '@prosefly/astro-components';
 
 ## Example
 
-<Tabs defaultValue="npm">
-  <TabItem label="npm" value="npm">
+<Tabs syncKey="package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm install
+    pnpm dev
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
     ```sh
     npm install
     npm run dev
     ```
   </TabItem>
-  <TabItem label="Build" value="build">
+  <TabItem label="yarn" icon="simple-icons:yarn">
     ```sh
-    npm run check
-    npm run build
+    yarn install
+    yarn dev
     ```
   </TabItem>
 </Tabs>
 
-## Limitation
+## Without Icons
 
-This first release does not hide inactive panels or provide keyboard-driven tab
-selection. Use it when readers benefit from seeing all alternatives together.
+<Tabs>
+  <TabItem label="Preview">
+    The preview tab can contain prose, lists, code blocks, and other MDX
+    components.
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Tabs>
+      <TabItem label="Preview">Content</TabItem>
+      <TabItem label="Code">Code sample</TabItem>
+    </Tabs>
+    ```
+  </TabItem>
+</Tabs>
 
 ## Props
 
@@ -45,17 +63,17 @@ selection. Use it when readers benefit from seeing all alternatives together.
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `defaultValue` | `string` | optional | Stored as metadata for future enhancement and documented intent. |
+| `syncKey` | `string` | optional | Persists and syncs the active label across tab groups with the same key. |
 
 ### `TabItem`
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `label` | `string` | required | Visible label for the panel. |
-| `value` | `string` | required | Stable identifier for the panel. |
+| `label` | `string` | required | Visible tab trigger label and the value used by `syncKey`. |
+| `icon` | `string` | optional | Iconify icon name. When present, the active tab icon appears in the top-left of the tab group. |
 
 ## Notes
 
-Tabs are static by design in the first release. If you need a single compact
-choice at a time, implement that behavior outside the package component instead of
-assuming built-in interactivity.
+Use the same labels across groups that share a `syncKey`. For example, package
+manager tabs should use the same `pnpm`, `npm`, and `yarn` labels everywhere so
+one selection can update all matching groups.

@@ -1,53 +1,73 @@
 ---
 title: Steps
-description: Structure procedures with step markers and supporting content.
+description: Structure procedures with numbered markers and supporting content.
 sidebar:
   order: 2
 ---
 
-import { Step, Steps } from '@prosefly/astro-components';
+import { Steps } from '@prosefly/astro-components';
 
-Use `Steps` and `Step` for procedural content that benefits from a consistent
-rhythm, a visible guide line, and scannable step titles.
+Use `Steps` for procedural content that benefits from a consistent rhythm, a
+visible guide line, and scannable numbering.
 
 ## Import
 
 ```mdx
-import { Step, Steps } from '@prosefly/astro-components';
+import { Steps } from '@prosefly/astro-components';
 ```
 
 ## Example
 
 <Steps>
-  <Step title="Create the content file">
-    Add a new MDX page under `src/content/docs/` and include frontmatter for
-    `title`, `description`, and the section slug.
-  </Step>
-  <Step title="Import the components you need">
-    Import from the shared MDX entrypoint so examples stay consistent across the
-    docs site.
-  </Step>
-  <Step title="Render the pattern inline">
-    Write the procedural content directly inside each `Step` so authors can mix
-    paragraphs, lists, and code blocks.
-  </Step>
+
+1. Create the content file.
+
+   Add a new MDX page under `src/content/docs/` and include frontmatter for
+   `title`, `description`, and sidebar ordering.
+
+2. Import the components you need.
+
+   Import from the shared MDX entrypoint so examples stay consistent across the
+   docs site.
+
+   ```mdx
+   import { Steps } from '@prosefly/astro-components';
+   ```
+
+3. Render the pattern inline.
+
+   Write the procedural content directly as a Markdown ordered list. Each item
+   can include paragraphs, nested lists, and code blocks.
+
 </Steps>
 
-## Props
+## Syntax
 
-### `Steps`
+`Steps` expects exactly one ordered Markdown list as its content.
 
-| Prop | Type | Default | Notes |
-| --- | --- | --- | --- |
-| None | — | — | `Steps` is a structural wrapper for one or more `Step` items. |
+```mdx
+<Steps>
 
-### `Step`
+1. First step.
 
-| Prop | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `title` | `string` | required | Renders the step heading above the body content. |
+   Supporting content for the first step.
 
-## Notes
+2. Second step.
 
-The numbering and guide line are presentational. Lotus does not enforce
-workflow state, completion tracking, or nested step hierarchies.
+   - Nested lists are supported.
+   - Code blocks are supported.
+
+</Steps>
+```
+
+You can use the standard ordered-list `start` attribute when numbering needs to
+continue from a previous sequence.
+
+```mdx
+<Steps>
+
+4. Continue with the fourth step.
+5. Finish the sequence.
+
+</Steps>
+```
