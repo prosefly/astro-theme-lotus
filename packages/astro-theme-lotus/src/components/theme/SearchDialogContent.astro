@@ -173,7 +173,7 @@ const searchIndexHref = docsBasePath === '/' ? '/search.json' : `${docsBasePath}
 
       const createResult = (item, index) => {
         const link = document.createElement('a');
-        link.className = 'lotus-search-result lotus-focus-ring block rounded-(--lotus-radius-md) px-3 py-2.5 transition-colors';
+        link.className = 'lotus-search-result lotus-focus-ring block px-3 py-2.5 transition-colors';
         link.dataset.lotusSearchResult = '';
         link.href = item.href;
         link.id = `lotus-search-result-${index}`;

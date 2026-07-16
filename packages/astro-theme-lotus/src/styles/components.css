@@ -69,6 +69,10 @@
   background: var(--lotus-surface);
 }
 
+.lotus-search-result {
+  border-radius: min(var(--lotus-radius-md), 0.5rem);
+}
+
 .lotus-search-result[data-active] {
   box-shadow: inset 0 0 0 1px var(--lotus-border-subtle);
 }

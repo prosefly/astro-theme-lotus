@@ -51,7 +51,7 @@ const themeConfig = {
   components: {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
-  docsBase: '/docs',
+  docsBase: '/',
   sidebars: [
     {
       slug: 'guide',
@@ -78,34 +78,34 @@ const themeConfig = {
         {
           label: 'Getting Started',
           items: [
-            'overview',
-            'installation',
+            'docs/overview',
+            'docs/installation',
             {
               label: 'Configuration',
-              items: [{ autogenerate: { directory: 'configuration' } }],
+              items: [{ autogenerate: { directory: 'docs/configuration' } }],
             },
-            'deployment',
+            'docs/deployment',
           ],
         },
         {
           label: 'Essentials',
-          items: [{ autogenerate: { directory: 'essentials' } }],
+          items: [{ autogenerate: { directory: 'docs/essentials' } }],
         },
         {
           label: 'Customization',
-          items: [{ autogenerate: { directory: 'customization' } }],
+          items: [{ autogenerate: { directory: 'docs/customization' } }],
         },
       ],
     },
     {
       label: 'Components',
       icon: 'lucide:blocks',
-      items: [{ autogenerate: { directory: 'components' } }],
+      items: [{ autogenerate: { directory: 'docs/components' } }],
     },
     {
       label: 'References',
       icon: 'lucide:book-open',
-      items: [{ autogenerate: { directory: 'references' } }],
+      items: [{ autogenerate: { directory: 'docs/references' } }],
     },
   ],
   footer: {
@@ -144,8 +144,8 @@ const themeConfig = {
       {
         title: 'Project',
         links: [
-          { label: 'Privacy', href: '/docs/privacy/' },
-          { label: 'Terms', href: '/docs/terms/' },
+          { label: 'Privacy', href: '/privacy/' },
+          { label: 'Terms', href: '/terms/' },
           {
             label: 'GitHub',
             href: 'https://github.com/prosefly/astro-theme-lotus',
