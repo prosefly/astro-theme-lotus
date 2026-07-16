@@ -100,10 +100,22 @@ export interface ThemeLogoConfig {
 
 export type ThemeLogo = string | ThemeLogoConfig;
 
+export interface ThemeFaviconLink {
+  href: string;
+  rel?: string;
+  type?: string;
+  sizes?: string;
+  media?: string;
+  color?: string;
+}
+
+export type ThemeFavicon = string | ThemeFaviconLink | ThemeFaviconLink[];
+
 export interface LotusThemeConfig {
   name: string;
   description: string;
   logo: ThemeLogo;
+  favicon?: ThemeFavicon;
   appearance: {
     accent: ThemeAccent;
     gray: 'slate' | 'zinc' | 'neutral' | 'stone';

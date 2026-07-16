@@ -12,6 +12,7 @@ are used for metadata, the header, the footer, and structured data.
 name: 'Astro Theme Lotus',
 description: 'A documentation theme for Astro.',
 logo: '/logo.svg',
+favicon: '/favicon.svg',
 ```
 
 ## Name
@@ -45,6 +46,25 @@ logo: {
 
 Keep the asset square and readable at small sizes because it appears in compact
 header, footer, and mobile navigation contexts.
+
+## Favicon
+
+`favicon` controls the icon links rendered in the document head. Use a string
+for the common case:
+
+```ts
+favicon: '/favicon.svg'
+```
+
+Use an object or array when the project needs multiple favicon formats.
+
+```ts
+favicon: [
+  { href: '/favicon.svg', type: 'image/svg+xml' },
+  { href: '/favicon.ico', sizes: '32x32' },
+  { href: '/apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' },
+]
+```
 
 ## Docs base
 

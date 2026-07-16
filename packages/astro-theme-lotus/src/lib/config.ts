@@ -23,6 +23,7 @@ export interface LotusIntegrationOptions {
   name?: LotusThemeConfig['name'];
   description?: LotusThemeConfig['description'];
   logo?: LotusThemeConfig['logo'];
+  favicon?: LotusThemeConfig['favicon'];
   appearance?: Partial<LotusThemeConfig['appearance']>;
   navbar?: ThemeNavbarItem[];
   socials?: ThemeSocialLink[];
@@ -43,6 +44,7 @@ const defaultConfig: LotusThemeConfig = {
   name: 'Prosefly Lotus',
   description: 'A documentation theme for Astro.',
   logo: '/logo.svg',
+  favicon: undefined,
   appearance: {
     accent: 'indigo',
     gray: 'neutral',

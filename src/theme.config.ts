@@ -4,6 +4,7 @@ const themeConfig = {
   name: 'Astro Theme Lotus',
   description: 'A documentation theme for Astro.',
   logo: '/logo.svg',
+  favicon: '/favicon.svg',
   appearance: {
     accent: 'indigo',
     gray: 'neutral',

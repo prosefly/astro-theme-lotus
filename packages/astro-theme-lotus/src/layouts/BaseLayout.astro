@@ -18,6 +18,7 @@ const pageTitle = title
   ? `${title} - ${themeConfig.name}`
   : themeConfig.name;
 const jsonLdContent = jsonLd ? stringifyJsonLd(jsonLd) : undefined;
+const faviconLinks = normalizeFaviconLinks(themeConfig.favicon);
 const themeInitScript = `
 (() => {
   try {
@@ -28,6 +29,32 @@ const themeInitScript = `
   } catch {}
 })();
 `;
+
+function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
+  if (!favicon) {
+    return [];
+  }
+
+  const links = Array.isArray(favicon) ? favicon : [favicon];
+
+  return links.map((link) => {
+    if (typeof link === 'string') {
+      return {
+        href: link,
+        rel: 'icon',
+      };
+    }
+
+    return {
+      rel: link.rel ?? 'icon',
+      href: link.href,
+      type: link.type,
+      sizes: link.sizes,
+      media: link.media,
+      color: link.color,
+    };
+  });
+}
 ---
 
 <html lang="en" {...themeAttrs}>
@@ -37,6 +64,7 @@ const themeInitScript = `
     <script is:inline set:html={themeInitScript}></script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {faviconLinks.map((link) => <link {...link} />)}
     {jsonLdContent && (
       <script is:inline type="application/ld+json" set:html={jsonLdContent}></script>
     )}
