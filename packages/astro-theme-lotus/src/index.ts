@@ -38,6 +38,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
     hooks: {
       'astro:config:setup': ({ config: astroConfig, injectRoute, updateConfig }) => {
         injectRoute({
+          pattern: '/404',
+          entrypoint: new URL('./routes/404.astro', import.meta.url),
+        });
+        injectRoute({
           pattern: docsPattern,
           entrypoint: new URL('./routes/docs.astro', import.meta.url),
         });
