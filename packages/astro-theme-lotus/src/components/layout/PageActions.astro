@@ -16,12 +16,11 @@ interface ResolvedPageAction {
 interface Props {
   actions?: PageActionConfig[];
   title: string;
-  markdown: string;
   pageUrl: string;
   markdownUrl: string;
 }
 
-const { actions = [], title, markdown, pageUrl, markdownUrl } = Astro.props;
+const { actions = [], title, pageUrl, markdownUrl } = Astro.props;
 
 const defaultActionMeta: Record<PageActionType, { label: string; icon: string }> = {
   'copy-page': { label: 'Copy page', icon: 'lucide:copy' },
@@ -93,18 +92,17 @@ const resolvedActions = actions.map(resolveAction).filter((action): action is Re
 const primaryAction =
   resolvedActions.find((action) => action.isCopy) ??
   resolvedActions[0];
-const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
 ---
 
 {primaryAction && resolvedActions.length > 0 && (
   <div
     class="relative inline-flex items-center rounded-(--lotus-radius-md) border lotus-border-muted bg-(--lotus-background) text-sm"
     data-lotus-page-actions
+    data-lotus-page-markdown-url={markdownUrl}
   >
-    <script is:inline type="application/json" data-lotus-page-copy-source set:html={copySourceJson}></script>
     {primaryAction.isCopy ? (
       <button
-        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70"
         data-lotus-copy-page
         type="button"
       >
@@ -138,7 +136,7 @@ const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
       {resolvedActions.map((action) => (
         action.isCopy ? (
           <button
-            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) disabled:pointer-events-none disabled:opacity-70"
             data-lotus-copy-page
             data-lotus-dropdown-close
             type="button"
@@ -164,35 +162,32 @@ const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
 )}
 
 <script>
-  function getLotusCopyText(root: Element) {
-    const source = root.querySelector('[data-lotus-page-copy-source]');
+  async function getLotusCopyText(root: HTMLElement) {
+    const markdownUrl = root.dataset.lotusPageMarkdownUrl;
 
-    if (!source) {
-      return '';
+    if (!markdownUrl) {
+      throw new Error('Markdown URL is not available.');
     }
 
-    try {
-      return JSON.parse(source.textContent || '""');
-    } catch {
-      return source.textContent || '';
+    const response = await fetch(markdownUrl, {
+      headers: {
+        Accept: 'text/markdown, text/plain;q=0.9, */*;q=0.1',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Markdown page: ${response.status}`);
     }
+
+    return response.text();
   }
 
   async function writeLotusClipboard(text: string) {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(text);
-      return;
+    if (!navigator.clipboard?.writeText) {
+      throw new Error('Clipboard API is not available.');
     }
 
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.append(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    textarea.remove();
+    await navigator.clipboard.writeText(text);
   }
 
   function initLotusPageActions() {
@@ -212,8 +207,14 @@ const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
         const originalLabel = label?.textContent ?? 'Copy page';
 
         button.addEventListener('click', async () => {
+          button.disabled = true;
+
+          if (label) {
+            label.textContent = 'Copying...';
+          }
+
           try {
-            await writeLotusClipboard(getLotusCopyText(root));
+            await writeLotusClipboard(await getLotusCopyText(root));
 
             if (label) {
               label.textContent = 'Copied';
@@ -233,6 +234,8 @@ const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
                 label.textContent = originalLabel;
               }, 1600);
             }
+          } finally {
+            button.disabled = false;
           }
         });
       });

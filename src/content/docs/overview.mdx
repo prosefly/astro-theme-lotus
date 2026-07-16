@@ -14,6 +14,8 @@ rebuilding the chrome from scratch.
 
 - A sticky main header and docs subnav.
 - A content layout with sidebar, main content, table of contents, and footer.
+- A built-in search dialog with a generated JSON index.
+- A Markdown source route for every docs page.
 - Configurable site metadata, nav links, actions, social icons, footer links,
   color tokens, fonts, and radius.
 - MDX support through the Lotus integration.
@@ -26,13 +28,20 @@ Write pages under `src/content/docs/`. Pages can live at the docs root or in
 nested folders. The `sidebars` config decides which sidebar and subnav section
 owns each page.
 
+Lotus injects the docs routes from `docsBase`. With the default `docsBase:
+'/docs'`, the integration generates:
+
+- `/docs/` and nested docs pages
+- `/docs/*.md` Markdown source routes
+- `/docs/search.json` search index data
+
 ```txt
 src/content/docs/
   index.mdx
   overview.mdx
   installation.mdx
   configuration/
-    site.mdx
+    project.mdx
     appearance.mdx
     navbar.mdx
   deployment.mdx

@@ -24,12 +24,17 @@ import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
 const docs = defineCollection({
   loader: docsLoader(),
-  schema: docsSchema,
+  schema: docsSchema(),
 });
 
 export const collections = { docs };
 ```
 
 Add MDX pages in `src/content/docs/`. Lotus injects the route from
-`themeConfig.docsBase` and renders the bundled docs layout, navigation, table
-of contents, and footer.
+`themeConfig.docsBase` and renders the bundled docs layout, navigation, search,
+table of contents, and footer. The integration also injects a Markdown source
+route at `*.md` and a search index route at `search.json`.
+
+Common integration options include `docsBase`, `sidebars`, `pageActions`,
+`footer`, `iconify`, `expressiveCode`, `packageManagerTabs`, and `components`
+overrides.

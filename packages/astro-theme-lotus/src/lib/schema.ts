@@ -70,8 +70,8 @@ export function createDocsJsonLd({
         '@type': 'WebSite',
         '@id': websiteId,
         url: siteUrl,
-        name: themeConfig.site.title,
-        description: themeConfig.site.description,
+        name: themeConfig.name,
+        description: themeConfig.description,
       }),
       {
         '@type': 'BreadcrumbList',

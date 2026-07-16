@@ -42,6 +42,10 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
+Lotus reads from `src/content/docs` by default. The integration also injects a
+Markdown source route for each page and a search index route under the same
+`docsBase`.
+
 ## Start development
 
 Run the standard Astro development server:

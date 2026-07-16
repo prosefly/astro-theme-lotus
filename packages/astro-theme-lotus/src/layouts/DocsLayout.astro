@@ -23,7 +23,6 @@ interface Props {
   description?: string;
   sectionTitle?: string;
   currentSlug?: string;
-  pageMarkdown?: string;
   pageNavigation?: DocsPaginationNav;
   lastUpdated?: Date | boolean;
   subnav: DocsSectionNav[];
@@ -37,7 +36,6 @@ const {
   description,
   sectionTitle,
   currentSlug,
-  pageMarkdown,
   pageNavigation = {},
   lastUpdated,
   subnav,
@@ -77,7 +75,7 @@ function addBreadcrumb(label: string | undefined, href: string | undefined) {
   breadcrumbs.push({ label, href });
 }
 
-addBreadcrumb(themeConfig.site.title, '/');
+addBreadcrumb(themeConfig.name, '/');
 
 if (docsBasePath !== '/') {
   addBreadcrumb('Docs', docsRootHref);
@@ -136,11 +134,10 @@ const jsonLd = createDocsJsonLd({
                 </p>
               )}
             </div>
-            {pageActions.length > 0 && pageMarkdown && (
+            {pageActions.length > 0 && (
               <div class="shrink-0 sm:pt-1">
                 <PageActions
                   actions={pageActions}
-                  markdown={pageMarkdown}
                   markdownUrl={markdownUrl}
                   pageUrl={pageUrl}
                   title={title}

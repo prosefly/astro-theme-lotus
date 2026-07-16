@@ -11,11 +11,22 @@ components consume portable `--pl-*` variables.
 
 ## Theme tokens
 
-Use semantic tokens when customizing surfaces, text, accent color, or radius.
+Use `appearance` for normal color and radius customization:
+
+```ts
+appearance: {
+  accent: 'blue',
+  gray: 'neutral',
+  radius: 'medium',
+}
+```
+
+Use semantic tokens only when a project needs lower-level CSS overrides for
+surfaces, text, or component geometry.
 
 ```css
 :root {
-  --lotus-accent: oklch(0.55 0.22 264);
+  --lotus-surface: color-mix(in oklab, var(--lotus-gray-100) 70%, white);
   --lotus-radius-md: 0.5rem;
 }
 ```

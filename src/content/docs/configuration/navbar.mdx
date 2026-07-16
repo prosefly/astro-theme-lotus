@@ -135,3 +135,39 @@ Nested `items` render as collapsible rows inside their parent group.
   ],
 }
 ```
+
+New content should prefer `sidebar.order` in frontmatter, but the older
+top-level `order` field is still accepted as a shorthand.
+
+## Footer
+
+`footer` controls the lower site chrome. Use `copyright` for the small text
+line and `sections` for grouped links.
+
+```ts
+footer: {
+  copyright: 'Copyright © 2026 Prosefly.',
+  sections: [
+    {
+      title: 'Docs',
+      links: [
+        { label: 'Overview', href: '/docs/overview/' },
+        { label: 'Installation', href: '/docs/installation/' },
+      ],
+    },
+    {
+      title: 'Project',
+      links: [
+        {
+          label: 'GitHub',
+          href: 'https://github.com/prosefly/astro-theme-lotus',
+          external: true,
+        },
+      ],
+    },
+  ],
+}
+```
+
+Footer links use the same `label`, `href`, and optional `external` shape as
+other theme links.

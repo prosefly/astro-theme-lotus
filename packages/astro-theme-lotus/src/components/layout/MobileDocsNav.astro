@@ -2,9 +2,8 @@
 import { Icon } from '@prosefly/astro-components';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import { resolveIconName } from '../../lib/icons';
-import type { LotusThemeConfig } from '../../lib/theme';
+import SiteBrand from './SiteBrand.astro';
 import Sidebar from './Sidebar.astro';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
 
 interface Heading {
   depth: number;
@@ -33,7 +32,6 @@ const {
 } = Astro.props;
 const activeSection = sections.find((section) => section.active) ?? sections[0];
 const activeSectionSlug = activeSection?.slug;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
 const visibleHeadings = headings;
 
 function getPageCountLabel(count: number): string {
@@ -125,10 +123,7 @@ function getHeadingIndent(depth: number): string {
       class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-(--lotus-background) shadow-2xl"
     >
       <div class="lotus-border-subtle flex h-(--lotus-header-height) shrink-0 items-center justify-between border-b px-4">
-        <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-(--lotus-text-strong)" href="/">
-          <img alt="" class="h-8 w-8 rounded-(--lotus-radius-md)" src={themeConfig.site.logo} />
-          <span class="truncate text-sm font-semibold">{themeConfig.site.title}</span>
-        </a>
+        <SiteBrand textClass="truncate text-sm font-semibold" />
         <button
           aria-label="Close documentation menu"
           class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"

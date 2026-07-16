@@ -1,6 +1,6 @@
 ---
 title: Appearance
-description: Set the theme mode, accent color, fonts, and radius scale.
+description: Set the theme mode, accent color, gray scale, and radius scale.
 sidebar:
   order: 4
 ---
@@ -12,16 +12,14 @@ and package components.
 appearance: {
   accent: 'indigo',
   gray: 'neutral',
-  fontSans: 'Inter',
-  fontMono: 'JetBrains Mono',
-  defaultTheme: 'system',
+  defaultMode: 'system',
   radius: 'medium',
 }
 ```
 
 ## Theme mode
 
-`defaultTheme` accepts `light`, `dark`, or `system`. The system option renders
+`defaultMode` accepts `light`, `dark`, or `system`. The system option renders
 `data-theme="system"` and follows the visitor's `prefers-color-scheme` setting.
 
 ## Color
@@ -35,10 +33,16 @@ blocks, and other low-emphasis UI. Supported values are `slate`, `zinc`,
 keeps the supported Tailwind color variables available with `@theme static`, so
 projects do not need extra Tailwind configuration for the default palettes.
 
-`accent` selects the Tailwind color used by active navigation, links, focus
-rings, and primary actions. Built-in accents include `indigo`, `blue`, `violet`,
-`purple`, `emerald`, `teal`, `rose`, and `orange`. You can also pass a CSS color
-value when a project needs a custom accent.
+`accent` selects the color used by active navigation, links, focus rings, and
+primary actions. Built-in accents use Tailwind color scales and render as a
+document attribute such as `data-accent="indigo"`.
+
+Supported built-in accents are `red`, `orange`, `amber`, `yellow`, `lime`,
+`green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`,
+`purple`, `fuchsia`, `pink`, and `rose`.
+
+You can also pass a custom hex color such as `#3b82f6`. Lotus converts it into
+light and dark accent variables so the same hue works across color modes.
 
 ## Radius
 
@@ -48,21 +52,15 @@ share the same shape language.
 
 ## Fonts
 
-Lotus includes default Astro Fonts definitions for Inter and JetBrains Mono
-using the Fontsource provider. When `fontSans` or `fontMono` matches one of
-those built-in names, Lotus registers the font with Astro and renders Astro's
-`<Font />` component in the document head. The font files are downloaded,
-cached, and served by Astro instead of being referenced as a plain external
-stylesheet.
+Lotus does not register fonts by default. The theme uses system sans and mono
+stacks through `--lotus-font-sans` and `--lotus-font-mono`.
 
-Use `fontSans` and `fontMono` to set the primary font for each stack. Lotus
-adds system fallbacks in CSS through `--lotus-system-sans` and
-`--lotus-system-mono`, so the configuration only needs the preferred font:
+Projects can load fonts with Astro, a CSS import, or any other provider, then
+override the font tokens in their own CSS:
 
-```ts
-fontSans: 'Inter'
-fontMono: 'JetBrains Mono'
+```css
+:root {
+  --lotus-font-sans: "Inter", var(--lotus-system-sans);
+  --lotus-font-mono: "JetBrains Mono", var(--lotus-system-mono);
+}
 ```
-
-You can still replace these with project-specific variables or a system font
-stack when a site owns its font loading strategy.

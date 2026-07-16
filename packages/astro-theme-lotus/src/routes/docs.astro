@@ -11,7 +11,6 @@ import {
   getSidebarPagination,
   getSidebarSectionTitle,
 } from '../lib/docs';
-import { createPageMarkdown } from '../lib/page-actions';
 
 function getTableOfContentsHeadings(
   headings: MarkdownHeading[],
@@ -56,11 +55,6 @@ const pageNavigation = getSidebarPagination(sidebar, entry.id, {
   previous: entry.data.prev,
   next: entry.data.next,
 });
-const pageMarkdown = createPageMarkdown({
-  title: entry.data.title,
-  description: entry.data.description,
-  body: entry.body,
-});
 ---
 
 <DocsLayout
@@ -69,7 +63,6 @@ const pageMarkdown = createPageMarkdown({
   sectionTitle={sectionTitle}
   currentSlug={getEntrySlug(entry)}
   lastUpdated={entry.data.lastUpdated}
-  pageMarkdown={pageMarkdown}
   pageNavigation={pageNavigation}
   subnav={subnav}
   sidebar={sidebar}

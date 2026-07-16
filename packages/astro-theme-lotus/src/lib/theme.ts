@@ -2,6 +2,30 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 export type RadiusScale = 'none' | 'small' | 'medium' | 'large' | 'full';
 
+export const accentScales = [
+  'red',
+  'orange',
+  'amber',
+  'yellow',
+  'lime',
+  'green',
+  'emerald',
+  'teal',
+  'cyan',
+  'sky',
+  'blue',
+  'indigo',
+  'violet',
+  'purple',
+  'fuchsia',
+  'pink',
+  'rose',
+] as const;
+
+export type AccentScale = typeof accentScales[number];
+
+export type ThemeAccent = AccentScale | (string & {});
+
 export interface ThemeLink {
   label: string;
   href: string;
@@ -79,18 +103,22 @@ export type OverrideComponentName = 'SearchDialog' | 'ThemeSwitch';
 
 export type OverrideComponentsConfig = Partial<Record<OverrideComponentName, string>>;
 
+export interface ThemeLogoConfig {
+  light: string;
+  dark: string;
+  href?: string;
+}
+
+export type ThemeLogo = string | ThemeLogoConfig;
+
 export interface LotusThemeConfig {
-  site: {
-    title: string;
-    description: string;
-    logo: string;
-  };
+  name: string;
+  description: string;
+  logo: ThemeLogo;
   appearance: {
-    accent: string;
+    accent: ThemeAccent;
     gray: 'slate' | 'zinc' | 'neutral' | 'stone';
-    fontSans: string;
-    fontMono: string;
-    defaultTheme: ThemeMode;
+    defaultMode: ThemeMode;
     radius: RadiusScale;
   };
   navbar: ThemeNavbarItem[];

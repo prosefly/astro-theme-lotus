@@ -11,10 +11,9 @@ import {
   resolveMarkdownConfig,
   type LotusIntegrationOptions,
 } from './lib/config';
-import { getAstroFontConfigs } from './lib/fonts';
 import { componentOverridePlugin } from './lib/overriding';
 import { getIconPreloadNames } from './lib/preload-icons';
-import { normalizeDocsBasePath } from './lib/theme';
+import { accentScales, normalizeDocsBasePath } from './lib/theme';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
@@ -50,16 +49,8 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
           entrypoint: new URL('./routes/search.json.ts', import.meta.url),
         });
 
-        const lotusFonts = getAstroFontConfigs(config);
-
         updateConfig({
           markdown: resolveMarkdownConfig(options, astroConfig.markdown),
-          fonts: lotusFonts.length > 0
-            ? [
-                ...(astroConfig.fonts ?? []),
-                ...lotusFonts,
-              ]
-            : astroConfig.fonts,
           integrations: [
             ...(expressiveCodeOptions === false
               ? []
@@ -84,11 +75,12 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
   };
 }
 
-export { defineLotusConfig, lotus };
+export { accentScales, defineLotusConfig, lotus };
 export type {
   LotusIntegrationOptions,
 } from './lib/config';
 export type {
+  AccentScale,
   FooterSection,
   LotusThemeConfig,
   OverrideComponentName,
@@ -102,6 +94,9 @@ export type {
   SidebarItemConfig,
   SidebarLinkItem,
   ThemeLink,
+  ThemeLogo,
+  ThemeLogoConfig,
+  ThemeAccent,
   ThemeMode,
   ThemeNavbarColor,
   ThemeNavbarItem,

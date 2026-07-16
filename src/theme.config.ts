@@ -1,17 +1,13 @@
 import type { LotusThemeConfig } from '@prosefly/astro-theme-lotus';
 
 const themeConfig = {
-  site: {
-    title: 'Astro Theme Lotus',
-    description: 'A documentation theme for Astro.',
-    logo: '/logo.svg',
-  },
+  name: 'Astro Theme Lotus',
+  description: 'A documentation theme for Astro.',
+  logo: '/logo.svg',
   appearance: {
     accent: 'indigo',
     gray: 'neutral',
-    fontSans: 'Inter',
-    fontMono: 'JetBrains Mono',
-    defaultTheme: 'system',
+    defaultMode: 'system',
     radius: 'medium',
   },
   navbar: [
@@ -116,7 +112,7 @@ const themeConfig = {
         links: [
           { label: 'Overview', href: '/docs/overview/' },
           { label: 'Installation', href: '/docs/installation/' },
-          { label: 'Configuration', href: '/docs/configuration/site/' },
+          { label: 'Configuration', href: '/docs/configuration/project/' },
           { label: 'Deployment', href: '/docs/deployment/' },
         ],
       },

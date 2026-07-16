@@ -20,7 +20,9 @@ const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
 const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
 
 export interface LotusIntegrationOptions {
-  site?: Partial<LotusThemeConfig['site']>;
+  name?: LotusThemeConfig['name'];
+  description?: LotusThemeConfig['description'];
+  logo?: LotusThemeConfig['logo'];
   appearance?: Partial<LotusThemeConfig['appearance']>;
   navbar?: ThemeNavbarItem[];
   socials?: ThemeSocialLink[];
@@ -38,17 +40,13 @@ export interface LotusIntegrationOptions {
 }
 
 const defaultConfig: LotusThemeConfig = {
-  site: {
-    title: 'Prosefly Lotus',
-    description: 'A documentation theme for Astro.',
-    logo: '/logo.svg',
-  },
+  name: 'Prosefly Lotus',
+  description: 'A documentation theme for Astro.',
+  logo: '/logo.svg',
   appearance: {
     accent: 'indigo',
     gray: 'neutral',
-    fontSans: 'Inter',
-    fontMono: 'JetBrains Mono',
-    defaultTheme: 'system',
+    defaultMode: 'system',
     radius: 'medium',
   },
   navbar: [{ label: 'Docs', href: '/docs/' }],
@@ -83,10 +81,6 @@ export function resolveLotusConfig(options: LotusIntegrationOptions): LotusTheme
   return {
     ...defaultConfig,
     ...themeOptions,
-    site: {
-      ...defaultConfig.site,
-      ...themeOptions.site,
-    },
     appearance: {
       ...defaultConfig.appearance,
       ...themeOptions.appearance,

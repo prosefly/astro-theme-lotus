@@ -1,19 +1,11 @@
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getFontStack } from './fonts';
-import type { LotusThemeConfig, ThemeMode } from './theme';
+import { accentScales, type LotusThemeConfig, type ThemeMode } from './theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 
-const accentFallbacks: Record<string, { light: string; dark: string }> = {
-  blue: { light: 'oklch(0.546 0.245 262.881)', dark: 'oklch(0.707 0.165 254.624)' },
-  emerald: { light: 'oklch(0.596 0.145 163.225)', dark: 'oklch(0.765 0.177 163.223)' },
-  indigo: { light: 'oklch(0.511 0.262 276.966)', dark: 'oklch(0.673 0.182 276.935)' },
-  orange: { light: 'oklch(0.646 0.222 41.116)', dark: 'oklch(0.75 0.183 55.934)' },
-  purple: { light: 'oklch(0.558 0.288 302.321)', dark: 'oklch(0.714 0.203 305.504)' },
-  rose: { light: 'oklch(0.586 0.253 17.585)', dark: 'oklch(0.712 0.194 13.428)' },
-  teal: { light: 'oklch(0.6 0.118 184.704)', dark: 'oklch(0.777 0.152 181.912)' },
-  violet: { light: 'oklch(0.541 0.281 293.009)', dark: 'oklch(0.702 0.183 293.541)' },
-};
+const presetAccents = new Set<string>(accentScales);
+
+const hexColorPattern = /^#(?:[\da-f]{3}|[\da-f]{6})$/i;
 
 function serializeStyleVariables(
   variables: Record<string, string | undefined>,
@@ -24,39 +16,102 @@ function serializeStyleVariables(
     .join('; ');
 }
 
-function getAccentVariables(accent: string): Record<string, string> {
-  const palette = accentFallbacks[accent];
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
 
-  if (palette) {
+function srgbToLinear(value: number): number {
+  return value <= 0.04045
+    ? value / 12.92
+    : ((value + 0.055) / 1.055) ** 2.4;
+}
+
+function parseHexColor(hex: string): [number, number, number] | undefined {
+  if (!hexColorPattern.test(hex)) {
+    return undefined;
+  }
+
+  const normalized = hex.length === 4
+    ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+    : hex;
+  const value = Number.parseInt(normalized.slice(1), 16);
+
+  return [
+    ((value >> 16) & 255) / 255,
+    ((value >> 8) & 255) / 255,
+    (value & 255) / 255,
+  ];
+}
+
+function hexToOklch(hex: string): { chroma: number; hue: number } | undefined {
+  const rgb = parseHexColor(hex);
+
+  if (!rgb) {
+    return undefined;
+  }
+
+  const [red, green, blue] = rgb.map(srgbToLinear);
+  const l = 0.4122214708 * red + 0.5363325363 * green + 0.0514459929 * blue;
+  const m = 0.2119034982 * red + 0.6806995451 * green + 0.1073969566 * blue;
+  const s = 0.0883024619 * red + 0.2817188376 * green + 0.6299787005 * blue;
+  const lRoot = Math.cbrt(l);
+  const mRoot = Math.cbrt(m);
+  const sRoot = Math.cbrt(s);
+  const a = 1.9779984951 * lRoot - 2.428592205 * mRoot + 0.4505937099 * sRoot;
+  const b = 0.0259040371 * lRoot + 0.7827717662 * mRoot - 0.808675766 * sRoot;
+  const chroma = Math.sqrt(a * a + b * b);
+  const hue = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
+
+  return { chroma, hue };
+}
+
+function formatOklch(lightness: number, chroma: number, hue: number): string {
+  const formattedLightness = `${Number((lightness * 100).toFixed(1))}%`;
+  const formattedChroma = Number(chroma.toFixed(3));
+  const formattedHue = Number(hue.toFixed(3));
+
+  return `oklch(${formattedLightness} ${formattedChroma} ${formattedHue})`;
+}
+
+function getCustomAccentVariables(accent: string): Record<string, string> {
+  const color = hexToOklch(accent);
+
+  if (!color) {
     return {
-      '--lotus-accent-light': `var(--color-${accent}-600, ${palette.light})`,
-      '--lotus-accent-dark': `var(--color-${accent}-400, ${palette.dark})`,
+      '--lotus-accent-light': accent,
+      '--lotus-accent-dark': accent,
     };
   }
 
+  const chroma = color.chroma < 0.02 ? 0 : clamp(color.chroma, 0.08, 0.24);
+  const darkChroma = color.chroma < 0.02 ? 0 : Math.min(chroma, 0.2);
+
   return {
-    '--lotus-accent-light': accent,
-    '--lotus-accent-dark': accent,
+    '--lotus-accent-light': formatOklch(0.58, chroma, color.hue),
+    '--lotus-accent-dark': formatOklch(0.72, darkChroma, color.hue),
   };
 }
 
 export function getThemeAttributes(): Record<string, string> {
-  const defaultTheme = themeConfig.appearance.defaultTheme as ThemeMode;
-  const fontSans = getFontStack(themeConfig.appearance.fontSans, '--lotus-system-sans');
-  const fontMono = getFontStack(themeConfig.appearance.fontMono, '--lotus-system-mono');
-
-  return {
+  const defaultTheme = themeConfig.appearance.defaultMode as ThemeMode;
+  const accent = themeConfig.appearance.accent;
+  const isPresetAccent = presetAccents.has(accent);
+  const customAccentStyle = isPresetAccent
+    ? ''
+    : serializeStyleVariables(getCustomAccentVariables(accent));
+  const attributes: Record<string, string> = {
     'data-theme': defaultTheme,
     'data-radius': themeConfig.appearance.radius,
     'data-gray': themeConfig.appearance.gray,
-    style: serializeStyleVariables({
-      '--lotus-font-sans': fontSans,
-      '--lotus-font-mono': fontMono,
-      '--default-font-family': 'var(--lotus-font-sans)',
-      '--default-mono-font-family': 'var(--lotus-font-mono)',
-      '--default-font-feature-settings': '"cv02", "cv03", "cv04", "cv11"',
-      '--default-mono-font-feature-settings': '"ss02", "zero"',
-      ...getAccentVariables(themeConfig.appearance.accent),
-    }),
   };
+
+  if (isPresetAccent) {
+    attributes['data-accent'] = accent;
+  }
+
+  if (customAccentStyle) {
+    attributes.style = customAccentStyle;
+  }
+
+  return attributes;
 }

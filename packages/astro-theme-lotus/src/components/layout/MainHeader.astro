@@ -2,6 +2,7 @@
 import { Icon } from '@prosefly/astro-components';
 import Button from '../ui/Button.astro';
 import MobileMenu from './MobileMenu.astro';
+import SiteBrand from './SiteBrand.astro';
 import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
@@ -53,10 +54,7 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
   ]}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
-    <a class="lotus-focus-ring flex min-w-0 items-center gap-3 text-(--lotus-text-strong)" href="/">
-      <img alt="" class="h-8 w-8 rounded-(--lotus-radius-md)" src={themeConfig.site.logo} />
-      <span class="truncate text-sm font-semibold sm:text-base">{themeConfig.site.title}</span>
-    </a>
+    <SiteBrand />
 
     <SearchDialog />
 

@@ -35,15 +35,16 @@ import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
 const docs = defineCollection({
   loader: docsLoader(),
-  schema: docsSchema,
+  schema: docsSchema(),
 });
 
 export const collections = { docs };
 ```
 
-Create docs pages under `src/content/docs/`. Lotus injects the route from
-`themeConfig.docs.basePath`, so `src/content/docs/index.mdx` renders at
-`/docs/` when `basePath` is `/docs`.
+Create docs pages under `src/content/docs/`. Lotus injects the docs page route,
+the Markdown source route, and the search index route from
+`themeConfig.docsBase`, so `src/content/docs/index.mdx` renders at `/docs/`
+when `docsBase` is `/docs`.
 
 ## Development
 
@@ -92,8 +93,7 @@ pnpm run build
 - `packages/astro-components/` contains portable MDX components that consume
   `--pl-*` CSS variables.
 - `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
-  socials, docs base path, docs sections, and footer links for this example
-  site.
+  socials, docs base path, sidebars, and footer links for this example site.
 - `src/content/docs/` holds the documentation pages that drive subnav and
   section sidebars.
 
@@ -102,20 +102,26 @@ pnpm run build
 Lotus accepts configuration through `lotus(themeConfig)`.
 
 - MDX-powered documentation pages.
+- Built-in search dialog backed by a generated `search.json` index.
+- Per-page Markdown source export at `*.md`.
 - Dark mode foundation with light, dark, or system defaults.
-- Configurable navigation, header actions, social links, and footer sections.
+- Configurable navigation, header actions, social links, sidebars, and footer
+  sections.
 - Configurable accent palette, gray palette, fonts, and corner radius.
 - Configurable docs route base path.
-- Content-driven subnav and sidebar sections from `docs.sections` and page
-  frontmatter.
+- Component overrides for selected shell pieces such as search and theme mode
+  controls.
+- Optional Expressive Code, package-manager tab transforms, and Iconify preload
+  configuration.
 
 ## Content structure
 
 Pages under `src/content/docs/` define the docs experience. The root index page
-renders at `/docs/`, and nested pages use `section` plus `order` frontmatter to
-control grouping and sorting. The sidebar for each section is generated from the
-content tree, so most navigation changes happen by editing content instead of
-templates.
+renders at `/docs/`, and nested pages use `sidebar.order` or `order`
+frontmatter to control sorting. The `sidebars` config decides which top-level
+section owns each page and drives both the docs subnav and the section sidebar.
+Frontmatter also controls table of contents behavior, previous/next links,
+search inclusion, draft filtering, and optional slug overrides.
 
 ## Design system
 

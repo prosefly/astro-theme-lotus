@@ -25,6 +25,12 @@ derives `--lotus-text`, `--lotus-text-strong`, `--lotus-surface`, code
 backgrounds, borders, and dividers from that scale. The theme uses
 `@theme static` to keep supported Tailwind color variables in the generated CSS.
 
+The `appearance.accent` setting follows the same attribute-first model for
+built-in colors. A preset like `indigo` renders as `data-accent="indigo"` and
+maps to Tailwind accent aliases. A custom hex color skips the attribute mapping
+and writes calculated `--lotus-accent-light` and `--lotus-accent-dark` values
+directly on the page shell.
+
 ## Why Lotus uses semantic color tokens
 
 Lotus ships semantic tokens such as `--lotus-background`, `--lotus-text-strong`,
@@ -39,7 +45,7 @@ of the theme.
 
 ## Radius and theme attributes
 
-The page shell reads `appearance.defaultTheme` and `appearance.radius` from
+The page shell reads `appearance.defaultMode` and `appearance.radius` from
 `src/theme.config.ts` and exposes them as document attributes. A system default
 renders as `data-theme="system"` so CSS can follow the visitor's
 `prefers-color-scheme` setting, while explicit light and dark defaults render
@@ -50,7 +56,7 @@ other surfaces stay aligned with the selected scale.
 
 ```ts
 appearance: {
-  defaultTheme: 'system',
+  defaultMode: 'system',
   radius: 'medium',
 }
 ```

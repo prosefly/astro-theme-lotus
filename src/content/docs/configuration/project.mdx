@@ -1,0 +1,64 @@
+---
+title: Project
+description: Configure the public identity used across the Lotus docs shell.
+sidebar:
+  order: 1
+---
+
+Lotus reads project identity from top-level theme config fields. These values
+are used for metadata, the header, the footer, and structured data.
+
+```ts
+name: 'Astro Theme Lotus',
+description: 'A documentation theme for Astro.',
+logo: '/logo.svg',
+```
+
+## Name
+
+`name` appears in the header next to the logo and is used to compose page
+titles.
+
+## Description
+
+`description` is the default summary for the documentation site. Individual
+pages can still provide their own `description` frontmatter.
+
+## Logo
+
+`logo` can point to one image in `public/`:
+
+```ts
+logo: '/logo.svg'
+```
+
+Use an object when the project needs different assets for light and dark mode.
+The optional `href` controls where the logo link points.
+
+```ts
+logo: {
+  light: '/logo-light.svg',
+  dark: '/logo-dark.svg',
+  href: '/',
+}
+```
+
+Keep the asset square and readable at small sizes because it appears in compact
+header, footer, and mobile navigation contexts.
+
+## Docs base
+
+`docsBase` controls where Lotus mounts the generated documentation routes.
+
+```ts
+docsBase: '/docs'
+```
+
+Set it to `/manual`, `/guide`, or `/` when the documentation should live at a
+different path.
+
+Lotus derives three route patterns from this value:
+
+- The docs page route, such as `/docs/overview/`
+- The Markdown source route, such as `/docs/overview.md`
+- The search index route at `/docs/search.json`
