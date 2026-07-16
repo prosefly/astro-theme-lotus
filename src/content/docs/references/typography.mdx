@@ -161,10 +161,23 @@ uv add astro-lotus-example
 
 ## Images
 
-Images use standard Markdown image syntax. This example uses the local favicon
-so the image remains available in the demo site.
+Images use standard Markdown image syntax. Remote images should keep their
+aspect ratio, fit the content column, and inherit the prose radius.
 
-![Lotus favicon](/favicon.svg)
+![A quiet desk with a laptop, notebook, and warm light](https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80)
+
+Figures can add captions when the image needs extra context.
+
+<figure>
+  <img
+    alt="A dark mountain landscape under a starry night sky"
+    src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80"
+  />
+  <figcaption>
+    Unsplash images make the typography page useful for reviewing media spacing,
+    border radius, captions, and dark-mode contrast.
+  </figcaption>
+</figure>
 
 ## Tables
 
@@ -221,3 +234,23 @@ H<sub>2</sub>O and x<sup>2</sup>.
 Program output can use <samp>200 OK</samp>, variables can use <var>request</var>,
 short quotes can use <q>semantic tokens keep components stable</q>, and citations
 can use <cite>Lotus Design Notes</cite>.
+
+Raw embeds such as iframes should inherit the prose surface treatment.
+
+<iframe
+  height="180"
+  srcdoc="<main style='align-items:center;background:#f8fafc;color:#334155;display:flex;font:16px system-ui;height:100%;justify-content:center;margin:0'>Generic iframe content</main>"
+  title="Generic iframe example"
+  width="640"
+></iframe>
+
+Video iframes from providers such as YouTube should render responsively.
+
+<iframe
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ"
+  title="YouTube video example"
+  width="560"
+></iframe>

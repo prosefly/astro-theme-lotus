@@ -64,7 +64,7 @@
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
-.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video, figure, .expressive-code) {
+.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video, iframe, figure, .expressive-code) {
   margin-block-start: var(--lotus-prose-flow);
 }
 
@@ -84,7 +84,7 @@
   margin-block-end: 0;
 }
 
-.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre, figure, .expressive-code) {
+.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre, figure, iframe, .expressive-code) {
   margin-block-start: 0;
 }
 
@@ -612,9 +612,27 @@
   }
 }
 
-.lotus-prose :where(img, video) {
+.lotus-prose :where(img, video, iframe) {
   border-radius: var(--lotus-prose-surface-radius);
   max-width: 100%;
+}
+
+.lotus-prose :where(iframe) {
+  background: var(--lotus-surface);
+  border: 1px solid var(--lotus-prose-border);
+  display: block;
+}
+
+.lotus-prose :where(
+  iframe[src*="youtube.com"],
+  iframe[src*="youtube-nocookie.com"],
+  iframe[src*="youtu.be"],
+  iframe[src*="vimeo.com"],
+  iframe[src*="player.vimeo.com"]
+) {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  width: 100%;
 }
 
 .lotus-prose :where(figcaption) {
@@ -622,6 +640,15 @@
   font-size: 0.875em;
   line-height: 1.4285714;
   margin-block-start: 0.8571429em;
+}
+
+.lotus-prose :where(figcaption > *) {
+  color: inherit;
+  margin-block: 0;
+}
+
+.lotus-prose :where(figcaption > * + *) {
+  margin-block-start: 0.5em;
 }
 
 @media (max-width: 640px) {
