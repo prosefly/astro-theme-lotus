@@ -27,7 +27,7 @@ const Tag = href ? 'a' : 'article';
   .pl-card {
     display: block;
     border: 1px solid color-mix(in oklab, var(--pl-surface, #f4f6f8) 72%, var(--pl-text-muted, #667085));
-    border-radius: var(--pl-radius-lg, 0.75rem);
+    border-radius: min(var(--pl-radius-lg, 0.75rem), 1rem);
     background: var(--pl-surface, #f4f6f8);
     color: inherit;
     padding: 1.25rem;

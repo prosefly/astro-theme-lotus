@@ -52,7 +52,7 @@ const heading = title ?? current.label;
     margin-block: 1.5rem;
     overflow: hidden;
     border: 1px solid color-mix(in oklab, var(--pl-callout-color) 24%, var(--pl-surface, #f4f6f8));
-    border-radius: var(--pl-radius-lg, 0.75rem);
+    border-radius: min(var(--pl-radius-lg, 0.75rem), 1rem);
     background: var(--pl-callout-bg);
     color: var(--pl-text, #182230);
   }

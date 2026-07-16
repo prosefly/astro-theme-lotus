@@ -47,6 +47,9 @@ const themeConfig = {
     { type: 'open-chatgpt' },
     { type: 'open-claude' },
   ],
+  components: {
+    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+  },
   docsBase: '/docs',
   sidebars: [
     {

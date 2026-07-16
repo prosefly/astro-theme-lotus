@@ -276,7 +276,7 @@ const activePanel = panels[activeIndex] ?? panels[0];
 <style is:global>
   .pl-tabs {
     background: var(--pl-surface, #f4f6f8);
-    border-radius: var(--pl-radius-lg, 0.75rem);
+    border-radius: min(var(--pl-radius-lg, 0.75rem), 1rem);
     margin-block: 1.25rem;
     overflow: hidden;
   }

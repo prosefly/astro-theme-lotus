@@ -2,6 +2,7 @@
   --lotus-prose-font-body: var(--lotus-font-sans);
   --lotus-prose-font-heading: var(--lotus-font-sans);
   --lotus-prose-font-mono: var(--lotus-font-mono);
+  --lotus-prose-surface-radius: min(var(--lotus-radius-lg), 1rem);
   --lotus-prose-size: 1rem;
   --lotus-prose-leading: 1.75;
   --lotus-prose-flow: 1.25em;
@@ -217,7 +218,7 @@
 .lotus-prose :where(pre) {
   background: var(--lotus-code-background);
   border: 1px solid var(--lotus-code-border);
-  border-radius: var(--lotus-radius-lg);
+  border-radius: var(--lotus-prose-surface-radius);
   color: var(--lotus-text);
   font-family: var(--lotus-prose-font-mono);
   font-size: 0.875em;
@@ -237,8 +238,8 @@
 }
 
 .lotus-prose .expressive-code {
-  --ec-brdRad: var(--lotus-radius-lg);
-  --ec-frm-edTabBrdRad: var(--lotus-radius-lg);
+  --ec-brdRad: var(--lotus-prose-surface-radius);
+  --ec-frm-edTabBrdRad: var(--lotus-prose-surface-radius);
   --ec-frm-frameBoxShdCssVal: none;
   --ec-frm-inlBtnBg: var(--lotus-surface);
   --ec-frm-inlBtnBrd: var(--lotus-border-muted);
@@ -246,16 +247,16 @@
 }
 
 .lotus-prose .expressive-code .frame {
-  border-radius: var(--lotus-radius-lg);
+  border-radius: var(--lotus-prose-surface-radius);
   box-shadow: none;
 }
 
 .lotus-prose .expressive-code pre {
-  border-radius: var(--lotus-radius-lg);
+  border-radius: var(--lotus-prose-surface-radius);
 }
 
 .lotus-prose .expressive-code .frame .header {
-  border-radius: var(--lotus-radius-lg) var(--lotus-radius-lg) 0 0;
+  border-radius: var(--lotus-prose-surface-radius) var(--lotus-prose-surface-radius) 0 0;
 }
 
 .lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
@@ -378,7 +379,7 @@
 }
 
 .lotus-prose :where(img, video) {
-  border-radius: var(--lotus-radius-lg);
+  border-radius: var(--lotus-prose-surface-radius);
   max-width: 100%;
 }
 

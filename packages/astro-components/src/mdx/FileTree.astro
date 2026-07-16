@@ -22,7 +22,7 @@ const html = processFileTree(fileTreeHtml);
 
     background: var(--pl-background, #ffffff);
     border: 1px solid var(--pl-file-tree-border);
-    border-radius: var(--pl-radius-lg, 0.75rem);
+    border-radius: min(var(--pl-radius-lg, 0.75rem), 1rem);
     color: var(--pl-text, #344054);
     font-family:
       var(--pl-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);

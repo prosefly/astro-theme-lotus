@@ -1,0 +1,413 @@
+---
+import Dropdown from '../ui/Dropdown.astro';
+import { accentScales } from '../../lib/colors';
+
+const grayScales = ['slate', 'zinc', 'neutral', 'stone'] as const;
+const radiusScales = ['none', 'small', 'medium', 'large', 'full'] as const;
+---
+
+<Dropdown
+  contentClass="lotus-border-muted absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(20rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-lg shadow-black/5"
+  triggerClass="lotus-focus-ring inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+  triggerLabel="Preview appearance"
+>
+  <Fragment slot="trigger">
+    <svg
+      aria-hidden="true"
+      class="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+      viewBox="0 0 24 24"
+    >
+      <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+      <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+      <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+      <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+      <path d="M12 22a10 10 0 1 1 10-10 3 3 0 0 1-3 3h-1.4a2.2 2.2 0 0 0-1.6 3.7 2 2 0 0 1-1.5 3.3Z" />
+    </svg>
+  </Fragment>
+
+  <div class="space-y-4" data-lotus-appearance-palette>
+    <div>
+      <div class="mb-2 flex items-center justify-between gap-3">
+        <p class="text-xs font-medium text-(--lotus-text-strong)">Accent</p>
+        <button
+          class="lotus-focus-ring rounded-(--lotus-radius-sm) px-1.5 py-0.5 text-xs font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+          data-appearance-reset
+          type="button"
+        >
+          Reset
+        </button>
+      </div>
+      <div class="grid grid-cols-9 gap-2">
+        {accentScales.map((accent) => (
+          <button
+            aria-label={`${accent} accent`}
+            class="lotus-appearance-swatch lotus-focus-ring flex h-6 w-6 items-center justify-center rounded-(--lotus-radius-md) transition-transform hover:scale-105"
+            data-appearance-key="accent"
+            data-appearance-value={accent}
+            style={`--lotus-appearance-swatch: var(--lotus-color-${accent}-600)`}
+            title={`${accent} accent`}
+            type="button"
+          >
+            <span class="sr-only">{accent}</span>
+          </button>
+        ))}
+        <label
+          class="lotus-appearance-custom-swatch lotus-focus-ring flex h-6 w-6 cursor-pointer items-center justify-center rounded-(--lotus-radius-md)"
+          title="Custom accent"
+        >
+          <input
+            aria-label="Custom accent color"
+            class="sr-only"
+            data-appearance-custom-accent
+            type="color"
+            value="#4f46e5"
+          />
+          <span class="sr-only">Custom accent</span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">Gray</p>
+      <div class="grid grid-cols-4 gap-1.5">
+        {grayScales.map((gray) => (
+          <button
+            class="lotus-focus-ring inline-flex h-7 items-center justify-center rounded-(--lotus-radius-md) px-2 text-xs font-medium text-(--lotus-text-muted) ring-1 ring-(--lotus-border-subtle) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) data-active:bg-(--lotus-surface) data-active:text-(--lotus-text-strong)"
+            data-appearance-key="gray"
+            data-appearance-value={gray}
+            type="button"
+          >
+            {gray}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div>
+      <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">Radius</p>
+      <div class="grid grid-cols-5 gap-1.5">
+        {radiusScales.map((radius) => (
+          <button
+            class="lotus-focus-ring inline-flex h-7 items-center justify-center px-2 text-xs font-medium text-(--lotus-text-muted) ring-1 ring-(--lotus-border-subtle) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) data-active:bg-(--lotus-surface) data-active:text-(--lotus-text-strong)"
+            data-appearance-key="radius"
+            data-appearance-value={radius}
+            style={`border-radius: ${
+              radius === 'none'
+                ? '0'
+                : radius === 'small'
+                  ? '0.25rem'
+                  : radius === 'medium'
+                    ? '0.5rem'
+                    : radius === 'large'
+                      ? '0.75rem'
+                      : '999px'
+            }`}
+            type="button"
+          >
+            {radius}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</Dropdown>
+
+<script>
+  const appearanceStorageKeys = {
+    accent: 'lotus-preview-accent',
+    gray: 'lotus-preview-gray',
+    radius: 'lotus-preview-radius',
+  } as const;
+
+  type AppearanceKey = keyof typeof appearanceStorageKeys;
+  const hexColorPattern = /^#(?:[\da-f]{3}|[\da-f]{6})$/i;
+
+  function getAppearanceRoot() {
+    return document.documentElement;
+  }
+
+  function clamp(value: number, min: number, max: number) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function srgbToLinear(value: number) {
+    return value <= 0.04045
+      ? value / 12.92
+      : ((value + 0.055) / 1.055) ** 2.4;
+  }
+
+  function parseHexColor(hex: string) {
+    if (!hexColorPattern.test(hex)) {
+      return undefined;
+    }
+
+    const normalized = hex.length === 4
+      ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+      : hex;
+    const value = Number.parseInt(normalized.slice(1), 16);
+
+    return [
+      ((value >> 16) & 255) / 255,
+      ((value >> 8) & 255) / 255,
+      (value & 255) / 255,
+    ] as const;
+  }
+
+  function hexToOklch(hex: string) {
+    const rgb = parseHexColor(hex);
+
+    if (!rgb) {
+      return undefined;
+    }
+
+    const [red, green, blue] = rgb.map(srgbToLinear);
+    const l = 0.4122214708 * red + 0.5363325363 * green + 0.0514459929 * blue;
+    const m = 0.2119034982 * red + 0.6806995451 * green + 0.1073969566 * blue;
+    const s = 0.0883024619 * red + 0.2817188376 * green + 0.6299787005 * blue;
+    const lRoot = Math.cbrt(l);
+    const mRoot = Math.cbrt(m);
+    const sRoot = Math.cbrt(s);
+    const a = 1.9779984951 * lRoot - 2.428592205 * mRoot + 0.4505937099 * sRoot;
+    const b = 0.0259040371 * lRoot + 0.7827717662 * mRoot - 0.808675766 * sRoot;
+    const chroma = Math.sqrt(a * a + b * b);
+    const hue = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
+
+    return { chroma, hue };
+  }
+
+  function formatOklch(lightness: number, chroma: number, hue: number) {
+    const formattedLightness = `${Number((lightness * 100).toFixed(1))}%`;
+    const formattedChroma = Number(chroma.toFixed(3));
+    const formattedHue = Number(hue.toFixed(3));
+
+    return `oklch(${formattedLightness} ${formattedChroma} ${formattedHue})`;
+  }
+
+  function getCustomAccentVariables(accent: string) {
+    const color = hexToOklch(accent);
+
+    if (!color) {
+      return {
+        light: accent,
+        dark: accent,
+      };
+    }
+
+    const chroma = color.chroma < 0.02 ? 0 : clamp(color.chroma, 0.08, 0.24);
+    const darkChroma = color.chroma < 0.02 ? 0 : Math.min(chroma, 0.2);
+
+    return {
+      light: formatOklch(0.58, chroma, color.hue),
+      dark: formatOklch(0.72, darkChroma, color.hue),
+    };
+  }
+
+  function getInitialAppearance() {
+    const root = getAppearanceRoot();
+
+    return {
+      accent: root.dataset.accent ?? '',
+      gray: root.dataset.gray ?? '',
+      radius: root.dataset.radius ?? '',
+      accentLight: root.style.getPropertyValue('--lotus-accent-light'),
+      accentDark: root.style.getPropertyValue('--lotus-accent-dark'),
+    };
+  }
+
+  function setAppearanceValue(key: AppearanceKey, value: string) {
+    const root = getAppearanceRoot();
+
+    if (key === 'accent') {
+      if (hexColorPattern.test(value)) {
+        const customAccent = getCustomAccentVariables(value);
+
+        delete root.dataset.accent;
+        root.dataset.customAccent = value;
+        root.style.setProperty('--lotus-accent-light', customAccent.light);
+        root.style.setProperty('--lotus-accent-dark', customAccent.dark);
+      } else {
+        root.dataset.accent = value;
+        delete root.dataset.customAccent;
+        root.style.removeProperty('--lotus-accent-light');
+        root.style.removeProperty('--lotus-accent-dark');
+      }
+    } else {
+      root.dataset[key] = value;
+    }
+
+    window.localStorage.setItem(appearanceStorageKeys[key], value);
+  }
+
+  function updateAppearanceButtons(root: ParentNode = document) {
+    const html = getAppearanceRoot();
+
+    root.querySelectorAll('[data-appearance-key][data-appearance-value]').forEach((button) => {
+      if (!(button instanceof HTMLElement)) {
+        return;
+      }
+
+      const key = button.dataset.appearanceKey as AppearanceKey | undefined;
+      const value = button.dataset.appearanceValue;
+
+      if (!key || !value) {
+        return;
+      }
+
+      button.toggleAttribute('data-active', html.dataset[key] === value);
+    });
+
+    root.querySelectorAll('[data-appearance-custom-accent]').forEach((input) => {
+      if (!(input instanceof HTMLInputElement)) {
+        return;
+      }
+
+      if (html.dataset.customAccent && hexColorPattern.test(html.dataset.customAccent)) {
+        input.value = html.dataset.customAccent;
+      }
+
+      input.toggleAttribute('data-active', Boolean(html.dataset.customAccent));
+    });
+  }
+
+  function restoreInitialAppearance(initialAppearance: ReturnType<typeof getInitialAppearance>) {
+    const root = getAppearanceRoot();
+
+    if (initialAppearance.accent) {
+      root.dataset.accent = initialAppearance.accent;
+    } else {
+      delete root.dataset.accent;
+    }
+
+    delete root.dataset.customAccent;
+    root.dataset.gray = initialAppearance.gray;
+    root.dataset.radius = initialAppearance.radius;
+
+    if (initialAppearance.accentLight) {
+      root.style.setProperty('--lotus-accent-light', initialAppearance.accentLight);
+    } else {
+      root.style.removeProperty('--lotus-accent-light');
+    }
+
+    if (initialAppearance.accentDark) {
+      root.style.setProperty('--lotus-accent-dark', initialAppearance.accentDark);
+    } else {
+      root.style.removeProperty('--lotus-accent-dark');
+    }
+
+    Object.values(appearanceStorageKeys).forEach((storageKey) => {
+      window.localStorage.removeItem(storageKey);
+    });
+  }
+
+  function applySavedAppearance() {
+    (Object.keys(appearanceStorageKeys) as AppearanceKey[]).forEach((key) => {
+      const value = window.localStorage.getItem(appearanceStorageKeys[key]);
+
+      if (value) {
+        setAppearanceValue(key, value);
+      }
+    });
+  }
+
+  function initLotusAppearancePalette() {
+    const initialAppearance = getInitialAppearance();
+
+    applySavedAppearance();
+
+    document.querySelectorAll('[data-lotus-appearance-palette]').forEach((palette) => {
+      if (!(palette instanceof HTMLElement) || palette.dataset.lotusAppearancePaletteReady) {
+        return;
+      }
+
+      palette.dataset.lotusAppearancePaletteReady = 'true';
+      updateAppearanceButtons(palette);
+
+      palette.querySelectorAll('[data-appearance-key][data-appearance-value]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (!(button instanceof HTMLElement)) {
+            return;
+          }
+
+          const key = button.dataset.appearanceKey as AppearanceKey | undefined;
+          const value = button.dataset.appearanceValue;
+
+          if (!key || !value) {
+            return;
+          }
+
+          setAppearanceValue(key, value);
+          updateAppearanceButtons(palette);
+        });
+      });
+
+      palette.querySelectorAll('[data-appearance-custom-accent]').forEach((input) => {
+        input.addEventListener('input', () => {
+          if (!(input instanceof HTMLInputElement)) {
+            return;
+          }
+
+          setAppearanceValue('accent', input.value);
+          updateAppearanceButtons(palette);
+        });
+      });
+
+      palette.querySelector('[data-appearance-reset]')?.addEventListener('click', () => {
+        restoreInitialAppearance(initialAppearance);
+        updateAppearanceButtons(palette);
+      });
+    });
+  }
+
+  initLotusAppearancePalette();
+  document.addEventListener('astro:page-load', initLotusAppearancePalette);
+</script>
+
+<style>
+  .lotus-appearance-swatch {
+    background: var(--lotus-appearance-swatch);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--lotus-background) 22%, transparent);
+    outline: 0 solid transparent;
+    outline-offset: 2px;
+  }
+
+  .lotus-appearance-swatch[data-active] {
+    outline-color: var(--lotus-appearance-swatch);
+    outline-width: 2px;
+  }
+
+  .lotus-appearance-custom-swatch {
+    background:
+      linear-gradient(var(--lotus-background), var(--lotus-background)) padding-box,
+      conic-gradient(
+        from 90deg,
+        var(--lotus-color-red-600),
+        var(--lotus-color-yellow-600),
+        var(--lotus-color-green-600),
+        var(--lotus-color-cyan-600),
+        var(--lotus-color-blue-600),
+        var(--lotus-color-purple-600),
+        var(--lotus-color-red-600)
+      ) border-box;
+    border: 2px solid transparent;
+    outline: 0 solid transparent;
+    outline-offset: 2px;
+  }
+
+  .lotus-appearance-custom-swatch::before {
+    background: var(--lotus-accent);
+    border-radius: calc(var(--lotus-radius-md) - 2px);
+    content: "";
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .lotus-appearance-custom-swatch:has(input[data-active]) {
+    outline-color: var(--lotus-accent);
+    outline-width: 2px;
+  }
+</style>

@@ -9,7 +9,7 @@ const searchIndexHref = docsBasePath === '/' ? '/search.json' : `${docsBasePath}
 
 <dialog
   aria-label="Search documentation"
-  class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-(--lotus-radius-lg) border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
+  class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
   data-lotus-search-dialog
   data-lotus-search-index={searchIndexHref}
 >
