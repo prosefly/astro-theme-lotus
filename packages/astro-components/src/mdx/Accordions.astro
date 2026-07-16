@@ -1,0 +1,206 @@
+---
+interface Props {
+  multiple?: boolean;
+  defaultValue?: string | string[];
+}
+
+const { multiple = false, defaultValue } = Astro.props;
+const defaultValues =
+  typeof defaultValue === 'string'
+    ? [defaultValue]
+    : Array.isArray(defaultValue)
+      ? defaultValue
+      : [];
+---
+
+<div
+  class="pl-accordions"
+  data-default-values={JSON.stringify(defaultValues)}
+  data-multiple={multiple ? 'true' : undefined}
+  data-pl-accordions
+>
+  <slot />
+</div>
+
+<script is:inline>
+  (() => {
+    const initKey = '__proseflyAccordionsInit';
+
+    if (!window[initKey]) {
+      const getItems = (root) =>
+        [...root.querySelectorAll(':scope > [data-pl-accordion]')];
+
+      const closeSiblings = (root, activeItem) => {
+        if (root.hasAttribute('data-multiple')) return;
+
+        for (const item of getItems(root)) {
+          if (item !== activeItem) item.open = false;
+        }
+      };
+
+      const openItem = (item) => {
+        const root = item.closest('[data-pl-accordions]');
+
+        item.open = true;
+        if (root) closeSiblings(root, item);
+      };
+
+      const openHashTarget = () => {
+        if (!location.hash) return;
+
+        const id = decodeURIComponent(location.hash.slice(1));
+        const item = document.getElementById(id);
+
+        if (item?.matches('[data-pl-accordion]')) {
+          openItem(item);
+        }
+      };
+
+      window[initKey] = () => {
+        document.querySelectorAll('[data-pl-accordions]').forEach((root) => {
+          if (!(root instanceof HTMLElement) || root.dataset.plAccordionsReady === 'true') {
+            return;
+          }
+
+          root.dataset.plAccordionsReady = 'true';
+
+          let defaultValues = [];
+          try {
+            defaultValues = JSON.parse(root.getAttribute('data-default-values') || '[]');
+          } catch {
+            defaultValues = [];
+          }
+
+          for (const item of getItems(root)) {
+            if (defaultValues.includes(item.getAttribute('data-value'))) {
+              openItem(item);
+            }
+
+            item.addEventListener('click', (event) => {
+              if (!event.target.closest('[data-pl-accordion-trigger]')) return;
+
+              if (item.getAttribute('data-disabled') === 'true') {
+                event.preventDefault();
+                return;
+              }
+
+              if (!item.open) {
+                closeSiblings(root, item);
+              }
+            });
+
+            item.addEventListener('toggle', () => {
+              if (item.open) closeSiblings(root, item);
+            });
+          }
+        });
+
+        openHashTarget();
+      };
+
+      window.addEventListener('hashchange', openHashTarget);
+      document.addEventListener('astro:page-load', window[initKey]);
+    }
+
+    window[initKey]();
+  })();
+</script>
+
+<style is:global>
+  .pl-accordions {
+    border-bottom: 1px solid
+      color-mix(in oklab, var(--pl-text-muted, #667085) 18%, transparent);
+    border-top: 1px solid
+      color-mix(in oklab, var(--pl-text-muted, #667085) 18%, transparent);
+    margin-block: 1.5rem;
+  }
+
+  .pl-accordion {
+    border-bottom: 1px solid
+      color-mix(in oklab, var(--pl-text-muted, #667085) 18%, transparent);
+  }
+
+  .pl-accordion:last-child {
+    border-bottom: 0;
+  }
+
+  .pl-accordion__trigger {
+    align-items: center;
+    color: var(--pl-text-strong, var(--pl-text, #182230));
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    list-style: none;
+    padding-block: 1rem;
+    text-align: left;
+    transition: color 160ms ease;
+  }
+
+  .pl-accordion__trigger::-webkit-details-marker {
+    display: none;
+  }
+
+  .pl-accordion__trigger:hover {
+    color: var(--pl-accent, #4f46e5);
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+
+  .pl-accordion__trigger:focus-visible {
+    border-radius: var(--pl-radius-md, 0.5rem);
+    outline: 2px solid var(--pl-accent, #4f46e5);
+    outline-offset: 2px;
+  }
+
+  .pl-accordion__title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+  }
+
+  .pl-accordion__chevron {
+    color: var(--pl-text-muted, #667085);
+    display: inline-flex;
+    flex: 0 0 auto;
+    transition:
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .pl-accordion[open] > .pl-accordion__trigger .pl-accordion__chevron {
+    transform: rotate(180deg);
+  }
+
+  .pl-accordion__trigger:hover .pl-accordion__chevron {
+    color: currentColor;
+  }
+
+  .pl-accordion__content {
+    color: var(--pl-text, #344054);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    padding-block: 0 1rem;
+  }
+
+  .pl-accordion__content > :first-child {
+    margin-block-start: 0;
+  }
+
+  .pl-accordion__content > :last-child {
+    margin-block-end: 0;
+  }
+
+  .pl-accordion__content > * + * {
+    margin-block-start: 0.75rem;
+  }
+
+  .pl-accordion[data-disabled='true'] {
+    opacity: 0.55;
+  }
+
+  .pl-accordion[data-disabled='true'] > .pl-accordion__trigger {
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+</style>

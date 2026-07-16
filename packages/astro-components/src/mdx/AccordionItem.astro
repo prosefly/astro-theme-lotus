@@ -1,0 +1,54 @@
+---
+interface Props {
+  title: string;
+  id?: string;
+  value?: string;
+  defaultOpen?: boolean;
+  open?: boolean;
+  disabled?: boolean;
+}
+
+const {
+  title,
+  id,
+  value = id ?? title,
+  defaultOpen = false,
+  open = defaultOpen,
+  disabled = false,
+} = Astro.props;
+
+if (!title) {
+  throw new Error('Missing prop `title` on `<AccordionItem>`.');
+}
+---
+
+<details
+  class="pl-accordion"
+  data-pl-accordion
+  data-value={value}
+  data-disabled={disabled ? 'true' : undefined}
+  id={id}
+  open={open}
+>
+  <summary
+    aria-disabled={disabled ? 'true' : undefined}
+    class="pl-accordion__trigger"
+    data-pl-accordion-trigger
+  >
+    <span class="pl-accordion__title">{title}</span>
+    <span aria-hidden="true" class="pl-accordion__chevron">
+      <svg fill="none" height="16" viewBox="0 0 24 24" width="16">
+        <path
+          d="m6 9 6 6 6-6"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </span>
+  </summary>
+  <div class="pl-accordion__content">
+    <slot />
+  </div>
+</details>

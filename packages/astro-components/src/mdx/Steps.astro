@@ -1,0 +1,88 @@
+---
+import { processSteps } from './rehype-steps';
+
+const content = await Astro.slots.render('default');
+const { html } = processSteps(content);
+---
+
+<Fragment set:html={html} />
+
+<style is:global>
+  .pl-steps {
+    --pl-steps-bullet-size: 1.75rem;
+    --pl-steps-bullet-margin: 0.375rem;
+    --pl-steps-line: var(--pl-border-subtle, #e5e7eb);
+    --pl-steps-marker-background: var(--pl-surface, #f4f6f8);
+    --pl-steps-marker-foreground: var(--pl-text, #344054);
+    counter-reset: pl-steps-counter var(--pl-steps-start, 0);
+    list-style: none;
+    margin-block: 1.5rem;
+    padding-inline-start: 0;
+  }
+
+  .pl-steps > li {
+    counter-increment: pl-steps-counter;
+    min-height: calc(
+      var(--pl-steps-bullet-size) + var(--pl-steps-bullet-margin)
+    );
+    padding-block-end: 1px;
+    padding-inline-start: calc(var(--pl-steps-bullet-size) + 1rem);
+    position: relative;
+  }
+
+  .pl-steps > li + li {
+    margin-block-start: 0;
+  }
+
+  .pl-steps > li::before {
+    background: var(--pl-steps-marker-background);
+    border-radius: var(--pl-radius-full, 999px);
+    color: var(--pl-steps-marker-foreground);
+    content: counter(pl-steps-counter);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    height: var(--pl-steps-bullet-size);
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    line-height: var(--pl-steps-bullet-size);
+    position: absolute;
+    text-align: center;
+    width: var(--pl-steps-bullet-size);
+    z-index: 1;
+  }
+
+  .pl-steps > li::after {
+    background: var(--pl-steps-line);
+    bottom: var(--pl-steps-bullet-margin);
+    content: "";
+    inset-inline-start: calc((var(--pl-steps-bullet-size) - 1px) / 2);
+    position: absolute;
+    top: calc(var(--pl-steps-bullet-size) + var(--pl-steps-bullet-margin));
+    width: 1px;
+  }
+
+  .pl-steps > li:last-child::after {
+    display: none;
+  }
+
+  .pl-steps > li > :first-child {
+    --pl-steps-first-line-height: 1.75em;
+    --pl-steps-shift-y: calc(
+      0.5 *
+        (var(--pl-steps-bullet-size) - var(--pl-steps-first-line-height))
+    );
+    margin-block-start: 0;
+    margin-bottom: var(--pl-steps-shift-y);
+    transform: translateY(var(--pl-steps-shift-y));
+  }
+
+  .pl-steps > li > :first-child:where(h1, h2, h3, h4, h5, h6) {
+    --pl-steps-first-line-height: 1.25em;
+  }
+
+  @supports (--prop: 1lh) {
+    .pl-steps > li > :first-child {
+      --pl-steps-first-line-height: 1lh;
+    }
+  }
+</style>

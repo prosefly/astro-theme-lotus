@@ -31,7 +31,10 @@ async function collectStaticIconNames(root: URL): Promise<Set<string>> {
   const sourceRoot = join(fileURLToPath(root), 'src');
   const iconNames = new Set<string>();
   const supportedExtensions = new Set(['.astro', '.md', '.mdx']);
-  const iconPattern = /<Icon\b[^>]*\bname=(?:"([^"]+)"|'([^']+)')/g;
+  const iconPatterns = [
+    /<Icon\b[^>]*\bname\s*=\s*(?:"([^"]+)"|'([^']+)'|\{\s*["']([^"']+)["']\s*\})/g,
+    /<[A-Z][\w.:/-]*\b[^>]*\bicon\s*=\s*(?:"([^"]+)"|'([^']+)'|\{\s*["']([^"']+)["']\s*\})/g,
+  ];
 
   async function scanDirectory(directory: string): Promise<void> {
     let entries: Dirent[];
@@ -57,8 +60,10 @@ async function collectStaticIconNames(root: URL): Promise<Set<string>> {
 
         const source = await readFile(entryPath, 'utf8');
 
-        for (const match of source.matchAll(iconPattern)) {
-          addIconName(iconNames, match[1] ?? match[2]);
+        for (const iconPattern of iconPatterns) {
+          for (const match of source.matchAll(iconPattern)) {
+            addIconName(iconNames, match[1] ?? match[2] ?? match[3]);
+          }
         }
       }),
     );
