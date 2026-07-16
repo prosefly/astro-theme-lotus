@@ -237,6 +237,8 @@
 }
 
 .lotus-prose .expressive-code {
+  --ec-brdRad: var(--lotus-radius-lg);
+  --ec-frm-edTabBrdRad: var(--lotus-radius-lg);
   --ec-frm-frameBoxShdCssVal: none;
   --ec-frm-inlBtnBg: var(--lotus-surface);
   --ec-frm-inlBtnBrd: var(--lotus-border-muted);
@@ -244,7 +246,54 @@
 }
 
 .lotus-prose .expressive-code .frame {
+  border-radius: var(--lotus-radius-lg);
   box-shadow: none;
+}
+
+.lotus-prose .expressive-code pre {
+  border-radius: var(--lotus-radius-lg);
+}
+
+.lotus-prose .expressive-code .frame .header {
+  border-radius: var(--lotus-radius-lg) var(--lotus-radius-lg) 0 0;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
+.lotus-prose .expressive-code .frame.is-terminal {
+  --button-spacing: 0.125rem;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) {
+  --lotus-code-header-padding-block: 0.5rem;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .header {
+  padding-block: var(--lotus-code-header-padding-block);
+  padding-inline-start: var(--ec-uiPadInl);
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+  content: none;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--lotus-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+.lotus-prose .expressive-code .frame.is-terminal .header {
+  padding-block: 0.5rem;
+  padding-block-end: calc(0.5rem + var(--ec-brdWd));
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
 }
 
 .lotus-prose .expressive-code .copy button {
