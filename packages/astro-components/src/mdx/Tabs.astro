@@ -276,6 +276,7 @@ const activePanel = panels[activeIndex] ?? panels[0];
 <style is:global>
   .pl-tabs {
     background: var(--pl-surface, #f4f6f8);
+    border: 1px solid var(--pl-border-subtle, #e5e7eb);
     border-radius: min(var(--pl-radius-lg, 0.75rem), 1rem);
     margin-block: 1.25rem;
     overflow: hidden;
@@ -422,7 +423,7 @@ const activePanel = panels[activeIndex] ?? panels[0];
   }
 
   .pl-tabs__panels {
-    background: var(--pl-surface, #f4f6f8);
+    background: var(--pl-background, #fff);
     padding: 1rem;
   }
 

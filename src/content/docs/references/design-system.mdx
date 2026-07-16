@@ -1,92 +1,225 @@
 ---
 title: Design System
-description: Capture the design tokens and UI foundations for Lotus.
+description: Understand the token model and UI foundations used by Lotus.
 sidebar:
   order: 1
 ---
 
-Lotus defines its visual language through theme tokens for color, typography,
-spacing, and shape.
+Lotus uses a small design system built around semantic CSS tokens. The goal is
+to keep the public configuration compact while still giving projects a stable
+surface for deeper customization.
 
-## Tailwind and Lotus tokens
+The theme has three layers:
 
-Tailwind handles page layout, spacing, typography utilities, and responsive
-behavior. Lotus tokens define the semantic layer on top of that utility system:
-surface colors, foreground colors, interactive accents, prose styling, fonts,
-and shared radius values.
+1. Tailwind provides layout utilities, responsive behavior, and the base color
+   scales.
+2. Lotus maps those primitives into semantic `--lotus-*` tokens for the docs
+   shell and prose.
+3. Shared MDX components read portable `--pl-*` tokens, which Lotus maps back
+   to the active Lotus theme.
 
-This split keeps authoring practical. Tailwind classes describe structure and
-composition, while `--lotus-*` tokens preserve a consistent visual language
-across layouts and MDX components.
+## Appearance Model
 
-The `appearance.gray` setting renders as an attribute such as
-`data-gray="neutral"`. Lotus maps that selector to `--lotus-gray-*` aliases, then
-derives `--lotus-text`, `--lotus-text-strong`, `--lotus-surface`, code
-backgrounds, borders, and dividers from that scale. The theme uses
-`@theme static` to keep supported Tailwind color variables in the generated CSS.
-
-The `appearance.accent` setting follows the same attribute-first model for
-built-in colors. A preset like `indigo` renders as `data-accent="indigo"` and
-maps to Tailwind accent aliases. A custom hex color skips the attribute mapping
-and writes calculated `--lotus-accent-light` and `--lotus-accent-dark` values
-directly on the page shell.
-
-## Why Lotus uses semantic color tokens
-
-Lotus ships semantic tokens such as `--lotus-background`, `--lotus-text-strong`,
-`--lotus-text`, and `--lotus-accent` so components can respond to theme changes
-without rewriting every individual utility class. The default palette uses
-`oklch(...)` values because they are perceptually uniform and easier to tune
-across light and dark surfaces than raw `r g b` channel triplets.
-
-In practice, `oklch(...)` makes it easier to adjust contrast, chroma, and tone
-with predictable results while still exposing a semantic token API to the rest
-of the theme.
-
-## Radius and theme attributes
-
-The page shell reads `appearance.defaultMode` and `appearance.radius` from
-`src/theme.config.ts` and exposes them as document attributes. A system default
-renders as `data-theme="system"` so CSS can follow the visitor's
-`prefers-color-scheme` setting, while explicit light and dark defaults render
-the matching fixed theme.
-
-Lotus components consume the matching radius tokens so cards, callouts, and
-other surfaces stay aligned with the selected scale.
+The public `appearance` config controls theme direction, not every individual
+color token.
 
 ```ts
 appearance: {
+  accent: 'indigo',
+  gray: 'neutral',
   defaultMode: 'system',
   radius: 'medium',
 }
 ```
 
-## Package component bridge
+These options render as document attributes:
 
-The shared package components remain package-owned and read `--pl-*` variables.
-Lotus maps those bridge variables to the semantic theme layer in
-the bundled theme tokens, including `--pl-text`, `--pl-background`,
-`--pl-accent`, `--pl-accent-soft`, `--pl-accent-contrast`, and the radius
-tokens. This keeps package components portable while letting Lotus own the
-release palette.
+| Config | Attribute | Purpose |
+| --- | --- | --- |
+| `accent` | `data-accent="indigo"` | Selects the interactive color family. |
+| `gray` | `data-gray="neutral"` | Selects the neutral scale for text, borders, and surfaces. |
+| `defaultMode` | `data-theme="system"` | Selects light, dark, or system color mode. |
+| `radius` | `data-radius="medium"` | Selects the shared shape scale. |
 
-## Core tokens
+`background` and `text` are intentionally not public `appearance` fields. They
+are derived semantic tokens. Setting them independently would leave related
+tokens such as `surface`, `border`, `code background`, `text muted`, and dark
+mode contrast unresolved. Projects that need full control should override CSS
+tokens directly.
+
+## Color System
+
+Lotus keeps Tailwind colors available through `@theme static` aliases such as
+`--lotus-color-indigo-600`, `--lotus-color-neutral-100`, and
+`--lotus-color-slate-950`. Those aliases make configured color scales available
+even when a specific utility class is not used in markup.
+
+Gray presets map Tailwind neutral families into a common `--lotus-gray-*`
+scale:
+
+| Gray | Tone |
+| --- | --- |
+| `slate` | Cool, blue-leaning neutral. |
+| `zinc` | Cool neutral with a slight violet cast. |
+| `neutral` | Default, low-chroma neutral. |
+| `stone` | Warm neutral. |
+
+Accent presets use Tailwind accent colors. The light theme uses the `600` step;
+dark mode uses the `400` step.
+
+| Accent tokens | Purpose |
+| --- | --- |
+| `--lotus-accent-light` | Accent value used in light mode. |
+| `--lotus-accent-dark` | Accent value used in dark mode. |
+| `--lotus-accent` | Active accent for the current mode. |
+| `--lotus-accent-soft` | Low-emphasis active and hover background. |
+| `--lotus-accent-contrast` | Text on solid accent backgrounds. |
+
+Custom hex accents are supported. Lotus converts the hex value into OKLCH-based
+light and dark accent variables so the accent remains usable in both modes.
+
+## Semantic Tokens
+
+Components should prefer semantic tokens over raw Tailwind color steps.
 
 | Token | Purpose |
-|---|---|
-| `--lotus-gray-50` ... `--lotus-gray-950` | Alias for the configured Tailwind neutral scale |
-| `--lotus-background` | Page background |
-| `--lotus-surface` | Subtle panels and neutral surfaces |
-| `--lotus-code-background` | Code block and inline code background |
-| `--lotus-code-border` | Code block border |
-| `--lotus-text-strong` | Headings, section labels, active text |
-| `--lotus-text` | Main body text |
-| `--lotus-text-muted` | Secondary text and inactive navigation |
-| `--lotus-border-muted` | Default component and content borders |
-| `--lotus-border-subtle` | Low-emphasis dividers and chrome separators |
-| `--lotus-accent` | Primary interactive color |
-| `--lotus-accent-soft` | Muted active and hover backgrounds |
-| `--lotus-accent-contrast` | Text on accent backgrounds |
-| `--lotus-radius-md` | Medium component radius |
-| `--lotus-radius-full` | Fully rounded controls and badges |
-| `--lotus-docs-chrome-height` | Combined header and subnav height for sticky offsets |
+| --- | --- |
+| `--lotus-background` | Page and shell background. |
+| `--lotus-surface` | Subtle panels, hover backgrounds, and neutral soft UI. |
+| `--lotus-text-strong` | Headings, labels, active text, and high-emphasis UI. |
+| `--lotus-text` | Body copy and default foreground. |
+| `--lotus-text-muted` | Secondary text, inactive navigation, and captions. |
+| `--lotus-border-muted` | Default component borders. |
+| `--lotus-border-subtle` | Low-emphasis dividers and sticky chrome borders. |
+| `--lotus-border-hover` | Stronger border state for hoverable controls. |
+| `--lotus-code-background` | Inline code and plain code block background. |
+| `--lotus-code-border` | Plain code block border. |
+
+In light mode, `--lotus-text` is derived from gray `700`, while headings use
+gray `950`. In dark mode, the same semantic tokens point to lighter gray steps.
+This keeps component code stable while the color mode changes underneath.
+
+## Radius
+
+Radius is controlled with a document-level `data-radius` attribute.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-radius-sm` | Inline code, small focus targets, and compact controls. |
+| `--lotus-radius-md` | Buttons, nav items, sidebar items, and form-like controls. |
+| `--lotus-radius-lg` | Cards, callouts, dropdowns, and larger surfaces. |
+| `--lotus-radius-full` | Badges, circular buttons, and round markers. |
+
+`radius: 'full'` does not mean every surface should become a pill. Large fixed
+components cap their radius with expressions such as
+`min(var(--lotus-radius-lg), 1rem)` so dropdowns, code blocks, tabs, and cards
+remain structurally readable.
+
+## Typography
+
+Lotus does not load web fonts by default. It exposes font tokens and defaults
+to system font stacks.
+
+```css
+:root {
+  --lotus-font-sans: var(--lotus-system-sans);
+  --lotus-font-mono: var(--lotus-system-mono);
+}
+```
+
+Projects can load fonts however they prefer and then override the tokens:
+
+```css
+:root {
+  --lotus-font-sans: "Inter", var(--lotus-system-sans);
+  --lotus-font-mono: "JetBrains Mono", var(--lotus-system-mono);
+}
+```
+
+The base font feature settings enable Inter-friendly alternates such as
+`cv02`, `cv03`, `cv04`, and `cv11`. Mono text enables `ss02` and `zero` for
+clearer code rendering.
+
+## Layout Tokens
+
+The docs layout uses tokenized dimensions so sticky chrome, sidebars, content,
+and TOC can stay aligned.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-header-height` | Main header height. |
+| `--lotus-subnav-height` | Docs subnav height. |
+| `--lotus-docs-chrome-height` | Combined sticky header and subnav offset. |
+| `--lotus-sidebar-width` | Desktop sidebar column width. |
+| `--lotus-toc-width` | Desktop table-of-contents column width. |
+| `--lotus-content-width` | Main content column max width. |
+
+Content width is a theme decision. Page authors should not need to tune prose
+width in Markdown files.
+
+## Prose
+
+Markdown content is styled through `.lotus-prose`. The prose layer uses the same
+semantic tokens as the rest of the theme, but adds prose-specific variables for
+reading rhythm.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-prose-size` | Base prose font size. |
+| `--lotus-prose-leading` | Body line height. |
+| `--lotus-prose-flow` | Default vertical rhythm between prose blocks. |
+| `--lotus-prose-heading-leading` | Heading line height. |
+| `--lotus-prose-border` | Blockquote, table, rule, and footnote borders. |
+| `--lotus-prose-surface-radius` | Code block, image, and media radius. |
+
+Expressive Code reads Lotus tokens for its code background, border, UI font,
+code font, focus border, and radius. This keeps light and dark code blocks in
+sync with the rest of the page.
+
+## Component Bridge
+
+The reusable MDX components live in `@prosefly/astro-components`. They should
+not depend on Lotus-specific token names, so they read `--pl-*` variables.
+Lotus provides the bridge:
+
+| Prosefly token | Lotus mapping |
+| --- | --- |
+| `--pl-background` | `--lotus-background` |
+| `--pl-surface` | `--lotus-surface` |
+| `--pl-text-strong` | `--lotus-text-strong` |
+| `--pl-text` | `--lotus-text` |
+| `--pl-text-muted` | `--lotus-text-muted` |
+| `--pl-border-muted` | `--lotus-border-muted` |
+| `--pl-border-subtle` | `--lotus-border-subtle` |
+| `--pl-border-hover` | `--lotus-border-hover` |
+| `--pl-accent` | `--lotus-accent` |
+| `--pl-accent-soft` | `--lotus-accent-soft` |
+| `--pl-accent-contrast` | `--lotus-accent-contrast` |
+| `--pl-radius-sm` ... `--pl-radius-full` | Matching Lotus radius tokens |
+
+This lets the components package remain portable while Lotus owns the actual
+theme palette.
+
+## Customization Strategy
+
+Use `appearance` for common theme choices:
+
+- `accent` for interactive color.
+- `gray` for the neutral mood.
+- `defaultMode` for light, dark, or system.
+- `radius` for shape.
+
+Use CSS token overrides when a project needs brand-level control:
+
+```css
+:root {
+  --lotus-background: oklch(0.99 0.01 260);
+  --lotus-text: oklch(0.32 0.03 260);
+  --lotus-surface: oklch(0.96 0.015 260);
+  --lotus-border-muted: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
+}
+```
+
+When overriding core colors, update the related tokens together. `background`,
+`surface`, `text`, `text-muted`, borders, and code colors should be treated as a
+set rather than isolated values.
