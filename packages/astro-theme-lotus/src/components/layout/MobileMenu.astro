@@ -1,43 +1,14 @@
 ---
-import { Icon } from '@prosefly/astro-components';
-import Button from '../ui/Button.astro';
 import Dropdown from '../ui/Dropdown.astro';
+import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
+import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { resolveIconName } from '../../lib/icons';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;
 }
 
 const { currentPath } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const navbar = themeConfig.navbar ?? [];
-const socials = themeConfig.socials ?? [];
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
-
-function normalizeHref(href: string): string {
-  return href.endsWith('/') ? href : `${href}/`;
-}
-
-function isActive(href: string): boolean {
-  if (!currentPath) {
-    return false;
-  }
-
-  if (normalizeHref(href) === docsRootHref) {
-    return currentPath === docsRootHref || currentPath.startsWith(docsRootHref);
-  }
-
-  return currentPath === href || currentPath.startsWith(`${href}`);
-}
-
-function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
-  return Boolean(item.variant);
-}
-
 ---
 
 <Dropdown
@@ -50,52 +21,11 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
   </Fragment>
 
   <nav aria-label="Primary" class="space-y-4">
-    <div class="space-y-1">
-      {navbar.map((item) => (
-        isNavbarButton(item) ? (
-          <Button
-            block
-            color={item.color ?? 'neutral'}
-            data-lotus-dropdown-close
-            external={item.external}
-            href={item.href}
-            trailingIcon={item.trailingIcon}
-            variant={item.variant}
-          >
-            {item.label}
-          </Button>
-        ) : (
-          <a
-            class="lotus-focus-ring flex items-center gap-1.5 rounded-(--lotus-radius-md) px-3 py-2 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            data-lotus-dropdown-close
-            href={item.href}
-            rel={item.external ? 'noreferrer' : undefined}
-            target={item.external ? '_blank' : undefined}
-          >
-            <span>{item.label}</span>
-            {item.trailingIcon && (
-              <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
-            )}
-          </a>
-        )
-      ))}
-    </div>
+    <HeaderNavbar currentPath={currentPath} mobile />
 
     <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
       <div class="flex items-center gap-1">
-        {socials.map((social) => (
-          <a
-            aria-label={social.label}
-            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-            data-lotus-dropdown-close
-            href={social.href}
-            target={social.external ? '_blank' : undefined}
-            rel={social.external ? 'noreferrer' : undefined}
-          >
-            <Icon name={resolveIconName(social.icon)} />
-          </a>
-        ))}
+        <HeaderSocialIcons mobile />
       </div>
       <ThemeSwitch />
     </div>

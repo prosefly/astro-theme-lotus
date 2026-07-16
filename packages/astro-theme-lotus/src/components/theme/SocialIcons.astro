@@ -1,0 +1,31 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { resolveIconName } from '../../lib/icons';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+interface Props {
+  mobile?: boolean;
+}
+
+const { mobile = false } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const socials = themeConfig.socials ?? [];
+
+function getActionLabel(label: string, icon?: string): string {
+  return icon ? `${label} (${icon})` : label;
+}
+---
+
+{socials.map((social) => (
+  <a
+    aria-label={mobile ? social.label : getActionLabel(social.label, social.icon)}
+    class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+    data-lotus-dropdown-close={mobile ? true : undefined}
+    href={social.href}
+    rel={social.external ? 'noreferrer' : undefined}
+    target={social.external ? '_blank' : undefined}
+  >
+    <Icon name={resolveIconName(social.icon)} />
+  </a>
+))}

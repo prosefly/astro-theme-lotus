@@ -1,6 +1,12 @@
+export { default as NavbarLinks } from './components/theme/NavbarLinks.astro';
+export { default as SocialIcons } from './components/theme/SocialIcons.astro';
+export { default as PageActions } from './components/theme/PageActions.astro';
+export { default as PageHeader } from './components/theme/PageHeader.astro';
+export { default as PageNavigation } from './components/theme/PageNavigation.astro';
 export { default as SearchDialog } from './components/theme/SearchDialog.astro';
 export { default as SearchDialogContent } from './components/theme/SearchDialogContent.astro';
 export { default as SearchDialogTrigger } from './components/theme/SearchDialogTrigger.astro';
+export { default as SiteBrand } from './components/theme/SiteBrand.astro';
 export { default as ThemeModeButton } from './components/theme/ThemeModeButton.astro';
 export { default as ThemeModeSegmentedControl } from './components/theme/ThemeModeSegmentedControl.astro';
 export { default as ThemeModeSelect } from './components/theme/ThemeModeSelect.astro';

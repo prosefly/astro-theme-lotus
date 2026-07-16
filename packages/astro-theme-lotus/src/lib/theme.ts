@@ -1,30 +1,11 @@
+import type { ThemeAccent } from './colors';
+
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export type RadiusScale = 'none' | 'small' | 'medium' | 'large' | 'full';
 
-export const accentScales = [
-  'red',
-  'orange',
-  'amber',
-  'yellow',
-  'lime',
-  'green',
-  'emerald',
-  'teal',
-  'cyan',
-  'sky',
-  'blue',
-  'indigo',
-  'violet',
-  'purple',
-  'fuchsia',
-  'pink',
-  'rose',
-] as const;
-
-export type AccentScale = typeof accentScales[number];
-
-export type ThemeAccent = AccentScale | (string & {});
+export { accentScales } from './colors';
+export type { AccentScale, ThemeAccent } from './colors';
 
 export interface ThemeLink {
   label: string;
@@ -99,7 +80,15 @@ export interface PageActionConfig {
   external?: boolean;
 }
 
-export type OverrideComponentName = 'SearchDialog' | 'ThemeSwitch';
+export type OverrideComponentName =
+  | 'HeaderNavbar'
+  | 'HeaderSocialIcons'
+  | 'PageActions'
+  | 'PageHeader'
+  | 'PageNavigation'
+  | 'SearchDialog'
+  | 'SiteBrand'
+  | 'ThemeSwitch';
 
 export type OverrideComponentsConfig = Partial<Record<OverrideComponentName, string>>;
 

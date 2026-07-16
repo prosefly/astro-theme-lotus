@@ -1,0 +1,80 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import Button from '../ui/Button.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { resolveIconName } from '../../lib/icons';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+
+interface Props {
+  currentPath?: string;
+  mobile?: boolean;
+}
+
+const { currentPath, mobile = false } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const navbar = themeConfig.navbar ?? [];
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+
+function normalizeHref(href: string): string {
+  return href.endsWith('/') ? href : `${href}/`;
+}
+
+function isActive(href: string): boolean {
+  if (!currentPath) {
+    return false;
+  }
+
+  if (normalizeHref(href) === docsRootHref) {
+    return currentPath === docsRootHref || currentPath.startsWith(docsRootHref);
+  }
+
+  return currentPath === href || currentPath.startsWith(`${href}`);
+}
+
+function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
+  return Boolean(item.variant);
+}
+---
+
+<nav
+  aria-label="Primary"
+  class:list={[
+    mobile ? 'space-y-1' : 'flex min-w-0 items-center gap-5',
+  ]}
+>
+  {navbar.map((item) => (
+    isNavbarButton(item) ? (
+      <Button
+        block={mobile}
+        color={item.color ?? 'neutral'}
+        data-lotus-dropdown-close={mobile ? true : undefined}
+        external={item.external}
+        href={item.href}
+        trailingIcon={item.trailingIcon}
+        variant={item.variant}
+      >
+        {item.label}
+      </Button>
+    ) : (
+      <a
+        class:list={[
+          'lotus-focus-ring items-center gap-1.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)',
+          mobile
+            ? 'flex rounded-(--lotus-radius-md) px-3 py-2'
+            : 'inline-flex',
+        ]}
+        aria-current={isActive(item.href) ? 'page' : undefined}
+        data-lotus-dropdown-close={mobile ? true : undefined}
+        href={item.href}
+        rel={item.external ? 'noreferrer' : undefined}
+        target={item.external ? '_blank' : undefined}
+      >
+        <span>{item.label}</span>
+        {item.trailingIcon && (
+          <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
+        )}
+      </a>
+    )
+  ))}
+</nav>

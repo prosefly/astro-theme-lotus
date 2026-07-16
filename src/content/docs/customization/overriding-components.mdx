@@ -38,14 +38,31 @@ need.
 ```ts
 lotus({
   components: {
+    HeaderNavbar: './src/components/HeaderNavbar.astro',
+    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+    PageActions: './src/components/PageActions.astro',
+    PageHeader: './src/components/PageHeader.astro',
+    PageNavigation: './src/components/PageNavigation.astro',
     SearchDialog: './src/components/SearchDialog.astro',
+    SiteBrand: './src/components/SiteBrand.astro',
     ThemeSwitch: './src/components/ThemeSwitch.astro',
   },
 })
 ```
 
 Override paths are resolved from the project root. The first supported override
-points are `SearchDialog` and `ThemeSwitch`.
+points are:
+
+| Component | Purpose |
+|---|---|
+| `SiteBrand` | Logo and product name in the header |
+| `HeaderNavbar` | Main navbar links and navbar action buttons |
+| `HeaderSocialIcons` | Social icon links in desktop and mobile header chrome |
+| `SearchDialog` | Search trigger and dialog content as one unit |
+| `ThemeSwitch` | Theme mode control in the header |
+| `PageHeader` | Documentation page title, description, section label, and page actions placement |
+| `PageActions` | Copy page, Markdown, and assistant actions |
+| `PageNavigation` | Previous and next page links |
 
 ## Use theme components
 
@@ -83,6 +100,18 @@ import {
 The theme itself imports override points through internal virtual modules. The
 public `components` export points to theme building blocks, so using it inside
 an override will not recursively import the override file.
+
+For example, a project can wrap the default page actions:
+
+```astro
+---
+import { PageActions } from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-(--lotus-radius-md) bg-(--lotus-surface) p-1">
+  <PageActions {...Astro.props} />
+</div>
+```
 
 Available theme mode controls:
 

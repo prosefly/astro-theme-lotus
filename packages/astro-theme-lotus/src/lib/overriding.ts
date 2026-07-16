@@ -4,14 +4,26 @@ import type { Plugin } from 'vite';
 import type { OverrideComponentName, OverrideComponentsConfig } from './theme';
 
 const overrideComponentNames = [
+  'HeaderNavbar',
+  'HeaderSocialIcons',
+  'PageActions',
+  'PageHeader',
+  'PageNavigation',
   'SearchDialog',
+  'SiteBrand',
   'ThemeSwitch',
 ] as const satisfies OverrideComponentName[];
 const overrideComponentModulePrefix = 'virtual:prosefly/lotus/components/';
 const resolvedOverrideComponentModulePrefix = `\0${overrideComponentModulePrefix}`;
 
 const defaultOverrideComponents = {
+  HeaderNavbar: new URL('../components/defaults/HeaderNavbar.astro', import.meta.url),
+  HeaderSocialIcons: new URL('../components/defaults/HeaderSocialIcons.astro', import.meta.url),
+  PageActions: new URL('../components/defaults/PageActions.astro', import.meta.url),
+  PageHeader: new URL('../components/defaults/PageHeader.astro', import.meta.url),
+  PageNavigation: new URL('../components/defaults/PageNavigation.astro', import.meta.url),
   SearchDialog: new URL('../components/defaults/SearchDialog.astro', import.meta.url),
+  SiteBrand: new URL('../components/defaults/SiteBrand.astro', import.meta.url),
   ThemeSwitch: new URL('../components/defaults/ThemeSwitch.astro', import.meta.url),
 } satisfies Record<OverrideComponentName, URL>;
 

@@ -1,0 +1,50 @@
+---
+import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+import type { PageActionConfig } from '../../lib/theme';
+
+interface Props {
+  title: string;
+  description?: string;
+  sectionTitle?: string;
+  pageActions?: PageActionConfig[];
+  pageUrl: string;
+  markdownUrl: string;
+}
+
+const {
+  title,
+  description,
+  sectionTitle,
+  pageActions = [],
+  pageUrl,
+  markdownUrl,
+} = Astro.props;
+---
+
+<header class="lotus-border-subtle border-b pb-8">
+  <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+    <div class="min-w-0">
+      {sectionTitle && (
+        <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
+      )}
+      <h1 class="mt-3 text-3xl font-semibold leading-tight text-(--lotus-text-strong) sm:text-4xl">
+        {title}
+      </h1>
+      {description && (
+        <p class="mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted) sm:text-lg">
+          {description}
+        </p>
+      )}
+    </div>
+    {pageActions.length > 0 && (
+      <div class="shrink-0 sm:pt-1">
+        <PageActions
+          actions={pageActions}
+          markdownUrl={markdownUrl}
+          pageUrl={pageUrl}
+          title={title}
+        />
+      </div>
+    )}
+  </div>
+</header>

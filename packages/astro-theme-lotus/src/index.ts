@@ -11,9 +11,10 @@ import {
   resolveMarkdownConfig,
   type LotusIntegrationOptions,
 } from './lib/config';
+import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
 import { getIconPreloadNames } from './lib/preload-icons';
-import { accentScales, normalizeDocsBasePath } from './lib/theme';
+import { normalizeDocsBasePath } from './lib/theme';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);

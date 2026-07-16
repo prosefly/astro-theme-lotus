@@ -1,13 +1,10 @@
 ---
-import { Icon } from '@prosefly/astro-components';
-import Button from '../ui/Button.astro';
+import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
+import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
 import MobileMenu from './MobileMenu.astro';
-import SiteBrand from './SiteBrand.astro';
 import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
+import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { resolveIconName } from '../../lib/icons';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;
@@ -15,36 +12,6 @@ interface Props {
 }
 
 const { currentPath, surface = true } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const navbar = themeConfig.navbar ?? [];
-const socials = themeConfig.socials ?? [];
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
-
-function normalizeHref(href: string): string {
-  return href.endsWith('/') ? href : `${href}/`;
-}
-
-function isActive(href: string): boolean {
-  if (!currentPath) {
-    return false;
-  }
-
-  if (normalizeHref(href) === docsRootHref) {
-    return currentPath === docsRootHref || currentPath.startsWith(docsRootHref);
-  }
-
-  return currentPath === href || currentPath.startsWith(`${href}`);
-}
-
-function getActionLabel(label: string, icon?: string): string {
-  return icon ? `${label} (${icon})` : label;
-}
-
-function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
-  return Boolean(item.variant);
-}
-
 ---
 
 <header
@@ -59,48 +26,11 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
     <SearchDialog />
 
     <div class="ml-auto hidden min-w-0 items-center gap-5 lg:flex">
-      <nav aria-label="Primary" class="flex min-w-0 items-center gap-5">
-        {navbar.map((item) => (
-          isNavbarButton(item) ? (
-            <Button
-              color={item.color ?? 'neutral'}
-              external={item.external}
-              href={item.href}
-              trailingIcon={item.trailingIcon}
-              variant={item.variant}
-            >
-              {item.label}
-            </Button>
-          ) : (
-            <a
-              class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              href={item.href}
-              rel={item.external ? 'noreferrer' : undefined}
-              target={item.external ? '_blank' : undefined}
-            >
-              <span>{item.label}</span>
-              {item.trailingIcon && (
-                <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
-              )}
-            </a>
-          )
-        ))}
-      </nav>
+      <HeaderNavbar currentPath={currentPath} />
 
       <div class="flex items-center gap-2">
         <div class="lotus-border-subtle h-5 border-l"></div>
-        {socials.map((social) => (
-          <a
-            aria-label={getActionLabel(social.label, social.icon)}
-            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-            href={social.href}
-            rel={social.external ? 'noreferrer' : undefined}
-            target={social.external ? '_blank' : undefined}
-          >
-            <Icon name={resolveIconName(social.icon)} />
-          </a>
-        ))}
+        <HeaderSocialIcons />
         <ThemeSwitch />
       </div>
     </div>
