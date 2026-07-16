@@ -97,6 +97,7 @@ const linkAttrs = href
     display: inline-flex;
     height: 2rem;
     justify-content: center;
+    line-height: 0;
     width: 2rem;
   }
 
@@ -104,7 +105,8 @@ const linkAttrs = href
     color: var(--pl-text-strong, var(--pl-text, #182230));
   }
 
-  .pl-card__icon :global(svg) {
+  .pl-card__icon :global(.pl-icon) {
+    display: block;
     height: 1rem;
     width: 1rem;
   }

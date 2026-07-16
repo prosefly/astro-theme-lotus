@@ -24,7 +24,10 @@ function getTableOfContentsHeadings(
   const maxHeadingLevel = tableOfContents?.maxHeadingLevel ?? 3;
 
   return headings.filter(
-    (heading) => heading.depth >= minHeadingLevel && heading.depth <= maxHeadingLevel,
+    (heading) =>
+      heading.slug !== 'footnote-label' &&
+      heading.depth >= minHeadingLevel &&
+      heading.depth <= maxHeadingLevel,
   );
 }
 

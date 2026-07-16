@@ -296,6 +296,7 @@ const activePanel = panels[activeIndex] ?? panels[0];
     display: inline-grid;
     flex: 0 0 auto;
     justify-content: center;
+    line-height: 0;
   }
 
   .pl-tabs__active-icons[hidden],
@@ -305,8 +306,17 @@ const activePanel = panels[activeIndex] ?? panels[0];
     display: none;
   }
 
-  .pl-tabs__active-icon,
-  .pl-tabs__active-icon > svg {
+  .pl-tabs__active-icon {
+    align-items: center;
+    display: inline-flex;
+    height: 1rem;
+    justify-content: center;
+    line-height: 0;
+    width: 1rem;
+  }
+
+  .pl-tabs__active-icon > .pl-icon {
+    display: block;
     height: 1rem;
     width: 1rem;
   }
@@ -396,8 +406,17 @@ const activePanel = panels[activeIndex] ?? panels[0];
     outline-offset: 2px;
   }
 
-  .pl-tabs__copy-icon,
-  .pl-tabs__copy-icon > svg {
+  .pl-tabs__copy-icon {
+    align-items: center;
+    display: inline-flex;
+    height: 1rem;
+    justify-content: center;
+    line-height: 0;
+    width: 1rem;
+  }
+
+  .pl-tabs__copy-icon > .pl-icon {
+    display: block;
     height: 1rem;
     width: 1rem;
   }

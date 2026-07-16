@@ -97,9 +97,12 @@ const entries = parseFileTree(fileTreeHtml);
   }
 
   .pl-file-tree__chevron {
+    align-items: center;
     color: var(--pl-text-muted, #667085);
     display: inline-flex;
     flex: 0 0 auto;
+    justify-content: center;
+    line-height: 0;
     margin-inline-end: -0.25rem;
     transition: transform 160ms ease;
   }
@@ -109,15 +112,19 @@ const entries = parseFileTree(fileTreeHtml);
   }
 
   .pl-file-tree__icon {
+    align-items: center;
     color: var(--pl-text-muted, #667085);
     display: inline-flex;
     flex: 0 0 auto;
+    justify-content: center;
+    line-height: 0;
   }
 
-  .pl-file-tree__icon > svg,
-  .pl-file-tree__icon-closed > svg,
-  .pl-file-tree__icon-open > svg,
-  .pl-file-tree__chevron > svg {
+  .pl-file-tree__icon .pl-icon,
+  .pl-file-tree__icon-closed .pl-icon,
+  .pl-file-tree__icon-open .pl-icon,
+  .pl-file-tree__chevron .pl-icon {
+    display: block;
     height: 1rem;
     width: 1rem;
   }
