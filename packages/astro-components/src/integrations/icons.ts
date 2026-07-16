@@ -19,6 +19,19 @@ interface IconPreloadConfig {
   iconsByPrefix: Record<string, string[]>;
 }
 
+const componentIconNames = [
+  'lucide:badge-alert',
+  'lucide:check',
+  'lucide:chevron-right',
+  'lucide:copy',
+  'lucide:file',
+  'lucide:folder',
+  'lucide:folder-open',
+  'lucide:info',
+  'lucide:lightbulb',
+  'lucide:triangle-alert',
+] as const;
+
 function addIconName(iconNames: Set<string>, icon?: string): void {
   if (!icon) {
     return;
@@ -120,6 +133,10 @@ export default function icons(options: IconIntegrationOptions = {}): AstroIntegr
     hooks: {
       'astro:config:setup': async ({ addMiddleware, config, updateConfig }) => {
         const iconNames = new Set<string>();
+
+        for (const icon of componentIconNames) {
+          addIconName(iconNames, icon);
+        }
 
         for (const icon of options.preload ?? []) {
           addIconName(iconNames, icon);

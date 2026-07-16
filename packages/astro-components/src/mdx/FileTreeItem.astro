@@ -41,7 +41,12 @@ const children = entry.children.length > 0 ? entry.children : [placeholderEntry]
             )}
             {!entry.isPlaceholder && (
               <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
-                <Icon name="lucide:folder" />
+                <span class="pl-file-tree__icon-closed">
+                  <Icon name="lucide:folder" />
+                </span>
+                <span class="pl-file-tree__icon-open">
+                  <Icon name="lucide:folder-open" />
+                </span>
               </span>
             )}
             <span

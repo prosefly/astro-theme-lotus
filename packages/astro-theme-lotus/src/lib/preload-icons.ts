@@ -2,22 +2,15 @@ import { resolveIconName } from './icons';
 import type { LotusThemeConfig, SidebarItemConfig } from './theme';
 
 const layoutIconNames = [
-  'lucide:badge-alert',
-  'lucide:check',
   'lucide:chevron-down',
   'lucide:chevron-left',
   'lucide:chevron-right',
   'lucide:copy',
-  'lucide:file',
   'lucide:file-text',
-  'lucide:folder',
-  'lucide:info',
-  'lucide:lightbulb',
   'lucide:menu',
   'lucide:monitor',
   'lucide:moon',
   'lucide:sun',
-  'lucide:triangle-alert',
   'lucide:x',
   'simple-icons:bun',
   'simple-icons:claude',

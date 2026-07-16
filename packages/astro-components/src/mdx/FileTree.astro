@@ -115,9 +115,20 @@ const entries = parseFileTree(fileTreeHtml);
   }
 
   .pl-file-tree__icon > svg,
+  .pl-file-tree__icon-closed > svg,
+  .pl-file-tree__icon-open > svg,
   .pl-file-tree__chevron > svg {
     height: 1rem;
     width: 1rem;
+  }
+
+  .pl-file-tree__icon-open,
+  .pl-file-tree__details[open] > .pl-file-tree__summary .pl-file-tree__icon-closed {
+    display: none;
+  }
+
+  .pl-file-tree__details[open] > .pl-file-tree__summary .pl-file-tree__icon-open {
+    display: inline-flex;
   }
 
   .pl-file-tree__icon[data-kind='directory'] {
