@@ -39,31 +39,30 @@ const children = entry.children.length > 0 ? entry.children : [placeholderEntry]
                 <Icon name="lucide:chevron-right" />
               </span>
             )}
-            {!entry.isPlaceholder && (
-              <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
-                <span class="pl-file-tree__icon-closed">
-                  <Icon name="lucide:folder" />
-                </span>
-                <span class="pl-file-tree__icon-open">
-                  <Icon name="lucide:folder-open" />
-                </span>
-              </span>
-            )}
             <span
               class:list={[
-                'pl-file-tree__name',
-                entry.highlighted && 'pl-file-tree__name--highlighted',
+                'pl-file-tree__target',
+                entry.highlighted && 'pl-file-tree__target--highlighted',
               ]}
             >
-              {!entry.isPlaceholder && <span class="pl-file-tree__sr-only">Directory </span>}
-              <Fragment set:html={entry.nameHtml} />
+              {!entry.isPlaceholder && (
+                <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
+                  <span class="pl-file-tree__icon-closed">
+                    <Icon name="lucide:folder" />
+                  </span>
+                  <span class="pl-file-tree__icon-open">
+                    <Icon name="lucide:folder-open" />
+                  </span>
+                </span>
+              )}
+              <span class="pl-file-tree__name">
+                {!entry.isPlaceholder && <span class="pl-file-tree__sr-only">Directory </span>}
+                <Fragment set:html={entry.nameHtml} />
+              </span>
             </span>
             {
               entry.commentHtml && (
-                <>
-                  {' '}
-                  <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
-                </>
+                <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
               )
             }
           </span>
@@ -74,24 +73,22 @@ const children = entry.children.length > 0 ? entry.children : [placeholderEntry]
       </details>
     ) : (
       <span class="pl-file-tree__entry">
-        {!entry.isPlaceholder && (
-          <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
-            <Icon name="lucide:file" />
-          </span>
-        )}
         <span
           class:list={[
-            'pl-file-tree__name',
-            entry.highlighted && 'pl-file-tree__name--highlighted',
+            'pl-file-tree__target',
+            entry.highlighted && 'pl-file-tree__target--highlighted',
           ]}
-          set:html={entry.nameHtml}
-        />
+        >
+          {!entry.isPlaceholder && (
+            <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
+              <Icon name="lucide:file" />
+            </span>
+          )}
+          <span class="pl-file-tree__name" set:html={entry.nameHtml} />
+        </span>
         {
           entry.commentHtml && (
-            <>
-              {' '}
-              <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
-            </>
+            <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
           )
         }
       </span>
