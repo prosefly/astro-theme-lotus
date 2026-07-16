@@ -113,13 +113,20 @@ const svgAttributes = {
   ...renderedIcon.attributes,
   ...attributes,
   'aria-hidden': title ? undefined : ('true' as const),
-  class: className,
   focusable,
   role: title ? ('img' as const) : undefined,
 };
 ---
 
-<svg {...svgAttributes}>
+<svg class:list={['pl-icon', className]} {...svgAttributes}>
   {title && <title>{title}</title>}
   <Fragment set:html={body} />
 </svg>
+
+<style>
+  .pl-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: -0.125em;
+  }
+</style>

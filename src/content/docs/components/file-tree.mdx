@@ -1,15 +1,14 @@
 ---
 title: File Tree
-description: Display directory structures with collapsible folders and file metadata.
+description: Display directory structures with collapsible folders and inline file metadata.
 sidebar:
-  order: 6
+  order: 8
 ---
 
 import { FileTree } from '@prosefly/astro-components';
 
-Use `FileTree` to show the shape of a project, package, or documentation
-folder. The syntax follows Starlight: write a single unordered Markdown list
-inside the component.
+Use `FileTree` to show project structure, package exports, documentation
+folders, or any directory layout where hierarchy matters more than long prose.
 
 ## Import
 
@@ -17,13 +16,15 @@ inside the component.
 import { FileTree } from '@prosefly/astro-components';
 ```
 
-## Example
+## Basic Usage
+
+The syntax follows Starlight: wrap a single unordered Markdown list inside
+`FileTree`.
 
 <FileTree>
 
 - astro.config.mjs
 - package.json
-- README.md project overview
 - src
   - content
     - docs
@@ -34,61 +35,147 @@ import { FileTree } from '@prosefly/astro-components';
 
 </FileTree>
 
+```mdx
+<FileTree>
+
+- astro.config.mjs
+- package.json
+- src
+  - content
+    - docs
+      - index.mdx
+      - components/
+  - theme.config.ts
+- public/
+
+</FileTree>
+```
+
+## Directories
+
+An item becomes a directory when it has nested children. You can also add a
+trailing `/` to mark an empty directory.
+
+<FileTree>
+
+- src
+  - components
+    - Callout.astro
+    - Tabs.astro
+  - content/
+- public/
+
+</FileTree>
+
+Directories render as native disclosure controls, so readers can collapse and
+expand sections of the tree.
+
+## Comments
+
+Add a comment by writing text after the file or directory name. Comments can use
+inline Markdown.
+
+<FileTree>
+
+- astro.config.mjs registers the Lotus integration
+- src
+  - theme.config.ts the **main** theme configuration file
+  - content contains the docs collection
+    - docs generated from `themeConfig.sidebars`
+- packages
+  - astro-components shared MDX components
+  - astro-theme-lotus theme integration and layouts
+
+</FileTree>
+
+```mdx
+<FileTree>
+
+- astro.config.mjs registers the Lotus integration
+- src
+  - theme.config.ts the **main** theme configuration file
+  - content contains the docs collection
+
+</FileTree>
+```
+
 ## Highlight Entries
 
-Make a file or directory stand out by making its name bold.
+Make a file or directory name bold to highlight the important entry.
+
+<FileTree>
+
+- packages
+  - astro-components
+    - src
+      - mdx
+        - **FileTree.astro**
+        - rehype-file-tree.ts
+        - Tabs.astro
+  - astro-theme-lotus
+
+</FileTree>
+
+## Placeholders
+
+Use `...` or `…` when a tree intentionally omits files.
 
 <FileTree>
 
 - src
   - components
-    - **FileTree.astro**
-    - Tabs.astro
-
-</FileTree>
-
-## Add Comments
-
-Add a comment to a file or directory by writing more text after the name. Inline
-Markdown formatting is supported in comments.
-
-<FileTree>
-
-- src
-  - content contains the documentation collection
-    - docs generated from `themeConfig.sidebars`
-  - theme.config.ts the **main** Lotus configuration file
-
-</FileTree>
-
-## Add Placeholders
-
-Use `...` or `…` to indicate hidden or omitted files.
-
-<FileTree>
-
-- src
-  - components
-    - Header.astro
+    - Callout.astro
+    - Steps.astro
     - …
-  - pages/
+  - content
+    - docs
+      - overview.mdx
+      - …
 
 </FileTree>
 
-## Escape Special Names
+## Special Names
 
-Wrap filenames in backticks when they contain spaces or characters that Markdown
-would otherwise treat as formatting.
+Wrap file names in backticks when they contain spaces, leading underscores, or
+characters that Markdown may treat as formatting.
 
 <FileTree>
 
 - `__init__.py`
-- `Hello world.txt`
-- **`READ ME FIRST.md`**
+- `README copy.md`
+- **`theme.config.ts`** highlighted with code formatting
+- docs
+  - `getting started.mdx`
+  - `faq?.mdx`
+
+</FileTree>
+
+## File Icons
+
+File icons are selected from the file name or extension.
+
+<FileTree>
+
+- component.astro code file
+- config.yaml config file
+- tokens.css stylesheet
+- logo.svg image asset
+- notes.md text content
+- archive.zip generic file
 
 </FileTree>
 
 ## Props
 
-`FileTree` does not accept props. Its content must be a single unordered list
-with at least one item.
+`FileTree` does not accept component props. It reads and transforms the Markdown
+list passed to its slot.
+
+## Syntax Rules
+
+- The direct content of `FileTree` must be exactly one unordered Markdown list.
+- Keep a blank line after `<FileTree>` and before `</FileTree>` so MDX parses
+  the list as Markdown.
+- Use nested list items for directory contents.
+- Use bold text to highlight an entry name.
+- Put comments after the name on the same list item.
+- Use `...` or `…` for omitted files.

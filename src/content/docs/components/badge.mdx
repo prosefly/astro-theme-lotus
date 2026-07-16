@@ -1,15 +1,14 @@
 ---
 title: Badge
-description: Apply compact status labels that match the Lotus documentation palette.
+description: Add compact inline labels for status, metadata, and version hints.
 sidebar:
-  order: 4
+  order: 2
 ---
 
 import { Badge } from '@prosefly/astro-components';
 
-`Badge` is a compact inline label for status, maturity, and contextual metadata.
-It is intentionally small so it can live inside paragraphs, headings, and card
-content without changing the surrounding layout.
+`Badge` is an inline label. Use it inside prose, headings, cards, and compact UI
+where a short status or metadata value needs to sit next to surrounding text.
 
 ## Import
 
@@ -17,26 +16,67 @@ content without changing the surrounding layout.
 import { Badge } from '@prosefly/astro-components';
 ```
 
-## Example
+## Inline Usage
 
-<div class="not-prose flex flex-wrap items-center gap-2">
-  <span>Components can ship in stages:</span>
-  <Badge color="success">Released</Badge>
-  <Badge color="accent">New</Badge>
-  <Badge color="warning">Needs review</Badge>
-</div>
+Badges are designed to stay on the same baseline as text. They should not create
+a new layout section on their own.
+
+Lotus components are published from `@prosefly/astro-components` <Badge color="accent">New</Badge>,
+and can be used independently from the Lotus theme <Badge color="success">Stable</Badge>.
+
+```mdx
+Lotus components are published from `@prosefly/astro-components` <Badge color="accent">New</Badge>,
+and can be used independently from the Lotus theme <Badge color="success">Stable</Badge>.
+```
+
+## Common Patterns
+
+Use badges for short labels that support nearby content.
+
+### Status
+
+The search dialog <Badge color="success">Ready</Badge> supports keyboard
+navigation, while page actions <Badge color="warning">Experimental</Badge> may
+change before the first release.
+
+### Version Hints
+
+Install Lotus with Astro <Badge variant="subtle" color="accent">v7</Badge> and
+Tailwind CSS <Badge variant="subtle">v4</Badge>.
+
+### Heading Metadata
+
+### Package Exports <Badge color="neutral">Public API</Badge>
+
+The package exports components from `@prosefly/astro-components` through a
+single entrypoint.
 
 ## Variants
+
+Use `variant` to change the visual weight of the badge.
 
 <div class="not-prose flex flex-wrap items-center gap-2">
   <Badge variant="solid" color="accent">Solid</Badge>
   <Badge variant="soft" color="accent">Soft</Badge>
   <Badge variant="subtle" color="accent">Subtle</Badge>
   <Badge variant="outline" color="accent">Outline</Badge>
-  <Badge variant="ghost" color="accent">Ghost</Badge>
+  <Badge variant="dot" color="accent">Dot</Badge>
+</div>
+
+## Dot Badges
+
+Use `dot` for compact status indicators.
+
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <Badge variant="dot" color="success">Success</Badge>
+  <Badge variant="dot" color="warning">Warning</Badge>
+  <Badge variant="dot" color="danger">Error</Badge>
 </div>
 
 ## Colors
+
+Use semantic colors when the badge communicates state. Use `neutral` for plain
+metadata.
 
 <div class="not-prose flex flex-wrap items-center gap-2">
   <Badge color="neutral">Neutral</Badge>
@@ -50,10 +90,17 @@ import { Badge } from '@prosefly/astro-components';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline' \| 'ghost'` | `'soft'` | Selects the visual treatment. |
+| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline' \| 'dot'` | `'soft'` | Selects the visual treatment. |
 | `color` | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | Selects the semantic color. |
+| `class` | `string` | optional | Adds classes to the outer `span`. |
 
-## Notes
+`Badge` also passes unknown attributes to the outer `span`, so you can add
+attributes such as `title`, `aria-label`, or `data-*` when needed.
 
-`Badge` is inline-only in the first release. Use it for status and metadata, not
-as a replacement for larger navigation or filter controls.
+## Syntax Rules
+
+- Keep badge text short, usually one to three words.
+- Use badges inline with nearby text instead of as standalone blocks.
+- Do not use badges as buttons or navigation controls.
+- Prefer `soft` or `subtle` for documentation content; reserve `solid` for
+  high-emphasis status labels.

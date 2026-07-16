@@ -1,14 +1,14 @@
 ---
 title: Steps
-description: Structure procedures with numbered markers and supporting content.
+description: Structure procedural content with numbered markers and a vertical guide.
 sidebar:
-  order: 2
+  order: 5
 ---
 
 import { Steps } from '@prosefly/astro-components';
 
-Use `Steps` for procedural content that benefits from a consistent rhythm, a
-visible guide line, and scannable numbering.
+Use `Steps` for installation flows, migration guides, and setup tasks where each
+instruction should be easy to scan as part of a sequence.
 
 ## Import
 
@@ -16,58 +16,117 @@ visible guide line, and scannable numbering.
 import { Steps } from '@prosefly/astro-components';
 ```
 
-## Example
+## Basic Usage
+
+`Steps` uses the same syntax as Starlight: wrap a single ordered Markdown list
+inside the component.
 
 <Steps>
 
-1. Create the content file.
+1. Install the package.
 
-   Add a new MDX page under `src/content/docs/` and include frontmatter for
-   `title`, `description`, and sidebar ordering.
+   Add Lotus and the shared MDX components to your Astro project.
 
-2. Import the components you need.
+2. Configure the integration.
 
-   Import from the shared MDX entrypoint so examples stay consistent across the
-   docs site.
+   Register the Lotus integration in `astro.config.mjs` and point it at your
+   docs content.
+
+3. Start writing docs.
+
+   Create MDX pages, add frontmatter, and organize them with `sidebars`.
+
+</Steps>
+
+```mdx
+<Steps>
+
+1. Install the package.
+
+   Add Lotus and the shared MDX components to your Astro project.
+
+2. Configure the integration.
+
+   Register the Lotus integration in `astro.config.mjs` and point it at your
+   docs content.
+
+3. Start writing docs.
+
+   Create MDX pages, add frontmatter, and organize them with `sidebars`.
+
+</Steps>
+```
+
+## Rich Content
+
+Each list item can contain paragraphs, nested lists, inline code, and fenced
+code blocks.
+
+<Steps>
+
+1. Create a docs page.
+
+   Add an MDX file under your docs collection.
 
    ```mdx
-   import { Steps } from '@prosefly/astro-components';
+   ---
+   title: Overview
+   description: Introduce the documentation site.
+   ---
+
+   Welcome to the docs.
    ```
 
-3. Render the pattern inline.
+2. Add sidebar metadata.
 
-   Write the procedural content directly as a Markdown ordered list. Each item
-   can include paragraphs, nested lists, and code blocks.
+   Use frontmatter when the page needs local ordering.
+
+   - `sidebar.order` controls position inside generated sidebar groups.
+   - `sidebar.label` can override the navigation label.
+
+3. Verify the page.
+
+   Run `pnpm check` to catch invalid MDX, missing imports, and type errors.
 
 </Steps>
 
-## Syntax
+## Continue Numbering
 
-`Steps` expects exactly one ordered Markdown list as its content.
+Use the standard ordered-list start value when a procedure continues from an
+earlier sequence.
+
+<Steps>
+
+4. Review the generated route.
+
+   Open the page in your browser and confirm the content, sidebar, and table of
+   contents all match the expected location.
+
+5. Publish the docs.
+
+   Build the site and deploy the generated Astro output.
+
+</Steps>
 
 ```mdx
 <Steps>
 
-1. First step.
-
-   Supporting content for the first step.
-
-2. Second step.
-
-   - Nested lists are supported.
-   - Code blocks are supported.
+4. Review the generated route.
+5. Publish the docs.
 
 </Steps>
 ```
 
-You can use the standard ordered-list `start` attribute when numbering needs to
-continue from a previous sequence.
+## Syntax Rules
 
-```mdx
-<Steps>
+- The direct content of `Steps` must be exactly one ordered Markdown list.
+- Keep a blank line after `<Steps>` and before `</Steps>` so MDX parses the list
+  as Markdown.
+- Do not place headings, paragraphs, or multiple lists next to the root list
+  inside `Steps`.
+- Nested content belongs inside a list item, indented under that item.
 
-4. Continue with the fourth step.
-5. Finish the sequence.
+## Props
 
-</Steps>
-```
+`Steps` does not accept component props. Numbering, spacing, marker colors, and
+the guide line are handled by the component CSS and Lotus design tokens.

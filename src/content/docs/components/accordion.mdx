@@ -7,9 +7,9 @@ sidebar:
 
 import { AccordionItem, Accordions } from '@prosefly/astro-components';
 
-Use accordions for compact FAQ sections, optional details, and progressive
-disclosure inside long guides. The syntax follows Fumadocs: wrap one or more
-`AccordionItem` items in `Accordions`.
+Use accordions for FAQ sections, optional explanations, and long reference
+pages where readers should be able to reveal details without leaving the current
+flow.
 
 ## Import
 
@@ -17,59 +17,142 @@ disclosure inside long guides. The syntax follows Fumadocs: wrap one or more
 import { AccordionItem, Accordions } from '@prosefly/astro-components';
 ```
 
-## Example
+## Basic Usage
+
+The syntax follows Fumadocs: wrap one or more `AccordionItem` components in
+`Accordions`.
 
 <Accordions>
   <AccordionItem title="What is Lotus?">
-    Lotus is an Astro documentation theme with a configurable shell, docs
-    routing, navigation, theme tokens, and shared MDX components.
+    Lotus is an Astro documentation theme with a configurable docs shell,
+    routing integration, design tokens, and shared MDX components.
   </AccordionItem>
-  <AccordionItem title="Can I use MDX components inside?">
-    Yes. Accordion content can include paragraphs, lists, callouts, code blocks,
-    and other MDX components.
+  <AccordionItem title="Can I use these components outside Lotus?">
+    Yes. The MDX components live in `@prosefly/astro-components` and use
+    Prosefly CSS tokens, so they can be reused by other Astro themes.
   </AccordionItem>
-  <AccordionItem title="Does it require client framework runtime?">
-    No. The component uses native disclosure elements and a small script for
-    grouped behavior.
+  <AccordionItem title="Does Accordion require a client framework?">
+    No. Items render as native `details` and `summary` elements with a small
+    script for grouped behavior.
+  </AccordionItem>
+</Accordions>
+
+```mdx
+<Accordions>
+  <AccordionItem title="What is Lotus?">
+    Lotus is an Astro documentation theme.
+  </AccordionItem>
+  <AccordionItem title="Can I use MDX inside?">
+    Yes. Accordion content can contain normal MDX.
+  </AccordionItem>
+</Accordions>
+```
+
+## Rich Content
+
+Accordion content can contain paragraphs, lists, links, inline code, and fenced
+code blocks.
+
+<Accordions>
+  <AccordionItem title="Which files configure Lotus?">
+    Most projects use a small set of configuration files.
+
+    - `astro.config.mjs` registers the integration.
+    - `src/theme.config.ts` configures the docs theme.
+    - `src/content.config.ts` defines content collections.
+  </AccordionItem>
+  <AccordionItem title="What does a minimal config look like?">
+    ```ts
+    import lotus from '@prosefly/astro-theme-lotus';
+
+    export default defineConfig({
+      integrations: [lotus()],
+    });
+    ```
   </AccordionItem>
 </Accordions>
 
 ## Multiple Items
 
-Use `multiple` when readers should be able to keep more than one item open.
+By default, opening one item closes the other items in the same group. Add
+`multiple` when readers should be able to keep several answers open.
 
 <Accordions multiple>
-  <AccordionItem title="Configuration files" defaultOpen>
-    Use `astro.config.mjs`, `src/theme.config.ts`, and `src/content.config.ts`
-    to configure the theme and docs collection.
+  <AccordionItem title="Content" defaultOpen>
+    Write docs as MDX files in your configured docs collection.
   </AccordionItem>
-  <AccordionItem title="Content files">
-    Write documentation pages as MDX under `src/content/docs/`.
+  <AccordionItem title="Navigation" defaultOpen>
+    Use `sidebars` and `navbar` to define how readers move through the docs.
+  </AccordionItem>
+  <AccordionItem title="Appearance">
+    Use `appearance` to configure accent color, gray scale, radius, and default
+    color mode.
   </AccordionItem>
 </Accordions>
 
-## Linking
+```mdx
+<Accordions multiple>
+  <AccordionItem title="Content" defaultOpen>
+    Content details
+  </AccordionItem>
+  <AccordionItem title="Navigation" defaultOpen>
+    Navigation details
+  </AccordionItem>
+</Accordions>
+```
 
-Add an `id` to an item to make it linkable. When the page loads with that hash,
-the matching accordion opens automatically.
+## Default Values
+
+Use `defaultValue` on the group when the open item should be controlled from the
+parent. The value matches each item's `value`, or `id`, or `title`.
+
+<Accordions defaultValue="navigation-settings">
+  <AccordionItem title="Project settings" value="project-settings">
+    Configure the docs base path and route behavior.
+  </AccordionItem>
+  <AccordionItem title="Navigation settings" value="navigation-settings">
+    Configure navbar links, sidebar groups, and page actions.
+  </AccordionItem>
+</Accordions>
+
+When `multiple` is enabled, `defaultValue` can be an array.
+
+```mdx
+<Accordions multiple defaultValue={['content', 'navigation']}>
+  <AccordionItem title="Content" value="content">
+    Content details
+  </AccordionItem>
+  <AccordionItem title="Navigation" value="navigation">
+    Navigation details
+  </AccordionItem>
+</Accordions>
+```
+
+## Linkable Items
+
+Add an `id` to make an item addressable by URL hash. When the page loads with a
+matching hash, the item opens automatically.
 
 <Accordions>
   <AccordionItem title="Linkable answer" id="linkable-answer">
     Navigate to `#linkable-answer` to open this item directly.
   </AccordionItem>
-  <AccordionItem title="Another answer">
-    The `value` defaults to the `id` when present, otherwise to the title.
+  <AccordionItem title="Another answer" id="another-answer">
+    An item's `value` defaults to its `id` when present, otherwise to its
+    `title`.
   </AccordionItem>
 </Accordions>
 
 ## Disabled Items
+
+Use `disabled` for unavailable or intentionally locked content.
 
 <Accordions>
   <AccordionItem title="Available section">
     This section can be opened.
   </AccordionItem>
   <AccordionItem title="Disabled section" disabled>
-    This content is intentionally unavailable.
+    This content is rendered, but the trigger cannot open the item.
   </AccordionItem>
 </Accordions>
 
@@ -86,8 +169,17 @@ the matching accordion opens automatically.
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `title` | `string` | required | Summary text shown in the trigger. |
-| `id` | `string` | optional | Adds a hash target and is used as the default value. |
+| `title` | `string` | required | Trigger text shown in the accordion summary. |
+| `id` | `string` | optional | Adds a hash target and becomes the default `value`. |
 | `value` | `string` | `id ?? title` | Stable value used by `Accordions defaultValue`. |
-| `defaultOpen` | `boolean` | `false` | Renders the item open by default. |
+| `defaultOpen` | `boolean` | `false` | Renders the item open before group behavior runs. |
+| `open` | `boolean` | `defaultOpen` | Sets the native `details` open state. |
 | `disabled` | `boolean` | `false` | Prevents opening or closing the item through the trigger. |
+
+## Syntax Rules
+
+- `Accordions` should contain direct `AccordionItem` children.
+- Each `AccordionItem` must have a `title`.
+- Use `value` when the visible title may change but stored defaults should stay
+  stable.
+- Use `multiple` before opening several items by default.

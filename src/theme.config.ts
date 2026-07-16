@@ -12,7 +12,7 @@ const themeConfig = {
   },
   navbar: [
     { label: 'Docs', href: '/docs/' },
-    { label: 'Components', href: '/docs/components/callout/' },
+    { label: 'Components', href: '/docs/components/icon/' },
     { label: 'References', href: '/docs/references/design-system/' },
     {
       label: 'Dashboard',
@@ -122,9 +122,14 @@ const themeConfig = {
       {
         title: 'Components',
         links: [
+          { label: 'Icon', href: '/docs/components/icon/' },
+          { label: 'Badge', href: '/docs/components/badge/' },
           { label: 'Callout', href: '/docs/components/callout/' },
           { label: 'Cards', href: '/docs/components/cards/' },
+          { label: 'Steps', href: '/docs/components/steps/' },
           { label: 'Tabs', href: '/docs/components/tabs/' },
+          { label: 'Accordion', href: '/docs/components/accordion/' },
+          { label: 'File Tree', href: '/docs/components/file-tree/' },
         ],
       },
       {

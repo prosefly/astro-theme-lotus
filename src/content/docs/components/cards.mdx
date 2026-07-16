@@ -1,14 +1,15 @@
 ---
 title: Cards
-description: Group related links and summaries with lightweight documentation cards.
+description: Group related links and summaries with outline documentation cards.
 sidebar:
-  order: 3
+  order: 4
 ---
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
-Use `CardGrid` and `Card` when a page needs a compact set of next-step links or
-feature summaries without introducing a heavy dashboard layout.
+Use `CardGrid` and `Card` for compact next-step links, feature summaries, and
+related resources. Cards use an outline style by default; linked cards add a
+soft hover background.
 
 ## Import
 
@@ -19,13 +20,45 @@ import { Card, CardGrid } from '@prosefly/astro-components';
 ## Example
 
 <CardGrid>
-  <Card title="Read the configuration guide" href="/docs/configuration/project/">
+  <Card icon="lucide:settings" title="Configuration" href="/docs/configuration/project/">
     Review theme settings, typography tokens, and navigation structure before
-    customising the theme.
+    customizing the theme.
   </Card>
-  <Card title="Keep examples short">
-    Cards work best for one paragraph of context and a single destination or
-    action.
+  <Card icon="lucide:braces" title="Components" href="/docs/components/callout/">
+    Compose documentation pages with callouts, steps, tabs, file trees, and
+    other shared MDX components.
+  </Card>
+  <Card icon="simple-icons:github" title="GitHub" href="https://github.com/prosefly/astro-theme-lotus" external>
+    Open the Lotus repository in a new tab.
+  </Card>
+  <Card icon="lucide:info">
+    A card does not need a title or link. Use this for short contextual notes
+    inside a grid.
+  </Card>
+</CardGrid>
+
+```mdx
+<CardGrid>
+  <Card icon="lucide:settings" title="Configuration" href="/docs/configuration/project/">
+    Review theme settings and navigation structure.
+  </Card>
+  <Card icon="simple-icons:github" title="GitHub" href="https://github.com/prosefly/astro-theme-lotus" external>
+    Open the Lotus repository in a new tab.
+  </Card>
+</CardGrid>
+```
+
+## Outline Style
+
+Cards are transparent by default. Only cards with `href` get hover styling.
+
+<CardGrid>
+  <Card title="Static summary">
+    This card is not interactive, so it keeps the same outline treatment on
+    hover.
+  </Card>
+  <Card title="Linked summary" href="/docs/components/">
+    This card has a destination, so it gets a soft hover background.
   </Card>
 </CardGrid>
 
@@ -41,10 +74,12 @@ import { Card, CardGrid } from '@prosefly/astro-components';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `title` | `string` | required | Heading rendered at the top of the card. |
-| `href` | `string` | optional | When provided, the card renders as an anchor with link styling. |
+| `title` | `string` | optional | Heading rendered at the top of the card. |
+| `href` | `string` | optional | When provided, the card renders as an anchor. |
+| `external` | `boolean` | `false` | Opens linked cards in a new tab with `rel="noreferrer"`. |
+| `icon` | `string` | optional | Iconify icon name rendered before the content. |
 
 ## Notes
 
-Cards are intentionally lightweight. They work best for short summaries and a
-single destination, not for dense dashboard-style content.
+Cards are intentionally lightweight. Keep content short and use one destination
+per linked card.

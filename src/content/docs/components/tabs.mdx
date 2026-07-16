@@ -2,14 +2,13 @@
 title: Tabs
 description: Present parallel examples as one selectable set of tab panels.
 sidebar:
-  order: 5
+  order: 6
 ---
 
 import { TabItem, Tabs } from '@prosefly/astro-components';
 
-`Tabs` and `TabItem` group related variants while keeping each panel addressable
-as accessible tab content. The authoring syntax follows Starlight: put one or
-more `TabItem` components inside `Tabs`.
+Use `Tabs` when readers need to switch between equivalent examples, such as
+package managers, frameworks, output formats, or preview/code views.
 
 ## Import
 
@@ -17,42 +16,165 @@ more `TabItem` components inside `Tabs`.
 import { TabItem, Tabs } from '@prosefly/astro-components';
 ```
 
-## Example
+## Basic Usage
 
-<Tabs syncKey="package-manager">
+The syntax follows Starlight: place one or more `TabItem` components directly
+inside `Tabs`.
+
+<Tabs>
+  <TabItem label="Preview">
+    Tabs can contain prose, lists, links, and other MDX content.
+
+    - Keep each panel focused on the same task.
+    - Use short labels so the tab list stays compact on mobile.
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Tabs>
+      <TabItem label="Preview">Preview content</TabItem>
+      <TabItem label="Code">Code content</TabItem>
+    </Tabs>
+    ```
+  </TabItem>
+</Tabs>
+
+```mdx
+<Tabs>
+  <TabItem label="Preview">
+    Preview content
+  </TabItem>
+  <TabItem label="Code">
+    Code content
+  </TabItem>
+</Tabs>
+```
+
+## With Icons
+
+Add `icon` to a `TabItem` with any Iconify icon name. When a group has icons,
+the active tab icon appears at the start of the tab header.
+
+<Tabs defaultValue="npm" syncKey="tabs-docs-package-manager">
   <TabItem label="pnpm" icon="simple-icons:pnpm">
     ```sh
-    pnpm install
+    pnpm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn add @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="bun" icon="simple-icons:bun">
+    ```sh
+    bun add @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+
+````mdx
+<Tabs defaultValue="npm" syncKey="package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+````
+
+## Copy Code
+
+Set `copy` on `Tabs` when each panel contains a code block and the active panel
+should be copyable from the tab header.
+
+<Tabs copy syncKey="tabs-docs-copy-package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm add @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn add @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+
+The copy button reads the first code block in the active panel.
+
+## Synced Groups
+
+Groups with the same `syncKey` share the selected label. This is useful for
+package manager examples repeated across a page.
+
+<Tabs syncKey="tabs-docs-sync-example">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
     pnpm dev
     ```
   </TabItem>
   <TabItem label="npm" icon="simple-icons:npm">
     ```sh
-    npm install
     npm run dev
     ```
   </TabItem>
   <TabItem label="yarn" icon="simple-icons:yarn">
     ```sh
-    yarn install
     yarn dev
     ```
   </TabItem>
 </Tabs>
 
-## Without Icons
-
-<Tabs>
-  <TabItem label="Preview">
-    The preview tab can contain prose, lists, code blocks, and other MDX
-    components.
+<Tabs syncKey="tabs-docs-sync-example">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm build
+    ```
   </TabItem>
-  <TabItem label="Code">
-    ```astro
-    <Tabs>
-      <TabItem label="Preview">Content</TabItem>
-      <TabItem label="Code">Code sample</TabItem>
-    </Tabs>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm run build
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn build
+    ```
+  </TabItem>
+</Tabs>
+
+Use matching labels across synced groups. `syncKey` stores the selected label in
+`localStorage`, so the reader's choice can persist across navigation.
+
+## Custom Values
+
+Use `value` when a tab needs a stable internal value that differs from its
+visible label. `defaultValue` can match either `label` or `value`.
+
+<Tabs defaultValue="typescript">
+  <TabItem label="TypeScript" value="typescript">
+    ```ts
+    export const defineTheme = () => ({ name: 'Lotus' });
+    ```
+  </TabItem>
+  <TabItem label="JavaScript" value="javascript">
+    ```js
+    export const defineTheme = () => ({ name: 'Lotus' });
     ```
   </TabItem>
 </Tabs>
@@ -63,17 +185,22 @@ import { TabItem, Tabs } from '@prosefly/astro-components';
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `syncKey` | `string` | optional | Persists and syncs the active label across tab groups with the same key. |
+| `copy` | `boolean \| string` | `false` | Shows a copy button for the first code block in the active panel. |
+| `defaultValue` | `string` | first tab | Initial active tab. Matches either `TabItem.label` or `TabItem.value`. |
+| `syncKey` | `string` | optional | Syncs the active label across tab groups with the same key. |
 
 ### `TabItem`
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `label` | `string` | required | Visible tab trigger label and the value used by `syncKey`. |
-| `icon` | `string` | optional | Iconify icon name. When present, the active tab icon appears in the top-left of the tab group. |
+| `label` | `string` | required | Visible tab label. Also used for syncing when `value` is omitted. |
+| `value` | `string` | `label` | Stable value for `defaultValue` and internal tab state. |
+| `icon` | `string` | optional | Iconify icon name shown as the active panel icon. |
 
-## Notes
+## Syntax Rules
 
-Use the same labels across groups that share a `syncKey`. For example, package
-manager tabs should use the same `pnpm`, `npm`, and `yarn` labels everywhere so
-one selection can update all matching groups.
+- `Tabs` must contain only direct `TabItem` children.
+- Each `TabItem` must have a `label`.
+- Put Markdown content inside each `TabItem`; do not put loose Markdown between
+  tab items.
+- Use concise labels so the tab list remains easy to scan on small screens.

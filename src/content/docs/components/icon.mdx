@@ -1,14 +1,14 @@
 ---
 title: Icon
-description: Render Iconify icons from a prefix and icon name.
+description: Render inline Iconify SVG icons from a prefix and icon name.
 sidebar:
-  order: 8
+  order: 1
 ---
 
 import { Icon } from '@prosefly/astro-components';
 
-`Icon` renders SVG icons from Iconify data. Pass a full Iconify name in the
-`prefix:icon` format.
+`Icon` renders an inline SVG from Iconify data. Pass a full Iconify name in the
+`prefix:icon` format, such as `lucide:star` or `simple-icons:github`.
 
 ## Import
 
@@ -16,33 +16,100 @@ import { Icon } from '@prosefly/astro-components';
 import { Icon } from '@prosefly/astro-components';
 ```
 
-## Example
+## Inline Usage
 
-<Icon name="lucide:star" title="Star" /> Favorite this page
+Icons are inline by default and inherit the surrounding text size when `size`,
+`width`, and `height` are omitted.
+
+<Icon name="lucide:star" /> Favorite this page
+
+GitHub <Icon name="simple-icons:github" /> links often appear next to repository
+metadata, external resources, or social links.
+
+```mdx
+<Icon name="lucide:star" /> Favorite this page
+
+GitHub <Icon name="simple-icons:github" /> links often appear next to repository
+metadata.
+```
+
+## Sizing
+
+Use `size` to set width and height together. Use `width` and `height` only when
+the icon intentionally needs a non-square box.
+
+<div class="not-prose flex flex-wrap items-center gap-4">
+  <span class="inline-flex items-center gap-1">
+    <Icon name="lucide:search" />
+    1em
+  </span>
+  <span class="inline-flex items-center gap-1">
+    <Icon name="lucide:search" size="18" />
+    18px
+  </span>
+  <span class="inline-flex items-center gap-1 text-lg">
+    <Icon name="lucide:search" />
+    inherited
+  </span>
+</div>
+
+```mdx
+<Icon name="lucide:search" />
+<Icon name="lucide:search" size="18" />
+<Icon name="lucide:search" width="20" height="16" />
+```
+
+## Accessible Icons
+
+Decorative icons are hidden from assistive technology by default. Add `title`
+when the icon itself communicates meaning without adjacent text.
+
+<Icon name="lucide:circle-alert" title="Warning" /> This icon has an accessible
+title.
+
+```mdx
+<Icon name="lucide:circle-alert" title="Warning" /> This icon has an accessible
+title.
+```
+
+If visible text already explains the icon, leave `title` unset.
+
+## Icon Sources
+
+`Icon` loads data from the Iconify API during server rendering or static build.
+Builds therefore need network access unless you provide an internal
+Iconify-compatible API endpoint with `apiBase`.
+
+```mdx
+<Icon name="lucide:sparkles" apiBase="https://api.iconify.design" />
+```
+
+When the Lotus integration is installed, it preloads static icon usage in Astro
+and MDX files and groups requests by Iconify prefix. For example,
+`lucide:star`, `lucide:search`, and `lucide:copy` can be fetched through one
+`lucide` request.
+
+Icons that cannot be detected statically still fall back to an individual API
+request.
 
 ## Props
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `name` | `string` | required | Iconify name such as `lucide:star`. |
-| `title` | `string` | optional | Adds an accessible SVG title. |
+| `title` | `string` | optional | Adds an accessible SVG title and `role="img"`. |
 | `size` | `string \| number` | `1em` | Sets width and height together. |
 | `width` | `string \| number` | `size` | Overrides SVG width. |
 | `height` | `string \| number` | `size` | Overrides SVG height. |
-| `apiBase` | `string` | `https://api.iconify.design` | Iconify API endpoint. |
+| `class` | `string` | optional | Adds classes to the rendered SVG. |
+| `focusable` | `string` | `'false'` | Sets the SVG `focusable` attribute. |
+| `apiBase` | `string` | `'https://api.iconify.design'` | Iconify-compatible API endpoint. |
 
-## Notes
+Unknown attributes are passed to the rendered SVG.
 
-Icon data is loaded from the Iconify API during server rendering or static
-build. Builds therefore need network access unless you provide an internal
-Iconify-compatible API endpoint with `apiBase`.
+## Syntax Rules
 
-When the Lotus integration is installed, it preloads static Icon usage in
-Astro and MDX files and groups requests by Iconify prefix. For example,
-`lucide:star` and `lucide:search` can be fetched through one `lucide` request.
-Icons that cannot be detected statically still fall back to an individual API
-request.
-
-The preload behavior lives in the components package and can also be installed
-directly through the `@prosefly/astro-components/icons` integration. Lotus uses
-that integration internally and adds icons from the theme configuration.
+- Use the full `prefix:icon` Iconify name.
+- Keep icons inline with text unless a surrounding component handles layout.
+- Add `title` only when the icon has standalone meaning.
+- Prefer consistent icon families within the same UI region.

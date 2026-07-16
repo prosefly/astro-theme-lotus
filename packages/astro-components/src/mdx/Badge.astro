@@ -1,5 +1,5 @@
 ---
-type BadgeVariant = 'solid' | 'soft' | 'subtle' | 'outline' | 'ghost';
+type BadgeVariant = 'solid' | 'soft' | 'subtle' | 'outline' | 'dot';
 type BadgeColor = 'neutral' | 'accent' | 'success' | 'warning' | 'danger';
 
 interface Props {
@@ -137,8 +137,17 @@ const {
     color: var(--pl-badge-color);
   }
 
-  .pl-badge[data-variant='ghost'] {
-    background: transparent;
-    color: var(--pl-badge-color);
+  .pl-badge[data-variant='dot'] {
+    background: var(--pl-surface, #f4f6f8);
+    color: var(--pl-text-muted, #667085);
+    gap: 0.5rem;
+  }
+
+  .pl-badge[data-variant='dot']::before {
+    background: var(--pl-badge-solid);
+    border-radius: var(--pl-radius-full, 999px);
+    content: "";
+    height: 0.5rem;
+    width: 0.5rem;
   }
 </style>

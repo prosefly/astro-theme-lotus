@@ -1,11 +1,14 @@
 ---
-import { processFileTree } from './rehype-file-tree';
+import FileTreeItem from './FileTreeItem.astro';
+import { parseFileTree } from './rehype-file-tree';
 
 const fileTreeHtml = await Astro.slots.render('default');
-const html = processFileTree(fileTreeHtml);
+const entries = parseFileTree(fileTreeHtml);
 ---
 
-<Fragment set:html={html} />
+<ul class="pl-file-tree" role="list">
+  {entries.map((entry) => <FileTreeItem entry={entry} />)}
+</ul>
 
 <style is:global>
   .pl-file-tree {

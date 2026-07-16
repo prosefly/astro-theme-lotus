@@ -1,0 +1,95 @@
+---
+import Icon from './Icon.astro';
+import FileTreeItem from './FileTreeItem.astro';
+import type { FileTreeEntry } from './rehype-file-tree';
+
+interface Props {
+  entry: FileTreeEntry;
+}
+
+const { entry } = Astro.props;
+const placeholderEntry: FileTreeEntry = {
+  children: [],
+  commentHtml: '',
+  highlighted: false,
+  isDirectory: false,
+  isPlaceholder: true,
+  kind: 'file',
+  nameHtml: '…',
+  nameText: '…',
+};
+const children = entry.children.length > 0 ? entry.children : [placeholderEntry];
+---
+
+<li
+  class:list={[
+    'pl-file-tree__item',
+    entry.isDirectory ? 'pl-file-tree__item--directory' : 'pl-file-tree__item--file',
+    entry.isPlaceholder && 'pl-file-tree__item--placeholder',
+    entry.highlighted && 'pl-file-tree__item--highlighted',
+  ]}
+>
+  {
+    entry.isDirectory ? (
+      <details class="pl-file-tree__details" open={entry.children.length > 0 ? true : undefined}>
+        <summary class="pl-file-tree__summary">
+          <span class="pl-file-tree__entry">
+            {!entry.isPlaceholder && (
+              <span aria-hidden="true" class="pl-file-tree__chevron">
+                <Icon name="lucide:chevron-right" />
+              </span>
+            )}
+            {!entry.isPlaceholder && (
+              <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
+                <Icon name="lucide:folder" />
+              </span>
+            )}
+            <span
+              class:list={[
+                'pl-file-tree__name',
+                entry.highlighted && 'pl-file-tree__name--highlighted',
+              ]}
+            >
+              {!entry.isPlaceholder && <span class="pl-file-tree__sr-only">Directory </span>}
+              <Fragment set:html={entry.nameHtml} />
+            </span>
+            {
+              entry.commentHtml && (
+                <>
+                  {' '}
+                  <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
+                </>
+              )
+            }
+          </span>
+        </summary>
+        <ul class="pl-file-tree__list" role="list">
+          {children.map((child) => <FileTreeItem entry={child} />)}
+        </ul>
+      </details>
+    ) : (
+      <span class="pl-file-tree__entry">
+        {!entry.isPlaceholder && (
+          <span aria-hidden="true" class="pl-file-tree__icon" data-kind={entry.kind}>
+            <Icon name="lucide:file" />
+          </span>
+        )}
+        <span
+          class:list={[
+            'pl-file-tree__name',
+            entry.highlighted && 'pl-file-tree__name--highlighted',
+          ]}
+          set:html={entry.nameHtml}
+        />
+        {
+          entry.commentHtml && (
+            <>
+              {' '}
+              <span class="pl-file-tree__comment" set:html={entry.commentHtml} />
+            </>
+          )
+        }
+      </span>
+    )
+  }
+</li>
