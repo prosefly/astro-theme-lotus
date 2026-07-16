@@ -1,59 +1,101 @@
 ---
 title: Callout
-description: Use callouts and badges to highlight important context in docs.
+description: Highlight notes, tips, warnings, and destructive guidance inside documentation.
 sidebar:
   order: 1
 ---
 
-import { Badge, Callout } from '@prosefly/astro-components';
+import { Callout } from '@prosefly/astro-components';
 
-Use `Callout` for inline guidance that needs more structure than a blockquote.
-Use `Badge` for short labels that reinforce status or intent inside prose and
-component demos.
+Use `Callout` when a paragraph needs more attention than normal prose but
+should still stay inside the reading flow.
 
 ## Import
 
 ```mdx
-import { Badge, Callout } from '@prosefly/astro-components';
+import { Callout } from '@prosefly/astro-components';
 ```
 
-## Example
+## Basic Usage
+
+When `title` is omitted, the callout renders as a compact inline message with an
+icon and body content.
+
+```mdx
+<Callout type="warning">
+  When using a hosted coding plan, follow the tutorial before configuring a
+  dedicated endpoint.
+</Callout>
+```
+
+<Callout type="warning">
+  When using a hosted coding plan, follow the tutorial before configuring a
+  dedicated endpoint.
+</Callout>
+
+## With Title
+
+Add `title` when the message needs a short heading. The icon and title share the
+first row, while the content appears below.
+
+```mdx
+<Callout type="note" title="Document the default behavior">
+  The note variant is a safe default for implementation details, caveats, and
+  editorial guidance.
+</Callout>
+```
 
 <Callout type="note" title="Document the default behavior">
   The note variant is a safe default for implementation details, caveats, and
   editorial guidance.
 </Callout>
 
-<Callout type="tip" title="Pair badges with compact labels">
-  Combine `Badge` with headings, links, or card metadata when you want a small
-  amount of emphasis without adding another container.
+## Variants
+
+Use `type` to match the intent of the message.
+
+<Callout type="note" title="Note">
+  Use notes for neutral context, implementation details, and caveats that do not
+  require immediate action.
 </Callout>
 
-<div class="not-prose flex flex-wrap items-center gap-2">
-  <span>Status badges:</span>
-  <Badge>Neutral</Badge>
-  <Badge color="accent">Accent</Badge>
-  <Badge color="success">Stable</Badge>
-  <Badge color="warning">Review</Badge>
-</div>
+<Callout type="tip" title="Tip">
+  Use tips for recommended workflows, shortcuts, or patterns that help readers
+  complete a task more smoothly.
+</Callout>
+
+<Callout type="warning" title="Warning">
+  Use warnings when a choice can cause confusing behavior, broken output, or
+  additional setup work.
+</Callout>
+
+<Callout type="danger" title="Danger">
+  Use danger callouts for destructive actions, security-sensitive steps, or
+  irreversible changes.
+</Callout>
+
+## Rich Content
+
+Callouts accept normal MDX content.
+
+<Callout type="tip" title="Keep examples actionable">
+  Include the smallest working command first:
+
+  ```sh
+  pnpm add @prosefly/astro-components
+  ```
+
+  Then explain optional configuration after the command.
+</Callout>
 
 ## Props
 
-### `Callout`
-
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `title` | `string` | variant label | Optional heading shown above the body copy. |
-| `type` | `'note' \| 'tip' \| 'warning' \| 'danger'` | `'note'` | Changes border, background, and accent treatment. |
+| `title` | `string` | none | Optional heading shown above the body content. |
+| `type` | `'note' \| 'tip' \| 'warning' \| 'danger'` | `'note'` | Changes the icon, color, border, and background treatment. |
 
-### `Badge`
-
-| Prop | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline' \| 'ghost'` | `'soft'` | Adjusts the badge visual treatment. |
-| `color` | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | Adjusts the badge tone while keeping the same shape and spacing. |
-
-## Notes
+## Behavior
 
 Callouts are static content containers. They do not collapse, dismiss, or add
-client-side behavior in the first release.
+client-side behavior.
