@@ -84,7 +84,7 @@ const baseDocsSchema = z.object({
       }),
     ])
     .optional(),
-  template: z.enum(['doc', 'splash']).default('doc'),
+  template: z.enum(['doc', 'splash', 'text']).default('doc'),
   hero: z
     .object({
       title: z.string().optional(),

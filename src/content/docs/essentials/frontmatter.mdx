@@ -91,6 +91,28 @@ tableOfContents: false
 ---
 ```
 
+## Template
+
+Use `template` to change the page chrome.
+
+```md
+---
+title: Privacy Policy
+description: How this project handles data.
+template: text
+sidebar:
+  hidden: true
+pagefind: false
+---
+```
+
+`template: doc` is the default documentation layout with subnav, sidebar,
+content column, table of contents, page actions, and previous/next links.
+
+`template: text` renders a plain text page with the site header, centered prose,
+and footer. It is intended for pages like terms, privacy policies, and other
+standalone legal or informational text.
+
 ## Structured data
 
 Lotus automatically renders schema.org JSON-LD for docs pages. The generated
@@ -150,7 +172,6 @@ current UI does not render them yet:
 
 - `editUrl`
 - `head`
-- `template`
 - `hero`
 - `banner`
 

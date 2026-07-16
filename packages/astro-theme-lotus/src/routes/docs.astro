@@ -2,6 +2,7 @@
 import type { MarkdownHeading } from 'astro';
 import { render } from 'astro:content';
 import DocsLayout from '../layouts/DocsLayout.astro';
+import TextLayout from '../layouts/TextLayout.astro';
 import {
   getDocsEntries,
   getDocsNavigation,
@@ -46,6 +47,7 @@ const tocHeadings = getTableOfContentsHeadings(
   headings as MarkdownHeading[],
   entry.data.tableOfContents,
 );
+const isTextTemplate = entry.data.template === 'text';
 const subnav = await getDocsNavigation(currentSection);
 const sidebar = await getSidebarNavigation(currentSection);
 const sidebars = Object.fromEntries(
@@ -60,17 +62,23 @@ const pageNavigation = getSidebarPagination(sidebar, entry.id, {
 });
 ---
 
-<DocsLayout
-  title={entry.data.title}
-  description={entry.data.description}
-  sectionTitle={sectionTitle}
-  currentSlug={getEntrySlug(entry)}
-  lastUpdated={entry.data.lastUpdated}
-  pageNavigation={pageNavigation}
-  subnav={subnav}
-  sidebar={sidebar}
-  sidebars={sidebars}
-  headings={tocHeadings}
->
-  <Content />
-</DocsLayout>
+{isTextTemplate ? (
+  <TextLayout title={entry.data.title} description={entry.data.description}>
+    <Content />
+  </TextLayout>
+) : (
+  <DocsLayout
+    title={entry.data.title}
+    description={entry.data.description}
+    sectionTitle={sectionTitle}
+    currentSlug={getEntrySlug(entry)}
+    lastUpdated={entry.data.lastUpdated}
+    pageNavigation={pageNavigation}
+    subnav={subnav}
+    sidebar={sidebar}
+    sidebars={sidebars}
+    headings={tocHeadings}
+  >
+    <Content />
+  </DocsLayout>
+)}

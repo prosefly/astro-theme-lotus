@@ -144,6 +144,8 @@ const themeConfig = {
       {
         title: 'Project',
         links: [
+          { label: 'Privacy', href: '/docs/privacy/' },
+          { label: 'Terms', href: '/docs/terms/' },
           {
             label: 'GitHub',
             href: 'https://github.com/prosefly/astro-theme-lotus',
