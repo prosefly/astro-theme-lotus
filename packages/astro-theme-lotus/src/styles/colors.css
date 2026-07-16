@@ -100,6 +100,7 @@
   --lotus-text-strong: var(--lotus-gray-950);
   --lotus-text: var(--lotus-gray-700);
   --lotus-text-muted: var(--lotus-gray-600);
+  --lotus-text-subtle: var(--lotus-gray-500);
   --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-400) 32%, transparent);
   --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-400) 20%, transparent);
   --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-400) 54%, transparent);

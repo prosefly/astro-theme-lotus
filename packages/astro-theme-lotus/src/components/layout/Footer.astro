@@ -7,7 +7,7 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
 ---
 
 <footer class="lotus-border-subtle border-t bg-(--lotus-background)">
-  <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
+  <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] xl:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)]">
     <div class="space-y-4">
       <SiteBrand class="inline-flex" textClass="text-sm font-semibold sm:text-base" />
       <p class="max-w-sm text-sm leading-6 text-(--lotus-text-muted)">
@@ -15,45 +15,47 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
       </p>
     </div>
 
-    <div class="grid gap-8 sm:grid-cols-2">
-      {themeConfig.footer.sections.map((section) => (
-        <section class="space-y-3">
-          <h2 class="text-sm font-semibold text-(--lotus-text-strong)">{section.title}</h2>
-          <ul class="space-y-2">
-            {section.links.map((link) => {
-              const isExternal = 'external' in link && link.external;
+    <div class="@container">
+      <div class="grid grid-cols-1 gap-8 @sm:grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-4">
+        {themeConfig.footer.sections.map((section) => (
+          <section class="space-y-3">
+            <h2 class="text-sm font-medium text-(--lotus-text-subtle)">{section.title}</h2>
+            <ul class="space-y-2">
+              {section.links.map((link) => {
+                const isExternal = 'external' in link && link.external;
 
-              return (
-                <li>
-                  <a
-                    class="lotus-focus-ring inline-flex items-center gap-1.5 text-sm text-(--lotus-text-muted) transition-colors hover:text-(--lotus-accent)"
-                    href={link.href}
-                    rel={isExternal ? 'noreferrer' : undefined}
-                    target={isExternal ? '_blank' : undefined}
-                  >
-                    <span>{link.label}</span>
-                    {isExternal && (
-                      <svg
-                        aria-hidden="true"
-                        class="h-3.5 w-3.5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.8"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M7 17 17 7" />
-                        <path d="M9 7h8v8" />
-                      </svg>
-                    )}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
+                return (
+                  <li>
+                    <a
+                      class="lotus-focus-ring inline-flex items-center gap-1 text-sm font-medium text-(--lotus-text) transition-colors hover:text-(--lotus-accent)"
+                      href={link.href}
+                      rel={isExternal ? 'noreferrer' : undefined}
+                      target={isExternal ? '_blank' : undefined}
+                    >
+                      <span>{link.label}</span>
+                      {isExternal && (
+                        <svg
+                          aria-hidden="true"
+                          class="h-3.5 w-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.8"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M7 17 17 7" />
+                          <path d="M9 7h8v8" />
+                        </svg>
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
+      </div>
     </div>
   </div>
 </footer>
