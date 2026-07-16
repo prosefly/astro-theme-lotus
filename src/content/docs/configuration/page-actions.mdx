@@ -1,0 +1,75 @@
+---
+title: Page Actions
+description: Configure copy, Markdown, and AI actions shown near the page title.
+sidebar:
+  order: 5
+---
+
+`pageActions` controls the compact action button shown near the documentation
+page title.
+
+```ts
+pageActions: [
+  { type: 'copy-page' },
+  { type: 'view-markdown' },
+  { type: 'open-chatgpt' },
+  { type: 'open-claude' },
+]
+```
+
+Set it to an empty array to disable the control.
+
+```ts
+pageActions: []
+```
+
+## Built-In Actions
+
+Lotus includes four built-in action types.
+
+| Type | Behavior |
+| --- | --- |
+| `copy-page` | Fetches the generated `.md` route and copies Markdown to the clipboard. |
+| `view-markdown` | Opens the generated `.md` route. |
+| `open-chatgpt` | Opens ChatGPT with the current page URL. |
+| `open-claude` | Opens Claude with the current page URL. |
+
+Built-in labels and icons can be overridden.
+
+```ts
+pageActions: [
+  { type: 'copy-page', label: 'Copy Markdown' },
+  { type: 'view-markdown', label: 'Markdown source' },
+]
+```
+
+## Custom Actions
+
+Custom actions use `label`, `icon`, `href`, and optional `external`.
+
+```ts
+pageActions: [
+  {
+    label: 'Open issue',
+    icon: 'lucide:bug',
+    href: 'https://github.com/prosefly/astro-theme-lotus/issues/new?title={encodedTitle}',
+    external: true,
+  },
+]
+```
+
+Custom `href` values can use page variables.
+
+| Variable | Value |
+| --- | --- |
+| `{title}` | Page title |
+| `{url}` | Current page URL |
+| `{markdownUrl}` | Generated Markdown URL |
+| `{encodedTitle}` | URL-encoded page title |
+| `{encodedUrl}` | URL-encoded page URL |
+| `{encodedMarkdownUrl}` | URL-encoded Markdown URL |
+
+## Layout
+
+The first action is shown as an outline button. Remaining actions live in the
+dropdown opened by the chevron.

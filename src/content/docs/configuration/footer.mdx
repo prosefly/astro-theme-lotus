@@ -1,0 +1,71 @@
+---
+title: Footer
+description: Configure copyright text and grouped footer links.
+sidebar:
+  order: 6
+---
+
+`footer` controls the lower site chrome.
+
+```ts
+footer: {
+  copyright: 'Copyright © 2026 Prosefly.',
+  sections: [
+    {
+      title: 'Docs',
+      links: [
+        { label: 'Overview', href: '/docs/overview/' },
+        { label: 'Installation', href: '/docs/installation/' },
+      ],
+    },
+    {
+      title: 'Project',
+      links: [
+        {
+          label: 'GitHub',
+          href: 'https://github.com/prosefly/astro-theme-lotus',
+          external: true,
+        },
+      ],
+    },
+  ],
+}
+```
+
+## Copyright
+
+`copyright` renders under the footer brand.
+
+```ts
+copyright: 'Copyright © 2026 Prosefly.'
+```
+
+## Sections
+
+`sections` is an ordered list of link groups.
+
+```ts
+sections: [
+  {
+    title: 'Components',
+    links: [
+      { label: 'Icon', href: '/docs/components/icon/' },
+      { label: 'Badge', href: '/docs/components/badge/' },
+    ],
+  },
+]
+```
+
+Each link supports `label`, `href`, and optional `external`.
+
+## Empty Footer Links
+
+Set `sections` to an empty array when the footer should only show the brand and
+copyright.
+
+```ts
+footer: {
+  copyright: 'Copyright © 2026 Prosefly.',
+  sections: [],
+}
+```

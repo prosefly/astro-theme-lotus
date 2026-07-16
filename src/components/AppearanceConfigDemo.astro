@@ -1,0 +1,76 @@
+---
+import { AppearancePaletteContent } from '@prosefly/astro-theme-lotus/components';
+---
+
+<div
+  class="appearance-config-demo my-6 rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-muted) bg-(--lotus-background)"
+  data-appearance-config-demo
+>
+  <pre><code>{`appearance: {
+  accent: `}<span class="font-semibold text-(--lotus-accent)" data-appearance-code="accent">'indigo'</span>{`,
+  gray: `}<span class="font-semibold text-(--lotus-text-strong)" data-appearance-code="gray">'neutral'</span>{`,
+  defaultMode: 'system',
+  radius: `}<span class="font-semibold text-(--lotus-text-strong)" data-appearance-code="radius">'medium'</span>{`,
+}`}</code></pre>
+  <div class="p-4">
+    <AppearancePaletteContent />
+  </div>
+</div>
+
+<script>
+  type AppearanceDetail = {
+    accent: string;
+    gray: string;
+    radius: string;
+  };
+
+  function getCurrentAppearance(): AppearanceDetail {
+    const root = document.documentElement;
+
+    return {
+      accent: root.dataset.customAccent || root.dataset.accent || 'indigo',
+      gray: root.dataset.gray || 'neutral',
+      radius: root.dataset.radius || 'medium',
+    };
+  }
+
+  function updateAppearanceConfigDemo(demo: HTMLElement, appearance: AppearanceDetail) {
+    (Object.entries(appearance) as [keyof AppearanceDetail, string][]).forEach(([key, value]) => {
+      demo.querySelectorAll(`[data-appearance-code="${key}"]`).forEach((codeValue) => {
+        codeValue.textContent = `'${value}'`;
+      });
+    });
+  }
+
+  function initAppearanceConfigDemo() {
+    document.querySelectorAll('[data-appearance-config-demo]').forEach((demo) => {
+      if (!(demo instanceof HTMLElement) || demo.dataset.ready === 'true') {
+        return;
+      }
+
+      demo.dataset.ready = 'true';
+      updateAppearanceConfigDemo(demo, getCurrentAppearance());
+
+      document.addEventListener('lotus:appearance-change', (event) => {
+        if (!(event instanceof CustomEvent)) {
+          return;
+        }
+
+        updateAppearanceConfigDemo(demo, event.detail as AppearanceDetail);
+      });
+    });
+  }
+
+  initAppearanceConfigDemo();
+  document.addEventListener('astro:page-load', initAppearanceConfigDemo);
+</script>
+
+<style>
+.appearance-config-demo pre {
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid var(--lotus-border-subtle);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+</style>

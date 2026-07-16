@@ -1,40 +1,56 @@
 ---
 title: Project
-description: Configure the public identity used across the Lotus docs shell.
+description: Configure site identity, logo assets, favicon links, and docs routing.
 sidebar:
   order: 1
 ---
 
-Lotus reads project identity from top-level theme config fields. These values
-are used for metadata, the header, the footer, and structured data.
+Lotus uses a small set of top-level fields for site identity and generated
+routes. These values are available to layouts, metadata, structured data, and
+theme components.
 
 ```ts
-name: 'Astro Theme Lotus',
-description: 'A documentation theme for Astro.',
-logo: '/logo.svg',
-favicon: '/favicon.svg',
+export default {
+  name: 'Astro Theme Lotus',
+  description: 'A documentation theme for Astro.',
+  logo: '/logo.svg',
+  favicon: '/favicon.svg',
+  docsBase: '/docs',
+}
 ```
 
 ## Name
 
-`name` appears in the header next to the logo and is used to compose page
-titles.
+`name` is the public product or project name. Lotus uses it for the site title,
+header brand text, footer brand text, and schema.org metadata.
+
+```ts
+name: 'Astro Theme Lotus'
+```
+
+Page titles are composed from the page frontmatter title and this name.
 
 ## Description
 
-`description` is the default summary for the documentation site. Individual
-pages can still provide their own `description` frontmatter.
+`description` is the default site description. Pages can still override it with
+frontmatter.
+
+```ts
+description: 'A documentation theme for Astro.'
+```
+
+Lotus uses this value for the default `<meta name="description">` and
+structured data.
 
 ## Logo
 
-`logo` can point to one image in `public/`:
+Use a string when one asset works in every theme mode.
 
 ```ts
 logo: '/logo.svg'
 ```
 
-Use an object when the project needs different assets for light and dark mode.
-The optional `href` controls where the logo link points.
+Use an object when light and dark mode need different assets.
 
 ```ts
 logo: {
@@ -44,19 +60,17 @@ logo: {
 }
 ```
 
-Keep the asset square and readable at small sizes because it appears in compact
-header, footer, and mobile navigation contexts.
+`href` controls the brand link target. If omitted, the brand links to `/`.
 
 ## Favicon
 
-`favicon` controls the icon links rendered in the document head. Use a string
-for the common case:
+Use a string for the common single favicon case.
 
 ```ts
 favicon: '/favicon.svg'
 ```
 
-Use an object or array when the project needs multiple favicon formats.
+Use an object or array when a project needs multiple favicon links.
 
 ```ts
 favicon: [
@@ -66,19 +80,23 @@ favicon: [
 ]
 ```
 
-## Docs base
+Each object renders as a `<link>` in the document head. Supported fields are
+`href`, `rel`, `type`, `sizes`, `media`, and `color`.
 
-`docsBase` controls where Lotus mounts the generated documentation routes.
+## Docs Base
+
+`docsBase` controls where Lotus mounts docs pages, Markdown source routes, and
+the search index.
 
 ```ts
 docsBase: '/docs'
 ```
 
-Set it to `/manual`, `/guide`, or `/` when the documentation should live at a
-different path.
+Examples:
 
-Lotus derives three route patterns from this value:
+- `/docs/overview/`
+- `/docs/overview.md`
+- `/docs/search.json`
 
-- The docs page route, such as `/docs/overview/`
-- The Markdown source route, such as `/docs/overview.md`
-- The search index route at `/docs/search.json`
+Set `docsBase` to `/guide`, `/manual`, or `/` when docs should live somewhere
+else.

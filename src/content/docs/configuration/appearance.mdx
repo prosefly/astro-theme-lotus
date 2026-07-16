@@ -1,62 +1,81 @@
 ---
 title: Appearance
-description: Set the theme mode, accent color, gray scale, and radius scale.
+description: Configure color, theme mode, radius, and font tokens.
 sidebar:
-  order: 4
+  order: 2
 ---
 
-`appearance` controls the shared visual tokens that Lotus applies to layouts
-and package components.
+import AppearanceConfigDemo from '../../../components/AppearanceConfigDemo.astro';
+
+`appearance` controls the document attributes and design tokens used by Lotus
+layouts and Prosefly MDX components.
+
+<AppearanceConfigDemo />
+
+## Default Mode
+
+`defaultMode` controls the initial color mode.
+
+```ts
+defaultMode: 'system'
+```
+
+Supported values are `light`, `dark`, and `system`. The system mode follows
+`prefers-color-scheme` until the visitor chooses a mode in the theme switch.
+
+## Accent
+
+`accent` controls links, active navigation, focus rings, and primary UI.
+
+Built-in accents are based on Tailwind color scales:
+
+`red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`,
+`cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, and
+`rose`.
+
+Custom hex colors are also supported.
 
 ```ts
 appearance: {
-  accent: 'indigo',
-  gray: 'neutral',
-  defaultMode: 'system',
-  radius: 'medium',
+  accent: '#3b82f6',
 }
 ```
 
-## Theme mode
+Lotus converts custom colors into light and dark accent variables.
 
-`defaultMode` accepts `light`, `dark`, or `system`. The system option renders
-`data-theme="system"` and follows the visitor's `prefers-color-scheme` setting.
+## Gray
 
-## Color
+`gray` selects the neutral scale used for text, borders, surfaces, dividers, and
+code backgrounds.
 
-`gray` selects the Tailwind neutral scale used by text, surfaces, dividers, code
-blocks, and other low-emphasis UI. Supported values are `slate`, `zinc`,
-`neutral`, and `stone`. Lotus renders this as an attribute such as
-`data-gray="neutral"` and maps that selector to aliases like
-`--lotus-gray-500: var(--color-neutral-500)`. Semantic tokens such as
-`--lotus-text` and `--lotus-surface` are then derived from that scale. Lotus
-keeps the supported Tailwind color variables available with `@theme static`, so
-projects do not need extra Tailwind configuration for the default palettes.
+```ts
+gray: 'neutral'
+```
 
-`accent` selects the color used by active navigation, links, focus rings, and
-primary actions. Built-in accents use Tailwind color scales and render as a
-document attribute such as `data-accent="indigo"`.
+Supported values are `slate`, `zinc`, `neutral`, and `stone`.
 
-Supported built-in accents are `red`, `orange`, `amber`, `yellow`, `lime`,
-`green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`,
-`purple`, `fuchsia`, `pink`, and `rose`.
-
-You can also pass a custom hex color such as `#3b82f6`. Lotus converts it into
-light and dark accent variables so the same hue works across color modes.
+Lotus renders this as a document attribute such as `data-gray="neutral"` and
+maps semantic tokens like `--lotus-text`, `--lotus-text-muted`,
+`--lotus-background`, and `--lotus-surface` from that scale.
 
 ## Radius
 
-`radius` controls the `data-radius` attribute on the page shell. Lotus maps that
-attribute to radius tokens so buttons, cards, sidebar items, and MDX components
-share the same shape language.
+`radius` controls the shared shape language.
+
+```ts
+radius: 'medium'
+```
+
+Supported values are `none`, `small`, `medium`, `large`, and `full`.
+
+Most compact controls follow the selected radius. Large surfaces such as code
+blocks and dropdown panels cap their radius so `full` does not produce pill-like
+containers.
 
 ## Fonts
 
-Lotus does not register fonts by default. The theme uses system sans and mono
-stacks through `--lotus-font-sans` and `--lotus-font-mono`.
-
-Projects can load fonts with Astro, a CSS import, or any other provider, then
-override the font tokens in their own CSS:
+Lotus does not load web fonts by default. It exposes font tokens that can be
+overridden by project CSS.
 
 ```css
 :root {
@@ -64,3 +83,5 @@ override the font tokens in their own CSS:
   --lotus-font-mono: "JetBrains Mono", var(--lotus-system-mono);
 }
 ```
+
+The default stacks are system sans and system mono.

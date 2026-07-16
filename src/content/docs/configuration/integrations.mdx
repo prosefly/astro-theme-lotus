@@ -1,0 +1,89 @@
+---
+title: Integrations
+description: Configure Iconify preloading, Expressive Code, package manager tabs, and component overrides.
+sidebar:
+  order: 7
+---
+
+Lotus includes integrations for icons, syntax highlighting, package-manager
+command tabs, and overrideable theme components.
+
+## Iconify
+
+Lotus installs the `@prosefly/astro-components/icons` integration internally.
+It preloads icons used by Lotus, icons used by Prosefly components, theme config
+icons, and static `<Icon name="...">` usage in Astro and MDX files.
+
+```ts
+iconify: {
+  apiBase: 'https://api.iconify.design',
+  preload: ['lucide:sparkles'],
+  scan: true,
+}
+```
+
+Use `preload` for icons that cannot be detected statically.
+
+Set `scan: false` when a project wants only explicit preload names.
+
+## Expressive Code
+
+Expressive Code is enabled by default.
+
+```ts
+expressiveCode: {
+  defaultProps: {
+    showLineNumbers: false,
+  },
+}
+```
+
+Lotus configures light and dark Shiki themes, line numbers, copy button styling,
+and code frame styling to match the theme tokens.
+
+Disable Expressive Code when a project should use Astro's built-in Shiki
+renderer.
+
+```ts
+expressiveCode: false
+```
+
+## Package Manager Tabs
+
+Lotus enables the Prosefly package-manager tabs remark plugin by default. It
+turns recognized install commands into tabbed command blocks.
+
+```ts
+packageManagerTabs: false
+```
+
+Set `packageManagerTabs` to `false` to keep package-manager commands as normal
+code blocks.
+
+## Component Overrides
+
+Use `components` to replace selected Lotus theme components.
+
+```ts
+components: {
+  HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+  SearchDialog: './src/components/SearchDialog.astro',
+  ThemeSwitch: './src/components/ThemeSwitch.astro',
+}
+```
+
+Overrideable component names:
+
+| Name | Area |
+| --- | --- |
+| `HeaderNavbar` | Header navbar links and action buttons |
+| `HeaderSocialIcons` | Header social links and theme controls area |
+| `PageActions` | Page action control near the title |
+| `PageHeader` | Page title, description, section label, and page actions placement |
+| `PageNavigation` | Previous and next links at the bottom of a page |
+| `SearchDialog` | Search trigger and dialog composition |
+| `SiteBrand` | Header and footer brand rendering |
+| `ThemeSwitch` | Theme mode control |
+
+Theme components exported from `@prosefly/astro-theme-lotus/components` can be
+used inside overrides.
