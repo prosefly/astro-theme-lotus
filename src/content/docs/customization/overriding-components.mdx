@@ -1,109 +1,104 @@
 ---
 title: Overriding Components
-description: Replace or wrap Lotus pieces when a project needs custom behavior.
+description: Replace Lotus shell components when a project needs custom behavior.
 sidebar:
-  order: 10
+  order: 11
 ---
 
-Lotus is designed to provide a strong default shell while keeping project
-customization possible. Prefer configuration and CSS tokens first; reach for
-component overrides only when the structure or behavior needs to change.
+Component overrides replace specific pieces of the Lotus documentation shell.
+Use them when configuration and CSS tokens are not enough because the rendered
+markup, placement, or behavior needs to change.
 
-## Start with configuration
-
-Many common changes belong in `src/theme.config.ts`: nav labels, footer links,
-sidebar structure, actions, social icons, fonts, radius, and theme defaults.
-
-## Wrap shared components
-
-For content components, create local wrappers that import from
-`@prosefly/astro-components` and set project-specific defaults.
-
-```astro
----
-import { Callout } from '@prosefly/astro-components';
----
-
-<Callout type="note">
-  <slot />
-</Callout>
-```
-
-## Replace layout pieces carefully
-
-Lotus exposes a small, stable override surface through the `components`
-configuration. Start with the smallest override that changes the behavior you
-need.
+Overrides are configured in `src/theme.config.ts` through the `components`
+object:
 
 ```ts
-lotus({
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+
+export default defineLotusConfig({
   components: {
-    HeaderNavbar: './src/components/HeaderNavbar.astro',
-    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
-    PageActions: './src/components/PageActions.astro',
-    PageHeader: './src/components/PageHeader.astro',
-    PageNavigation: './src/components/PageNavigation.astro',
     SearchDialog: './src/components/SearchDialog.astro',
-    SiteBrand: './src/components/SiteBrand.astro',
-    ThemeSwitch: './src/components/ThemeSwitch.astro',
   },
-})
+});
 ```
 
-Override paths are resolved from the project root. The first supported override
-points are:
+Paths are resolved from the project root. They can be relative paths like
+`./src/components/SearchDialog.astro` or absolute file-system paths.
 
-| Component | Purpose |
-|---|---|
-| `SiteBrand` | Logo and product name in the header |
-| `HeaderNavbar` | Main navbar links and navbar action buttons |
-| `HeaderSocialIcons` | Social icon links in desktop and mobile header chrome |
-| `SearchDialog` | Search trigger and dialog content as one unit |
-| `ThemeSwitch` | Theme mode control in the header |
-| `PageHeader` | Documentation page title, description, section label, and page actions placement |
-| `PageActions` | Copy page, Markdown, and assistant actions |
-| `PageNavigation` | Previous and next page links |
+## When To Override
 
-## Use theme components
+Start with normal theme configuration for content, labels, links, actions,
+sidebars, footer sections, color mode, accent color, gray scale, and radius.
+Use CSS tokens for fonts and visual tuning.
 
-Composable theme components are exported from the theme package. Import them
-when you want to wrap Lotus behavior instead of replacing it from scratch.
+Use a component override when the project needs to:
+
+- Replace the search UI with another search provider.
+- Change the header brand markup.
+- Move, hide, or restyle page actions beyond what `pageActions` supports.
+- Replace previous and next page navigation.
+- Use a different theme mode control.
+- Change the navbar or social-link rendering while keeping the same config
+  data.
+
+## Override Points
+
+| Name | Where It Renders | Props Passed By Lotus |
+| --- | --- | --- |
+| `SiteBrand` | Main header brand link. | none |
+| `HeaderNavbar` | Desktop header navbar and mobile menu navbar. | `currentPath?: string`, `mobile?: boolean` |
+| `HeaderSocialIcons` | Desktop header social area and mobile menu social area. | `mobile?: boolean` |
+| `SearchDialog` | Main header search trigger and dialog. | none |
+| `ThemeSwitch` | Desktop header and mobile menu theme mode area. | none |
+| `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl` |
+| `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl` |
+| `PageNavigation` | Previous and next links below docs content. | `navigation` |
+
+Only these names are supported by the `components` config. Other components can
+still be imported from `@prosefly/astro-theme-lotus/components`, but importing a
+component does not make it an override point.
+
+## Minimal Override
+
+Create a local Astro component:
 
 ```astro
+// src/components/SearchDialog.astro
 ---
-import { SearchDialog, ThemeModeButton } from '@prosefly/astro-theme-lotus/components';
 ---
 
-<div class="rounded-lg border border-(--lotus-border-muted) p-1">
-  <SearchDialog />
-</div>
-
-<ThemeModeButton />
+<a
+  class="lotus-focus-ring rounded-(--lotus-radius-md) px-3 py-2 text-sm text-(--lotus-text-muted)"
+  href="/search/"
+>
+  Search
+</a>
 ```
 
-Search can also be composed from its trigger and content:
+Register it:
 
-```astro
----
-import {
-  SearchDialogContent,
-  SearchDialogTrigger,
-} from '@prosefly/astro-theme-lotus/components';
----
+```ts
+// src/theme.config.ts
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
-<div class="rounded-lg border border-(--lotus-border-muted) p-1">
-  <SearchDialogTrigger />
-</div>
-<SearchDialogContent />
+export default defineLotusConfig({
+  components: {
+    SearchDialog: './src/components/SearchDialog.astro',
+  },
+});
 ```
 
-The theme itself imports override points through internal virtual modules. The
-public `components` export points to theme building blocks, so using it inside
-an override will not recursively import the override file.
+Lotus now renders this file anywhere the shell asks for `SearchDialog`.
 
-For example, a project can wrap the default page actions:
+## Reuse A Default Shell Component
+
+An override can fully replace the default shell component, or it can reuse the
+public default component and add only the markup or classes the project needs.
+This is useful when the default behavior is correct but the surrounding
+structure or styling is project-specific.
 
 ```astro
+// src/components/PageActions.astro
 ---
 import { PageActions } from '@prosefly/astro-theme-lotus/components';
 ---
@@ -113,13 +108,161 @@ import { PageActions } from '@prosefly/astro-theme-lotus/components';
 </div>
 ```
 
-Available theme mode controls:
+```ts
+// src/theme.config.ts
+export default defineLotusConfig({
+  components: {
+    PageActions: './src/components/PageActions.astro',
+  },
+});
+```
+
+`Astro.props` contains the props Lotus passes to that override point. Forward
+those props when reusing the default shell component so built-in behavior keeps
+working.
+
+## Use Public Building Blocks
+
+The public `@prosefly/astro-theme-lotus/components` export contains reusable
+building blocks. These imports do not recurse into local overrides because the
+theme shell uses internal virtual modules for override points.
+
+```astro
+---
+import {
+  SearchDialogContent,
+  SearchDialogTrigger,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-(--lotus-radius-md) border border-(--lotus-border-muted) p-1">
+  <SearchDialogTrigger />
+</div>
+<SearchDialogContent />
+```
+
+Useful public components include:
+
+| Export | Use It For |
+| --- | --- |
+| `NavbarLinks` | Reusing configured navbar links. |
+| `SocialIcons` | Reusing configured social links. |
+| `PageActions` | Reusing copy, Markdown, ChatGPT, Claude, and custom actions. |
+| `PageHeader` | Reusing the default docs title area. |
+| `PageNavigation` | Reusing previous and next links. |
+| `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` | Reusing built-in search. |
+| `SiteBrand` | Reusing configured logo and project name. |
+| `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, `ThemeModeSwitch` | Reusing theme mode controls. |
+
+## Example: Custom Header Social Area
+
+This override keeps the configured social icons, replaces the default theme
+control, and still works in both desktop and mobile header contexts.
+
+```astro
+// src/components/HeaderSocialIcons.astro
+---
+import {
+  SocialIcons,
+  ThemeModeButton,
+} from '@prosefly/astro-theme-lotus/components';
+
+interface Props {
+  mobile?: boolean;
+}
+
+const { mobile = false } = Astro.props;
+---
+
+<div class:list={[
+  'flex items-center',
+  mobile ? 'gap-1' : 'gap-2',
+]}>
+  <SocialIcons mobile={mobile} />
+  <ThemeModeButton />
+</div>
+```
 
 ```ts
-import {
-  ThemeModeButton,
-  ThemeModeSegmentedControl,
-  ThemeModeSelect,
-  ThemeModeSwitch,
-} from '@prosefly/astro-theme-lotus/components';
+export default defineLotusConfig({
+  components: {
+    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+  },
+});
 ```
+
+`HeaderSocialIcons` receives `mobile` because Lotus uses the same override in
+the desktop header and mobile menu.
+
+## Example: Custom Page Header
+
+This override changes the page title layout while keeping the default
+`PageActions` override point inside it.
+
+```astro
+// src/components/PageHeader.astro
+---
+import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+import type { PageActionConfig } from '@prosefly/astro-theme-lotus';
+
+interface Props {
+  title: string;
+  description?: string;
+  sectionTitle?: string;
+  pageActions?: PageActionConfig[];
+  pageUrl: string;
+  markdownUrl: string;
+}
+
+const {
+  title,
+  description,
+  sectionTitle,
+  pageActions = [],
+  pageUrl,
+  markdownUrl,
+} = Astro.props;
+---
+
+<header class="lotus-border-subtle border-b pb-8">
+  {sectionTitle && (
+    <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
+  )}
+  <div class="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="min-w-0">
+      <h1 class="text-4xl font-semibold text-(--lotus-text-strong)">
+        {title}
+      </h1>
+      {description && (
+        <p class="mt-3 max-w-2xl text-base leading-7 text-(--lotus-text-muted)">
+          {description}
+        </p>
+      )}
+    </div>
+    {pageActions.length > 0 && (
+      <PageActions
+        actions={pageActions}
+        markdownUrl={markdownUrl}
+        pageUrl={pageUrl}
+        title={title}
+      />
+    )}
+  </div>
+</header>
+```
+
+Use `virtual:prosefly/lotus/components/PageActions` inside a shell override
+when the override should respect another local `PageActions` override. Use the
+public `@prosefly/astro-theme-lotus/components` export when you specifically
+want the package default component.
+
+## Debugging
+
+If an override does not appear:
+
+- Confirm the key matches one of the supported override point names exactly.
+- Confirm the file path is relative to the project root.
+- Restart the dev server after changing `src/theme.config.ts`.
+- Check that the override file has a default Astro component export, which is
+  what `.astro` files provide by default.
+- Forward `Astro.props` when wrapping a default component.

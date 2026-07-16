@@ -109,6 +109,34 @@ pagefind: false
 `template: doc` is the default documentation layout with subnav, sidebar,
 content column, table of contents, page actions, and previous/next links.
 
+`template: splash` renders a site header, centered hero, optional hero actions,
+optional hero visual, content section, and footer. It is intended for home
+pages, product overview pages, and other pages that introduce a documentation
+site without the docs sidebar chrome.
+
+```md
+---
+title: Acme Docs
+description: Documentation for Acme products.
+template: splash
+tableOfContents: false
+hero:
+  title: Acme Docs
+  tagline: Guides, API references, and examples for building with Acme.
+  image:
+    file: /images/docs-preview.png
+    alt: Acme documentation interface
+  actions:
+    - text: Get started
+      link: /docs/overview/
+      variant: primary
+      icon: lucide:chevron-right
+    - text: API reference
+      link: /docs/reference/
+      variant: secondary
+---
+```
+
 `template: text` renders a plain text page with the site header, centered prose,
 and footer. It is intended for pages like terms, privacy policies, and other
 standalone legal or informational text.
@@ -172,8 +200,9 @@ current UI does not render them yet:
 
 - `editUrl`
 - `head`
-- `hero`
 - `banner`
 
 These fields are safe to keep during migrations, but they should not be treated
-as active Lotus UI features until the theme starts consuming them.
+as active Lotus UI features until the theme starts consuming them. `head`
+entries are accepted by the content schema, but the current layout does not
+render them into the document head.

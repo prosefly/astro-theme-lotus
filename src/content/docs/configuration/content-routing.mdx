@@ -1,0 +1,120 @@
+---
+title: Content Routing
+description: Configure docsLoader, docsSchema, docsBase, slugs, and generated routes.
+sidebar:
+  order: 8
+---
+
+Lotus routes are built from two inputs:
+
+- The content collection entry IDs produced by `docsLoader`
+- The public route prefix configured with `docsBase`
+
+Understanding both pieces helps avoid broken sidebar items and unexpected URLs.
+
+## Default Collection
+
+The default loader reads MDX files from `src/content/docs`:
+
+```ts
+import { defineCollection } from 'astro:content';
+import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema(),
+});
+
+export const collections = { docs };
+```
+
+With this setup, `src/content/docs/installation.mdx` has the entry ID
+`installation`, and `src/content/docs/components/icon.mdx` has the entry ID
+`components/icon`.
+
+## Custom Loader Base
+
+Use `base` when the collection should include pages outside `src/content/docs`:
+
+```ts
+const docs = defineCollection({
+  loader: docsLoader({
+    base: './src/content',
+  }),
+  schema: docsSchema(),
+});
+```
+
+With this setup, `src/content/docs/installation.mdx` has the entry ID
+`docs/installation`, while `src/content/index.mdx` has the entry ID `index`.
+
+Sidebar string items and `autogenerate.directory` values must use these entry
+IDs.
+
+## Docs Base
+
+`docsBase` controls where Lotus injects the page, Markdown, and search routes.
+
+```ts
+export default defineLotusConfig({
+  docsBase: '/docs',
+});
+```
+
+With `docsBase: '/docs'` and the default loader:
+
+| Entry ID | Page URL | Markdown URL |
+| --- | --- | --- |
+| `index` | `/docs/` | `/docs/index.md` |
+| `installation` | `/docs/installation/` | `/docs/installation.md` |
+| `components/icon` | `/docs/components/icon/` | `/docs/components/icon.md` |
+
+With `docsBase: '/'` and `docsLoader({ base: './src/content' })`:
+
+| Entry ID | Page URL | Markdown URL |
+| --- | --- | --- |
+| `index` | `/` | `/index.md` |
+| `docs/installation` | `/docs/installation/` | `/docs/installation.md` |
+| `privacy` | `/privacy/` | `/privacy.md` |
+
+The search index follows the same base. It is `/docs/search.json` for
+`docsBase: '/docs'` and `/search.json` for `docsBase: '/'`.
+
+## Slug Overrides
+
+Use frontmatter `slug` when a page needs a public path that differs from its
+entry ID:
+
+```md
+---
+title: CLI Reference
+slug: reference/cli
+---
+```
+
+With `docsBase: '/docs'`, that page renders at `/docs/reference/cli/` and
+`/docs/reference/cli.md`.
+
+Slug overrides affect public URLs. Sidebar ownership still depends on entry IDs,
+so `sidebars` should reference the content entry, not the slug override.
+
+## Schema Extensions
+
+Use `docsSchema({ extend })` when a project needs additional frontmatter fields:
+
+```ts
+import { z } from 'astro/zod';
+
+const docs = defineCollection({
+  loader: docsLoader(),
+  schema: docsSchema({
+    extend: z.object({
+      product: z.string().optional(),
+    }),
+  }),
+});
+```
+
+The extension is merged into the base Lotus docs schema. Existing Lotus fields
+such as `title`, `sidebar`, `tableOfContents`, `template`, `pagefind`, and
+`draft` remain available.

@@ -42,9 +42,8 @@ export const collections = { docs };
 ```
 
 Create docs pages under `src/content/docs/`. Lotus injects the docs page route,
-the Markdown source route, and the search index route from
-`themeConfig.docsBase`, so `src/content/docs/index.mdx` renders at `/docs/`
-when `docsBase` is `/docs`.
+the Markdown source route, and the search index route from `docsBase`. With the
+default `docsBase: '/docs'`, `src/content/docs/index.mdx` renders at `/docs/`.
 
 ## Development
 
@@ -80,10 +79,10 @@ pnpm run build
 │           ├── routes/
 │           └── styles/
 ├── src/
+│   ├── components/
 │   ├── content/
 │   │   └── docs/
 │   ├── content.config.ts
-│   ├── pages/
 │   └── theme.config.ts
 └── package.json
 ```
@@ -107,7 +106,7 @@ Lotus accepts configuration through `lotus(themeConfig)`.
 - Dark mode foundation with light, dark, or system defaults.
 - Configurable navigation, header actions, social links, sidebars, and footer
   sections.
-- Configurable accent palette, gray palette, fonts, and corner radius.
+- Configurable accent palette, gray palette, font tokens, and corner radius.
 - Configurable docs route base path.
 - Component overrides for selected shell pieces such as search and theme mode
   controls.
@@ -116,10 +115,16 @@ Lotus accepts configuration through `lotus(themeConfig)`.
 
 ## Content structure
 
-Pages under `src/content/docs/` define the docs experience. The root index page
-renders at `/docs/`, and nested pages use `sidebar.order` or `order`
-frontmatter to control sorting. The `sidebars` config decides which top-level
-section owns each page and drives both the docs subnav and the section sidebar.
+Pages under `src/content/docs/` define the docs experience by default. The root
+index page renders at the configured `docsBase`, and nested pages use
+`sidebar.order` or `order` frontmatter to control sorting. The `sidebars` config
+decides which top-level section owns each page and drives both the docs subnav
+and the section sidebar.
+
+This repository's example site uses `docsLoader({ base: './src/content' })`
+with `docsBase: '/'`, so `src/content/index.mdx` renders at `/` and
+`src/content/docs/overview.mdx` renders at `/docs/overview/`.
+
 Frontmatter also controls table of contents behavior, previous/next links,
 search inclusion, draft filtering, and optional slug overrides.
 

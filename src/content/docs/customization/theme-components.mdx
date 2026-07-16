@@ -1,0 +1,110 @@
+---
+title: Theme Components
+description: Reuse public Lotus theme components inside local overrides.
+sidebar:
+  order: 10
+---
+
+Lotus exports composable theme components from
+`@prosefly/astro-theme-lotus/components`. Use them when an override should wrap
+or rearrange the default behavior instead of replacing it from scratch.
+
+## Public Exports
+
+| Export | Purpose |
+| --- | --- |
+| `AppearancePalette` | Complete appearance palette control. |
+| `AppearancePaletteContent` | Palette popover content without the trigger wrapper. |
+| `NavbarLinks` | Header navbar links and action buttons. |
+| `SocialIcons` | Social icon list. |
+| `PageActions` | Copy, Markdown, and assistant page actions. |
+| `PageHeader` | Page title area with description and actions. |
+| `PageNavigation` | Previous and next page links. |
+| `SearchDialog` | Complete search trigger and dialog. |
+| `SearchDialogContent` | Search dialog body and client behavior. |
+| `SearchDialogTrigger` | Search trigger buttons. |
+| `SiteBrand` | Logo and project name link. |
+| `ThemeModeButton` | Icon button for cycling or selecting theme mode. |
+| `ThemeModeSegmentedControl` | Segmented light, dark, and system control. |
+| `ThemeModeSelect` | Select control for theme mode. |
+| `ThemeModeSwitch` | Default header theme control. |
+
+These exports are package-level building blocks. The theme shell imports
+override points through internal virtual modules, so importing public components
+inside an override does not recursively import the override file.
+
+## Wrapping Search
+
+```astro
+---
+import { SearchDialog } from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-(--lotus-radius-md) border border-(--lotus-border-muted) p-1">
+  <SearchDialog />
+</div>
+```
+
+Use the smaller search components when the trigger and dialog content need to
+live in different places:
+
+```astro
+---
+import {
+  SearchDialogContent,
+  SearchDialogTrigger,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<SearchDialogTrigger />
+<SearchDialogContent />
+```
+
+## Wrapping Page Actions
+
+```astro
+---
+import { PageActions } from '@prosefly/astro-theme-lotus/components';
+---
+
+<div class="rounded-(--lotus-radius-md) bg-(--lotus-surface) p-1">
+  <PageActions {...Astro.props} />
+</div>
+```
+
+Use this pattern when a project wants a different container or placement while
+keeping the default copy, Markdown, ChatGPT, and Claude behavior.
+
+## Reusing Theme Mode Controls
+
+```astro
+---
+import {
+  ThemeModeButton,
+  ThemeModeSegmentedControl,
+  ThemeModeSelect,
+  ThemeModeSwitch,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<ThemeModeSwitch />
+```
+
+All theme mode controls use the same `lotus-theme` local storage key and update
+the document `data-theme` attribute.
+
+## Pair With Overrides
+
+Use the `components` configuration to replace shell-owned slots:
+
+```ts
+export default defineLotusConfig({
+  components: {
+    PageActions: './src/components/PageActions.astro',
+    SearchDialog: './src/components/SearchDialog.astro',
+  },
+});
+```
+
+See [Overriding Components](/docs/customization/overriding-components/) for the
+complete override list and path resolution rules.

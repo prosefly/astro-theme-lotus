@@ -1,7 +1,7 @@
 import type { LotusThemeConfig } from '@prosefly/astro-theme-lotus';
 
 const themeConfig = {
-  name: 'Astro Theme Lotus',
+  name: 'Lotus',
   description: 'A documentation theme for Astro.',
   logo: '/logo.svg',
   favicon: '/favicon.svg',

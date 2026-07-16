@@ -1,0 +1,94 @@
+---
+title: Search
+description: Use the built-in search dialog and generated search index.
+sidebar:
+  order: 6
+---
+
+Lotus includes a client-side search dialog and a generated JSON index. The
+integration injects the search route beside the docs routes.
+
+With the default `docsBase: '/docs'`, the search index is available at
+`/docs/search.json`. When `docsBase` is `/`, the index is available at
+`/search.json`.
+
+## Search Dialog
+
+The default header includes a search trigger. Opening it loads the generated
+index on demand and searches page title, description, section, sidebar group,
+excerpt, and stripped page content.
+
+Results are scored locally in the browser. The highest-scoring results appear
+first, with keyboard support for moving through results and opening the active
+result.
+
+## Search Index
+
+Each indexed item includes:
+
+| Field | Source |
+| --- | --- |
+| `title` | Page frontmatter title |
+| `description` | Page frontmatter description |
+| `href` | Generated docs URL |
+| `slug` | Entry slug or slug override |
+| `section` | Owning top-level sidebar label |
+| `group` | Owning sidebar group label |
+| `excerpt` | Short text excerpt from the page body |
+| `content` | Searchable text extracted from MDX |
+
+The index strips code fences, imports, exports, MDX tags, image syntax, and
+most Markdown punctuation before storing searchable content.
+
+## Excluding Pages
+
+Use `pagefind: false` to exclude a page from the search index:
+
+```md
+---
+title: Internal Notes
+pagefind: false
+---
+```
+
+The field name is kept for Starlight compatibility. In Lotus it controls the
+built-in `search.json` output.
+
+Draft pages are also excluded from production search results because
+`draft: true` excludes them from production builds.
+
+## Custom Search UI
+
+Override `SearchDialog` when the default trigger or dialog needs project
+specific behavior:
+
+```ts
+export default defineLotusConfig({
+  components: {
+    SearchDialog: './src/components/SearchDialog.astro',
+  },
+});
+```
+
+The theme package also exports smaller building blocks:
+
+```astro
+---
+import {
+  SearchDialogContent,
+  SearchDialogTrigger,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<SearchDialogTrigger />
+<SearchDialogContent />
+```
+
+The built-in content component reads the current `docsBase` and fetches the
+matching search index automatically.
+
+## Limits
+
+Lotus search is intentionally lightweight. It does not provide stemming,
+language-aware tokenization, typo correction, or server-side ranking. Use a
+dedicated search service when a large documentation site needs those features.

@@ -1,12 +1,12 @@
 ---
 title: Integrations
-description: Configure Iconify preloading, Expressive Code, package manager tabs, and component overrides.
+description: Configure Iconify preloading, Expressive Code, and package manager tabs.
 sidebar:
   order: 7
 ---
 
-Lotus includes integrations for icons, syntax highlighting, package-manager
-command tabs, and overrideable theme components.
+Lotus includes integrations for icons, syntax highlighting, image galleries,
+and package-manager command tabs.
 
 ## Iconify
 
@@ -60,30 +60,15 @@ packageManagerTabs: false
 Set `packageManagerTabs` to `false` to keep package-manager commands as normal
 code blocks.
 
+## Image Galleries
+
+Lotus also installs the Prosefly image gallery rehype plugin. Paragraphs that
+contain only Markdown images are transformed into responsive gallery figures.
+
+See [Images](/docs/essentials/images/) for authoring details.
+
 ## Component Overrides
 
-Use `components` to replace selected Lotus theme components.
-
-```ts
-components: {
-  HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
-  SearchDialog: './src/components/SearchDialog.astro',
-  ThemeSwitch: './src/components/ThemeSwitch.astro',
-}
-```
-
-Overrideable component names:
-
-| Name | Area |
-| --- | --- |
-| `HeaderNavbar` | Header navbar links and action buttons |
-| `HeaderSocialIcons` | Header social links and theme controls area |
-| `PageActions` | Page action control near the title |
-| `PageHeader` | Page title, description, section label, and page actions placement |
-| `PageNavigation` | Previous and next links at the bottom of a page |
-| `SearchDialog` | Search trigger and dialog composition |
-| `SiteBrand` | Header and footer brand rendering |
-| `ThemeSwitch` | Theme mode control |
-
-Theme components exported from `@prosefly/astro-theme-lotus/components` can be
-used inside overrides.
+Use `components` to replace selected Lotus theme components. See
+[Overriding Components](/docs/customization/overriding-components/) for the
+complete override surface and examples.
