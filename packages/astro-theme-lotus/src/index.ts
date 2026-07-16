@@ -1,11 +1,14 @@
 import mdx from '@astrojs/mdx';
 import proseflyIcons from '@prosefly/astro-components/icons';
 import tailwindcss from '@tailwindcss/vite';
+import astroExpressiveCode from 'astro-expressive-code';
 import type { AstroIntegration } from 'astro';
 import {
   defineLotusConfig,
   lotusConfigPlugin,
+  resolveExpressiveCodeOptions,
   resolveLotusConfig,
+  resolveMarkdownConfig,
   type LotusIntegrationOptions,
 } from './lib/config';
 import { getAstroFontConfigs } from './lib/fonts';
@@ -15,6 +18,7 @@ import { normalizeDocsBasePath } from './lib/theme';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
+  const expressiveCodeOptions = resolveExpressiveCodeOptions(options.expressiveCode);
   const docsBasePath = normalizeDocsBasePath(config.docsBase);
   const docsPattern =
     docsBasePath === '/'
@@ -49,14 +53,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         const lotusFonts = getAstroFontConfigs(config);
 
         updateConfig({
-          markdown: {
-            shikiConfig: {
-              themes: {
-                light: 'github-light',
-                dark: 'github-dark',
-              },
-            },
-          },
+          markdown: resolveMarkdownConfig(options, astroConfig.markdown),
           fonts: lotusFonts.length > 0
             ? [
                 ...(astroConfig.fonts ?? []),
@@ -64,6 +61,9 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               ]
             : astroConfig.fonts,
           integrations: [
+            ...(expressiveCodeOptions === false
+              ? []
+              : [astroExpressiveCode(expressiveCodeOptions)]),
             mdx(),
             proseflyIcons({
               apiBase: config.iconify?.apiBase,

@@ -13,8 +13,16 @@ const layoutIconNames = [
   'lucide:moon',
   'lucide:sun',
   'lucide:x',
+  'simple-icons:bun',
   'simple-icons:claude',
+  'simple-icons:npm',
   'simple-icons:openai',
+  'simple-icons:pdm',
+  'simple-icons:poetry',
+  'simple-icons:pnpm',
+  'simple-icons:pypi',
+  'simple-icons:uv',
+  'simple-icons:yarn',
 ] as const;
 
 export function getIconPreloadNames(config: LotusThemeConfig): string[] {

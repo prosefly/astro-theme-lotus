@@ -104,57 +104,57 @@ const copySourceJson = JSON.stringify(markdown).replace(/</g, '\\u003c');
     <script is:inline type="application/json" data-lotus-page-copy-source set:html={copySourceJson}></script>
     {primaryAction.isCopy ? (
       <button
-        class="lotus-focus-ring inline-flex h-9 items-center gap-2 rounded-l-(--lotus-radius-md) px-3 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
         data-lotus-copy-page
         type="button"
       >
-        <Icon aria-hidden="true" class="h-4 w-4" name={primaryAction.icon} />
+        <Icon aria-hidden="true" class="h-3.5 w-3.5" name={primaryAction.icon} />
         <span data-lotus-copy-label>{primaryAction.label}</span>
       </button>
     ) : (
       <a
-        class="lotus-focus-ring inline-flex h-9 items-center gap-2 rounded-l-(--lotus-radius-md) px-3 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
         href={primaryAction.href}
         rel={primaryAction.external ? 'noreferrer' : undefined}
         target={primaryAction.external ? '_blank' : undefined}
       >
-        <Icon aria-hidden="true" class="h-4 w-4" name={primaryAction.icon} />
+        <Icon aria-hidden="true" class="h-3.5 w-3.5" name={primaryAction.icon} />
         <span>{primaryAction.label}</span>
       </a>
     )}
     <Dropdown
       class="static"
       contentClass="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-(--lotus-radius-lg) border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:left-auto sm:right-0 sm:w-56"
-      triggerClass="lotus-focus-ring flex h-9 w-9 cursor-pointer items-center justify-center rounded-r-(--lotus-radius-md) border-l lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+      triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-r-(--lotus-radius-md) border-l lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       triggerLabel="Show page actions"
     >
       <Fragment slot="trigger">
         <Icon
           aria-hidden="true"
-          class="h-4 w-4 transition-transform group-open/dropdown:rotate-180"
+          class="h-3.5 w-3.5 transition-transform group-open/dropdown:rotate-180"
           name="lucide:chevron-down"
         />
       </Fragment>
       {resolvedActions.map((action) => (
         action.isCopy ? (
           <button
-            class="lotus-focus-ring flex w-full items-center gap-2 rounded-(--lotus-radius-md) px-3 py-2 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
             data-lotus-copy-page
             data-lotus-dropdown-close
             type="button"
           >
-            <Icon aria-hidden="true" class="h-4 w-4 text-(--lotus-text-muted)" name={action.icon} />
+            <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
             <span data-lotus-copy-label>{action.label}</span>
           </button>
         ) : (
           <a
-            class="lotus-focus-ring flex items-center gap-2 rounded-(--lotus-radius-md) px-3 py-2 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            class="lotus-focus-ring flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
             data-lotus-dropdown-close
             href={action.href}
             rel={action.external ? 'noreferrer' : undefined}
             target={action.external ? '_blank' : undefined}
           >
-            <Icon aria-hidden="true" class="h-4 w-4 text-(--lotus-text-muted)" name={action.icon} />
+            <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
             <span>{action.label}</span>
           </a>
         )

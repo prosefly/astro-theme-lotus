@@ -97,6 +97,9 @@
   --pl-text-muted: var(--lotus-text-muted);
   --pl-background: var(--lotus-background);
   --pl-surface: var(--lotus-surface);
+  --pl-border-muted: var(--lotus-border-muted);
+  --pl-border-subtle: var(--lotus-border-subtle);
+  --pl-border-hover: var(--lotus-border-hover);
   --pl-accent: var(--lotus-accent);
   --pl-accent-soft: var(--lotus-accent-soft);
   --pl-accent-contrast: var(--lotus-accent-contrast);
