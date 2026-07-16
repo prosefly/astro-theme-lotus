@@ -2,6 +2,7 @@
 import Dropdown from '../ui/Dropdown.astro';
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
 import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
+import LanguageSelect from '../theme/LanguageSelect.astro';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 
 interface Props {
@@ -26,6 +27,7 @@ const { currentPath } = Astro.props;
     <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
       <div class="flex items-center gap-1">
         <HeaderSocialIcons mobile />
+        <LanguageSelect />
       </div>
       <ThemeSwitch />
     </div>

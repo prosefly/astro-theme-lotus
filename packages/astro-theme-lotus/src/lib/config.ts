@@ -31,6 +31,8 @@ export interface LotusIntegrationOptions {
   pageActions?: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase?: string;
+  defaultLocale?: LotusThemeConfig['defaultLocale'];
+  locales?: LotusThemeConfig['locales'];
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   expressiveCode?: false | AstroExpressiveCodeOptions;
   packageManagerTabs?: false;
@@ -62,6 +64,8 @@ const defaultConfig: LotusThemeConfig = {
   ],
   components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
+  defaultLocale: undefined,
+  locales: undefined,
   iconify: {
     apiBase: 'https://api.iconify.design',
     preload: [],

@@ -28,13 +28,33 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
-With this setup, `src/content/docs/installation.mdx` has the entry ID
+Without i18n, `src/content/docs/installation.mdx` has the entry ID
 `installation`, and `src/content/docs/components/icon.mdx` has the entry ID
 `components/icon`.
 
+With i18n, pages live inside locale directories but sidebar slugs remain
+locale-neutral:
+
+```txt
+src/content/docs/
+  en/
+    index.mdx
+    overview.mdx
+    components/
+      icon.mdx
+  zh-cn/
+    index.mdx
+    overview.mdx
+```
+
+With `docsLoader({ base: './src/content' })` and `root.directory: 'docs/en'`,
+`docs/en/overview.mdx` resolves to the content slug `overview` and renders
+without an `/en/` URL prefix.
+
 ## Custom Loader Base
 
-Use `base` when the collection should include pages outside `src/content/docs`:
+Most projects should keep `docsLoader()` on its default base. Use `base` only
+when you intentionally want content IDs to include another directory level:
 
 ```ts
 const docs = defineCollection({
@@ -48,8 +68,9 @@ const docs = defineCollection({
 With this setup, `src/content/docs/installation.mdx` has the entry ID
 `docs/installation`, while `src/content/index.mdx` has the entry ID `index`.
 
-Sidebar string items and `autogenerate.directory` values must use these entry
-IDs.
+Sidebar string items and `autogenerate.directory` values must use the resulting
+entry IDs. In i18n projects, keeping the default `src/content/docs` base is the
+simplest option.
 
 ## Docs Base
 
@@ -69,13 +90,13 @@ With `docsBase: '/docs'` and the default loader:
 | `installation` | `/docs/installation/` | `/docs/installation.md` |
 | `components/icon` | `/docs/components/icon/` | `/docs/components/icon.md` |
 
-With `docsBase: '/'` and `docsLoader({ base: './src/content' })`:
+With i18n and `root.directory: 'docs/en'`:
 
-| Entry ID | Page URL | Markdown URL |
+| File | Page URL | Markdown URL |
 | --- | --- | --- |
-| `index` | `/` | `/index.md` |
-| `docs/installation` | `/docs/installation/` | `/docs/installation.md` |
-| `privacy` | `/privacy/` | `/privacy.md` |
+| `en/index.mdx` | `/docs/` | `/docs/index.md` |
+| `en/overview.mdx` | `/docs/overview/` | `/docs/overview.md` |
+| `zh-cn/overview.mdx` | `/docs/zh-cn/overview/` | `/docs/zh-cn/overview.md` |
 
 The search index follows the same base. It is `/docs/search.json` for
 `docsBase: '/docs'` and `/search.json` for `docsBase: '/'`.

@@ -32,6 +32,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
     docsBasePath === '/'
       ? '/search.json'
       : `${docsBasePath}/search.json`;
+  const localizedSearchPattern =
+    docsBasePath === '/'
+      ? '/[locale]/search.json'
+      : `${docsBasePath}/[locale]/search.json`;
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -51,6 +55,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         });
         injectRoute({
           pattern: searchPattern,
+          entrypoint: new URL('./routes/search.json.ts', import.meta.url),
+        });
+        injectRoute({
+          pattern: localizedSearchPattern,
           entrypoint: new URL('./routes/search.json.ts', import.meta.url),
         });
 
@@ -87,6 +95,7 @@ export type {
 export type {
   AccentScale,
   FooterSection,
+  LocaleConfig,
   LotusThemeConfig,
   OverrideComponentName,
   OverrideComponentsConfig,

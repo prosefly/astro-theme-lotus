@@ -4,6 +4,7 @@ import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
 import Button from '../components/ui/Button.astro';
 import { resolveIconName } from '../lib/icons';
+import type { NormalizedLocale } from '../lib/i18n';
 
 interface HeroAction {
   text: string;
@@ -24,6 +25,7 @@ interface HeroImage {
 interface Props {
   title: string;
   description?: string;
+  locale?: NormalizedLocale;
   hero?: {
     title?: string;
     tagline?: string;
@@ -32,7 +34,7 @@ interface Props {
   };
 }
 
-const { title, description, hero } = Astro.props;
+const { title, description, hero, locale } = Astro.props;
 const heroTitle = hero?.title ?? title;
 const heroTagline = hero?.tagline ?? description;
 const actions = hero?.actions ?? [];
@@ -54,7 +56,7 @@ function getButtonColor(action: HeroAction): 'neutral' | 'accent' {
 }
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} locale={locale}>
   <MainHeader surface />
 
   <main>

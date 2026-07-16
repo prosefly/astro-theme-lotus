@@ -7,6 +7,8 @@ const layoutIconNames = [
   'lucide:chevron-right',
   'lucide:copy',
   'lucide:file-text',
+  'lucide:check',
+  'lucide:languages',
   'lucide:menu',
   'lucide:monitor',
   'lucide:moon',

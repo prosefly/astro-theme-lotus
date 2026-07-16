@@ -1,10 +1,15 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocalizedSearchHref, getLocaleFromRouteSlug } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const searchIndexHref = docsBasePath === '/' ? '/search.json' : `${docsBasePath}/search.json`;
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
 ---
 
 <dialog

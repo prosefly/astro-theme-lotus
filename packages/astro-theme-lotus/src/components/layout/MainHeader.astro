@@ -1,6 +1,7 @@
 ---
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
 import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
+import LanguageSelect from '../theme/LanguageSelect.astro';
 import MobileMenu from './MobileMenu.astro';
 import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
@@ -31,6 +32,7 @@ const { currentPath, surface = true } = Astro.props;
       <div class="flex items-center gap-2">
         <div class="lotus-border-subtle h-5 border-l"></div>
         <HeaderSocialIcons />
+        <LanguageSelect />
         <ThemeSwitch />
       </div>
     </div>

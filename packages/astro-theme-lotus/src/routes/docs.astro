@@ -13,6 +13,9 @@ import {
   getSidebarPagination,
   getSidebarSectionTitle,
 } from '../lib/docs';
+import { getLocales, getRouteSlugForLocalizedSlug } from '../lib/i18n';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../lib/theme';
 
 function getTableOfContentsHeadings(
   headings: MarkdownHeading[],
@@ -34,15 +37,33 @@ function getTableOfContentsHeadings(
 }
 
 export async function getStaticPaths() {
-  const entries = await getDocsEntries();
+  const locales = getLocales(rawThemeConfig as LotusThemeConfig);
+  const paths = await Promise.all(locales.map(async (currentLocale) => {
+    const localeEntries = await getDocsEntries(currentLocale.key);
 
-  return entries.map((entry) => ({
-    params: { slug: getEntrySlug(entry) === 'index' ? undefined : getEntrySlug(entry) },
-    props: { entry, currentSection: getEntrySection(entry, entries) },
+    return localeEntries.map((entry) => {
+      const entrySlug = getEntrySlug(entry);
+
+      return {
+        params: {
+          slug: getRouteSlugForLocalizedSlug({
+            locale: currentLocale,
+            slug: entrySlug,
+          }),
+        },
+        props: {
+          entry,
+          currentLocale,
+          currentSection: getEntrySection(entry, localeEntries, currentLocale.key),
+        },
+      };
+    });
   }));
+
+  return paths.flat();
 }
 
-const { entry, currentSection } = Astro.props;
+const { entry, currentLocale, currentSection } = Astro.props;
 const { Content, headings } = await render(entry);
 const tocHeadings = getTableOfContentsHeadings(
   headings as MarkdownHeading[],
@@ -50,26 +71,27 @@ const tocHeadings = getTableOfContentsHeadings(
 );
 const isTextTemplate = entry.data.template === 'text';
 const isSplashTemplate = entry.data.template === 'splash';
-const subnav = await getDocsNavigation(currentSection);
-const sidebar = await getSidebarNavigation(currentSection);
+const subnav = await getDocsNavigation(currentSection, currentLocale.key);
+const sidebar = await getSidebarNavigation(currentSection, currentLocale.key);
 const sidebars = Object.fromEntries(
   await Promise.all(
-    subnav.map(async (section) => [section.slug, await getSidebarNavigation(section.slug)]),
+    subnav.map(async (section) => [section.slug, await getSidebarNavigation(section.slug, currentLocale.key)]),
   ),
 );
-const sectionTitle = getSidebarSectionTitle(sidebar, entry.id);
-const pageNavigation = getSidebarPagination(sidebar, entry.id, {
+const entrySlug = getEntrySlug(entry);
+const sectionTitle = getSidebarSectionTitle(sidebar, entrySlug);
+const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
   previous: entry.data.prev,
   next: entry.data.next,
 });
 ---
 
 {isSplashTemplate ? (
-  <SplashLayout title={entry.data.title} description={entry.data.description} hero={entry.data.hero}>
+  <SplashLayout title={entry.data.title} description={entry.data.description} hero={entry.data.hero} locale={currentLocale}>
     <Content />
   </SplashLayout>
 ) : isTextTemplate ? (
-  <TextLayout title={entry.data.title} description={entry.data.description}>
+  <TextLayout title={entry.data.title} description={entry.data.description} locale={currentLocale}>
     <Content />
   </TextLayout>
 ) : (
@@ -77,7 +99,8 @@ const pageNavigation = getSidebarPagination(sidebar, entry.id, {
     title={entry.data.title}
     description={entry.data.description}
     sectionTitle={sectionTitle}
-    currentSlug={getEntrySlug(entry)}
+    currentLocale={currentLocale}
+    currentSlug={entrySlug}
     lastUpdated={entry.data.lastUpdated}
     pageNavigation={pageNavigation}
     subnav={subnav}

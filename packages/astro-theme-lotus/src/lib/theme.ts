@@ -11,6 +11,7 @@ export interface ThemeLink {
   label: string;
   href: string;
   external?: boolean;
+  translations?: Record<string, string>;
 }
 
 export type ThemeNavbarVariant = 'soft' | 'outline' | 'solid';
@@ -33,12 +34,14 @@ export interface SidebarLinkItem {
   link: string;
   external?: boolean;
   icon?: string;
+  translations?: Record<string, string>;
 }
 
 export interface SidebarGroupItem {
   label: string;
   icon?: string;
   collapsed?: boolean;
+  translations?: Record<string, string>;
   items: SidebarItemConfig[];
 }
 
@@ -58,6 +61,7 @@ export interface SidebarConfig {
   slug?: string;
   label: string;
   icon?: string;
+  translations?: Record<string, string>;
   items: SidebarItemConfig[];
 }
 
@@ -111,6 +115,13 @@ export interface ThemeFaviconLink {
 
 export type ThemeFavicon = string | ThemeFaviconLink | ThemeFaviconLink[];
 
+export interface LocaleConfig {
+  label: string;
+  lang?: string;
+  dir?: 'ltr' | 'rtl';
+  directory?: string;
+}
+
 export interface LotusThemeConfig {
   name: string;
   description: string;
@@ -128,6 +139,8 @@ export interface LotusThemeConfig {
   pageActions: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase: string;
+  defaultLocale?: string;
+  locales?: Record<string, LocaleConfig>;
   iconify?: {
     apiBase?: string;
     preload?: string[];

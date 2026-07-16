@@ -1,0 +1,78 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import {
+  getLocalizedHref,
+  getLocaleFromRouteSlug,
+  getLocales,
+  type NormalizedLocale,
+} from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const locales = getLocales(themeConfig);
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const pathname = Astro.url.pathname;
+const docsRootPath = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+const isDocsPath = docsBasePath === '/'
+  ? true
+  : pathname === docsBasePath || pathname.startsWith(docsRootPath);
+const routePath = docsBasePath === '/'
+  ? pathname
+  : pathname.slice(docsBasePath.length);
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routePath);
+
+function getCurrentSlug(locale: NormalizedLocale): string {
+  const normalizedRoutePath = routePath.replace(/^\/+|\/+$/g, '');
+
+  if (!normalizedRoutePath) {
+    return 'index';
+  }
+
+  if (locale.pathPrefix && normalizedRoutePath === locale.pathPrefix) {
+    return 'index';
+  }
+
+  if (locale.pathPrefix && normalizedRoutePath.startsWith(`${locale.pathPrefix}/`)) {
+    return normalizedRoutePath.slice(locale.pathPrefix.length + 1) || 'index';
+  }
+
+  return normalizedRoutePath;
+}
+
+const currentSlug = getCurrentSlug(currentLocale);
+---
+
+{isDocsPath && locales.length > 1 && (
+  <details class="group/lotus-language relative">
+    <summary
+      aria-label="Select language"
+      class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center gap-1.5 rounded-(--lotus-radius-md) px-2 text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) marker:hidden"
+    >
+      <Icon aria-hidden="true" class="h-4 w-4" name="lucide:languages" />
+      <span class="hidden text-sm font-medium xl:inline">{currentLocale.label}</span>
+      <Icon
+        aria-hidden="true"
+        class="h-3.5 w-3.5 transition-transform group-open/lotus-language:rotate-180"
+        name="lucide:chevron-down"
+      />
+    </summary>
+    <div class="lotus-border-muted absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-40 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-1 shadow-lg shadow-black/5">
+      {locales.map((locale) => {
+        const active = locale.key === currentLocale.key;
+
+        return (
+          <a
+            aria-current={active ? 'page' : undefined}
+            class="lotus-focus-ring flex items-center gap-2 rounded-[min(var(--lotus-radius-md),0.5rem)] px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            href={getLocalizedHref(themeConfig, currentSlug, locale.key)}
+            hreflang={locale.lang}
+          >
+            <span class="min-w-0 flex-1 truncate">{locale.label}</span>
+            {active && <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-accent)" name="lucide:check" />}
+          </a>
+        );
+      })}
+    </div>
+  </details>
+)}

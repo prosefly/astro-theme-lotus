@@ -16,6 +16,11 @@ export default {
   logo: '/logo.svg',
   favicon: '/favicon.svg',
   docsBase: '/docs',
+  defaultLocale: 'root',
+  locales: {
+    root: { label: 'English', lang: 'en', directory: 'docs/en' },
+    'zh-cn': { label: '简体中文', lang: 'zh-CN' },
+  },
 }
 ```
 
@@ -100,3 +105,28 @@ Examples:
 
 Set `docsBase` to `/guide`, `/manual`, or `/` when docs should live somewhere
 else.
+
+## Locales
+
+Use `locales` to enable internationalized docs. Locale keys control URL
+prefixes. The special `root` locale renders without a locale prefix.
+
+```ts
+defaultLocale: 'root',
+locales: {
+  root: {
+    label: 'English',
+    lang: 'en',
+    directory: 'docs/en',
+  },
+  'zh-cn': {
+    label: '简体中文',
+    lang: 'zh-CN',
+  },
+}
+```
+
+With `docsLoader({ base: './src/content' })`, this config makes English files
+live in `src/content/docs/en/` while rendering at `/docs/overview/`.
+Simplified Chinese files live in `src/content/docs/zh-cn/` and render at
+`/docs/zh-cn/overview/`.

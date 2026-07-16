@@ -3,16 +3,18 @@ import '../styles/app.css';
 import { getThemeAttributes } from '../lib/appearance';
 import { stringifyJsonLd, type JsonLdNode } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getDefaultLocale, type NormalizedLocale } from '../lib/i18n';
 import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
   title?: string;
   description?: string;
   jsonLd?: JsonLdNode | JsonLdNode[];
+  locale?: NormalizedLocale;
 }
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const { title, description = themeConfig.description, jsonLd } = Astro.props;
+const { title, description = themeConfig.description, jsonLd, locale = getDefaultLocale(themeConfig) } = Astro.props;
 const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.name}`
@@ -57,7 +59,7 @@ function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
 }
 ---
 
-<html lang="en" {...themeAttrs}>
+<html dir={locale.dir} lang={locale.lang} {...themeAttrs}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

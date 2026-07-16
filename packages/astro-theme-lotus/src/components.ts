@@ -1,5 +1,6 @@
 export { default as AppearancePalette } from './components/theme/AppearancePalette.astro';
 export { default as AppearancePaletteContent } from './components/theme/AppearancePaletteContent.astro';
+export { default as LanguageSelect } from './components/theme/LanguageSelect.astro';
 export { default as NavbarLinks } from './components/theme/NavbarLinks.astro';
 export { default as SocialIcons } from './components/theme/SocialIcons.astro';
 export { default as PageActions } from './components/theme/PageActions.astro';

@@ -1,9 +1,16 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import SiteBrand from './SiteBrand.astro';
+import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
+import { normalizeDocsBasePath } from '../../lib/theme';
 import type { LotusThemeConfig } from '../../lib/theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
 ---
 
 <footer class="lotus-border-subtle border-t bg-(--lotus-background)">
@@ -28,11 +35,11 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
                   <li>
                     <a
                       class="lotus-focus-ring inline-flex items-center gap-1 text-sm font-medium text-(--lotus-text) transition-colors hover:text-(--lotus-accent)"
-                      href={link.href}
+                      href={isExternal ? link.href : localizeDocsHref(themeConfig, link.href, currentLocale.key)}
                       rel={isExternal ? 'noreferrer' : undefined}
                       target={isExternal ? '_blank' : undefined}
                     >
-                      <span>{link.label}</span>
+                      <span>{translateLabel(link.label, link.translations, currentLocale.key)}</span>
                       {isExternal && (
                         <svg
                           aria-hidden="true"

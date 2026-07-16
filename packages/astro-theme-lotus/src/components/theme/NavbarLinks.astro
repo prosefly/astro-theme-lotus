@@ -3,6 +3,7 @@ import { Icon } from '@prosefly/astro-components';
 import Button from '../ui/Button.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { resolveIconName } from '../../lib/icons';
+import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
@@ -15,6 +16,12 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
 const navbar = themeConfig.navbar ?? [];
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+const routeSlug = currentPath
+  ? docsBasePath === '/'
+    ? currentPath
+    : currentPath.replace(new RegExp(`^${docsBasePath}`), '')
+  : Astro.url.pathname;
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
 
 function normalizeHref(href: string): string {
   return href.endsWith('/') ? href : `${href}/`;
@@ -50,11 +57,11 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
         color={item.color ?? 'neutral'}
         data-lotus-dropdown-close={mobile ? true : undefined}
         external={item.external}
-        href={item.href}
+        href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
         trailingIcon={item.trailingIcon}
         variant={item.variant}
       >
-        {item.label}
+        {translateLabel(item.label, item.translations, currentLocale.key)}
       </Button>
     ) : (
       <a
@@ -64,13 +71,13 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
             ? 'flex rounded-(--lotus-radius-md) px-3 py-2'
             : 'inline-flex',
         ]}
-        aria-current={isActive(item.href) ? 'page' : undefined}
+        aria-current={isActive(item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)) ? 'page' : undefined}
         data-lotus-dropdown-close={mobile ? true : undefined}
-        href={item.href}
+        href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
         rel={item.external ? 'noreferrer' : undefined}
         target={item.external ? '_blank' : undefined}
       >
-        <span>{item.label}</span>
+        <span>{translateLabel(item.label, item.translations, currentLocale.key)}</span>
         {item.trailingIcon && (
           <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
         )}

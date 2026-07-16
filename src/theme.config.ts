@@ -51,7 +51,20 @@ const themeConfig = {
   components: {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
-  docsBase: '/',
+  docsBase: '/docs',
+  defaultLocale: 'root',
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      directory: 'docs/en',
+    },
+    'zh-cn': {
+      label: '简体中文',
+      lang: 'zh-CN',
+      directory: 'docs/zh-cn',
+    },
+  },
   sidebars: [
     {
       slug: 'guide',
@@ -78,34 +91,34 @@ const themeConfig = {
         {
           label: 'Getting Started',
           items: [
-            'docs/overview',
-            'docs/installation',
+            'overview',
+            'installation',
             {
               label: 'Configuration',
-              items: [{ autogenerate: { directory: 'docs/configuration' } }],
+              items: [{ autogenerate: { directory: 'configuration' } }],
             },
-            'docs/deployment',
+            'deployment',
           ],
         },
         {
           label: 'Essentials',
-          items: [{ autogenerate: { directory: 'docs/essentials' } }],
+          items: [{ autogenerate: { directory: 'essentials' } }],
         },
         {
           label: 'Customization',
-          items: [{ autogenerate: { directory: 'docs/customization' } }],
+          items: [{ autogenerate: { directory: 'customization' } }],
         },
       ],
     },
     {
       label: 'Components',
       icon: 'lucide:blocks',
-      items: [{ autogenerate: { directory: 'docs/components' } }],
+      items: [{ autogenerate: { directory: 'components' } }],
     },
     {
       label: 'References',
       icon: 'lucide:book-open',
-      items: [{ autogenerate: { directory: 'docs/references' } }],
+      items: [{ autogenerate: { directory: 'references' } }],
     },
   ],
   footer: {
@@ -144,8 +157,8 @@ const themeConfig = {
       {
         title: 'Project',
         links: [
-          { label: 'Privacy', href: '/privacy/' },
-          { label: 'Terms', href: '/terms/' },
+          { label: 'Privacy', href: '/docs/privacy/' },
+          { label: 'Terms', href: '/docs/terms/' },
           {
             label: 'GitHub',
             href: 'https://github.com/prosefly/astro-theme-lotus',

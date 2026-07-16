@@ -8,10 +8,10 @@ import TableOfContents from '../components/layout/TableOfContents.astro';
 import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
-import { getPageMarkdownHref } from '../lib/page-actions';
+import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } from '../lib/i18n';
 import { createDocsJsonLd } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface Heading {
   depth: number;
@@ -23,6 +23,7 @@ interface Props {
   title: string;
   description?: string;
   sectionTitle?: string;
+  currentLocale: NormalizedLocale;
   currentSlug?: string;
   pageNavigation?: DocsPaginationNav;
   lastUpdated?: Date | boolean;
@@ -36,6 +37,7 @@ const {
   title,
   description,
   sectionTitle,
+  currentLocale,
   currentSlug,
   pageNavigation = {},
   lastUpdated,
@@ -45,15 +47,9 @@ const {
   headings,
 } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
-const currentPath =
-  currentSlug && currentSlug !== 'index'
-    ? docsBasePath === '/'
-      ? `/${currentSlug}/`
-      : `${docsBasePath}/${currentSlug}/`
-    : docsRootHref;
-const markdownHref = getPageMarkdownHref(currentSlug, docsBasePath);
+const docsRootHref = getLocalizedHref(themeConfig, 'index', currentLocale.key);
+const currentPath = getLocalizedHref(themeConfig, currentSlug, currentLocale.key);
+const markdownHref = getLocalizedMarkdownHref(themeConfig, currentSlug, currentLocale.key);
 const baseUrl = Astro.site ?? Astro.url;
 const pageUrl = new URL(currentPath, baseUrl).toString();
 const markdownUrl = new URL(markdownHref, baseUrl).toString();
@@ -78,7 +74,7 @@ function addBreadcrumb(label: string | undefined, href: string | undefined) {
 
 addBreadcrumb(themeConfig.name, '/');
 
-if (docsBasePath !== '/') {
+if (themeConfig.docsBase !== '/') {
   addBreadcrumb('Docs', docsRootHref);
 }
 
@@ -98,7 +94,7 @@ const jsonLd = createDocsJsonLd({
 });
 ---
 
-<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
     headings={headings}
