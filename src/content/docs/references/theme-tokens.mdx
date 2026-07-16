@@ -1,0 +1,227 @@
+---
+title: Theme Tokens
+description: Reference the CSS tokens exposed by Lotus and Prosefly components.
+sidebar:
+  order: 2
+---
+
+Lotus exposes CSS tokens for theme colors, typography, shape, layout, prose, and
+the Prosefly component bridge. Use these tokens when a project needs deeper
+styling control than `appearance` provides.
+
+## Color Palettes
+
+Tailwind colors are exposed through `@theme static` aliases so they are
+available even when no utility class references them directly.
+
+| Token pattern | Purpose |
+| --- | --- |
+| `--lotus-color-slate-50` ... `--lotus-color-slate-950` | Slate neutral palette. |
+| `--lotus-color-zinc-50` ... `--lotus-color-zinc-950` | Zinc neutral palette. |
+| `--lotus-color-neutral-50` ... `--lotus-color-neutral-950` | Neutral palette. |
+| `--lotus-color-stone-50` ... `--lotus-color-stone-950` | Stone neutral palette. |
+| `--lotus-color-red-400`, `--lotus-color-red-600` | Red accent steps. |
+| `--lotus-color-orange-400`, `--lotus-color-orange-600` | Orange accent steps. |
+| `--lotus-color-amber-400`, `--lotus-color-amber-600` | Amber accent steps. |
+| `--lotus-color-yellow-400`, `--lotus-color-yellow-600` | Yellow accent steps. |
+| `--lotus-color-lime-400`, `--lotus-color-lime-600` | Lime accent steps. |
+| `--lotus-color-green-400`, `--lotus-color-green-600` | Green accent steps. |
+| `--lotus-color-emerald-400`, `--lotus-color-emerald-600` | Emerald accent steps. |
+| `--lotus-color-teal-400`, `--lotus-color-teal-600` | Teal accent steps. |
+| `--lotus-color-cyan-400`, `--lotus-color-cyan-600` | Cyan accent steps. |
+| `--lotus-color-sky-400`, `--lotus-color-sky-600` | Sky accent steps. |
+| `--lotus-color-blue-400`, `--lotus-color-blue-600` | Blue accent steps. |
+| `--lotus-color-indigo-400`, `--lotus-color-indigo-600` | Indigo accent steps. |
+| `--lotus-color-violet-400`, `--lotus-color-violet-600` | Violet accent steps. |
+| `--lotus-color-purple-400`, `--lotus-color-purple-600` | Purple accent steps. |
+| `--lotus-color-fuchsia-400`, `--lotus-color-fuchsia-600` | Fuchsia accent steps. |
+| `--lotus-color-pink-400`, `--lotus-color-pink-600` | Pink accent steps. |
+| `--lotus-color-rose-400`, `--lotus-color-rose-600` | Rose accent steps. |
+
+## Gray Scale
+
+`appearance.gray` maps one neutral palette into the shared `--lotus-gray-*`
+scale.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-gray-50` ... `--lotus-gray-950` | Active neutral scale for the current gray setting. |
+
+Supported gray settings are `slate`, `zinc`, `neutral`, and `stone`.
+
+## Semantic Colors
+
+These are the main tokens components should use.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-background` | Page and shell background. |
+| `--lotus-surface` | Subtle panels, hover backgrounds, and neutral soft UI. |
+| `--lotus-text-strong` | Headings, labels, active text, and high-emphasis UI. |
+| `--lotus-text` | Body copy and default foreground. |
+| `--lotus-text-muted` | Secondary text, inactive navigation, captions, and helper copy. |
+| `--lotus-border-muted` | Default component borders. |
+| `--lotus-border-subtle` | Low-emphasis dividers and sticky chrome borders. |
+| `--lotus-border-hover` | Stronger border state for hoverable controls. |
+| `--lotus-code-background` | Inline code and plain code block background. |
+| `--lotus-code-border` | Plain code block border. |
+
+Light mode derives text from darker gray steps. Dark mode switches these tokens
+to lighter gray steps and darker surfaces.
+
+## Accent Colors
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-accent-light` | Accent value used in light mode. |
+| `--lotus-accent-dark` | Accent value used in dark mode. |
+| `--lotus-accent` | Active accent for the current mode. |
+| `--lotus-accent-soft` | Low-emphasis active and hover background. |
+| `--lotus-accent-contrast` | Text on solid accent backgrounds. |
+
+Built-in accents use Tailwind `600` in light mode and `400` in dark mode.
+Custom hex accents are converted to light and dark OKLCH values.
+
+## Radius
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-radius-sm` | Inline code, small focus targets, and compact controls. |
+| `--lotus-radius-md` | Buttons, nav items, sidebar items, and form-like controls. |
+| `--lotus-radius-lg` | Cards, callouts, dropdowns, and larger surfaces. |
+| `--lotus-radius-full` | Badges, circular buttons, and round markers. |
+
+`data-radius` controls these values. Supported settings are `none`, `small`,
+`medium`, `large`, and `full`.
+
+## Typography
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-system-sans` | Built-in system sans fallback stack. |
+| `--lotus-system-mono` | Built-in system mono fallback stack. |
+| `--lotus-font-sans` | Active sans font stack. |
+| `--lotus-font-mono` | Active mono font stack. |
+| `--default-font-family` | Tailwind default font family bridge. |
+| `--default-mono-font-family` | Tailwind default mono font family bridge. |
+| `--default-font-feature-settings` | Default sans feature settings. |
+| `--default-mono-font-feature-settings` | Default mono feature settings. |
+
+Lotus does not load web fonts by default. Override `--lotus-font-sans` and
+`--lotus-font-mono` after loading project fonts.
+
+```css
+:root {
+  --lotus-font-sans: "Inter", var(--lotus-system-sans);
+  --lotus-font-mono: "JetBrains Mono", var(--lotus-system-mono);
+}
+```
+
+## Layout
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-header-height` | Main header height. |
+| `--lotus-subnav-height` | Docs subnav height. |
+| `--lotus-docs-chrome-height` | Combined sticky header and subnav offset. |
+| `--lotus-sidebar-width` | Desktop sidebar column width. |
+| `--lotus-toc-width` | Desktop table-of-contents column width. |
+| `--lotus-content-width` | Main content column max width. |
+
+These tokens are used by sticky offsets, responsive grid columns, sidebar
+scrolling, and table-of-contents positioning.
+
+## Prose
+
+`.lotus-prose` defines extra tokens for Markdown content.
+
+| Token | Purpose |
+| --- | --- |
+| `--lotus-prose-font-body` | Body font inside prose. |
+| `--lotus-prose-font-heading` | Heading font inside prose. |
+| `--lotus-prose-font-mono` | Mono font inside prose. |
+| `--lotus-prose-surface-radius` | Radius for code blocks, images, and media. |
+| `--lotus-prose-size` | Base prose font size. |
+| `--lotus-prose-leading` | Body line height. |
+| `--lotus-prose-flow` | Default vertical spacing between prose blocks. |
+| `--lotus-prose-heading-leading` | Heading line height. |
+| `--lotus-prose-border` | Blockquote, table, rule, and footnote borders. |
+| `--lotus-prose-marker` | List marker color. |
+| `--lotus-prose-row-background` | Reserved row surface color for dense content. |
+
+## Expressive Code
+
+Lotus maps Expressive Code UI values to theme tokens through the integration
+config and prose CSS.
+
+| Token or value | Lotus source |
+| --- | --- |
+| `borderRadius` | `var(--lotus-radius-lg)` |
+| `borderColor` | `var(--lotus-code-border)` |
+| `codeBackground` | `var(--lotus-code-background)` |
+| `codeForeground` | `var(--lotus-text)` |
+| `codeFontFamily` | `var(--lotus-font-mono)` |
+| `uiFontFamily` | `var(--lotus-font-sans)` |
+| `focusBorder` | `var(--lotus-accent)` |
+| `--ec-brdRad` | `var(--lotus-prose-surface-radius)` |
+| `--ec-frm-frameBoxShdCssVal` | `none` |
+| `--ec-frm-inlBtnBg` | `var(--lotus-surface)` |
+| `--ec-frm-inlBtnBrd` | `var(--lotus-border-muted)` |
+| `--ec-frm-inlBtnFg` | `var(--lotus-text-muted)` |
+
+## Prosefly Bridge
+
+Shared MDX components from `@prosefly/astro-components` read `--pl-*` tokens.
+Lotus maps those tokens to its semantic layer.
+
+| Prosefly token | Lotus mapping |
+| --- | --- |
+| `--pl-background` | `--lotus-background` |
+| `--pl-surface` | `--lotus-surface` |
+| `--pl-text-strong` | `--lotus-text-strong` |
+| `--pl-text` | `--lotus-text` |
+| `--pl-text-muted` | `--lotus-text-muted` |
+| `--pl-border-muted` | `--lotus-border-muted` |
+| `--pl-border-subtle` | `--lotus-border-subtle` |
+| `--pl-border-hover` | `--lotus-border-hover` |
+| `--pl-accent` | `--lotus-accent` |
+| `--pl-accent-soft` | `--lotus-accent-soft` |
+| `--pl-accent-contrast` | `--lotus-accent-contrast` |
+| `--pl-radius-sm` | `--lotus-radius-sm` |
+| `--pl-radius-md` | `--lotus-radius-md` |
+| `--pl-radius-lg` | `--lotus-radius-lg` |
+| `--pl-radius-full` | `--lotus-radius-full` |
+
+## Component-Local Tokens
+
+Some MDX components define local tokens for their internal layout.
+
+| Token | Owner | Purpose |
+| --- | --- | --- |
+| `--pl-steps-start` | `Steps` | Counter start offset. |
+| `--pl-steps-bullet-size` | `Steps` | Marker size. |
+| `--pl-steps-bullet-margin` | `Steps` | Gap below each marker before the connector line. |
+| `--pl-steps-line` | `Steps` | Connector line color. |
+| `--pl-steps-marker-background` | `Steps` | Marker background. |
+| `--pl-steps-marker-foreground` | `Steps` | Marker text color. |
+| `--pl-file-tree-border` | `FileTree` | File tree outer border color. |
+| `--pl-file-tree-line` | `FileTree` | Nested guide line color. |
+
+Component-local tokens are implementation details. Prefer the semantic tokens
+above unless a component explicitly documents an override.
+
+## Overriding Tokens
+
+Override tokens in project CSS when `appearance` is not enough.
+
+```css
+:root {
+  --lotus-background: oklch(0.99 0.01 260);
+  --lotus-text: oklch(0.32 0.03 260);
+  --lotus-surface: oklch(0.96 0.015 260);
+  --lotus-border-muted: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
+}
+```
+
+Update related tokens together. Background, surface, text, muted text, borders,
+and code colors should be treated as a set.

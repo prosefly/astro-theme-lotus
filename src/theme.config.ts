@@ -137,7 +137,8 @@ const themeConfig = {
         title: 'References',
         links: [
           { label: 'Design System', href: '/docs/references/design-system/' },
-          { label: 'Markdown Syntax', href: '/docs/essentials/markdown-syntax/' },
+          { label: 'Theme Tokens', href: '/docs/references/theme-tokens/' },
+          { label: 'Typography', href: '/docs/references/typography/' },
         ],
       },
       {

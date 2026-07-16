@@ -1,27 +1,34 @@
 ---
 title: Design System
-description: Understand the token model and UI foundations used by Lotus.
+description: Understand the design model behind Lotus.
 sidebar:
   order: 1
 ---
 
-Lotus uses a small design system built around semantic CSS tokens. The goal is
-to keep the public configuration compact while still giving projects a stable
-surface for deeper customization.
+Lotus uses a compact design system for documentation sites. It is intentionally
+token-driven, but the public configuration stays small: users choose the accent,
+neutral scale, color mode, and radius, while the theme derives the rest.
 
-The theme has three layers:
+This keeps common customization simple and leaves advanced brand work to CSS
+token overrides.
 
-1. Tailwind provides layout utilities, responsive behavior, and the base color
+## Layers
+
+Lotus has three design layers:
+
+1. Tailwind provides layout utilities, responsive behavior, and base color
    scales.
 2. Lotus maps those primitives into semantic `--lotus-*` tokens for the docs
-   shell and prose.
-3. Shared MDX components read portable `--pl-*` tokens, which Lotus maps back
-   to the active Lotus theme.
+   shell, prose, and layout.
+3. Shared MDX components read portable `--pl-*` tokens, which Lotus maps to the
+   active Lotus theme.
 
-## Appearance Model
+The important boundary is that application layout belongs to Lotus, while MDX
+components stay portable enough to work outside this theme.
 
-The public `appearance` config controls theme direction, not every individual
-color token.
+## Appearance
+
+The public `appearance` API controls theme direction.
 
 ```ts
 appearance: {
@@ -32,194 +39,78 @@ appearance: {
 }
 ```
 
-These options render as document attributes:
+These settings become document attributes:
 
 | Config | Attribute | Purpose |
 | --- | --- | --- |
 | `accent` | `data-accent="indigo"` | Selects the interactive color family. |
-| `gray` | `data-gray="neutral"` | Selects the neutral scale for text, borders, and surfaces. |
-| `defaultMode` | `data-theme="system"` | Selects light, dark, or system color mode. |
+| `gray` | `data-gray="neutral"` | Selects the neutral color family. |
+| `defaultMode` | `data-theme="system"` | Selects light, dark, or system mode. |
 | `radius` | `data-radius="medium"` | Selects the shared shape scale. |
 
-`background` and `text` are intentionally not public `appearance` fields. They
-are derived semantic tokens. Setting them independently would leave related
-tokens such as `surface`, `border`, `code background`, `text muted`, and dark
-mode contrast unresolved. Projects that need full control should override CSS
-tokens directly.
+`background` and `text` are not separate `appearance` fields. They are derived
+from the chosen gray scale and color mode, along with `surface`, borders, code
+colors, muted text, and heading text. Allowing them to be configured
+independently would make contrast and dark mode harder to reason about.
 
-## Color System
+## Color Strategy
 
-Lotus keeps Tailwind colors available through `@theme static` aliases such as
-`--lotus-color-indigo-600`, `--lotus-color-neutral-100`, and
-`--lotus-color-slate-950`. Those aliases make configured color scales available
-even when a specific utility class is not used in markup.
+Lotus uses semantic color names in components instead of raw palette steps.
+Components ask for roles such as background, surface, text, border, and accent.
+The selected appearance decides what those roles mean in light and dark mode.
 
-Gray presets map Tailwind neutral families into a common `--lotus-gray-*`
-scale:
+The neutral scale is selected with `appearance.gray`. The accent scale is
+selected with `appearance.accent`. Built-in accent colors use Tailwind color
+steps; custom hex accents are converted into light and dark OKLCH values.
 
-| Gray | Tone |
-| --- | --- |
-| `slate` | Cool, blue-leaning neutral. |
-| `zinc` | Cool neutral with a slight violet cast. |
-| `neutral` | Default, low-chroma neutral. |
-| `stone` | Warm neutral. |
+The result is a stable component API:
 
-Accent presets use Tailwind accent colors. The light theme uses the `600` step;
-dark mode uses the `400` step.
+```css
+color: var(--lotus-text);
+background: var(--lotus-surface);
+border-color: var(--lotus-border-muted);
+```
 
-| Accent tokens | Purpose |
-| --- | --- |
-| `--lotus-accent-light` | Accent value used in light mode. |
-| `--lotus-accent-dark` | Accent value used in dark mode. |
-| `--lotus-accent` | Active accent for the current mode. |
-| `--lotus-accent-soft` | Low-emphasis active and hover background. |
-| `--lotus-accent-contrast` | Text on solid accent backgrounds. |
+## Shape
 
-Custom hex accents are supported. Lotus converts the hex value into OKLCH-based
-light and dark accent variables so the accent remains usable in both modes.
+Radius is global, but components can cap it when a full radius would damage the
+shape. Buttons, badges, and small controls can follow `radius: 'full'`; larger
+surfaces such as dropdowns, cards, tabs, and code blocks use capped values so
+they remain readable.
 
-## Semantic Tokens
-
-Components should prefer semantic tokens over raw Tailwind color steps.
-
-| Token | Purpose |
-| --- | --- |
-| `--lotus-background` | Page and shell background. |
-| `--lotus-surface` | Subtle panels, hover backgrounds, and neutral soft UI. |
-| `--lotus-text-strong` | Headings, labels, active text, and high-emphasis UI. |
-| `--lotus-text` | Body copy and default foreground. |
-| `--lotus-text-muted` | Secondary text, inactive navigation, and captions. |
-| `--lotus-border-muted` | Default component borders. |
-| `--lotus-border-subtle` | Low-emphasis dividers and sticky chrome borders. |
-| `--lotus-border-hover` | Stronger border state for hoverable controls. |
-| `--lotus-code-background` | Inline code and plain code block background. |
-| `--lotus-code-border` | Plain code block border. |
-
-In light mode, `--lotus-text` is derived from gray `700`, while headings use
-gray `950`. In dark mode, the same semantic tokens point to lighter gray steps.
-This keeps component code stable while the color mode changes underneath.
-
-## Radius
-
-Radius is controlled with a document-level `data-radius` attribute.
-
-| Token | Purpose |
-| --- | --- |
-| `--lotus-radius-sm` | Inline code, small focus targets, and compact controls. |
-| `--lotus-radius-md` | Buttons, nav items, sidebar items, and form-like controls. |
-| `--lotus-radius-lg` | Cards, callouts, dropdowns, and larger surfaces. |
-| `--lotus-radius-full` | Badges, circular buttons, and round markers. |
-
-`radius: 'full'` does not mean every surface should become a pill. Large fixed
-components cap their radius with expressions such as
-`min(var(--lotus-radius-lg), 1rem)` so dropdowns, code blocks, tabs, and cards
-remain structurally readable.
+This gives the site a consistent shape language without making every component
+look like a pill.
 
 ## Typography
 
-Lotus does not load web fonts by default. It exposes font tokens and defaults
-to system font stacks.
+Lotus does not load web fonts by default. It exposes font tokens and starts with
+system font stacks. Projects that want Inter, JetBrains Mono, or a brand font
+can load those fonts in their app and override the font tokens.
 
-```css
-:root {
-  --lotus-font-sans: var(--lotus-system-sans);
-  --lotus-font-mono: var(--lotus-system-mono);
-}
-```
+Typography inside Markdown is styled through `.lotus-prose`. That layer controls
+the reading rhythm, heading scale, lists, tables, blockquotes, footnotes, code,
+and common inline HTML elements such as `kbd`, `mark`, and `abbr`.
 
-Projects can load fonts however they prefer and then override the tokens:
+## Layout
 
-```css
-:root {
-  --lotus-font-sans: "Inter", var(--lotus-system-sans);
-  --lotus-font-mono: "JetBrains Mono", var(--lotus-system-mono);
-}
-```
+The docs shell uses fixed layout tokens for the sticky header, subnav, sidebar,
+main content column, and table of contents. Content width is a theme decision,
+not something authors should tune per Markdown page.
 
-The base font feature settings enable Inter-friendly alternates such as
-`cv02`, `cv03`, `cv04`, and `cv11`. Mono text enables `ss02` and `zero` for
-clearer code rendering.
+This is why prose width, sidebar width, and TOC width live in theme tokens rather
+than frontmatter.
 
-## Layout Tokens
+## Customization
 
-The docs layout uses tokenized dimensions so sticky chrome, sidebars, content,
-and TOC can stay aligned.
+Use `appearance` for normal theme choices:
 
-| Token | Purpose |
-| --- | --- |
-| `--lotus-header-height` | Main header height. |
-| `--lotus-subnav-height` | Docs subnav height. |
-| `--lotus-docs-chrome-height` | Combined sticky header and subnav offset. |
-| `--lotus-sidebar-width` | Desktop sidebar column width. |
-| `--lotus-toc-width` | Desktop table-of-contents column width. |
-| `--lotus-content-width` | Main content column max width. |
+- Accent color.
+- Neutral gray family.
+- Initial color mode.
+- Radius style.
 
-Content width is a theme decision. Page authors should not need to tune prose
-width in Markdown files.
+Use CSS token overrides for brand-level control. When overriding core colors,
+treat `background`, `surface`, `text`, `muted text`, borders, and code colors as
+a set. Changing only one of them usually creates contrast or dark mode issues.
 
-## Prose
-
-Markdown content is styled through `.lotus-prose`. The prose layer uses the same
-semantic tokens as the rest of the theme, but adds prose-specific variables for
-reading rhythm.
-
-| Token | Purpose |
-| --- | --- |
-| `--lotus-prose-size` | Base prose font size. |
-| `--lotus-prose-leading` | Body line height. |
-| `--lotus-prose-flow` | Default vertical rhythm between prose blocks. |
-| `--lotus-prose-heading-leading` | Heading line height. |
-| `--lotus-prose-border` | Blockquote, table, rule, and footnote borders. |
-| `--lotus-prose-surface-radius` | Code block, image, and media radius. |
-
-Expressive Code reads Lotus tokens for its code background, border, UI font,
-code font, focus border, and radius. This keeps light and dark code blocks in
-sync with the rest of the page.
-
-## Component Bridge
-
-The reusable MDX components live in `@prosefly/astro-components`. They should
-not depend on Lotus-specific token names, so they read `--pl-*` variables.
-Lotus provides the bridge:
-
-| Prosefly token | Lotus mapping |
-| --- | --- |
-| `--pl-background` | `--lotus-background` |
-| `--pl-surface` | `--lotus-surface` |
-| `--pl-text-strong` | `--lotus-text-strong` |
-| `--pl-text` | `--lotus-text` |
-| `--pl-text-muted` | `--lotus-text-muted` |
-| `--pl-border-muted` | `--lotus-border-muted` |
-| `--pl-border-subtle` | `--lotus-border-subtle` |
-| `--pl-border-hover` | `--lotus-border-hover` |
-| `--pl-accent` | `--lotus-accent` |
-| `--pl-accent-soft` | `--lotus-accent-soft` |
-| `--pl-accent-contrast` | `--lotus-accent-contrast` |
-| `--pl-radius-sm` ... `--pl-radius-full` | Matching Lotus radius tokens |
-
-This lets the components package remain portable while Lotus owns the actual
-theme palette.
-
-## Customization Strategy
-
-Use `appearance` for common theme choices:
-
-- `accent` for interactive color.
-- `gray` for the neutral mood.
-- `defaultMode` for light, dark, or system.
-- `radius` for shape.
-
-Use CSS token overrides when a project needs brand-level control:
-
-```css
-:root {
-  --lotus-background: oklch(0.99 0.01 260);
-  --lotus-text: oklch(0.32 0.03 260);
-  --lotus-surface: oklch(0.96 0.015 260);
-  --lotus-border-muted: color-mix(in oklab, var(--lotus-text-muted) 24%, transparent);
-}
-```
-
-When overriding core colors, update the related tokens together. `background`,
-`surface`, `text`, `text-muted`, borders, and code colors should be treated as a
-set rather than isolated values.
+For the complete token API, see [Theme Tokens](/docs/references/theme-tokens/).
