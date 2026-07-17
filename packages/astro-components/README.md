@@ -25,6 +25,11 @@ The main entry exports:
 - `Steps`
 - `TabItem` and `Tabs`
 
+The markdown entry exports:
+
+- `rehypeImageGallery`
+- `remarkPackageManagerTabs`
+
 ## Icon Integration
 
 Use the `@prosefly/astro-components/icon` integration when a project wants
@@ -68,15 +73,18 @@ tabs for Node and Python package managers. `rehypeImageGallery` turns paragraphs
 that contain only images into gallery figures. Lotus enables both transforms by
 default.
 
-Render `ImageGallery` once in the page shell to load styles and enable previous
-and next controls for galleries produced by `rehypeImageGallery`:
+Import the image gallery runtime once in the page shell to load styles and
+enable previous and next controls for galleries produced by
+`rehypeImageGallery`:
 
 ```astro
 ---
-import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
+import '@prosefly/astro-components/markdown/image-gallery.css';
 ---
 
-<ImageGallery />
+<script>
+  import '@prosefly/astro-components/markdown/image-gallery.js';
+</script>
 ```
 
 ## Styling

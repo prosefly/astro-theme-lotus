@@ -3,12 +3,26 @@
   "version": "0.1.0",
   "type": "module",
   "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prosefly/astro-theme-lotus.git",
+    "directory": "packages/astro-components"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./icon": "./src/icon/index.ts",
     "./markdown": "./src/markdown/index.ts",
-    "./markdown/ImageGallery.astro": "./src/markdown/ImageGallery.astro"
+    "./markdown/image-gallery.css": "./src/markdown/image-gallery.css",
+    "./markdown/image-gallery.js": "./src/markdown/image-gallery.js"
   },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
     "astro": "^7.0.0"
   },

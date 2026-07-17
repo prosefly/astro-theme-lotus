@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
-import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
+import '@prosefly/astro-components/markdown/image-gallery.css';
 import EditThisPage from 'virtual:prosefly/lotus/components/EditThisPage';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
@@ -153,5 +153,8 @@ const jsonLd = createDocsJsonLd({
   </main>
 
   <Footer />
-  <ImageGallery />
+
+  <script>
+    import '@prosefly/astro-components/markdown/image-gallery.js';
+  </script>
 </BaseLayout>
