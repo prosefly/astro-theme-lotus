@@ -5,12 +5,14 @@ import LotusMark from './LotusMark.astro';
 
 interface Props {
   class?: string;
+  fetchPriority?: 'high' | 'low' | 'auto';
   markIdPrefix?: string;
   textClass?: string;
 }
 
 const {
   class: className,
+  fetchPriority,
   markIdPrefix = 'lotus-site-brand',
   textClass = 'truncate text-sm font-semibold sm:text-base',
 } = Astro.props;
@@ -46,6 +48,7 @@ const logoAlt = logoHasText ? themeConfig.name : '';
             : 'block h-8 w-8 rounded-(--lotus-radius-md)',
           logoDark && 'lotus-logo-light',
         ]}
+        fetchpriority={fetchPriority}
         src={logoLight}
       />
     ) : (
@@ -60,6 +63,7 @@ const logoAlt = logoHasText ? themeConfig.name : '';
             ? 'max-w-40 object-contain'
             : 'w-8 rounded-(--lotus-radius-md)',
         ]}
+        fetchpriority={fetchPriority}
         src={logoDark}
       />
     )}
