@@ -54,9 +54,9 @@ With `docsLoader({ base: './src/content' })` and `root.directory: 'docs/en'`,
 without an `/en/` URL prefix.
 
 The top-level `src/content/index.mdx` is not part of the docs tree in this
-setup. When `docsBase` is not `/` and `homepage: 'auto'` can see that entry,
-Lotus renders it as the site homepage at `/`. The docs homepage remains
-`src/content/docs/en/index.mdx`, which renders at `/docs/`.
+setup. When `docsBase` is not `/` and `homepage: true`, Lotus renders it as the
+site homepage at `/`. The docs homepage remains `src/content/docs/en/index.mdx`,
+which renders at `/docs/`.
 
 ## Custom Loader Base
 
@@ -111,9 +111,9 @@ With i18n, `docsLoader({ base: './src/content' })`,
 The search index follows the same base. It is `/docs/search.json` for
 `docsBase: '/docs'` and `/search.json` for `docsBase: '/'`.
 
-If a project owns `/` with `src/pages/index.astro`, keep that file in `pages`
-and Lotus will not inject a homepage in auto mode. If `src/content/index.mdx`
-exists but the docs loader excludes it, set `homepage: false`.
+If a project owns `/` with `src/pages/index.astro`, keep `homepage` omitted or
+set `homepage: false`. If `homepage: true`, the docs collection must include
+`src/content/index.mdx`.
 
 ## Slug Overrides
 

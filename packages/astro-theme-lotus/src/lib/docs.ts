@@ -70,7 +70,16 @@ export interface DocsPaginationNav {
   next?: DocsPaginationItem;
 }
 
+export interface DocsNavigationContext {
+  locale: NormalizedLocale;
+  entries: DocsEntry[];
+  sections: DocsSectionNav[];
+  sidebars: Record<string, DocsSidebarNav>;
+  entrySections: Map<string, string>;
+}
+
 type PaginationOverride = DocsEntry['data']['prev'];
+const emptySidebarNav: DocsSidebarNav = { links: [], groups: [] };
 
 function getEntryOrder(entry: DocsEntry): number {
   return entry.data.sidebar?.order ?? entry.data.order ?? Number.MAX_SAFE_INTEGER;
@@ -425,12 +434,6 @@ function resolvePaginationItem(
   return generatedItem;
 }
 
-function getSidebarConfig(currentSection?: string): SidebarConfig | undefined {
-  return themeConfig.sidebars.find(
-    (sidebar) => getSidebarSectionSlug(sidebar) === currentSection,
-  );
-}
-
 function getSidebarContentItems(
   sidebar: SidebarConfig,
   entries: DocsEntry[],
@@ -438,10 +441,89 @@ function getSidebarContentItems(
 ): DocsPaginationItem[] {
   const sidebarNav = sidebarConfigToNav(sidebar, entries, localeKey);
 
+  return getSidebarNavContentItems(sidebarNav);
+}
+
+function getSidebarNavContentItems(sidebarNav: DocsSidebarNav): DocsPaginationItem[] {
   return [
     ...flattenSidebarPaginationItems(sidebarNav.links),
     ...sidebarNav.groups.flatMap((group) => flattenSidebarPaginationItems(group.items)),
   ];
+}
+
+function getEntrySectionFromMap(
+  entrySections: Map<string, string>,
+  entry: DocsEntry,
+): string | undefined {
+  return entrySections.get(getEntrySlug(entry));
+}
+
+function getEntrySections(sidebars: Record<string, DocsSidebarNav>): Map<string, string> {
+  const entrySections = new Map<string, string>();
+
+  for (const [sectionSlug, sidebarNav] of Object.entries(sidebars)) {
+    for (const item of getSidebarNavContentItems(sidebarNav)) {
+      if (!entrySections.has(item.slug)) {
+        entrySections.set(item.slug, sectionSlug);
+      }
+    }
+  }
+
+  return entrySections;
+}
+
+function getSectionNavigation(
+  sidebars: Record<string, DocsSidebarNav>,
+  currentSection: string | undefined,
+  localeKey: string,
+): DocsSectionNav[] {
+  return themeConfig.sidebars.map((sidebar) => {
+    const sectionSlug = getSidebarSectionSlug(sidebar);
+    const sidebarNav = sidebars[sectionSlug] ?? emptySidebarNav;
+    const items = getSidebarNavContentItems(sidebarNav).map((item, index) => ({
+      title: item.label,
+      href: item.href,
+      slug: item.slug,
+      section: sectionSlug,
+      order: index,
+    }));
+    const href =
+      items[0]?.href ??
+      getLocalizedHref(themeConfig, sectionSlug, localeKey);
+
+    return {
+      slug: sectionSlug,
+      label: translateLabel(sidebar.label, sidebar.translations, localeKey),
+      icon: sidebar.icon,
+      href,
+      active: sectionSlug === currentSection,
+      items,
+    };
+  });
+}
+
+export async function getDocsContext(
+  currentSection?: string,
+  localeKey?: string,
+): Promise<DocsNavigationContext> {
+  const locale = getLocale(localeKey);
+  const entries = await getDocsEntries(locale.key);
+  const sidebars = Object.fromEntries(
+    themeConfig.sidebars.map((sidebar) => {
+      const sectionSlug = getSidebarSectionSlug(sidebar);
+
+      return [sectionSlug, sidebarConfigToNav(sidebar, entries, locale.key)];
+    }),
+  );
+  const entrySections = getEntrySections(sidebars);
+
+  return {
+    locale,
+    entries,
+    sidebars,
+    entrySections,
+    sections: getSectionNavigation(sidebars, currentSection, locale.key),
+  };
 }
 
 export function getEntrySection(
@@ -519,31 +601,7 @@ export async function getDocsNavigation(
   currentSection?: string,
   localeKey?: string,
 ): Promise<DocsSectionNav[]> {
-  const locale = getLocale(localeKey);
-  const entries = await getDocsEntries(locale.key);
-
-  return themeConfig.sidebars.map((sidebar) => {
-    const sectionSlug = getSidebarSectionSlug(sidebar);
-    const items = getSidebarContentItems(sidebar, entries, locale.key).map((item, index) => ({
-      title: item.label,
-      href: item.href,
-      slug: item.slug,
-      section: sectionSlug,
-      order: index,
-    }));
-    const href =
-      items[0]?.href ??
-      getLocalizedHref(themeConfig, sectionSlug, locale.key);
-
-    return {
-      slug: sectionSlug,
-      label: translateLabel(sidebar.label, sidebar.translations, locale.key),
-      icon: sidebar.icon,
-      href,
-      active: sectionSlug === currentSection,
-      items,
-    };
-  });
+  return (await getDocsContext(currentSection, localeKey)).sections;
 }
 
 export async function getSidebarNavigation(
@@ -551,16 +609,15 @@ export async function getSidebarNavigation(
   localeKey?: string,
 ): Promise<DocsSidebarNav> {
   if (!currentSection) {
-    return { links: [], groups: [] };
+    return emptySidebarNav;
   }
 
-  const locale = getLocale(localeKey);
-  const entries = await getDocsEntries(locale.key);
-  const sidebarConfig = getSidebarConfig(currentSection);
+  return (await getDocsContext(currentSection, localeKey)).sidebars[currentSection] ?? emptySidebarNav;
+}
 
-  if (sidebarConfig) {
-    return sidebarConfigToNav(sidebarConfig, entries, locale.key);
-  }
-
-  return { links: [], groups: [] };
+export function getEntrySectionFromContext(
+  context: DocsNavigationContext,
+  entry: DocsEntry,
+): string | undefined {
+  return getEntrySectionFromMap(context.entrySections, entry);
 }

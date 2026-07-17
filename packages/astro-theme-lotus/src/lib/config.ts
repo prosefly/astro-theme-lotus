@@ -67,7 +67,7 @@ const defaultConfig: LotusThemeConfig = {
   ],
   components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
-  homepage: 'auto',
+  homepage: false,
   editLink: undefined,
   defaultLocale: undefined,
   locales: undefined,

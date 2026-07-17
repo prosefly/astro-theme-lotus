@@ -3,7 +3,6 @@ import proseflyIcon from '@prosefly/astro-components/icon';
 import tailwindcss from '@tailwindcss/vite';
 import astroExpressiveCode from 'astro-expressive-code';
 import type { AstroIntegration } from 'astro';
-import { existsSync } from 'node:fs';
 import {
   defineLotusConfig,
   lotusConfigPlugin,
@@ -16,30 +15,6 @@ import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
 import { getIconPreloadNames } from './lib/preload-icons';
 import { normalizeDocsBasePath } from './lib/theme';
-
-const userIndexPageExtensions = ['astro', 'mdx', 'md', 'html', 'js', 'ts'];
-
-function hasUserIndexPage(srcDir: URL): boolean {
-  return userIndexPageExtensions.some((extension) =>
-    existsSync(new URL(`./pages/index.${extension}`, srcDir)),
-  );
-}
-
-function hasContentHomepage(srcDir: URL): boolean {
-  return existsSync(new URL('./content/index.mdx', srcDir));
-}
-
-function shouldInjectHomepage(config: ReturnType<typeof resolveLotusConfig>, srcDir: URL): boolean {
-  if (normalizeDocsBasePath(config.docsBase) === '/' || config.homepage === false) {
-    return false;
-  }
-
-  if (config.homepage === true) {
-    return true;
-  }
-
-  return !hasUserIndexPage(srcDir) && hasContentHomepage(srcDir);
-}
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   const config = resolveLotusConfig(options);
@@ -66,7 +41,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
     name: '@prosefly/astro-theme-lotus',
     hooks: {
       'astro:config:setup': ({ config: astroConfig, injectRoute, updateConfig }) => {
-        if (shouldInjectHomepage(config, astroConfig.srcDir)) {
+        if (docsBasePath !== '/' && config.homepage === true) {
           injectRoute({
             pattern: '/',
             entrypoint: new URL('./routes/home.astro', import.meta.url),
@@ -133,7 +108,6 @@ export type {
   EditLinkGitlabConfig,
   EditLinkPatternConfig,
   FooterSection,
-  HomepageMode,
   LocaleConfig,
   LotusThemeConfig,
   OverrideComponentName,

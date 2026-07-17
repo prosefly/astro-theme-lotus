@@ -117,8 +117,6 @@ export interface ThemeFaviconLink {
 
 export type ThemeFavicon = string | ThemeFaviconLink | ThemeFaviconLink[];
 
-export type HomepageMode = boolean | 'auto';
-
 export interface LocaleConfig {
   label: string;
   lang?: string;
@@ -170,7 +168,7 @@ export interface LotusThemeConfig {
   pageActions: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase: string;
-  homepage?: HomepageMode;
+  homepage?: boolean;
   editLink?: false | EditLinkConfig;
   defaultLocale?: string;
   locales?: Record<string, LocaleConfig>;

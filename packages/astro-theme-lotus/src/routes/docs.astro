@@ -5,11 +5,9 @@ import DocsLayout from '../layouts/DocsLayout.astro';
 import SplashLayout from '../layouts/SplashLayout.astro';
 import TextLayout from '../layouts/TextLayout.astro';
 import {
-  getDocsEntries,
-  getDocsNavigation,
+  getDocsContext,
+  getEntrySectionFromContext,
   getEntrySlug,
-  getEntrySection,
-  getSidebarNavigation,
   getSidebarPagination,
   getSidebarSectionTitle,
 } from '../lib/docs';
@@ -40,9 +38,9 @@ function getTableOfContentsHeadings(
 export async function getStaticPaths() {
   const locales = getLocales(rawThemeConfig as LotusThemeConfig);
   const paths = await Promise.all(locales.map(async (currentLocale) => {
-    const localeEntries = await getDocsEntries(currentLocale.key);
+    const docsContext = await getDocsContext(undefined, currentLocale.key);
 
-    return localeEntries.map((entry) => {
+    return docsContext.entries.map((entry) => {
       const entrySlug = getEntrySlug(entry);
 
       return {
@@ -55,7 +53,7 @@ export async function getStaticPaths() {
         props: {
           entry,
           currentLocale,
-          currentSection: getEntrySection(entry, localeEntries, currentLocale.key),
+          currentSection: getEntrySectionFromContext(docsContext, entry),
         },
       };
     });
@@ -72,13 +70,10 @@ const tocHeadings = getTableOfContentsHeadings(
 );
 const isTextTemplate = entry.data.template === 'text';
 const isSplashTemplate = entry.data.template === 'splash';
-const subnav = await getDocsNavigation(currentSection, currentLocale.key);
-const sidebar = await getSidebarNavigation(currentSection, currentLocale.key);
-const sidebars = Object.fromEntries(
-  await Promise.all(
-    subnav.map(async (section) => [section.slug, await getSidebarNavigation(section.slug, currentLocale.key)]),
-  ),
-);
+const docsContext = await getDocsContext(currentSection, currentLocale.key);
+const subnav = docsContext.sections;
+const sidebars = docsContext.sidebars;
+const sidebar = currentSection ? sidebars[currentSection] ?? { links: [], groups: [] } : { links: [], groups: [] };
 const entrySlug = getEntrySlug(entry);
 const sectionTitle = getSidebarSectionTitle(sidebar, entrySlug);
 const themeConfig = rawThemeConfig as LotusThemeConfig;
