@@ -26,11 +26,11 @@ const isSplashTemplate = entry.data.template === 'splash';
 ---
 
 {isSplashTemplate ? (
-  <SplashLayout title={entry.data.title} description={entry.data.description} hero={entry.data.hero} locale={currentLocale}>
+  <SplashLayout title={entry.data.title} description={entry.data.description} hero={entry.data.hero} locale={currentLocale} pagefind={entry.data.pagefind}>
     <Content />
   </SplashLayout>
 ) : (
-  <TextLayout title={entry.data.title} description={entry.data.description} locale={currentLocale}>
+  <TextLayout title={entry.data.title} description={entry.data.description} locale={currentLocale} pagefind={entry.data.pagefind}>
     <Content />
   </TextLayout>
 )}

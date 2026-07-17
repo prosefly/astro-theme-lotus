@@ -26,6 +26,7 @@ interface Props {
   title: string;
   description?: string;
   locale?: NormalizedLocale;
+  pagefind?: boolean;
   hero?: {
     title?: string;
     tagline?: string;
@@ -34,10 +35,11 @@ interface Props {
   };
 }
 
-const { title, description, hero, locale } = Astro.props;
+const { title, description, hero, locale, pagefind = true } = Astro.props;
 const heroTitle = hero?.title ?? title;
 const heroTagline = hero?.tagline ?? description;
 const actions = hero?.actions ?? [];
+const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
 
 function getButtonVariant(action: HeroAction): 'soft' | 'outline' | 'solid' | 'ghost' {
   if (action.variant === 'primary') {
@@ -59,7 +61,7 @@ function getButtonColor(action: HeroAction): 'neutral' | 'accent' {
 <BaseLayout title={title} description={description} locale={locale}>
   <MainHeader surface />
 
-  <main>
+  <main {...pagefindAttrs}>
     <section class="lotus-border-subtle border-b">
       <div class="mx-auto max-w-screen-2xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
         <div class="mx-auto max-w-4xl text-center">

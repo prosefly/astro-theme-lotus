@@ -7,9 +7,118 @@ sidebar:
 
 import { Callout } from '@prosefly/astro-components';
 
-Lotus includes a client-side search dialog and a generated JSON index. Treat
-search as site behavior: the integration injects the search route beside the
-docs routes, and the default header renders the search dialog.
+Lotus includes a provider-based search dialog. The default provider is `local`,
+which uses a generated JSON index and searches entirely in the browser.
+
+```ts
+search: {
+  provider: 'local',
+}
+```
+
+This is the default, so most projects do not need to set `search` explicitly.
+
+Disable the default search trigger and dialog with:
+
+```ts
+search: false
+```
+
+The default header reads this setting and omits the search UI when search is
+disabled.
+
+## Providers
+
+Lotus supports the built-in local provider, Pagefind, and Algolia DocSearch.
+
+### Local
+
+```ts
+search: {
+  provider: 'local',
+}
+```
+
+The local provider generates a small JSON index during the Astro build and
+searches it entirely in the browser.
+
+### Pagefind
+
+Use Pagefind when a site has enough content that a dedicated static search index
+is a better fit than shipping one JSON file.
+
+```ts
+search: {
+  provider: 'pagefind',
+}
+```
+
+When enabled, Lotus runs Pagefind after `astro build`, indexes the generated
+HTML, and writes the browser bundle and index files to `/pagefind/`.
+
+```ts
+search: {
+  provider: 'pagefind',
+  outputSubdir: 'pagefind',
+  excludeSelectors: ['[data-no-search]'],
+}
+```
+
+`outputSubdir` changes the generated output folder. `excludeSelectors` appends
+selectors to the default ignored chrome selectors. `rootSelector` can be set for
+advanced Pagefind setups, but most Lotus sites should rely on the built-in
+`data-pagefind-body` and `data-pagefind-ignore` markers.
+
+### DocSearch
+
+```ts
+search: {
+  provider: 'docsearch',
+  appId: '...',
+  apiKey: '...', // search-only key
+  indexName: 'docs',
+}
+```
+
+DocSearch is loaded from the official CDN only when the provider is enabled.
+The default Lotus search trigger opens the DocSearch modal through the
+DocSearch JavaScript API.
+
+For localized DocSearch indexes, `indexName` can be a map keyed by Lotus locale
+keys or language tags:
+
+```ts
+search: {
+  provider: 'docsearch',
+  appId: '...',
+  apiKey: '...',
+  indexName: {
+    root: 'docs',
+    'zh-cn': 'docs_zh_cn',
+  },
+}
+```
+
+DocSearch crawling and indexing are outside Lotus. Use a search-only API key in
+client config, never an admin key. Use `searchParameters` to scope results by
+language, version, or any facet produced by your crawler.
+
+```ts
+search: {
+  provider: 'docsearch',
+  appId: '...',
+  apiKey: '...',
+  indexName: 'docs',
+  searchParameters: {
+    facetFilters: ['language:en'],
+  },
+}
+```
+
+Set `cssUrl` or `jsUrl` to self-host the DocSearch assets instead of loading
+them from jsDelivr.
+
+## Local Search
 
 With the default `docsBase: '/docs'`, the search index is available at
 `/docs/search.json`. When `docsBase` is `/`, the index is available at
@@ -45,7 +154,7 @@ most Markdown punctuation before storing searchable content.
 
 ## Excluding Pages
 
-Use `pagefind: false` to exclude a page from the search index:
+Use `pagefind: false` to exclude a page from the generated search index:
 
 ```md
 ---
@@ -55,7 +164,8 @@ pagefind: false
 ```
 
 The field name is kept for Starlight compatibility. In Lotus it controls the
-built-in `search.json` output.
+built-in `search.json` output and marks the rendered page as ignored for
+Pagefind.
 
 Draft pages are also excluded from production search results because
 `draft: true` excludes them from production builds.
@@ -87,8 +197,11 @@ import {
 <SearchDialogContent />
 ```
 
-The built-in content component reads the current `docsBase` and fetches the
-matching search index automatically.
+The built-in content component renders the active provider shell. For local and
+Pagefind search, it emits provider data attributes such as
+`data-lotus-search-provider`, `data-lotus-search-index`, and
+`data-lotus-pagefind-bundle`. For DocSearch, it emits a DocSearch container and
+loads the CDN assets on demand.
 
 ## Limits
 

@@ -1,0 +1,84 @@
+---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocalizedSearchHref } from '../../lib/i18n';
+import { getPagefindOutputSubdir } from '../../lib/search';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const t = Astro.locals.t;
+const currentLocale = t.locale();
+const searchConfig = themeConfig.search === false ? undefined : themeConfig.search;
+const searchProvider = searchConfig?.provider ?? 'local';
+const pagefindConfig = searchConfig?.provider === 'pagefind' ? searchConfig : undefined;
+const algoliaConfig = searchConfig?.provider === 'algolia' ? searchConfig : undefined;
+const searchIndexHref = searchProvider === 'local'
+  ? getLocalizedSearchHref(themeConfig, currentLocale.key)
+  : undefined;
+const pagefindBundlePath = pagefindConfig
+  ? `/${getPagefindOutputSubdir(pagefindConfig)}/pagefind.js`
+  : undefined;
+const algoliaIndexName = algoliaConfig
+  ? typeof algoliaConfig.indexName === 'string'
+    ? algoliaConfig.indexName
+    : algoliaConfig.indexName[currentLocale.key] ?? algoliaConfig.indexName[currentLocale.lang]
+  : undefined;
+const algoliaAppId = algoliaConfig?.appId;
+const algoliaApiKey = algoliaConfig?.apiKey;
+---
+
+{searchConfig && (
+  <dialog
+    aria-label={t('search.label')}
+    class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
+    data-lotus-algolia-api-key={algoliaApiKey}
+    data-lotus-algolia-app-id={algoliaAppId}
+    data-lotus-algolia-index-name={algoliaIndexName}
+    data-lotus-search-dialog
+    data-lotus-search-index={searchIndexHref}
+    data-lotus-search-loading={t('search.loading')}
+    data-lotus-search-no-results={t('search.noResults')}
+    data-lotus-pagefind-bundle={pagefindBundlePath}
+    data-lotus-search-provider={searchProvider}
+    data-lotus-search-type-to-search={t('search.typeToSearch')}
+    data-lotus-search-unavailable={t('search.unavailable')}
+  >
+  <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
+    <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+    <input
+      aria-label={t('search.label')}
+      class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
+      data-lotus-search-input
+      placeholder={t('search.placeholder')}
+      type="search"
+    />
+    <button
+      aria-label={t('search.closeLabel')}
+      class="lotus-focus-ring inline-flex h-8 w-8 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+      data-lotus-search-close
+      type="button"
+    >
+      <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+  </form>
+  <div
+    class="lotus-scrollbar max-h-[min(30rem,calc(100dvh-10rem))] overflow-y-auto p-2"
+    data-lotus-search-results
+    id="lotus-search-results"
+    role="listbox"
+  >
+    <div class="px-3 py-8 text-center text-sm text-(--lotus-text-muted)">
+      {t('search.typeToSearch')}
+    </div>
+  </div>
+  </dialog>
+)}
+
+<script>
+  import '../../client/search/dialog';
+</script>

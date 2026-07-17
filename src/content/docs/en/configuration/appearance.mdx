@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import AppearanceConfigDemo from '../../../../components/AppearanceConfigDemo.astro';
+import AccentColors from '../../../../components/AccentColors.astro';
 
 `appearance` controls the document attributes and design tokens used by Lotus
 layouts and Prosefly MDX components.
@@ -29,9 +30,7 @@ Supported values are `light`, `dark`, and `system`. The system mode follows
 
 Built-in accents are based on Tailwind color scales:
 
-`red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`,
-`cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, and
-`rose`.
+<AccentColors />
 
 Custom hex colors are also supported.
 

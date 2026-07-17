@@ -1,0 +1,42 @@
+---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const t = Astro.locals.t;
+const currentLocale = t.locale();
+const searchConfig = themeConfig.search !== false && themeConfig.search.provider === 'docsearch'
+  ? themeConfig.search
+  : undefined;
+const indexName = searchConfig
+  ? typeof searchConfig.indexName === 'string'
+    ? searchConfig.indexName
+    : searchConfig.indexName[currentLocale.key] ?? searchConfig.indexName[currentLocale.lang]
+  : undefined;
+const searchParameters = searchConfig?.searchParameters
+  ? JSON.stringify(searchConfig.searchParameters)
+  : undefined;
+---
+
+{searchConfig && (
+  <>
+    <div
+      data-lotus-docsearch
+      data-lotus-docsearch-api-key={searchConfig.apiKey}
+      data-lotus-docsearch-app-id={searchConfig.appId}
+      data-lotus-docsearch-ask-ai={searchConfig.askAi}
+      data-lotus-docsearch-css-url={searchConfig.cssUrl}
+      data-lotus-docsearch-disable-user-personalization={searchConfig.disableUserPersonalization}
+      data-lotus-docsearch-index-name={indexName}
+      data-lotus-docsearch-insights={searchConfig.insights}
+      data-lotus-docsearch-js-url={searchConfig.jsUrl}
+      data-lotus-docsearch-max-results-per-group={searchConfig.maxResultsPerGroup}
+      data-lotus-docsearch-placeholder={t('search.placeholder')}
+      data-lotus-docsearch-search-parameters={searchParameters}
+      hidden
+    />
+    <script>
+      import '../../client/search/docsearch';
+    </script>
+  </>
+)}

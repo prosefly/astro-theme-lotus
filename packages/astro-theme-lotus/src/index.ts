@@ -13,6 +13,7 @@ import {
 } from './lib/config';
 import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
+import { buildPagefindIndex } from './lib/pagefind';
 import { getIconPreloadNames } from './lib/preload-icons';
 import { normalizeDocsBasePath } from './lib/theme';
 
@@ -99,6 +100,9 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
             ],
           },
         });
+      },
+      'astro:build:done': async ({ dir, logger }) => {
+        await buildPagefindIndex(config, dir, logger);
       },
     },
   };

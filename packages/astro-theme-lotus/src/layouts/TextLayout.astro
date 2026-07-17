@@ -8,16 +8,18 @@ interface Props {
   title: string;
   description?: string;
   locale?: NormalizedLocale;
+  pagefind?: boolean;
 }
 
-const { title, description, locale } = Astro.props;
+const { title, description, locale, pagefind = true } = Astro.props;
+const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
 ---
 
 <BaseLayout title={title} description={description} locale={locale}>
   <MainHeader surface />
 
   <main class="mx-auto max-w-screen-2xl px-5 py-12 sm:px-6 sm:py-16">
-    <article class="mx-auto max-w-3xl">
+    <article class="mx-auto max-w-3xl" {...pagefindAttrs}>
       <header class="mb-8 border-b border-(--lotus-border-subtle) pb-8">
         <h1 class="text-4xl font-semibold leading-tight tracking-normal text-(--lotus-text-strong)">
           {title}

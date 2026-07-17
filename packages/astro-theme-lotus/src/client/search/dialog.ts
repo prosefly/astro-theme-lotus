@@ -1,4 +1,5 @@
 import { createLocalSearchProvider } from './providers/local';
+import { createPagefindSearchProvider } from './providers/pagefind';
 import type { SearchProvider, SearchResult } from './types';
 
 export {};
@@ -39,6 +40,12 @@ function createSearchProvider(dialog: Element): SearchProvider | undefined {
     const indexUrl = dialog.getAttribute('data-lotus-search-index');
 
     return indexUrl ? createLocalSearchProvider(indexUrl) : undefined;
+  }
+
+  if (provider === 'pagefind') {
+    const bundlePath = dialog.getAttribute('data-lotus-pagefind-bundle');
+
+    return bundlePath ? createPagefindSearchProvider(bundlePath) : undefined;
   }
 
   return createUnavailableProvider();

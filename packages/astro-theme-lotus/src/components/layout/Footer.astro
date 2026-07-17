@@ -9,7 +9,7 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
 const currentLocale = Astro.locals.t.locale();
 ---
 
-<footer class="lotus-border-subtle border-t bg-(--lotus-background)">
+<footer class="lotus-border-subtle border-t bg-(--lotus-background)" data-pagefind-ignore>
   <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] xl:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)]">
     <div class="space-y-4">
       <SiteBrand class="inline-flex" markIdPrefix="lotus-footer-brand" textClass="text-sm font-semibold sm:text-base" />

@@ -1,0 +1,51 @@
+---
+interface Props {
+  colors?: string[];
+}
+
+const {
+  colors = [
+    'red',
+    'orange',
+    'amber',
+    'yellow',
+    'lime',
+    'green',
+    'emerald',
+    'teal',
+    'cyan',
+    'sky',
+    'blue',
+    'indigo',
+    'violet',
+    'purple',
+    'fuchsia',
+    'pink',
+    'rose',
+  ],
+} = Astro.props;
+---
+
+<div class="not-prose grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+  {
+    colors.map((color) => (
+      <figure class="m-0" title={`${color} accent`}>
+        <div class="flex h-16 overflow-hidden rounded-(--lotus-radius-md)">
+          <span
+            aria-hidden="true"
+            class="flex-1"
+            style={`background: var(--lotus-color-${color}-600)`}
+          />
+          <span
+            aria-hidden="true"
+            class="flex-1"
+            style={`background: var(--lotus-color-${color}-400)`}
+          />
+        </div>
+        <figcaption class="mt-2 text-base text-(--lotus-text-muted)">
+          {color}
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>

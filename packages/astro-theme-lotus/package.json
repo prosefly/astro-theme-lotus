@@ -20,6 +20,7 @@
     "@expressive-code/plugin-line-numbers": "^0.44.0",
     "@prosefly/astro-components": "workspace:^",
     "@tailwindcss/vite": "latest",
-    "astro-expressive-code": "^0.44.0"
+    "astro-expressive-code": "^0.44.0",
+    "pagefind": "^1.5.2"
   }
 }

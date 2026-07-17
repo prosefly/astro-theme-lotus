@@ -153,6 +153,22 @@ export type SearchConfig =
     }
   | {
       provider: 'pagefind';
+      excludeSelectors?: string[];
+      outputSubdir?: string;
+      rootSelector?: string;
+    }
+  | {
+      provider: 'docsearch';
+      appId: string;
+      apiKey: string;
+      indexName: string | Record<string, string>;
+      askAi?: string;
+      disableUserPersonalization?: boolean;
+      insights?: boolean;
+      maxResultsPerGroup?: number;
+      searchParameters?: Record<string, unknown>;
+      cssUrl?: string;
+      jsUrl?: string;
     }
   | {
       provider: 'algolia';

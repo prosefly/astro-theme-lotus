@@ -21,6 +21,7 @@ const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
     'h-(--lotus-header-height)',
     surface && 'lotus-border-subtle border-b bg-(--lotus-background)/95 backdrop-blur',
   ]}
+  data-pagefind-ignore
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
     <SiteBrand markIdPrefix="lotus-header-brand" />
