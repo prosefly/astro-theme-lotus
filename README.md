@@ -1,13 +1,12 @@
 # Astro Theme Lotus
 
-Astro Theme Lotus is an installable documentation theme for Astro v7, Tailwind
-CSS v4, and MDX. The `@prosefly/astro-theme-lotus` package owns the docs route,
-layouts, navigation chrome, footer, styles, and token system. Your project owns
-content and configuration.
+Lotus is a documentation theme for Astro. It gives you an installable docs
+integration with MDX, sidebars, table of contents, search, dark mode, i18n,
+theme tokens, and a small set of docs components.
 
-## Installation
+![Lotus documentation theme preview](.github/assets/lotus-docs-light-dark.png)
 
-Install the theme package in an Astro project:
+## Install
 
 ```sh
 npm install @prosefly/astro-theme-lotus @prosefly/astro-components
@@ -26,7 +25,7 @@ export default defineConfig({
 });
 ```
 
-Register the docs content collection:
+Register your docs collection:
 
 ```ts
 // src/content.config.ts
@@ -41,103 +40,51 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
-Create docs pages under `src/content/docs/`. Lotus injects the docs page route,
-the Markdown source route, and the search index route from `docsBase`. With the
-default `docsBase: '/docs'`, `src/content/docs/index.mdx` renders at `/docs/`.
+Create docs in `src/content/docs/`. With the default `docsBase: '/docs'`,
+`src/content/docs/index.mdx` renders at `/docs/`.
 
-## Development
+## Configure
 
-Run the local development server:
+```ts
+// src/theme.config.ts
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
-```sh
-pnpm run dev
+export default defineLotusConfig({
+  name: 'Acme Docs',
+  description: 'Documentation for Acme.',
+  logo: '/logo.svg',
+  navbar: [
+    { label: 'Docs', href: '/docs/' },
+    { label: 'GitHub', href: 'https://github.com/acme/acme', external: true },
+  ],
+  sidebars: [
+    {
+      label: 'Guides',
+      icon: 'lucide:rocket',
+      items: [
+        'overview',
+        'installation',
+        { label: 'Configuration', items: [{ autogenerate: { directory: 'configuration' } }] },
+      ],
+    },
+  ],
+});
 ```
 
-Validate content and types:
+## Features
 
-```sh
-pnpm run check
-```
-
-Build the static site:
-
-```sh
-pnpm run build
-```
-
-## Project structure
-
-```txt
-.
-├── packages/
-│   └── astro-theme-lotus/
-│       └── src/
-│           ├── components/
-│           ├── layouts/
-│           ├── lib/
-│           ├── routes/
-│           └── styles/
-├── src/
-│   ├── components/
-│   ├── content/
-│   │   └── docs/
-│   ├── content.config.ts
-│   └── theme.config.ts
-└── package.json
-```
-
-- `packages/astro-theme-lotus/` contains the installable Astro integration and
-  bundled theme templates.
-- `@prosefly/astro-components` is consumed as a published npm package.
-- `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
-  socials, docs base path, sidebars, and footer links for this example site.
-- `src/content/docs/` holds the documentation pages that drive subnav and
-  section sidebars.
-
-## Theme configuration
-
-Lotus accepts configuration through `lotus(themeConfig)`.
-
-- MDX-powered documentation pages.
-- Built-in search dialog backed by a generated `search.json` index.
-- Per-page Markdown source export at `*.md`.
-- Dark mode foundation with light, dark, or system defaults.
-- Configurable navigation, header actions, social links, sidebars, and footer
-  sections.
-- Configurable accent palette, gray palette, font tokens, and corner radius.
-- Configurable docs route base path.
-- Component overrides for selected shell pieces such as search and theme mode
-  controls.
-- Optional Expressive Code, package-manager tab transforms, and Iconify preload
-  configuration.
-
-## Content structure
-
-Pages under `src/content/docs/` define the docs experience by default. The root
-index page renders at the configured `docsBase`, and nested pages use
-`sidebar.order` or `order` frontmatter to control sorting. The `sidebars` config
-decides which top-level section owns each page and drives both the docs subnav
-and the section sidebar.
-
-This repository's example site uses the default `docsLoader()` with
-`docsBase: '/docs'`, so docs content lives under `src/content/docs/`. The root
-homepage is a normal Astro page at `src/pages/index.astro`.
-
-Frontmatter also controls table of contents behavior, previous/next links,
-search inclusion, draft filtering, and optional slug overrides.
-
-## Design system
-
-Lotus combines Tailwind utilities for layout and spacing with semantic
-`--lotus-*` tokens such as `--lotus-background`, `--lotus-text`,
-`--lotus-accent`, radius tokens, and `--lotus-docs-chrome-height`. The theme
-config sets high-level appearance choices, including `system` theme mode, while
-the design system reference documents how those choices map to rendered UI.
-
-Package MDX components consume the `--pl-*` bridge variables that Lotus maps
-from its theme tokens.
+- Astro v7 integration for documentation sites
+- MDX content with configurable docs routes
+- Responsive header, subnav, sidebar, main content, TOC, and footer
+- Light, dark, and system theme modes
+- Configurable accent color, gray palette, and radius
+- Local search, Pagefind, and DocSearch providers
+- i18n-aware routes, labels, and sidebar ownership
+- Expressive Code support
+- Iconify-powered icons
+- Component overrides for shell pieces such as search, navigation, footer links,
+  page metadata, and theme switch controls
 
 ## License
 
-This project is released under the BSD-3-Clause license. See the repository
-license file for the full text.
+BSD-3-Clause
