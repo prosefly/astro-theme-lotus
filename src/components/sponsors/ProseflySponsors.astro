@@ -1,0 +1,106 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+---
+
+<PageSection padding="lg" size="xl">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)]">
+    <div>
+      <p class="section-label">Prosefly sponsors</p>
+      <h2 class="section-heading mt-3">Support Lotus and future Prosefly tools.</h2>
+      <p class="mt-5 max-w-lg text-sm leading-6 text-(--lotus-text-muted)">
+        Prosefly sponsorship is the clearest way to support Lotus as a project.
+        Sponsors may receive project-level recognition, but do not unlock
+        private core theme features.
+      </p>
+    </div>
+
+    <div class="empty-state border-y border-(--lotus-border-subtle)">
+      <Icon name="lucide:sparkles" />
+      <div>
+        <h3>No Prosefly sponsors yet.</h3>
+        <p>Be the first sponsor recognized for supporting Lotus directly.</p>
+      </div>
+      <a
+        class="text-link lotus-focus-ring"
+        href="https://github.com/sponsors/prosefly"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Sponsor Prosefly <Icon name="lucide:arrow-up-right" />
+      </a>
+    </div>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .section-heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.03;
+  }
+
+  .empty-state {
+    align-items: center;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: 1.5rem;
+  }
+
+  .empty-state > :global(.pl-icon) {
+    color: var(--lotus-accent);
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .empty-state h3 {
+    color: var(--lotus-text-strong);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .empty-state p {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    margin: 0.3rem 0 0;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  @media (max-width: 639px) {
+    .empty-state {
+      align-items: start;
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .empty-state .text-link {
+      grid-column: 2;
+      justify-self: start;
+    }
+  }
+</style>

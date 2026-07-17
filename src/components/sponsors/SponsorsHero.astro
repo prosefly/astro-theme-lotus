@@ -1,0 +1,134 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+
+interface Props {
+  currentMaintainerSponsorCount: number;
+  pastMaintainerSponsorCount: number;
+}
+
+const { currentMaintainerSponsorCount, pastMaintainerSponsorCount } = Astro.props as Props;
+---
+
+<PageSection class="border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.48fr)] lg:items-end">
+    <div class="max-w-4xl">
+      <p class="section-label">Sponsors</p>
+      <h1 class="hero-title mt-5">Support the open-source work behind Lotus.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-(--lotus-text)">
+        Sponsorship helps fund Lotus, future Prosefly documentation tools, and
+        the maintainer time needed to keep the project useful.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          class="primary-action lotus-focus-ring"
+          href="https://github.com/sponsors/prosefly"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Sponsor Prosefly <Icon name="lucide:heart-handshake" />
+        </a>
+        <a
+          class="secondary-action lotus-focus-ring"
+          href="https://github.com/sponsors/lepture"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Sponsor maintainer <Icon name="lucide:arrow-up-right" />
+        </a>
+      </div>
+    </div>
+
+    <aside class="sponsor-summary border-y border-(--lotus-border-subtle) py-5">
+      <dl>
+        <div>
+          <dt>Prosefly sponsors</dt>
+          <dd>Coming soon</dd>
+        </div>
+        <div>
+          <dt>Current maintainer sponsors</dt>
+          <dd>{currentMaintainerSponsorCount}</dd>
+        </div>
+        <div>
+          <dt>Past maintainer sponsors</dt>
+          <dd>{pastMaintainerSponsorCount}</dd>
+        </div>
+      </dl>
+    </aside>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .hero-title {
+    color: var(--lotus-text-strong);
+    font-size: clamp(3.35rem, 7vw, 6.75rem);
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    line-height: 0.9;
+  }
+
+  .primary-action,
+  .secondary-action {
+    align-items: center;
+    border-radius: var(--lotus-radius-md);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.55rem;
+    height: 2.75rem;
+    justify-content: center;
+    padding-inline: 1.1rem;
+  }
+
+  .primary-action {
+    background: var(--lotus-accent);
+    color: var(--lotus-accent-contrast);
+  }
+
+  .secondary-action {
+    border: 1px solid var(--lotus-border-muted);
+    color: var(--lotus-text-strong);
+  }
+
+  .primary-action :global(.pl-icon),
+  .secondary-action :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .sponsor-summary dl {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  .sponsor-summary div {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sponsor-summary dt {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .sponsor-summary dd {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  @media (max-width: 639px) {
+    .hero-title {
+      font-size: clamp(3.35rem, 17vw, 4.35rem);
+    }
+  }
+</style>

@@ -1,0 +1,317 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+import type { Sponsor, SponsorGroup } from '../../lib/sponsors';
+
+interface Props {
+  currentSponsorGroups: SponsorGroup[];
+  pastSponsors: Sponsor[];
+}
+
+const { currentSponsorGroups, pastSponsors } = Astro.props as Props;
+---
+
+<PageSection class="border-t border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
+  <div class="mb-10 grid gap-8 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,1fr)]">
+    <div>
+      <p class="section-label">Maintainer sponsors</p>
+      <h2 class="section-heading mt-3">People and organizations supporting lepture.</h2>
+    </div>
+    <p class="max-w-2xl text-sm leading-6 text-(--lotus-text-muted)">
+      These sponsors support the maintainer's broader open-source work. Their
+      support also helps make long-term maintenance for projects like Lotus more
+      sustainable.
+    </p>
+  </div>
+
+  {currentSponsorGroups.length > 0 ? (
+    <div class="sponsor-tiers">
+      {currentSponsorGroups.map((group) => (
+        <section class="sponsor-tier">
+          <h3>{group.label}</h3>
+          <div class:list={['sponsor-grid', !group.showName && 'sponsor-grid--logos']} data-size={group.size}>
+            {group.sponsors.map((sponsor) => {
+              const displayName = sponsor.name || sponsor.login;
+
+              return (
+                <a
+                  class:list={['sponsor-card lotus-focus-ring', !group.showName && 'sponsor-card--logo']}
+                  href={sponsor.link}
+                  rel="noreferrer"
+                  target="_blank"
+                  aria-label={displayName}
+                  title={displayName}
+                >
+                  <img src={sponsor.avatar} alt={`${displayName} avatar`} loading="lazy" />
+                  {group.showName && (
+                    <span>
+                      <strong>{displayName}</strong>
+                      <small>{sponsor.org ? 'Organization' : `@${sponsor.login}`}</small>
+                    </span>
+                  )}
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <div class="empty-state border-y border-(--lotus-border-subtle)">
+      <Icon name="lucide:cloud-off" />
+      <div>
+        <h3>No current maintainer sponsors are listed.</h3>
+        <p>The page could not load current sponsor tiers from the public JSON feed.</p>
+      </div>
+      <a
+        class="text-link lotus-focus-ring"
+        href="https://github.com/sponsors/lepture"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Open GitHub Sponsors <Icon name="lucide:arrow-up-right" />
+      </a>
+    </div>
+  )}
+
+  {pastSponsors.length > 0 && (
+    <section class="past-sponsors mt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="section-label">Past sponsors</p>
+          <h3>Previously supported maintainer work.</h3>
+        </div>
+        <span>{pastSponsors.length} sponsors</span>
+      </div>
+      <div class="sponsor-grid sponsor-grid--logos sponsor-grid--past" data-size="xs">
+        {pastSponsors.map((sponsor) => {
+          const displayName = sponsor.name || sponsor.login;
+
+          return (
+            <a
+              class="sponsor-card sponsor-card--logo sponsor-card--past lotus-focus-ring"
+              href={sponsor.link}
+              rel="noreferrer"
+              target="_blank"
+              aria-label={displayName}
+              title={displayName}
+            >
+              <img src={sponsor.avatar} alt={`${displayName} avatar`} loading="lazy" />
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  )}
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .section-heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.03;
+  }
+
+  .empty-state {
+    align-items: center;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: 1.5rem;
+  }
+
+  .empty-state > :global(.pl-icon) {
+    color: var(--lotus-accent);
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .empty-state h3 {
+    color: var(--lotus-text-strong);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .empty-state p {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    margin: 0.3rem 0 0;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .sponsor-tiers {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .sponsor-tier h3,
+  .past-sponsors h3 {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  .past-sponsors span {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .sponsor-grid {
+    border-left: 1px solid var(--lotus-border-subtle);
+    border-top: 1px solid var(--lotus-border-subtle);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sponsor-grid--logos {
+    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .sponsor-card {
+    align-items: center;
+    border-bottom: 1px solid var(--lotus-border-subtle);
+    border-right: 1px solid var(--lotus-border-subtle);
+    color: inherit;
+    display: flex;
+    gap: 0.9rem;
+    min-width: 0;
+    padding: 1rem;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+
+  .sponsor-card--logo {
+    justify-content: center;
+    padding: 0.85rem;
+  }
+
+  .sponsor-card:hover {
+    background: var(--lotus-background);
+  }
+
+  .sponsor-card--past {
+    background: color-mix(in oklab, var(--lotus-surface) 55%, transparent);
+  }
+
+  .sponsor-card img {
+    background: var(--lotus-gray-soft);
+    border-radius: 999px;
+    flex: 0 0 auto;
+    height: var(--sponsor-avatar-size, 2.25rem);
+    width: var(--sponsor-avatar-size, 2.25rem);
+  }
+
+  .sponsor-grid[data-size='2xl'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    --sponsor-avatar-size: 4.5rem;
+  }
+
+  .sponsor-grid[data-size='xl'] {
+    --sponsor-avatar-size: 3.75rem;
+  }
+
+  .sponsor-grid[data-size='md'] {
+    --sponsor-avatar-size: 3rem;
+  }
+
+  .sponsor-grid[data-size='sm'] {
+    --sponsor-avatar-size: 2.5rem;
+  }
+
+  .sponsor-grid[data-size='xs'] {
+    --sponsor-avatar-size: 2rem;
+  }
+
+  .sponsor-grid--logos .sponsor-card {
+    flex: 0 0 auto;
+  }
+
+  .sponsor-card span {
+    display: block;
+    min-width: 0;
+  }
+
+  .sponsor-card strong,
+  .sponsor-card small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sponsor-card strong {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .sponsor-card small {
+    color: var(--lotus-text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 1023px) {
+    .sponsor-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sponsor-grid[data-size='2xl'] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .sponsor-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639px) {
+    .empty-state {
+      align-items: start;
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .empty-state .text-link {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .sponsor-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sponsor-grid[data-size='2xl'] {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
