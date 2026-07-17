@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - astro-theme-lotus-v*
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Run npm publish with --dry-run
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish @prosefly/astro-theme-lotus
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify tag version
+        if: github.event_name == 'push'
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./packages/astro-theme-lotus/package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#astro-theme-lotus-v}"
+          test "$PACKAGE_VERSION" = "$TAG_VERSION"
+
+      - name: Check site
+        run: pnpm check
+
+      - name: Build site
+        run: pnpm build
+
+      - name: Dry run publish
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        run: pnpm --dir packages/astro-theme-lotus publish --access public --dry-run --no-git-checks
+
+      - name: Publish package
+        if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
+        run: pnpm --dir packages/astro-theme-lotus publish --access public --no-git-checks

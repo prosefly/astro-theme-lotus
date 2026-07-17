@@ -70,7 +70,6 @@ pnpm run build
 ```txt
 .
 ├── packages/
-│   ├── astro-components/
 │   └── astro-theme-lotus/
 │       └── src/
 │           ├── components/
@@ -89,8 +88,7 @@ pnpm run build
 
 - `packages/astro-theme-lotus/` contains the installable Astro integration and
   bundled theme templates.
-- `packages/astro-components/` contains portable MDX components that consume
-  `--pl-*` CSS variables.
+- `@prosefly/astro-components` is consumed as a published npm package.
 - `src/theme.config.ts` defines site metadata, appearance, navigation, actions,
   socials, docs base path, sidebars, and footer links for this example site.
 - `src/content/docs/` holds the documentation pages that drive subnav and

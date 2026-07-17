@@ -1,14 +1,12 @@
 # Contributing
 
-This repository is a pnpm workspace for the Lotus Astro theme and the shared
-Prosefly MDX components package.
+This repository is a pnpm workspace for the Lotus Astro theme and docs site.
 
 ## Workspace
 
 - `packages/astro-theme-lotus/` contains the installable Astro integration,
   layouts, routes, styles, theme components, and content schema.
-- `packages/astro-components/` contains reusable MDX components plus optional
-  icon and Markdown integrations.
+- `@prosefly/astro-components` is consumed as a published npm package.
 - `src/content/` contains the example documentation site used to document and
   test the packages.
 - `src/theme.config.ts` configures the example site.
@@ -37,7 +35,7 @@ pnpm run build
 ## Documentation Changes
 
 Keep documentation aligned with the public API in `packages/astro-theme-lotus`
-and `packages/astro-components`.
+and the published `@prosefly/astro-components` package.
 
 - Update package READMEs when exports, integration options, or install steps
   change.
@@ -68,3 +66,15 @@ Before preparing a release, verify:
   features.
 - Generated routes include pages, Markdown source routes, and the search index
   expected for the configured `docsBase`.
+
+## Releases
+
+Package releases use npm Trusted Publishing from GitHub Actions. Configure the
+Lotus package's trusted publisher to this repository and workflow before
+pushing release tags:
+
+- `@prosefly/astro-theme-lotus`: `.github/workflows/release.yml`
+
+Use tags named `astro-theme-lotus-v0.1.0`, matching the package version
+exactly. `@prosefly/astro-components` releases from the sibling
+`prosefly/astro-components` repository.
