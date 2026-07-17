@@ -1,5 +1,5 @@
 ---
-import { Icon } from '@prosefly/astro-components';
+import { Card, CardGrid, Icon } from '@prosefly/astro-components';
 
 const subnavItems = [
   { icon: 'lucide:rocket', label: 'Guides', active: true },
@@ -70,16 +70,14 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
         </p>
         <h3>What Lotus includes</h3>
         <div class="docs-preview__cards">
-          <span class="docs-preview__card">
-            <Icon name="lucide:panel-top" />
-            <strong>Docs shell</strong>
-            <small>Responsive navigation and search.</small>
-          </span>
-          <span class="docs-preview__card">
-            <Icon name="lucide:route" />
-            <strong>Routing</strong>
-            <small>Content-driven Astro pages.</small>
-          </span>
+          <CardGrid>
+            <Card icon="lucide:layout-template" title="Docs shell">
+              Responsive navigation and search.
+            </Card>
+            <Card icon="lucide:route" title="Routing">
+              Content-driven Astro pages.
+            </Card>
+          </CardGrid>
         </div>
       </article>
 
@@ -301,36 +299,25 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
   }
 
   .docs-preview__cards {
-    display: grid;
+    --pl-card-body-gap: 0.15rem;
+    --pl-card-content-line-height: 1.4;
+    --pl-card-content-size: 0.55rem;
+    --pl-card-icon-glyph-size: 0.75rem;
+    --pl-card-icon-size: 1.45rem;
+    --pl-card-layout-gap: 0.35rem;
+    --pl-card-padding: 0.65rem;
+    --pl-card-title-line-height: 0.85rem;
+    --pl-card-title-size: 0.625rem;
+  }
+
+  .docs-preview__cards :global(.pl-card-grid) {
     gap: 0.65rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-block: 0;
   }
 
-  .docs-preview__card {
-    border: 1px solid var(--lotus-border-subtle);
-    border-radius: var(--lotus-radius-lg);
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+  .docs-preview__cards :global(.pl-card) {
     min-width: 0;
-    padding: 0.7rem;
-  }
-
-  .docs-preview__card > :global(.pl-icon) {
-    background: var(--lotus-accent-soft);
-    border-radius: var(--lotus-radius-md);
-    color: var(--lotus-accent);
-    box-sizing: content-box;
-    padding: 0.35rem;
-  }
-
-  .docs-preview__card strong {
-    color: var(--lotus-text-strong);
-  }
-
-  .docs-preview__card small {
-    color: var(--lotus-text-muted);
-    line-height: 1.4;
   }
 
   .docs-preview__toc {
@@ -421,11 +408,11 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
       padding-inline: 0.8rem;
     }
 
-    .docs-preview__cards {
+    .docs-preview__cards :global(.pl-card-grid) {
       grid-template-columns: 1fr;
     }
 
-    .docs-preview__card:last-child {
+    .docs-preview__cards :global(.pl-card:last-child) {
       display: none;
     }
   }

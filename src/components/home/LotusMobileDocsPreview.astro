@@ -1,5 +1,5 @@
 ---
-import { Icon } from '@prosefly/astro-components';
+import { Card, CardGrid, Icon } from '@prosefly/astro-components';
 ---
 
 <figure class="mobile-preview overflow-hidden border border-(--lotus-border-subtle) bg-(--lotus-background) shadow-2xl shadow-black/10">
@@ -41,14 +41,14 @@ import { Icon } from '@prosefly/astro-components';
       </p>
       <h3>What Lotus includes</h3>
       <div class="mobile-preview__cards">
-        <span class="mobile-preview__card">
-          <Icon name="lucide:panel-top" />
-          <span><strong>Docs shell</strong><small>Responsive navigation and search.</small></span>
-        </span>
-        <span class="mobile-preview__card">
-          <Icon name="lucide:route" />
-          <span><strong>Routing</strong><small>Content-driven Astro pages.</small></span>
-        </span>
+        <CardGrid>
+          <Card icon="lucide:layout-template" title="Docs shell">
+            Responsive navigation and search.
+          </Card>
+          <Card icon="lucide:route" title="Routing">
+            Content-driven Astro pages.
+          </Card>
+        </CardGrid>
       </div>
     </article>
   </div>
@@ -86,7 +86,6 @@ import { Icon } from '@prosefly/astro-components';
   .mobile-preview__toc-trigger,
   .mobile-preview__topline,
   .mobile-preview__copy,
-  .mobile-preview__card,
   figcaption,
   figcaption span,
   figcaption a {
@@ -247,38 +246,25 @@ import { Icon } from '@prosefly/astro-components';
   }
 
   .mobile-preview__cards {
-    display: grid;
+    --pl-card-body-gap: 0.1rem;
+    --pl-card-content-line-height: 1.35;
+    --pl-card-content-size: 0.5625rem;
+    --pl-card-icon-glyph-size: 0.75rem;
+    --pl-card-icon-size: 1.55rem;
+    --pl-card-layout-gap: 0.55rem;
+    --pl-card-padding: 0.65rem;
+    --pl-card-title-line-height: 0.85rem;
+    --pl-card-title-size: 0.625rem;
+  }
+
+  .mobile-preview__cards :global(.pl-card-grid) {
     gap: 0.55rem;
+    grid-template-columns: 1fr;
+    margin-block: 0;
   }
 
-  .mobile-preview__card {
-    border: 1px solid var(--lotus-border-subtle);
-    border-radius: var(--lotus-radius-lg);
-    gap: 0.65rem;
-    padding: 0.7rem;
-  }
-
-  .mobile-preview__card > :global(.pl-icon) {
-    background: var(--lotus-accent-soft);
-    border-radius: var(--lotus-radius-md);
-    box-sizing: content-box;
-    color: var(--lotus-accent);
-    flex: 0 0 auto;
-    padding: 0.4rem;
-  }
-
-  .mobile-preview__card strong,
-  .mobile-preview__card small {
-    display: block;
-  }
-
-  .mobile-preview__card strong {
-    color: var(--lotus-text-strong);
-  }
-
-  .mobile-preview__card small {
-    color: var(--lotus-text-muted);
-    margin-top: 0.1rem;
+  .mobile-preview__cards :global(.pl-card) {
+    min-width: 0;
   }
 
   figcaption {
