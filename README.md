@@ -9,8 +9,11 @@ theme tokens, and a small set of docs components.
 ## Install
 
 ```sh
-npm install @prosefly/astro-theme-lotus @prosefly/astro-components
+npm install @prosefly/astro-theme-lotus
 ```
+
+Install `@prosefly/astro-components` directly when your own MDX or Astro files
+import shared components such as cards, steps, tabs, or callouts.
 
 Add the integration:
 

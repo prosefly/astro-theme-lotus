@@ -10,7 +10,7 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
       <h2 class="heading mt-3">Use real UI components inside Markdown.</h2>
       <p class="mt-5 text-lg leading-8 text-(--lotus-text-muted)">
         Import components from <code class="break-all font-mono text-base text-(--lotus-text-strong)">@prosefly/astro-components</code>.
-        They inherit the same appearance tokens as the docs shell.
+        Install the package directly when you use them in your own MDX.
       </p>
       <ul class="spec-list mt-7">
         {['Callouts for important context', 'Synced package-manager tabs', 'Steps, cards, accordions, file trees, badges, and icons'].map((item) => (
@@ -34,13 +34,13 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
       </Callout>
       <Tabs defaultValue="pnpm" copy>
         <TabItem label="pnpm" value="pnpm">
-          <pre><code>pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+          <pre><code>pnpm add @prosefly/astro-components</code></pre>
         </TabItem>
         <TabItem label="npm" value="npm">
-          <pre><code>npm install @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+          <pre><code>npm install @prosefly/astro-components</code></pre>
         </TabItem>
         <TabItem label="yarn" value="yarn">
-          <pre><code>yarn add @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+          <pre><code>yarn add @prosefly/astro-components</code></pre>
         </TabItem>
       </Tabs>
       <div class="component-index grid border-t border-(--lotus-border-subtle) sm:grid-cols-3">

@@ -8,10 +8,16 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
 <PageSection class="home-hero overflow-hidden border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
   <div class="home-hero__grid relative z-10 grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(25rem,0.95fr)] lg:items-center">
     <div class="min-w-0 max-w-3xl">
-      <p class="mb-7 flex flex-wrap items-center gap-3 font-mono text-xs text-(--lotus-text-muted)">
-        <span>Astro v7</span>
-        <span class="border-l border-(--lotus-border-muted) pl-3">Tailwind CSS v4</span>
-        <span class="border-l border-(--lotus-border-muted) pl-3">MDX</span>
+      <p class="home-hero__meta mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-(--lotus-text-muted)">
+        <span class="home-hero__meta-maker">
+          <img src="/prosefly-mark.svg" alt="" width="16" height="16" loading="eager" decoding="async" />
+          <span>Prosefly theme</span>
+        </span>
+        <span class="home-hero__meta-stack">
+          <span>Astro v7</span>
+          <span>Tailwind CSS v4</span>
+          <span>MDX</span>
+        </span>
       </p>
 
       <h1 class="home-hero__title max-w-3xl font-semibold text-(--lotus-text-strong)">
@@ -34,7 +40,7 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
 
       <div class="home-command mt-6 flex max-w-full items-center gap-3 rounded-(--lotus-radius-lg) border border-(--lotus-border-subtle) bg-(--lotus-background)/90 px-4 py-3 shadow-sm backdrop-blur sm:max-w-xl">
         <span class="select-none text-sm text-(--lotus-accent)">$</span>
-        <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-sm text-(--lotus-text-strong)">pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components</code>
+        <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-sm text-(--lotus-text-strong)">pnpm add @prosefly/astro-theme-lotus</code>
         <button
           class="home-copy lotus-focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
           type="button"
@@ -55,7 +61,7 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
 </PageSection>
 
 <script>
-  const installCommand = 'pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components';
+  const installCommand = 'pnpm add @prosefly/astro-theme-lotus';
 
   function initInstallCopy() {
     document.querySelectorAll('[data-copy-install]').forEach((button) => {
@@ -109,6 +115,40 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
 
   .home-hero__title span {
     color: var(--lotus-accent);
+  }
+
+  .home-hero__meta-maker {
+    align-items: center;
+    color: var(--lotus-text-strong);
+    display: inline-flex;
+    gap: 0.45rem;
+  }
+
+  .home-hero__meta-maker img {
+    flex: 0 0 auto;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .home-hero__meta-stack {
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .home-hero__meta-stack > span {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.75rem;
+  }
+
+  .home-hero__meta-stack > span:not(:first-child)::before {
+    background: var(--lotus-border-muted);
+    border-radius: 999px;
+    content: '';
+    height: 0.25rem;
+    width: 0.25rem;
   }
 
   .home-button {
@@ -183,6 +223,19 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
   }
 
   @media (max-width: 639px) {
+    .home-hero__meta {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .home-hero__meta-stack {
+      gap: 0.65rem;
+    }
+
+    .home-hero__meta-stack > span {
+      gap: 0.65rem;
+    }
+
     .home-hero__title {
       font-size: clamp(2.65rem, 13vw, 3.5rem);
     }
