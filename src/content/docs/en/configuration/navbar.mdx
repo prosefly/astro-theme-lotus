@@ -1,56 +1,79 @@
 ---
 title: Navbar
-description: Configure header links, action buttons, social links, and icons.
+description: Configure header navigation, action links, social icons, and localized labels.
 sidebar:
   order: 5
 ---
 
-`navbar` controls the main header links. Items default to `variant: 'text'`.
-Use `soft`, `outline`, or `solid` when an item should look like an action.
+import { Callout } from '@prosefly/astro-components';
+
+The header is built from two config arrays:
+
+- `navbar` renders text links and action-style links.
+- `socials` renders compact icon-only links after the navbar.
+
+Use `navbar` for primary destinations such as Docs, Blog, Pricing, or an app
+link. Use `socials` for external community and repository links.
+
+```ts title="src/theme.config.ts"
+export default defineLotusConfig({
+  navbar: [
+    { label: 'Docs', href: '/docs/' },
+    {
+      label: 'Dashboard',
+      href: 'https://app.example.com/',
+      external: true,
+      variant: 'solid',
+      color: 'accent',
+      trailingIcon: 'lucide:chevron-right',
+    },
+  ],
+  socials: [
+    {
+      label: 'GitHub',
+      href: 'https://github.com/prosefly/astro-theme-lotus',
+      external: true,
+      icon: 'github',
+    },
+    {
+      label: 'X',
+      href: 'https://x.com/prosefly',
+      external: true,
+      icon: 'x',
+    },
+  ],
+});
+```
+
+## Navbar Items
+
+Every navbar item needs a `label` and `href`.
 
 ```ts
 navbar: [
   { label: 'Docs', href: '/docs/' },
-  { label: 'Components', href: '/docs/components/icon/' },
-  { label: 'References', href: '/docs/references/design-system/' },
-  { label: 'Dashboard', href: '/dashboard/', variant: 'soft' },
-  {
-    label: 'Get started',
-    href: '/docs/overview/',
-    variant: 'solid',
-    color: 'accent',
-    trailingIcon: 'lucide:chevron-right',
-  },
+  { label: 'Blog', href: '/blog/' },
 ]
 ```
 
-## Links
+Internal links are localized automatically when they point into the docs route.
+For example, `/docs/configuration/project/` can become
+`/docs/zh-cn/configuration/project/` in the Simplified Chinese locale.
 
-Every navbar item needs `label` and `href`.
-
-```ts
-{ label: 'Docs', href: '/docs/' }
-```
-
-Add `external: true` when a link should open in a new tab.
-
-## Action Buttons
-
-Add a button variant to render a navbar item as an action.
+Add `external: true` for links that should open in a new tab.
 
 ```ts
-{ label: 'Dashboard', href: '/dashboard/', variant: 'soft' }
+{
+  label: 'Source',
+  href: 'https://github.com/prosefly/astro-theme-lotus',
+  external: true,
+}
 ```
 
-Supported variants are `text`, `soft`, `outline`, and `solid`. `text` is the
-default and matches regular navbar links.
+## Action Links
 
-`color` can be `neutral` or `accent`. If omitted, navbar actions default to a
-neutral soft style.
-
-## Icons
-
-Navbar items can use `icon` and `trailingIcon`.
+Set `variant` when a navbar item should read as a call to action instead of a
+plain text link.
 
 ```ts
 {
@@ -62,12 +85,44 @@ Navbar items can use `icon` and `trailingIcon`.
 }
 ```
 
-Icon values can be full Iconify names or aliases resolved by Lotus, such as
-`github`, `x`, `discord`, and `external`.
+Supported variants:
+
+| Variant | Use it for |
+| --- | --- |
+| `text` | Normal navigation links. This is the default. |
+| `soft` | Secondary actions that should have a filled surface. |
+| `outline` | Secondary actions that need more boundary than `soft`. |
+| `solid` | Primary actions such as "Get started" or "Dashboard". |
+
+`color` can be `neutral` or `accent`. Use `accent` sparingly for the primary
+action in the header.
+
+## Icons
+
+Navbar action links support `trailingIcon`.
+
+```ts
+{
+  label: 'Dashboard',
+  href: '/dashboard/',
+  variant: 'soft',
+  trailingIcon: 'lucide:arrow-up-right',
+}
+```
+
+Use full Iconify names such as `lucide:chevron-right`, or supported Lotus
+aliases such as `external`.
+
+<Callout type="note" title="Leading icons">
+  The public navbar config is optimized for text links and trailing action
+  icons. If a project needs leading icons, badges, or custom layout, override
+  `HeaderNavbar` and reuse the configured `navbar` data.
+</Callout>
 
 ## Social Links
 
-`socials` renders compact icon links after the navbar.
+`socials` renders compact icon links next to the navbar on desktop and inside
+the mobile menu on small screens.
 
 ```ts
 socials: [
@@ -78,17 +133,58 @@ socials: [
     icon: 'github',
   },
   {
-    label: 'X',
-    href: 'https://x.com/prosefly',
+    label: 'Discord',
+    href: 'https://discord.gg/prosefly',
     external: true,
-    icon: 'x',
+    icon: 'discord',
   },
 ]
 ```
 
-Social links require an `icon`.
+Social links require `icon`. Icon values can be full Iconify names or Lotus
+aliases such as `github`, `x`, `discord`, and `external`.
 
-## Mobile Header
+## Translated Labels
 
-On mobile, Lotus keeps search and the menu trigger in the header. Navbar links,
-actions, socials, and theme controls move into the mobile menu.
+Use `translations` when the same link should have locale-specific labels.
+
+```ts
+navbar: [
+  {
+    label: 'Docs',
+    href: '/docs/',
+    translations: {
+      'zh-cn': '文档',
+    },
+  },
+]
+```
+
+The fallback label is `label`. Translation keys match Lotus locale keys.
+
+## Mobile Behavior
+
+On desktop, the header renders navbar links, social links, search, language
+select, and the theme switch inline.
+
+On mobile:
+
+- Search stays in the compact header.
+- Navbar links, action links, socials, language select, and the theme switch
+  move into the mobile menu.
+- Action links render full width so they remain easy to tap.
+
+## Custom Rendering
+
+Use config first. Override components only when the markup or placement needs
+to change.
+
+| Need | Override |
+| --- | --- |
+| Custom navbar markup | `HeaderNavbar` |
+| Custom social link area | `HeaderSocialIcons` |
+| Custom brand link | `SiteBrand` |
+| Custom theme switch placement | `ThemeSwitch` or `HeaderSocialIcons` |
+
+See [Overriding Components](/docs/customization/overriding-components/) for the
+override contract.
