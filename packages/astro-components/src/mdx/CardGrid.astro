@@ -6,8 +6,8 @@
   .pl-card-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-block: 2rem;
+    gap: var(--pl-card-grid-gap, 1rem);
+    margin-block: var(--pl-card-grid-margin, 2rem);
   }
 
   @media (min-width: 48rem) {
