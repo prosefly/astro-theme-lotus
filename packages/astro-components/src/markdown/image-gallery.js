@@ -1,1 +1,1 @@
-import '../client/image-gallery';
+import '../client/image-gallery.js';

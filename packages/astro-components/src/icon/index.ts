@@ -167,7 +167,7 @@ export default function icon(options: IconIntegrationOptions = {}): AstroIntegra
 
         addMiddleware({
           order: 'pre',
-          entrypoint: new URL('./middleware.ts', import.meta.url),
+          entrypoint: new URL('./middleware.js', import.meta.url),
         });
       },
     },

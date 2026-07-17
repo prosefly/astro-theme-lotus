@@ -44,9 +44,6 @@ importers:
       '@iconify/utils':
         specifier: ^3.1.4
         version: 3.1.4
-      '@types/node':
-        specifier: latest
-        version: 26.1.1
       astro:
         specifier: ^7.0.0
         version: 7.0.9(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0)
@@ -56,6 +53,13 @@ importers:
       rehype-format:
         specifier: ^5.0.1
         version: 5.0.1
+    devDependencies:
+      '@types/node':
+        specifier: latest
+        version: 26.1.1
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
 
   packages/astro-theme-lotus:
     dependencies:

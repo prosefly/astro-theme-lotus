@@ -5,9 +5,12 @@
   "type": "module",
   "license": "BSD-3-Clause",
   "scripts": {
+    "predev": "pnpm --dir packages/astro-components build",
     "dev": "astro dev",
+    "prebuild": "pnpm --dir packages/astro-components build",
     "build": "astro build",
     "preview": "astro preview",
+    "precheck": "pnpm --dir packages/astro-components build",
     "check": "astro check"
   },
   "dependencies": {

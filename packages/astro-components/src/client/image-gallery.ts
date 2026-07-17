@@ -104,43 +104,45 @@ function measureGallery(gallery: HTMLElement, track: HTMLElement): void {
   });
 }
 
-if (!window.__proseflyImageGalleryInit) {
-  window.__proseflyImageGalleryInit = () => {
-    document.querySelectorAll('[data-pl-image-gallery]').forEach((gallery) => {
-      if (!(gallery instanceof HTMLElement) || gallery.dataset.plImageGalleryReady) {
-        return;
-      }
-
-      const track = gallery.querySelector<HTMLElement>('[data-pl-image-gallery-track]');
-
-      if (!(track instanceof HTMLElement)) {
-        return;
-      }
-
-      gallery.dataset.plImageGalleryReady = 'true';
-      const measure = () => measureGallery(gallery, track);
-      const images = [...track.querySelectorAll('img')].filter(
-        (image): image is HTMLImageElement => image instanceof HTMLImageElement,
-      );
-
-      Promise.all(images.map(imageReady)).then(measure);
-      new ResizeObserver(measure).observe(track);
-
-      gallery.querySelectorAll('[data-pl-image-gallery-button]').forEach((button) => {
-        if (!(button instanceof HTMLButtonElement)) {
+if (typeof window !== 'undefined') {
+  if (!window.__proseflyImageGalleryInit) {
+    window.__proseflyImageGalleryInit = () => {
+      document.querySelectorAll('[data-pl-image-gallery]').forEach((gallery) => {
+        if (!(gallery instanceof HTMLElement) || gallery.dataset.plImageGalleryReady) {
           return;
         }
 
-        button.addEventListener('click', () => {
-          const direction = button.getAttribute('data-pl-image-gallery-button');
+        const track = gallery.querySelector<HTMLElement>('[data-pl-image-gallery-track]');
 
-          scrollToAdjacentItem(track, direction === 'previous' ? 'previous' : 'next');
+        if (!(track instanceof HTMLElement)) {
+          return;
+        }
+
+        gallery.dataset.plImageGalleryReady = 'true';
+        const measure = () => measureGallery(gallery, track);
+        const images = [...track.querySelectorAll('img')].filter(
+          (image): image is HTMLImageElement => image instanceof HTMLImageElement,
+        );
+
+        Promise.all(images.map(imageReady)).then(measure);
+        new ResizeObserver(measure).observe(track);
+
+        gallery.querySelectorAll('[data-pl-image-gallery-button]').forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) {
+            return;
+          }
+
+          button.addEventListener('click', () => {
+            const direction = button.getAttribute('data-pl-image-gallery-button');
+
+            scrollToAdjacentItem(track, direction === 'previous' ? 'previous' : 'next');
+          });
         });
       });
-    });
-  };
+    };
 
-  document.addEventListener('astro:page-load', window.__proseflyImageGalleryInit);
+    document.addEventListener('astro:page-load', window.__proseflyImageGalleryInit);
+  }
+
+  window.__proseflyImageGalleryInit();
 }
-
-window.__proseflyImageGalleryInit();

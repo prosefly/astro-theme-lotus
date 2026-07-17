@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "type": "module",
   "license": "BSD-3-Clause",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "check": "tsc -p ./tsconfig.build.json --noEmit",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prosefly/astro-theme-lotus.git",
@@ -12,14 +19,23 @@
     "access": "public"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./icon": "./src/icon/index.ts",
-    "./markdown": "./src/markdown/index.ts",
-    "./markdown/image-gallery.css": "./src/markdown/image-gallery.css",
-    "./markdown/image-gallery.js": "./src/markdown/image-gallery.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./icon": {
+      "types": "./dist/icon/index.d.ts",
+      "default": "./dist/icon/index.js"
+    },
+    "./markdown": {
+      "types": "./dist/markdown/index.d.ts",
+      "default": "./dist/markdown/index.js"
+    },
+    "./markdown/image-gallery.css": "./dist/markdown/image-gallery.css",
+    "./markdown/image-gallery.js": "./dist/markdown/image-gallery.js"
   },
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
@@ -29,8 +45,11 @@
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.1",
     "@iconify/utils": "^3.1.4",
-    "@types/node": "latest",
     "rehype": "^13.0.2",
     "rehype-format": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "^6.0.3"
   }
 }
