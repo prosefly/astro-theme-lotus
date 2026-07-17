@@ -28,6 +28,7 @@ export interface LotusIntegrationOptions {
   navbar?: ThemeNavbarItem[];
   socials?: ThemeSocialLink[];
   sidebars?: SidebarConfig[];
+  search?: LotusThemeConfig['search'];
   pageActions?: PageActionConfig[];
   contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;
@@ -61,6 +62,7 @@ const defaultConfig: LotusThemeConfig = {
   navbar: [{ label: 'Docs', href: '/docs/' }],
   socials: [],
   sidebars: [],
+  search: { provider: 'local' },
   pageActions: [
     { type: 'copy-page', icon: 'lucide:copy' },
     { type: 'view-markdown', icon: 'lucide:file-text' },

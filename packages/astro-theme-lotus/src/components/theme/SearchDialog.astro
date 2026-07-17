@@ -1,7 +1,16 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import SearchDialogContent from './SearchDialogContent.astro';
 import SearchDialogTrigger from './SearchDialogTrigger.astro';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const enabled = themeConfig.search !== false;
 ---
 
-<SearchDialogTrigger />
-<SearchDialogContent />
+{enabled && (
+  <>
+    <SearchDialogTrigger />
+    <SearchDialogContent />
+  </>
+)}

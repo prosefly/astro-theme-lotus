@@ -6,19 +6,36 @@ import type { LotusThemeConfig } from '../../lib/theme';
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const t = Astro.locals.t;
 const currentLocale = t.locale();
-const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
+const searchConfig = themeConfig.search === false ? undefined : themeConfig.search;
+const searchProvider = searchConfig?.provider ?? 'local';
+const algoliaConfig = searchConfig?.provider === 'algolia' ? searchConfig : undefined;
+const searchIndexHref = searchProvider === 'local'
+  ? getLocalizedSearchHref(themeConfig, currentLocale.key)
+  : undefined;
+const algoliaIndexName = algoliaConfig
+  ? typeof algoliaConfig.indexName === 'string'
+    ? algoliaConfig.indexName
+    : algoliaConfig.indexName[currentLocale.key] ?? algoliaConfig.indexName[currentLocale.lang]
+  : undefined;
+const algoliaAppId = algoliaConfig?.appId;
+const algoliaApiKey = algoliaConfig?.apiKey;
 ---
 
-<dialog
-  aria-label={t('search.label')}
-  class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
-  data-lotus-search-dialog
-  data-lotus-search-index={searchIndexHref}
-  data-lotus-search-loading={t('search.loading')}
-  data-lotus-search-no-results={t('search.noResults')}
-  data-lotus-search-type-to-search={t('search.typeToSearch')}
-  data-lotus-search-unavailable={t('search.unavailable')}
->
+{searchConfig && (
+  <dialog
+    aria-label={t('search.label')}
+    class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
+    data-lotus-algolia-api-key={algoliaApiKey}
+    data-lotus-algolia-app-id={algoliaAppId}
+    data-lotus-algolia-index-name={algoliaIndexName}
+    data-lotus-search-dialog
+    data-lotus-search-index={searchIndexHref}
+    data-lotus-search-loading={t('search.loading')}
+    data-lotus-search-no-results={t('search.noResults')}
+    data-lotus-search-provider={searchProvider}
+    data-lotus-search-type-to-search={t('search.typeToSearch')}
+    data-lotus-search-unavailable={t('search.unavailable')}
+  >
   <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
     <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
       <circle cx="11" cy="11" r="7" />
@@ -53,8 +70,9 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
       {t('search.typeToSearch')}
     </div>
   </div>
-</dialog>
+  </dialog>
+)}
 
 <script>
-  import '../../client/search-dialog';
+  import '../../client/search/dialog';
 </script>

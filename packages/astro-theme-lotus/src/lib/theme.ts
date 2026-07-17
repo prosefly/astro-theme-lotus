@@ -146,6 +146,21 @@ export interface LocaleConfig {
   directory?: string;
 }
 
+export type SearchConfig =
+  | false
+  | {
+      provider?: 'local';
+    }
+  | {
+      provider: 'pagefind';
+    }
+  | {
+      provider: 'algolia';
+      appId: string;
+      apiKey: string;
+      indexName: string | Record<string, string>;
+    };
+
 export interface ThemeSourceConfig {
   branch?: string;
   contentRoot?: string;
@@ -195,6 +210,7 @@ export interface LotusThemeConfig {
   navbar: ThemeNavbarItem[];
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
+  search: SearchConfig;
   pageActions: PageActionConfig[];
   contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;

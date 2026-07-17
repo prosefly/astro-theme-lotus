@@ -124,6 +124,7 @@ export type {
   PageActionConfig,
   PageActionType,
   RadiusScale,
+  SearchConfig,
   SidebarAutogenerateItem,
   SidebarConfig,
   SidebarGroupItem,
