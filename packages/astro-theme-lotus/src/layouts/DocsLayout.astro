@@ -6,6 +6,7 @@ import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
 import ImageGallery from '@prosefly/astro-components/markdown/ImageGallery.astro';
+import EditThisPage from 'virtual:prosefly/lotus/components/EditThisPage';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } from '../lib/i18n';
@@ -25,6 +26,7 @@ interface Props {
   sectionTitle?: string;
   currentLocale: NormalizedLocale;
   currentSlug?: string;
+  editUrl?: string | boolean;
   pageNavigation?: DocsPaginationNav;
   lastUpdated?: Date | boolean;
   subnav: DocsSectionNav[];
@@ -39,6 +41,7 @@ const {
   sectionTitle,
   currentLocale,
   currentSlug,
+  editUrl,
   pageNavigation = {},
   lastUpdated,
   subnav,
@@ -95,9 +98,10 @@ const jsonLd = createDocsJsonLd({
 ---
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd} locale={currentLocale}>
-  <Header
-    currentPath={currentPath}
-    headings={headings}
+      <Header
+        currentPath={currentPath}
+        currentLocale={currentLocale}
+        headings={headings}
     sectionTitle={sectionTitle}
     sections={subnav}
     sidebar={sidebar}
@@ -110,7 +114,7 @@ const jsonLd = createDocsJsonLd({
       <aside class="hidden lg:block">
         <div class="sticky top-(--lotus-docs-chrome-height)">
           {(sidebar.links.length > 0 || sidebar.groups.length > 0) && (
-            <Sidebar currentPath={currentPath} sidebar={sidebar} />
+        <Sidebar currentLocale={currentLocale} currentPath={currentPath} sidebar={sidebar} />
           )}
         </div>
       </aside>
@@ -118,6 +122,7 @@ const jsonLd = createDocsJsonLd({
       <article class="min-w-0 pt-6 pb-10">
         <PageHeader
           description={description}
+          currentLocale={currentLocale}
           markdownUrl={markdownUrl}
           pageActions={pageActions}
           pageUrl={pageUrl}
@@ -128,12 +133,20 @@ const jsonLd = createDocsJsonLd({
         <div class="lotus-prose py-8">
           <slot />
         </div>
-        <PageNavigation navigation={pageNavigation} />
+        <EditThisPage
+          currentLocale={currentLocale}
+          currentSlug={currentSlug}
+          editUrl={editUrl}
+          markdownUrl={markdownUrl}
+          pageUrl={pageUrl}
+          title={title}
+        />
+        <PageNavigation currentLocale={currentLocale} navigation={pageNavigation} />
       </article>
 
       <aside class="hidden xl:block">
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
-          <TableOfContents headings={headings} />
+        <TableOfContents currentLocale={currentLocale} headings={headings} />
         </div>
       </aside>
     </div>

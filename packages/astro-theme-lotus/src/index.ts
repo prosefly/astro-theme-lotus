@@ -94,6 +94,12 @@ export type {
 } from './lib/config';
 export type {
   AccentScale,
+  EditLinkBaseConfig,
+  EditLinkCodebergConfig,
+  EditLinkConfig,
+  EditLinkGithubConfig,
+  EditLinkGitlabConfig,
+  EditLinkPatternConfig,
   FooterSection,
   LocaleConfig,
   LotusThemeConfig,
@@ -117,3 +123,11 @@ export type {
   ThemeNavbarVariant,
   ThemeSocialLink,
 } from './lib/theme';
+export type {
+  LocalizedSlug,
+  NormalizedLocale,
+} from './lib/i18n';
+export type {
+  UiTranslationKey,
+  UiTranslations,
+} from './lib/translations';

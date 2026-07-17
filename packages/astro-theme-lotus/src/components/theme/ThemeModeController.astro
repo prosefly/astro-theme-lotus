@@ -39,7 +39,8 @@
           });
 
           switcher.querySelectorAll('[data-theme-current]').forEach((label) => {
-            label.textContent = nextMode[0].toUpperCase() + nextMode.slice(1);
+            label.textContent = switcher.dataset[`themeLabel${nextMode[0].toUpperCase()}${nextMode.slice(1)}`]
+              || nextMode[0].toUpperCase() + nextMode.slice(1);
           });
 
           switcher.querySelectorAll('[data-theme-mode-icon]').forEach((icon) => {

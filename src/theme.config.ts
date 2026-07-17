@@ -52,6 +52,10 @@ const themeConfig = {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
   docsBase: '/docs',
+  editLink: {
+    pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+    contentRoot: 'src/content',
+  },
   defaultLocale: 'root',
   locales: {
     root: {

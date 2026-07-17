@@ -12,6 +12,7 @@ const layoutIconNames = [
   'lucide:menu',
   'lucide:monitor',
   'lucide:moon',
+  'lucide:pencil',
   'lucide:sun',
   'lucide:x',
   'simple-icons:bun',

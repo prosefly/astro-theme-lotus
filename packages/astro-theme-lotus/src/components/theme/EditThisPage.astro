@@ -1,0 +1,48 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+
+import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
+
+interface Props {
+  currentLocale?: NormalizedLocale;
+  currentSlug?: string;
+  editUrl?: string | boolean;
+  markdownUrl?: string;
+  pageUrl: string;
+  title: string;
+}
+
+const {
+  currentLocale,
+  currentSlug: _currentSlug,
+  editUrl,
+  markdownUrl: _markdownUrl,
+  pageUrl: _pageUrl,
+  title: _title,
+} = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, resolvedLocale);
+const href = typeof editUrl === 'string' && editUrl.trim() ? editUrl : undefined;
+---
+
+{href && (
+  <div class="mt-2 flex justify-end">
+    <a
+      class="lotus-focus-ring inline-flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2 py-1 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <Icon aria-hidden="true" class="h-3.5 w-3.5" name="lucide:pencil" />
+      <span>{t('page.editLink')}</span>
+    </a>
+  </div>
+)}

@@ -1,18 +1,33 @@
 ---
 import ThemeModeController from './ThemeModeController.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 ---
 
 <div
-  aria-label="Theme mode"
+  aria-label={t('themeSelect.accessibleLabel')}
   class="lotus-border-muted grid h-9 grid-cols-2 rounded-full border p-0.5"
   data-lotus-theme-switch
+  data-theme-label-dark={t('themeSelect.dark')}
+  data-theme-label-light={t('themeSelect.light')}
+  data-theme-label-system={t('themeSelect.auto')}
   role="group"
 >
   <button
-    aria-label="Light theme"
+    aria-label={t('themeSelect.lightTheme')}
     class="lotus-focus-ring inline-flex h-7 w-8 items-center justify-center rounded-full text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-mode="light"
-    title="Light theme"
+    title={t('themeSelect.lightTheme')}
     type="button"
   >
     <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
@@ -24,10 +39,10 @@ import ThemeModeController from './ThemeModeController.astro';
     </svg>
   </button>
   <button
-    aria-label="Dark theme"
+    aria-label={t('themeSelect.darkTheme')}
     class="lotus-focus-ring inline-flex h-7 w-8 items-center justify-center rounded-full text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-mode="dark"
-    title="Dark theme"
+    title={t('themeSelect.darkTheme')}
     type="button"
   >
     <svg aria-hidden="true" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">

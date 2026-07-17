@@ -9,6 +9,14 @@ Lotus exports composable theme components from
 `@prosefly/astro-theme-lotus/components`. Use them when an override should wrap
 or rearrange the default behavior instead of replacing it from scratch.
 
+These exports come from Lotus' `components/theme` layer. They are reusable
+building blocks, not the internal page chrome. Lotus does not export
+`components/layout`, `components/defaults`, or `components/ui`.
+
+An override slot and a public component can have different names. For example,
+the shell slot is `HeaderNavbar`, while the reusable public component is
+`NavbarLinks`.
+
 ## Public Exports
 
 | Export | Purpose |
@@ -18,6 +26,7 @@ or rearrange the default behavior instead of replacing it from scratch.
 | `NavbarLinks` | Header navbar links and action buttons. |
 | `SocialIcons` | Social icon list. |
 | `PageActions` | Copy, Markdown, and assistant page actions. |
+| `EditThisPage` | Edit link below docs content. |
 | `PageHeader` | Page title area with description and actions. |
 | `PageNavigation` | Previous and next page links. |
 | `SearchDialog` | Complete search trigger and dialog. |
@@ -32,6 +41,27 @@ or rearrange the default behavior instead of replacing it from scratch.
 These exports are package-level building blocks. The theme shell imports
 override points through internal virtual modules, so importing public components
 inside an override does not recursively import the override file.
+
+Use the public export when you want the package implementation:
+
+```astro
+---
+import { NavbarLinks } from '@prosefly/astro-theme-lotus/components';
+---
+
+<NavbarLinks {...Astro.props} />
+```
+
+Use the virtual module only when one override needs to call another override
+slot and preserve the user's configured replacement:
+
+```astro
+---
+import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+---
+
+<PageActions {...Astro.props} />
+```
 
 ## Wrapping Search
 
@@ -105,6 +135,10 @@ export default defineLotusConfig({
   },
 });
 ```
+
+Slot names are configured with names like `HeaderNavbar` and
+`HeaderSocialIcons`. Public imports use names like `NavbarLinks` and
+`SocialIcons`.
 
 See [Overriding Components](/docs/customization/overriding-components/) for the
 complete override list and path resolution rules.

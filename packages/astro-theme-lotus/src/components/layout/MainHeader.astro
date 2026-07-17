@@ -9,10 +9,11 @@ import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 
 interface Props {
   currentPath?: string;
+  showMobileLanguage?: boolean;
   surface?: boolean;
 }
 
-const { currentPath, surface = true } = Astro.props;
+const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
 ---
 
 <header
@@ -37,6 +38,6 @@ const { currentPath, surface = true } = Astro.props;
       </div>
     </div>
 
-    <MobileMenu currentPath={currentPath} />
+    <MobileMenu currentPath={currentPath} showLanguage={showMobileLanguage} />
   </div>
 </header>

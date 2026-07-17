@@ -1,4 +1,9 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
+
 interface Heading {
   depth: number;
   slug: string;
@@ -7,9 +12,17 @@ interface Heading {
 
 interface Props {
   headings: Heading[];
+  currentLocale?: NormalizedLocale;
 }
 
 const { headings } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = Astro.props.currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 const visibleHeadings = headings;
 
 function getHeadingIndent(depth: number): string {
@@ -27,8 +40,8 @@ function getHeadingIndent(depth: number): string {
 
 {
   visibleHeadings.length > 0 && (
-    <nav aria-label="On this page" class="space-y-2">
-      <p class="text-sm font-semibold leading-5 text-(--lotus-text-strong)">On this page</p>
+    <nav aria-label={t('tableOfContents.onThisPage')} class="space-y-2">
+      <p class="text-sm font-semibold leading-5 text-(--lotus-text-strong)">{t('tableOfContents.onThisPage')}</p>
       <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
         <li aria-hidden="true" class="lotus-toc-indicator"></li>
         {visibleHeadings.map((heading) => (

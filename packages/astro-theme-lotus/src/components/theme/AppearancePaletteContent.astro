@@ -1,20 +1,31 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { accentScales } from '../../lib/colors';
+import { getLocaleFromRouteSlug } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 
 const grayScales = ['slate', 'zinc', 'neutral', 'stone'] as const;
 const radiusScales = ['none', 'small', 'medium', 'large', 'full'] as const;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 ---
 
 <div class="space-y-4" data-lotus-appearance-palette>
   <div>
     <div class="mb-2 flex items-center justify-between gap-3">
-      <p class="text-xs font-medium text-(--lotus-text-strong)">Accent</p>
+      <p class="text-xs font-medium text-(--lotus-text-strong)">{t('appearance.accent')}</p>
       <button
         class="lotus-focus-ring rounded-(--lotus-radius-sm) px-1.5 py-0.5 text-xs font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
         data-appearance-reset
         type="button"
       >
-        Reset
+        {t('appearance.reset')}
       </button>
     </div>
     <div class="flex flex-wrap gap-2">
@@ -33,22 +44,22 @@ const radiusScales = ['none', 'small', 'medium', 'large', 'full'] as const;
       ))}
       <label
         class="lotus-appearance-custom-swatch lotus-focus-ring flex h-6 w-6 cursor-pointer items-center justify-center rounded-(--lotus-radius-md)"
-        title="Custom accent"
+        title={t('appearance.customAccent')}
       >
         <input
-          aria-label="Custom accent color"
+          aria-label={t('appearance.customAccent')}
           class="sr-only"
           data-appearance-custom-accent
           type="color"
           value="#4f46e5"
         />
-        <span class="sr-only">Custom accent</span>
+        <span class="sr-only">{t('appearance.customAccent')}</span>
       </label>
     </div>
   </div>
 
   <div>
-    <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">Gray</p>
+    <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">{t('appearance.gray')}</p>
     <div class="grid grid-cols-4 gap-1.5">
       {grayScales.map((gray) => (
         <button
@@ -64,7 +75,7 @@ const radiusScales = ['none', 'small', 'medium', 'large', 'full'] as const;
   </div>
 
   <div>
-    <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">Radius</p>
+    <p class="mb-2 text-xs font-medium text-(--lotus-text-strong)">{t('appearance.radius')}</p>
     <div class="grid grid-cols-5 gap-1.5">
       {radiusScales.map((radius) => (
         <button

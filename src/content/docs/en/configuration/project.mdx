@@ -16,6 +16,10 @@ export default {
   logo: '/logo.svg',
   favicon: '/favicon.svg',
   docsBase: '/docs',
+  editLink: {
+    pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+    contentRoot: 'src/content',
+  },
   defaultLocale: 'root',
   locales: {
     root: { label: 'English', lang: 'en', directory: 'docs/en' },
@@ -106,6 +110,66 @@ Examples:
 Set `docsBase` to `/guide`, `/manual`, or `/` when docs should live somewhere
 else.
 
+## Edit Links
+
+Configure `editLink` to generate "Edit this page" links from each content
+entry ID. The recommended form is a URL pattern with a `{path}` placeholder.
+
+```ts
+editLink: {
+  pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+  contentRoot: 'src/content',
+}
+```
+
+`contentRoot` defaults to `src/content`. Lotus joins it with the source entry ID
+and replaces `{path}` with the final source path.
+
+For `src/content/docs/en/overview.mdx`, Lotus generates:
+
+```txt
+https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/overview.mdx
+```
+
+Patterns can also use `{branch}` and `{encodedPath}`. `branch` defaults to
+`main`.
+
+```ts
+editLink: {
+  pattern: 'https://gitlab.com/prosefly/astro-theme-lotus/-/edit/{branch}/{path}',
+  branch: 'main',
+}
+```
+
+Lotus also provides shortcuts for common code hosting services. These accept
+either repository shorthand or a repository URL.
+
+```ts
+editLink: {
+  github: 'https://github.com/prosefly/astro-theme-lotus',
+  branch: 'main',
+  contentRoot: 'src/content',
+}
+```
+
+```ts
+editLink: {
+  gitlab: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+```ts
+editLink: {
+  codeberg: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+Edit links use the actual source entry ID, not the localized route. If a
+localized page falls back to default-locale content, its edit link points to the
+default-locale source file.
+
 ## Locales
 
 Use `locales` to enable internationalized docs. Locale keys control URL
@@ -130,3 +194,24 @@ With `docsLoader({ base: './src/content' })`, this config makes English files
 live in `src/content/docs/en/` while rendering at `/docs/overview/`.
 Simplified Chinese files live in `src/content/docs/zh-cn/` and render at
 `/docs/zh-cn/overview/`.
+
+## UI Translations
+
+Lotus includes template translations for English and Simplified Chinese. These
+strings cover shell UI such as search, theme mode controls, table of contents,
+page actions, edit links, mobile docs navigation, and the 404 page.
+
+Use `ui` to override built-in strings for a locale. Keys can match either the
+locale key or the locale language code.
+
+```ts
+ui: {
+  'zh-cn': {
+    'page.editLink': '在 GitHub 上编辑',
+    'tableOfContents.onThisPage': '页面目录',
+    'search.placeholder': '搜索',
+  },
+}
+```
+
+Custom locales fall back to the default locale and then to English.

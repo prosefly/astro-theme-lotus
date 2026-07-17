@@ -1,10 +1,27 @@
 ---
 import ThemeModeController from './ThemeModeController.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 ---
 
-<div data-lotus-theme-switch>
+<div
+  data-lotus-theme-switch
+  data-theme-label-dark={t('themeSelect.dark')}
+  data-theme-label-light={t('themeSelect.light')}
+  data-theme-label-system={t('themeSelect.auto')}
+>
   <button
-    aria-label="Cycle theme mode"
+    aria-label={t('themeSelect.cycle')}
     class="lotus-focus-ring lotus-border-muted inline-flex h-9 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-cycle
     type="button"
@@ -30,7 +47,7 @@ import ThemeModeController from './ThemeModeController.astro';
         <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.8 8.8 0 1 0 20.5 14.5Z" />
       </svg>
     </span>
-    <span class="hidden sm:inline" data-theme-current>System</span>
+    <span class="hidden sm:inline" data-theme-current>{t('themeSelect.auto')}</span>
   </button>
 </div>
 

@@ -2,6 +2,7 @@
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { getLocalizedSearchHref, getLocaleFromRouteSlug } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
@@ -9,14 +10,19 @@ const routeSlug = docsBasePath === '/'
   ? Astro.url.pathname
   : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
 const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
 ---
 
 <dialog
-  aria-label="Search documentation"
+  aria-label={t('search.label')}
   class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
   data-lotus-search-dialog
   data-lotus-search-index={searchIndexHref}
+  data-lotus-search-loading={t('search.loading')}
+  data-lotus-search-no-results={t('search.noResults')}
+  data-lotus-search-type-to-search={t('search.typeToSearch')}
+  data-lotus-search-unavailable={t('search.unavailable')}
 >
   <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
     <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
@@ -24,14 +30,14 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
       <path d="m20 20-3.5-3.5" />
     </svg>
     <input
-      aria-label="Search documentation"
+      aria-label={t('search.label')}
       class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
       data-lotus-search-input
-      placeholder="Search docs"
+      placeholder={t('search.placeholder')}
       type="search"
     />
     <button
-      aria-label="Close search"
+      aria-label={t('search.closeLabel')}
       class="lotus-focus-ring inline-flex h-8 w-8 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
       data-lotus-search-close
       type="button"
@@ -49,7 +55,7 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
     role="listbox"
   >
     <div class="px-3 py-8 text-center text-sm text-(--lotus-text-muted)">
-      Type to search documentation.
+      {t('search.typeToSearch')}
     </div>
   </div>
 </dialog>
@@ -68,6 +74,12 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
       const results = dialog?.querySelector('[data-lotus-search-results]');
       const triggers = Array.from(document.querySelectorAll('[data-lotus-search-trigger]'));
       const indexUrl = dialog?.getAttribute('data-lotus-search-index');
+      const messages = {
+        loading: dialog?.getAttribute('data-lotus-search-loading') || 'Loading search index...',
+        noResults: dialog?.getAttribute('data-lotus-search-no-results') || 'No results found.',
+        typeToSearch: dialog?.getAttribute('data-lotus-search-type-to-search') || 'Type to search documentation.',
+        unavailable: dialog?.getAttribute('data-lotus-search-unavailable') || 'Search is unavailable.',
+      };
       let searchIndex;
       let loadingIndex;
       let activeResults = [];
@@ -106,7 +118,7 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
               return searchIndex;
             })
             .catch(() => {
-              setMessage('Search is unavailable.');
+              setMessage(messages.unavailable);
               return [];
             });
         }
@@ -225,12 +237,12 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
         const tokens = tokenize(input.value);
 
         if (!tokens.length) {
-          setMessage('Type to search documentation.');
+          setMessage(messages.typeToSearch);
           return;
         }
 
         if (!searchIndex) {
-          setMessage('Loading search index...');
+          setMessage(messages.loading);
         }
 
         const items = await loadIndex();
@@ -245,7 +257,7 @@ const searchIndexHref = getLocalizedSearchHref(themeConfig, currentLocale.key);
         results.replaceChildren();
 
         if (!activeResults.length) {
-          setMessage('No results found.');
+          setMessage(messages.noResults);
           return;
         }
 

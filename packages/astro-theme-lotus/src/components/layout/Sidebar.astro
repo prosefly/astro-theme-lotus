@@ -1,18 +1,31 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { DocsSidebarNav } from '../../lib/docs';
+import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 import SidebarItem from '../ui/SidebarItem.astro';
 
 interface Props {
   sidebar: DocsSidebarNav;
   currentPath?: string;
+  currentLocale?: NormalizedLocale;
   maxHeight?: string;
 }
 
 const {
   sidebar,
   currentPath,
+  currentLocale,
   maxHeight = 'calc(100vh - var(--lotus-docs-chrome-height))',
 } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, resolvedLocale);
 ---
 
 <div
@@ -21,7 +34,7 @@ const {
   style={`--lotus-sidebar-max-height: ${maxHeight}`}
 >
   <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
-  <nav aria-label="Sidebar" class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
+  <nav aria-label={t('sidebar.accessibleLabel')} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
     {sidebar.links.length > 0 && (
       <div class="space-y-1">
         {sidebar.links.map((item) => (

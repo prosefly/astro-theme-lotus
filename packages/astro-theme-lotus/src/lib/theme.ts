@@ -1,4 +1,5 @@
 import type { ThemeAccent } from './colors';
+import type { UiTranslations } from './translations';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -85,6 +86,7 @@ export interface PageActionConfig {
 }
 
 export type OverrideComponentName =
+  | 'EditThisPage'
   | 'HeaderNavbar'
   | 'HeaderSocialIcons'
   | 'PageActions'
@@ -122,6 +124,33 @@ export interface LocaleConfig {
   directory?: string;
 }
 
+export interface EditLinkBaseConfig {
+  branch?: string;
+  contentRoot?: string;
+}
+
+export interface EditLinkPatternConfig extends EditLinkBaseConfig {
+  pattern: string;
+}
+
+export interface EditLinkGithubConfig extends EditLinkBaseConfig {
+  github: string;
+}
+
+export interface EditLinkGitlabConfig extends EditLinkBaseConfig {
+  gitlab: string;
+}
+
+export interface EditLinkCodebergConfig extends EditLinkBaseConfig {
+  codeberg: string;
+}
+
+export type EditLinkConfig =
+  | EditLinkPatternConfig
+  | EditLinkGithubConfig
+  | EditLinkGitlabConfig
+  | EditLinkCodebergConfig;
+
 export interface LotusThemeConfig {
   name: string;
   description: string;
@@ -139,8 +168,10 @@ export interface LotusThemeConfig {
   pageActions: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase: string;
+  editLink?: false | EditLinkConfig;
   defaultLocale?: string;
   locales?: Record<string, LocaleConfig>;
+  ui?: Record<string, Partial<UiTranslations>>;
   iconify?: {
     apiBase?: string;
     preload?: string[];

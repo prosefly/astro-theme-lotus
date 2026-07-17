@@ -1,16 +1,33 @@
 ---
 import ThemeModeController from './ThemeModeController.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 const modes = [
-  { value: 'system', label: 'System' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: 'system', label: t('themeSelect.auto') },
+  { value: 'light', label: t('themeSelect.light') },
+  { value: 'dark', label: t('themeSelect.dark') },
 ];
 ---
 
-<div class="relative" data-lotus-theme-switch>
+<div
+  class="relative"
+  data-lotus-theme-switch
+  data-theme-label-dark={t('themeSelect.dark')}
+  data-theme-label-light={t('themeSelect.light')}
+  data-theme-label-system={t('themeSelect.auto')}
+>
   <select
-    aria-label="Theme mode"
+    aria-label={t('themeSelect.accessibleLabel')}
     class="lotus-focus-ring lotus-border-muted h-9 rounded-(--lotus-radius-md) border bg-(--lotus-background) px-3 text-sm font-medium text-(--lotus-text-strong) sm:hidden"
     data-theme-select
   >
@@ -21,7 +38,7 @@ const modes = [
 
   <details class="group/theme-select relative hidden sm:block">
     <summary class="lotus-focus-ring lotus-border-muted flex h-9 cursor-pointer items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-sm font-medium text-(--lotus-text-strong) marker:hidden">
-      <span data-theme-current>System</span>
+      <span data-theme-current>{t('themeSelect.auto')}</span>
       <svg aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted) transition-transform group-open/theme-select:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
         <path d="m6 9 6 6 6-6" />
       </svg>

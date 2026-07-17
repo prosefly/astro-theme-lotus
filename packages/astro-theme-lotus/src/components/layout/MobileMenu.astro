@@ -1,15 +1,27 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Dropdown from '../ui/Dropdown.astro';
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
 import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
 import LanguageSelect from '../theme/LanguageSelect.astro';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
+import { getLocaleFromRouteSlug } from '../../lib/i18n';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 
 interface Props {
   currentPath?: string;
+  showLanguage?: boolean;
 }
 
-const { currentPath } = Astro.props;
+const { currentPath, showLanguage = true } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 ---
 
 <Dropdown
@@ -18,16 +30,16 @@ const { currentPath } = Astro.props;
   triggerClass="lotus-focus-ring lotus-border-muted flex h-10 cursor-pointer items-center rounded-(--lotus-radius-md) border px-3 text-sm font-medium text-(--lotus-text-strong)"
 >
   <Fragment slot="trigger">
-    Menu
+    {t('menuButton.label')}
   </Fragment>
 
-  <nav aria-label="Primary" class="space-y-4">
+  <nav aria-label={t('navbar.primary')} class="space-y-4">
     <HeaderNavbar currentPath={currentPath} mobile />
 
     <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
       <div class="flex items-center gap-1">
         <HeaderSocialIcons mobile />
-        <LanguageSelect />
+        {showLanguage && <LanguageSelect />}
       </div>
       <ThemeSwitch />
     </div>

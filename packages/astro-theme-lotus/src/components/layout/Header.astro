@@ -1,5 +1,6 @@
 ---
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
+import type { NormalizedLocale } from '../../lib/i18n';
 import MainHeader from './MainHeader.astro';
 import MobileDocsNav from './MobileDocsNav.astro';
 import SubNav from './SubNav.astro';
@@ -12,6 +13,7 @@ interface Heading {
 
 interface Props {
   currentPath?: string;
+  currentLocale?: NormalizedLocale;
   headings?: Heading[];
   sectionTitle?: string;
   sections: DocsSectionNav[];
@@ -22,6 +24,7 @@ interface Props {
 
 const {
   currentPath,
+  currentLocale,
   headings = [],
   sectionTitle,
   sections,
@@ -32,13 +35,14 @@ const {
 ---
 
 <div class="lotus-border-subtle sticky top-0 z-40 border-b bg-(--lotus-background)/95 backdrop-blur">
-  <MainHeader currentPath={currentPath} surface={false} />
+  <MainHeader currentPath={currentPath} showMobileLanguage={false} surface={false} />
   <div class="hidden lg:block">
     <SubNav sections={sections} />
   </div>
   {sidebar && (
     <MobileDocsNav
       currentPath={currentPath}
+      currentLocale={currentLocale}
       headings={headings}
       sectionTitle={sectionTitle}
       sections={sections}

@@ -1,8 +1,13 @@
 ---
 import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
+import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
 import { resolveIconName } from '../../lib/icons';
-import SiteBrand from './SiteBrand.astro';
+import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { getPageCountLabel, useTranslations } from '../../lib/translations';
+import LanguageSelect from '../theme/LanguageSelect.astro';
 import Sidebar from './Sidebar.astro';
 
 interface Heading {
@@ -13,6 +18,7 @@ interface Heading {
 
 interface Props {
   currentPath?: string;
+  currentLocale?: NormalizedLocale;
   headings?: Heading[];
   sectionTitle?: string;
   sections: DocsSectionNav[];
@@ -23,6 +29,7 @@ interface Props {
 
 const {
   currentPath,
+  currentLocale,
   headings = [],
   sectionTitle,
   sections,
@@ -30,13 +37,16 @@ const {
   sidebars = {},
   title,
 } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, resolvedLocale);
 const activeSection = sections.find((section) => section.active) ?? sections[0];
 const activeSectionSlug = activeSection?.slug;
 const visibleHeadings = headings;
-
-function getPageCountLabel(count: number): string {
-  return `${count} ${count === 1 ? 'page' : 'pages'}`;
-}
 
 function getHeadingIndent(depth: number): string {
   if (depth <= 2) {
@@ -54,7 +64,7 @@ function getHeadingIndent(depth: number): string {
 <div class="lg:hidden">
   <div class="lotus-border-subtle flex h-(--lotus-subnav-height) items-center gap-3 border-t px-2 sm:px-4">
     <button
-      aria-label="Open documentation menu"
+      aria-label={t('mobileDocs.openMenu')}
       class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-(--lotus-radius-md) text-left text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       data-lotus-mobile-sidebar-open
       type="button"
@@ -78,10 +88,10 @@ function getHeadingIndent(depth: number): string {
     {visibleHeadings.length > 0 && (
       <details class="relative shrink-0" data-lotus-mobile-toc-menu>
         <summary class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center rounded-(--lotus-radius-md) px-2.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) marker:hidden">
-          On this page
+          {t('tableOfContents.onThisPage')}
         </summary>
         <div class="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-xl">
-          <nav aria-label="On this page">
+          <nav aria-label={t('tableOfContents.onThisPage')}>
             <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
               <li aria-hidden="true" class="lotus-toc-indicator"></li>
               {visibleHeadings.map((heading) => (
@@ -113,25 +123,28 @@ function getHeadingIndent(depth: number): string {
     inert
   >
     <button
-      aria-label="Close documentation menu"
+      aria-label={t('mobileDocs.closeMenu')}
       class="lotus-mobile-sidebar-backdrop absolute inset-0 bg-black/30"
       data-lotus-mobile-sidebar-close
       type="button"
     ></button>
     <aside
-      aria-label="Documentation menu"
+      aria-label={t('mobileDocs.menu')}
       class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-(--lotus-background) shadow-2xl"
     >
       <div class="lotus-border-subtle flex h-(--lotus-header-height) shrink-0 items-center justify-between border-b px-4">
         <SiteBrand textClass="truncate text-sm font-semibold" />
-        <button
-          aria-label="Close documentation menu"
-          class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
-          data-lotus-mobile-sidebar-close
-          type="button"
-        >
-          <Icon aria-hidden="true" class="h-5 w-5" name="lucide:x" />
-        </button>
+        <div class="flex items-center gap-1">
+          <LanguageSelect />
+          <button
+            aria-label={t('mobileDocs.closeMenu')}
+            class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            data-lotus-mobile-sidebar-close
+            type="button"
+          >
+            <Icon aria-hidden="true" class="h-5 w-5" name="lucide:x" />
+          </button>
+        </div>
       </div>
 
       <div class="shrink-0 p-4">
@@ -141,15 +154,17 @@ function getHeadingIndent(depth: number): string {
               <span class="relative h-5 w-5 shrink-0">
                 {sections.map((section) => (
                   section.icon && (
-                    <Icon
-                      aria-hidden="true"
-                      class:list={[
-                        'absolute inset-0 h-5 w-5 text-(--lotus-accent)',
-                        section.slug !== activeSectionSlug && 'hidden',
-                      ]}
+                    <span
+                      class="absolute inset-0"
                       data-lotus-section-summary-icon={section.slug}
-                      name={resolveIconName(section.icon)}
-                    />
+                      hidden={section.slug !== activeSectionSlug}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        class="h-5 w-5 text-(--lotus-accent)"
+                        name={resolveIconName(section.icon)}
+                      />
+                    </span>
                   )
                 ))}
               </span>
@@ -158,7 +173,7 @@ function getHeadingIndent(depth: number): string {
                   {activeSection.label}
                 </span>
                 <span class="block truncate text-xs text-(--lotus-text-muted)" data-lotus-section-summary-count>
-                  {getPageCountLabel(activeSection.items.length)}
+                  {getPageCountLabel(themeConfig, resolvedLocale, activeSection.items.length)}
                 </span>
               </span>
               <Icon
@@ -173,7 +188,7 @@ function getHeadingIndent(depth: number): string {
                   aria-current={section.slug === activeSectionSlug ? 'page' : undefined}
                   class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-2 text-left transition-colors"
                   data-active={section.slug === activeSectionSlug ? '' : undefined}
-                  data-lotus-section-count={getPageCountLabel(section.items.length)}
+                  data-lotus-section-count={getPageCountLabel(themeConfig, resolvedLocale, section.items.length)}
                   data-lotus-section-label={section.label}
                   data-lotus-section-option={section.slug}
                   type="button"
@@ -188,7 +203,7 @@ function getHeadingIndent(depth: number): string {
                   <span class="min-w-0 flex-1">
                     <span class="block truncate text-sm font-semibold">{section.label}</span>
                     <span class="block truncate text-xs text-(--lotus-text-muted)">
-                      {getPageCountLabel(section.items.length)}
+                      {getPageCountLabel(themeConfig, resolvedLocale, section.items.length)}
                     </span>
                   </span>
                   <span class="lotus-mobile-section-check ml-auto hidden h-4 w-4 shrink-0">
@@ -203,7 +218,7 @@ function getHeadingIndent(depth: number): string {
             </div>
           </details>
         ) : (
-          <p class="text-sm font-medium text-(--lotus-text-strong)">Documentation</p>
+          <p class="text-sm font-medium text-(--lotus-text-strong)">{t('mobileDocs.documentation')}</p>
         )}
       </div>
 
@@ -217,7 +232,7 @@ function getHeadingIndent(depth: number): string {
               data-lotus-section-panel={section.slug}
               hidden={section.slug !== activeSectionSlug}
             >
-              <Sidebar currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />
+              <Sidebar currentLocale={resolvedLocale} currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />
             </div>
           );
         })}
@@ -308,7 +323,7 @@ function getHeadingIndent(depth: number): string {
         window.dispatchEvent(new Event('resize'));
 
         summaryIcons.forEach((icon) => {
-          icon.classList.toggle('hidden', icon.getAttribute('data-lotus-section-summary-icon') !== slug);
+          icon.hidden = icon.getAttribute('data-lotus-section-summary-icon') !== slug;
         });
 
         if (summaryLabel) {

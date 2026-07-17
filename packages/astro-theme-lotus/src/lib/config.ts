@@ -31,8 +31,10 @@ export interface LotusIntegrationOptions {
   pageActions?: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase?: string;
+  editLink?: LotusThemeConfig['editLink'];
   defaultLocale?: LotusThemeConfig['defaultLocale'];
   locales?: LotusThemeConfig['locales'];
+  ui?: LotusThemeConfig['ui'];
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   expressiveCode?: false | AstroExpressiveCodeOptions;
   packageManagerTabs?: false;
@@ -57,15 +59,17 @@ const defaultConfig: LotusThemeConfig = {
   socials: [],
   sidebars: [],
   pageActions: [
-    { type: 'copy-page', label: 'Copy page', icon: 'lucide:copy' },
-    { type: 'view-markdown', label: 'View as Markdown', icon: 'lucide:file-text' },
-    { type: 'open-chatgpt', label: 'Open in ChatGPT', icon: 'simple-icons:openai' },
-    { type: 'open-claude', label: 'Open in Claude', icon: 'simple-icons:claude' },
+    { type: 'copy-page', icon: 'lucide:copy' },
+    { type: 'view-markdown', icon: 'lucide:file-text' },
+    { type: 'open-chatgpt', icon: 'simple-icons:openai' },
+    { type: 'open-claude', icon: 'simple-icons:claude' },
   ],
   components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
+  editLink: undefined,
   defaultLocale: undefined,
   locales: undefined,
+  ui: undefined,
   iconify: {
     apiBase: 'https://api.iconify.design',
     preload: [],

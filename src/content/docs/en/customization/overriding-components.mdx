@@ -9,6 +9,25 @@ Component overrides replace specific pieces of the Lotus documentation shell.
 Use them when configuration and CSS tokens are not enough because the rendered
 markup, placement, or behavior needs to change.
 
+Lotus separates shell structure from reusable components:
+
+| Layer | Role | Public API |
+| --- | --- | --- |
+| `components/layout` | Internal page chrome such as header, footer, sidebars, and TOC. | No |
+| `components/defaults` | Default implementations for override slots. | No |
+| `components/theme` | Reusable theme components used by defaults and local overrides. | Yes |
+| `components/ui` | Low-level internal controls. | No |
+
+The shell renders override slots through virtual modules. A default slot usually
+delegates to a public theme component:
+
+```txt
+layout -> virtual override slot -> defaults -> theme
+```
+
+For example, the main header renders the `HeaderNavbar` slot. The default
+`HeaderNavbar` implementation delegates to the public `NavbarLinks` component.
+
 Overrides are configured in `src/theme.config.ts` through the `components`
 object:
 
@@ -43,6 +62,9 @@ Use a component override when the project needs to:
 
 ## Override Points
 
+Override point names are slot names, not always public component export names.
+Use these names in `themeConfig.components`.
+
 | Name | Where It Renders | Props Passed By Lotus |
 | --- | --- | --- |
 | `SiteBrand` | Main header brand link. | none |
@@ -50,13 +72,28 @@ Use a component override when the project needs to:
 | `HeaderSocialIcons` | Desktop header social area and mobile menu social area. | `mobile?: boolean` |
 | `SearchDialog` | Main header search trigger and dialog. | none |
 | `ThemeSwitch` | Desktop header and mobile menu theme mode area. | none |
-| `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl` |
-| `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl` |
-| `PageNavigation` | Previous and next links below docs content. | `navigation` |
+| `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl`, `currentLocale` |
+| `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl`, `currentLocale?` |
+| `EditThisPage` | Edit link between docs content and previous/next navigation. | `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale` |
+| `PageNavigation` | Previous and next links below docs content. | `navigation`, `currentLocale?` |
 
 Only these names are supported by the `components` config. Other components can
 still be imported from `@prosefly/astro-theme-lotus/components`, but importing a
 component does not make it an override point.
+
+Common slot and export pairs:
+
+| Override Slot | Public Component To Reuse |
+| --- | --- |
+| `HeaderNavbar` | `NavbarLinks` |
+| `HeaderSocialIcons` | `SocialIcons` |
+| `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` |
+| `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
+| `PageActions` | `PageActions` |
+| `EditThisPage` | `EditThisPage` |
+| `PageHeader` | `PageHeader` |
+| `PageNavigation` | `PageNavigation` |
+| `SiteBrand` | `SiteBrand` |
 
 ## Minimal Override
 
@@ -90,10 +127,10 @@ export default defineLotusConfig({
 
 Lotus now renders this file anywhere the shell asks for `SearchDialog`.
 
-## Reuse A Default Shell Component
+## Reuse A Public Theme Component
 
-An override can fully replace the default shell component, or it can reuse the
-public default component and add only the markup or classes the project needs.
+An override can fully replace the default slot, or it can reuse a public theme
+component and add only the markup or classes the project needs.
 This is useful when the default behavior is correct but the surrounding
 structure or styling is project-specific.
 
@@ -118,7 +155,7 @@ export default defineLotusConfig({
 ```
 
 `Astro.props` contains the props Lotus passes to that override point. Forward
-those props when reusing the default shell component so built-in behavior keeps
+those props when reusing a public theme component so built-in behavior keeps
 working.
 
 ## Use Public Building Blocks
@@ -148,6 +185,7 @@ Useful public components include:
 | `NavbarLinks` | Reusing configured navbar links. |
 | `SocialIcons` | Reusing configured social links. |
 | `PageActions` | Reusing copy, Markdown, ChatGPT, Claude, and custom actions. |
+| `EditThisPage` | Reusing the edit link below docs content. |
 | `PageHeader` | Reusing the default docs title area. |
 | `PageNavigation` | Reusing previous and next links. |
 | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` | Reusing built-in search. |
@@ -203,6 +241,7 @@ This override changes the page title layout while keeping the default
 // src/components/PageHeader.astro
 ---
 import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+import type { NormalizedLocale } from '@prosefly/astro-theme-lotus';
 import type { PageActionConfig } from '@prosefly/astro-theme-lotus';
 
 interface Props {
@@ -212,6 +251,7 @@ interface Props {
   pageActions?: PageActionConfig[];
   pageUrl: string;
   markdownUrl: string;
+  currentLocale?: NormalizedLocale;
 }
 
 const {
@@ -221,6 +261,7 @@ const {
   pageActions = [],
   pageUrl,
   markdownUrl,
+  currentLocale,
 } = Astro.props;
 ---
 
@@ -242,6 +283,7 @@ const {
     {pageActions.length > 0 && (
       <PageActions
         actions={pageActions}
+        currentLocale={currentLocale}
         markdownUrl={markdownUrl}
         pageUrl={pageUrl}
         title={title}
@@ -251,10 +293,10 @@ const {
 </header>
 ```
 
-Use `virtual:prosefly/lotus/components/PageActions` inside a shell override
-when the override should respect another local `PageActions` override. Use the
-public `@prosefly/astro-theme-lotus/components` export when you specifically
-want the package default component.
+Use `virtual:prosefly/lotus/components/PageActions` inside a shell override when
+the override should respect another local `PageActions` override. Use the public
+`@prosefly/astro-theme-lotus/components` export when you specifically want the
+package theme component and do not want to recurse through the override slot.
 
 ## Debugging
 

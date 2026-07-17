@@ -3,18 +3,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug } from '../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
+import { useTranslations } from '../lib/translations';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 
 Astro.response.status = 404;
 ---
 
 <BaseLayout
-  title="Page not found"
-  description={`The page could not be found on ${themeConfig.name}.`}
+  title={t('404.heading')}
+  description={t('404.description', { site: themeConfig.name })}
+  locale={currentLocale}
 >
   <MainHeader surface />
 
@@ -22,23 +30,23 @@ Astro.response.status = 404;
     <div class="max-w-xl">
       <p class="mb-4 text-sm font-semibold text-(--lotus-accent)">404</p>
       <h1 class="text-4xl font-semibold tracking-normal text-(--lotus-text-strong)">
-        Page not found
+        {t('404.heading')}
       </h1>
       <p class="mt-4 text-base leading-7 text-(--lotus-text-muted)">
-        The page you are looking for does not exist or has moved.
+        {t('404.text')}
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a
           class="lotus-focus-ring inline-flex h-10 items-center justify-center rounded-(--lotus-radius-md) bg-(--lotus-accent) px-4 text-sm font-medium text-(--lotus-accent-contrast) transition-opacity hover:opacity-90"
           href={docsHref}
         >
-          Open documentation
+          {t('404.openDocs')}
         </a>
         <a
           class="lotus-focus-ring inline-flex h-10 items-center justify-center rounded-(--lotus-radius-md) bg-(--lotus-surface) px-4 text-sm font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-accent-soft)"
           href="/"
         >
-          Back home
+          {t('404.backHome')}
         </a>
       </div>
     </div>

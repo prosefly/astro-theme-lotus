@@ -198,7 +198,6 @@ draft: true
 Lotus accepts several Starlight-style fields for schema compatibility, but the
 current UI does not render them yet:
 
-- `editUrl`
 - `head`
 - `banner`
 
@@ -206,3 +205,20 @@ These fields are safe to keep during migrations, but they should not be treated
 as active Lotus UI features until the theme starts consuming them. `head`
 entries are accepted by the content schema, but the current layout does not
 render them into the document head.
+
+## Edit Link
+
+Lotus can generate edit links from `themeConfig.editLink` by replacing the
+configured pattern's `{path}` placeholder with the source content path. Use
+frontmatter `editUrl` only when a page needs to override or disable the
+generated link.
+
+```md
+---
+title: Overview
+editUrl: https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/overview.mdx
+---
+```
+
+Set `editUrl: false` to hide the link for a page. The rendered area can be
+replaced with the `EditThisPage` component override.

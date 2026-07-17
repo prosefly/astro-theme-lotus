@@ -5,6 +5,7 @@ import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { resolveIconName } from '../../lib/icons';
 import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
 
 interface Props {
   currentPath?: string;
@@ -22,6 +23,7 @@ const routeSlug = currentPath
     : currentPath.replace(new RegExp(`^${docsBasePath}`), '')
   : Astro.url.pathname;
 const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
 
 function normalizeHref(href: string): string {
   return href.endsWith('/') ? href : `${href}/`;
@@ -45,7 +47,7 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
 ---
 
 <nav
-  aria-label="Primary"
+  aria-label={t('navbar.primary')}
   class:list={[
     mobile ? 'space-y-1' : 'flex min-w-0 items-center gap-5',
   ]}

@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import type { OverrideComponentName, OverrideComponentsConfig } from './theme';
 
 const overrideComponentNames = [
+  'EditThisPage',
   'HeaderNavbar',
   'HeaderSocialIcons',
   'PageActions',
@@ -17,6 +18,7 @@ const overrideComponentModulePrefix = 'virtual:prosefly/lotus/components/';
 const resolvedOverrideComponentModulePrefix = `\0${overrideComponentModulePrefix}`;
 
 const defaultOverrideComponents = {
+  EditThisPage: new URL('../components/defaults/EditThisPage.astro', import.meta.url),
   HeaderNavbar: new URL('../components/defaults/HeaderNavbar.astro', import.meta.url),
   HeaderSocialIcons: new URL('../components/defaults/HeaderSocialIcons.astro', import.meta.url),
   PageActions: new URL('../components/defaults/PageActions.astro', import.meta.url),

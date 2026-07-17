@@ -1,7 +1,264 @@
 ---
-import PageActions from '../layout/PageActions.astro';
+import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
+import { resolveIconName } from '../../lib/icons';
+import { normalizeDocsBasePath, type LotusThemeConfig, type PageActionConfig, type PageActionType } from '../../lib/theme';
+import { useTranslations } from '../../lib/translations';
+import Dropdown from '../ui/Dropdown.astro';
 
-const props = Astro.props as any;
+interface ResolvedPageAction {
+  type?: string;
+  label: string;
+  icon: string;
+  href?: string;
+  external: boolean;
+  isCopy: boolean;
+}
+
+interface Props {
+  actions?: PageActionConfig[];
+  title: string;
+  pageUrl: string;
+  markdownUrl: string;
+  currentLocale?: NormalizedLocale;
+}
+
+const { actions = [], title, pageUrl, markdownUrl } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
+const routeSlug = docsBasePath === '/'
+  ? Astro.url.pathname
+  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
+const currentLocale = Astro.props.currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
+const t = useTranslations(themeConfig, currentLocale);
+
+const defaultActionMeta: Record<PageActionType, { label: string; icon: string }> = {
+  'copy-page': { label: t('pageActions.copyPage'), icon: 'lucide:copy' },
+  'view-markdown': { label: t('pageActions.viewMarkdown'), icon: 'lucide:file-text' },
+  'open-chatgpt': { label: t('pageActions.openChatGPT'), icon: 'simple-icons:openai' },
+  'open-claude': { label: t('pageActions.openClaude'), icon: 'simple-icons:claude' },
+};
+
+function isKnownAction(type?: string): type is PageActionType {
+  return Boolean(type && type in defaultActionMeta);
+}
+
+function createAssistantPrompt(targetUrl: string): string {
+  return t('pageActions.assistantPrompt', { url: targetUrl });
+}
+
+function interpolateHref(template: string): string {
+  const replacements: Record<string, string> = {
+    title,
+    url: pageUrl,
+    markdownUrl,
+    encodedTitle: encodeURIComponent(title),
+    encodedUrl: encodeURIComponent(pageUrl),
+    encodedMarkdownUrl: encodeURIComponent(markdownUrl),
+  };
+
+  return template.replace(
+    /\{(title|url|markdownUrl|encodedTitle|encodedUrl|encodedMarkdownUrl)\}/g,
+    (_, key: keyof typeof replacements) => replacements[key],
+  );
+}
+
+function getDefaultHref(type?: string): string | undefined {
+  if (type === 'view-markdown') {
+    return markdownUrl;
+  }
+
+  if (type === 'open-chatgpt') {
+    return `https://chatgpt.com/?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
+  if (type === 'open-claude') {
+    return `https://claude.ai/new?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
+  return undefined;
+}
+
+function resolveAction(action: PageActionConfig): ResolvedPageAction | undefined {
+  const meta = isKnownAction(action.type) ? defaultActionMeta[action.type] : undefined;
+  const href = action.href ? interpolateHref(action.href) : getDefaultHref(action.type);
+  const isCopy = action.type === 'copy-page';
+
+  if (!isCopy && !href) {
+    return undefined;
+  }
+
+  return {
+    type: action.type,
+    label: action.label ?? meta?.label ?? t('pageActions.openLink'),
+    icon: resolveIconName(action.icon ?? meta?.icon),
+    href,
+    external: action.external ?? Boolean(href && /^[a-z][a-z\d+.-]*:/i.test(href)),
+    isCopy,
+  };
+}
+
+const resolvedActions = actions.map(resolveAction).filter((action): action is ResolvedPageAction => Boolean(action));
+const primaryAction =
+  resolvedActions.find((action) => action.isCopy) ??
+  resolvedActions[0];
 ---
 
-<PageActions {...props} />
+{primaryAction && resolvedActions.length > 0 && (
+  <div
+    class="relative inline-flex items-center rounded-(--lotus-radius-md) border lotus-border-muted bg-(--lotus-background) text-sm"
+    data-lotus-page-actions
+    data-lotus-page-copied-label={t('pageActions.copied')}
+    data-lotus-page-copy-failed-label={t('pageActions.copyFailed')}
+    data-lotus-page-copying-label={t('pageActions.copying')}
+    data-lotus-page-markdown-url={markdownUrl}
+  >
+    {primaryAction.isCopy ? (
+      <button
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70"
+        data-lotus-copy-page
+        type="button"
+      >
+        <Icon aria-hidden="true" class="h-3.5 w-3.5" name={primaryAction.icon} />
+        <span data-lotus-copy-label>{primaryAction.label}</span>
+      </button>
+    ) : (
+      <a
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        href={primaryAction.href}
+        rel={primaryAction.external ? 'noreferrer' : undefined}
+        target={primaryAction.external ? '_blank' : undefined}
+      >
+        <Icon aria-hidden="true" class="h-3.5 w-3.5" name={primaryAction.icon} />
+        <span>{primaryAction.label}</span>
+      </a>
+    )}
+    <Dropdown
+      class="static"
+      contentClass="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:left-auto sm:right-0 sm:w-56"
+      triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-r-(--lotus-radius-md) border-l lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+      triggerLabel={t('pageActions.show')}
+    >
+      <Fragment slot="trigger">
+        <Icon
+          aria-hidden="true"
+          class="h-3.5 w-3.5 transition-transform group-open/dropdown:rotate-180"
+          name="lucide:chevron-down"
+        />
+      </Fragment>
+      {resolvedActions.map((action) => (
+        action.isCopy ? (
+          <button
+            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) disabled:pointer-events-none disabled:opacity-70"
+            data-lotus-copy-page
+            data-lotus-dropdown-close
+            type="button"
+          >
+            <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
+            <span data-lotus-copy-label>{action.label}</span>
+          </button>
+        ) : (
+          <a
+            class="lotus-focus-ring flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+            data-lotus-dropdown-close
+            href={action.href}
+            rel={action.external ? 'noreferrer' : undefined}
+            target={action.external ? '_blank' : undefined}
+          >
+            <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
+            <span>{action.label}</span>
+          </a>
+        )
+      ))}
+    </Dropdown>
+  </div>
+)}
+
+<script>
+  async function getLotusCopyText(root: HTMLElement) {
+    const markdownUrl = root.dataset.lotusPageMarkdownUrl;
+
+    if (!markdownUrl) {
+      throw new Error('Markdown URL is not available.');
+    }
+
+    const response = await fetch(markdownUrl, {
+      headers: {
+        Accept: 'text/markdown, text/plain;q=0.9, */*;q=0.1',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Markdown page: ${response.status}`);
+    }
+
+    return response.text();
+  }
+
+  async function writeLotusClipboard(text: string) {
+    if (!navigator.clipboard?.writeText) {
+      throw new Error('Clipboard API is not available.');
+    }
+
+    await navigator.clipboard.writeText(text);
+  }
+
+  function initLotusPageActions() {
+    document.querySelectorAll('[data-lotus-page-actions]').forEach((root) => {
+      if (!(root instanceof HTMLElement) || root.dataset.lotusPageActionsReady) {
+        return;
+      }
+
+      root.dataset.lotusPageActionsReady = 'true';
+
+      root.querySelectorAll('[data-lotus-copy-page]').forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const label = button.querySelector('[data-lotus-copy-label]');
+        const originalLabel = label?.textContent ?? root.dataset.lotusPageCopyLabel ?? 'Copy page';
+        const copyingLabel = root.dataset.lotusPageCopyingLabel ?? 'Copying...';
+        const copiedLabel = root.dataset.lotusPageCopiedLabel ?? 'Copied';
+        const copyFailedLabel = root.dataset.lotusPageCopyFailedLabel ?? 'Copy failed';
+
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+
+          if (label) {
+            label.textContent = copyingLabel;
+          }
+
+          try {
+            await writeLotusClipboard(await getLotusCopyText(root));
+
+            if (label) {
+              label.textContent = copiedLabel;
+              window.setTimeout(() => {
+                label.textContent = originalLabel;
+              }, 1600);
+            }
+
+            const details = button.closest('details');
+            if (details) {
+              details.open = false;
+            }
+          } catch {
+            if (label) {
+              label.textContent = copyFailedLabel;
+              window.setTimeout(() => {
+                label.textContent = originalLabel;
+              }, 1600);
+            }
+          } finally {
+            button.disabled = false;
+          }
+        });
+      });
+    });
+  }
+
+  initLotusPageActions();
+  document.addEventListener('astro:page-load', initLotusPageActions);
+</script>

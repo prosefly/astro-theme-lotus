@@ -1,7 +1,67 @@
 ---
-import SiteBrand from '../layout/SiteBrand.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
 
-const props = Astro.props as any;
+interface Props {
+  class?: string;
+  textClass?: string;
+}
+
+const { class: className, textClass = 'truncate text-sm font-semibold sm:text-base' } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const logo = themeConfig.logo;
+const logoHref = typeof logo === 'string' ? '/' : (logo.href ?? '/');
+const logoLight = typeof logo === 'string' ? logo : logo.light;
+const logoDark = typeof logo === 'string' ? undefined : logo.dark;
 ---
 
-<SiteBrand {...props} />
+<a
+  class:list={[
+    'lotus-focus-ring flex min-w-0 items-center gap-3 text-(--lotus-text-strong)',
+    className,
+  ]}
+  href={logoHref}
+>
+  <span class="relative h-8 w-8 shrink-0">
+    <img
+      alt=""
+      class:list={[
+        'h-8 w-8 rounded-(--lotus-radius-md)',
+        logoDark && 'lotus-logo-light',
+      ]}
+      src={logoLight}
+    />
+    {logoDark && (
+      <img
+        alt=""
+        class="lotus-logo-dark absolute inset-0 h-8 w-8 rounded-(--lotus-radius-md)"
+        src={logoDark}
+      />
+    )}
+  </span>
+  <span class={textClass}>{themeConfig.name}</span>
+</a>
+
+<style>
+  .lotus-logo-dark {
+    display: none;
+  }
+
+  :global(:root[data-theme="dark"]) .lotus-logo-light {
+    display: none;
+  }
+
+  :global(:root[data-theme="dark"]) .lotus-logo-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root[data-theme="system"]) .lotus-logo-light {
+      display: none;
+    }
+
+    :global(:root[data-theme="system"]) .lotus-logo-dark {
+      display: block;
+    }
+  }
+</style>
