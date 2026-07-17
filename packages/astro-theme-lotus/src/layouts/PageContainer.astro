@@ -1,0 +1,29 @@
+---
+type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  size?: ContainerSize;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  as = 'div',
+  size = 'xl',
+  class: className,
+  ...attrs
+} = Astro.props as Props;
+const Tag = as;
+const sizeClasses: Record<ContainerSize, string> = {
+  sm: 'max-w-3xl',
+  md: 'max-w-4xl',
+  lg: 'max-w-5xl',
+  xl: 'max-w-screen-2xl',
+  full: 'max-w-none',
+};
+---
+
+<Tag class:list={['mx-auto w-full px-5 sm:px-6', sizeClasses[size], className]} {...attrs}>
+  <slot />
+</Tag>

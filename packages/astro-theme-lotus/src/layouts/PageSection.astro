@@ -1,0 +1,43 @@
+---
+import PageContainer from './PageContainer.astro';
+
+type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+type SectionPadding = 'none' | 'sm' | 'md' | 'lg';
+
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  container?: boolean;
+  containerClass?: string;
+  padding?: SectionPadding;
+  size?: ContainerSize;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  as = 'section',
+  container = true,
+  containerClass,
+  padding = 'lg',
+  size = 'xl',
+  class: className,
+  ...attrs
+} = Astro.props as Props;
+const Tag = as;
+const paddingClasses: Record<SectionPadding, string> = {
+  none: '',
+  sm: 'py-8 sm:py-10',
+  md: 'py-12 sm:py-16',
+  lg: 'py-16 sm:py-20',
+};
+---
+
+<Tag class:list={[paddingClasses[padding], className]} {...attrs}>
+  {container ? (
+    <PageContainer class={containerClass} size={size}>
+      <slot />
+    </PageContainer>
+  ) : (
+    <slot />
+  )}
+</Tag>

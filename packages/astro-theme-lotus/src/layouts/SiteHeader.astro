@@ -1,0 +1,13 @@
+---
+import MainHeader from '../components/layout/MainHeader.astro';
+
+interface Props {
+  currentPath?: string;
+  showMobileLanguage?: boolean;
+  surface?: boolean;
+}
+
+const props = Astro.props as Props;
+---
+
+<MainHeader {...props} />
