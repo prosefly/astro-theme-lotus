@@ -12,6 +12,7 @@ export default defineLotusConfig({
   navbar: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Pricing', href: '/pricing/' },
+    { label: 'Sponsors', href: '/sponsors/' },
     {
       label: 'Source',
       href: 'https://github.com/prosefly/astro-theme-lotus',
@@ -168,9 +169,10 @@ export default defineLotusConfig({
             href: 'https://x.com/prosefly',
             external: true,
           },
+          { label: 'Sponsors', href: '/sponsors/' },
           {
-            label: 'Sponsor',
-            href: 'https://github.com/sponsors/lepture',
+            label: 'Sponsor Prosefly',
+            href: 'https://github.com/sponsors/prosefly',
             external: true,
           },
         ],
