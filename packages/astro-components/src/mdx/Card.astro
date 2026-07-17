@@ -65,12 +65,8 @@ const linkAttrs = href
   }
 
   .pl-card--link:hover {
-    background: var(--pl-surface, #f4f6f8);
-    border-color: color-mix(
-      in oklab,
-      var(--pl-text-muted, #667085) 28%,
-      transparent
-    );
+    background: transparent;
+    border-color: var(--pl-accent, #4f46e5);
   }
 
   .pl-card--link:focus-visible {
@@ -91,24 +87,27 @@ const linkAttrs = href
 
   .pl-card__icon {
     align-items: center;
-    background: var(--pl-surface, #f4f6f8);
+    background: var(
+      --pl-accent-soft,
+      color-mix(in oklab, var(--pl-accent, #4f46e5) 12%, white)
+    );
     border-radius: var(--pl-radius-md, 0.5rem);
-    color: var(--pl-text-muted, #667085);
+    color: var(--pl-accent, #4f46e5);
     display: inline-flex;
-    height: 2rem;
+    height: 2.25rem;
     justify-content: center;
     line-height: 0;
-    width: 2rem;
+    width: 2.25rem;
   }
 
   .pl-card--link:hover .pl-card__icon {
-    color: var(--pl-text-strong, var(--pl-text, #182230));
+    color: var(--pl-accent, #4f46e5);
   }
 
   .pl-card__icon :global(.pl-icon) {
     display: block;
-    height: 1rem;
-    width: 1rem;
+    height: 1.125rem;
+    width: 1.125rem;
   }
 
   .pl-card__title {
