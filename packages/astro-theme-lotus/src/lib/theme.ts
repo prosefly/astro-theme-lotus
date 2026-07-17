@@ -15,7 +15,7 @@ export interface ThemeLink {
   translations?: Record<string, string>;
 }
 
-export type ThemeNavbarVariant = 'soft' | 'outline' | 'solid';
+export type ThemeNavbarVariant = 'text' | 'soft' | 'outline' | 'solid';
 
 export type ThemeNavbarColor = 'neutral' | 'accent';
 

@@ -5,8 +5,8 @@ sidebar:
   order: 3
 ---
 
-`navbar` controls the main header links. Regular items render as text links.
-Items with `variant` render as button-like actions.
+`navbar` controls the main header links. Items default to `variant: 'text'`.
+Use `soft`, `outline`, or `solid` when an item should look like an action.
 
 ```ts
 navbar: [
@@ -36,13 +36,14 @@ Add `external: true` when a link should open in a new tab.
 
 ## Action Buttons
 
-Add `variant` to render a navbar item as a button.
+Add a button variant to render a navbar item as an action.
 
 ```ts
 { label: 'Dashboard', href: '/dashboard/', variant: 'soft' }
 ```
 
-Supported variants are `soft`, `outline`, and `solid`.
+Supported variants are `text`, `soft`, `outline`, and `solid`. `text` is the
+default and matches regular navbar links.
 
 `color` can be `neutral` or `accent`. If omitted, navbar actions default to a
 neutral soft style.

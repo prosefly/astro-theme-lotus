@@ -15,7 +15,7 @@ const t = useTranslations(themeConfig, currentLocale);
 
 <button
   aria-label={t('search.label')}
-  class="lotus-focus-ring lotus-border-muted ml-auto inline-flex h-10 w-10 items-center justify-center rounded-(--lotus-radius-md) border text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) lg:hidden"
+  class="lotus-focus-ring ml-auto inline-flex h-10 w-10 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) lg:ml-0 lg:border lg:border-(--lotus-border-muted) lg:hover:bg-transparent xl:hidden"
   data-lotus-search-trigger
   type="button"
 >
@@ -26,7 +26,7 @@ const t = useTranslations(themeConfig, currentLocale);
 </button>
 
 <button
-  class="lotus-focus-ring lotus-border-muted hidden h-9 w-64 min-w-0 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-left text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) lg:flex"
+  class="lotus-focus-ring lotus-border-muted hidden h-9 w-64 min-w-0 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-left text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) xl:flex"
   data-lotus-search-trigger
   type="button"
 >

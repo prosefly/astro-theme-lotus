@@ -2,7 +2,7 @@
 import { Icon } from '@prosefly/astro-components';
 import { resolveIconName } from '../../lib/icons';
 
-type ButtonVariant = 'soft' | 'outline' | 'solid' | 'ghost';
+type ButtonVariant = 'text' | 'soft' | 'outline' | 'solid' | 'ghost';
 type ButtonColor = 'neutral' | 'accent';
 
 interface Props {
@@ -30,10 +30,15 @@ const {
 } = Astro.props;
 const trailingIconName = trailingIcon ? resolveIconName(trailingIcon) : undefined;
 const baseClasses = [
-  'lotus-focus-ring h-9 items-center justify-center gap-2 rounded-(--lotus-radius-md) px-3 text-sm font-medium transition-colors',
-  block ? 'flex w-full' : 'inline-flex',
+  'lotus-focus-ring items-center gap-2 rounded-(--lotus-radius-md) text-sm font-medium transition-colors',
+  block ? 'flex w-full justify-start' : 'inline-flex justify-center',
+  variant === 'text' ? '' : 'h-9 px-3',
 ];
 const variantClasses = {
+  text:
+    color === 'accent'
+      ? 'text-(--lotus-accent) hover:text-(--lotus-accent)'
+      : 'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
   solid:
     color === 'accent'
       ? 'bg-(--lotus-accent) text-(--lotus-accent-contrast) hover:opacity-90'

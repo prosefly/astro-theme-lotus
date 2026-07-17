@@ -1,8 +1,6 @@
 ---
-import { Icon } from '@prosefly/astro-components';
 import Button from '../ui/Button.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { resolveIconName } from '../../lib/icons';
 import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
 import { useTranslations } from '../../lib/translations';
@@ -41,9 +39,6 @@ function isActive(href: string): boolean {
   return currentPath === href || currentPath.startsWith(`${href}`);
 }
 
-function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
-  return Boolean(item.variant);
-}
 ---
 
 <nav
@@ -53,37 +48,18 @@ function isNavbarButton(item: LotusThemeConfig['navbar'][number]): boolean {
   ]}
 >
   {navbar.map((item) => (
-    isNavbarButton(item) ? (
-      <Button
-        block={mobile}
-        color={item.color ?? 'neutral'}
-        data-lotus-dropdown-close={mobile ? true : undefined}
-        external={item.external}
-        href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
-        trailingIcon={item.trailingIcon}
-        variant={item.variant}
-      >
-        {translateLabel(item.label, item.translations, currentLocale.key)}
-      </Button>
-    ) : (
-      <a
-        class:list={[
-          'lotus-focus-ring items-center gap-1.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)',
-          mobile
-            ? 'flex rounded-(--lotus-radius-md) px-3 py-2'
-            : 'inline-flex',
-        ]}
-        aria-current={isActive(item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)) ? 'page' : undefined}
-        data-lotus-dropdown-close={mobile ? true : undefined}
-        href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
-        rel={item.external ? 'noreferrer' : undefined}
-        target={item.external ? '_blank' : undefined}
-      >
-        <span>{translateLabel(item.label, item.translations, currentLocale.key)}</span>
-        {item.trailingIcon && (
-          <Icon aria-hidden="true" class="h-4 w-4" name={resolveIconName(item.trailingIcon)} />
-        )}
-      </a>
-    )
+    <Button
+      aria-current={isActive(item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)) ? 'page' : undefined}
+      block={mobile}
+      class={(item.variant ?? 'text') === 'text' && mobile ? 'px-3 py-2' : undefined}
+      color={item.color ?? 'neutral'}
+      data-lotus-dropdown-close={mobile ? true : undefined}
+      external={item.external}
+      href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
+      trailingIcon={item.trailingIcon}
+      variant={item.variant ?? 'text'}
+    >
+      {translateLabel(item.label, item.translations, currentLocale.key)}
+    </Button>
   ))}
 </nav>

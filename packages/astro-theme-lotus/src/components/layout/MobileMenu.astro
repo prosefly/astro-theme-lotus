@@ -1,4 +1,5 @@
 ---
+import { Icon } from '@prosefly/astro-components';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Dropdown from '../ui/Dropdown.astro';
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
@@ -27,10 +28,11 @@ const t = useTranslations(themeConfig, currentLocale);
 <Dropdown
   class="lg:hidden"
   contentClass="lotus-border-muted absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-4 shadow-lg shadow-black/5"
-  triggerClass="lotus-focus-ring lotus-border-muted flex h-10 cursor-pointer items-center rounded-(--lotus-radius-md) border px-3 text-sm font-medium text-(--lotus-text-strong)"
+  triggerClass="lotus-focus-ring flex h-10 w-10 cursor-pointer items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
 >
   <Fragment slot="trigger">
-    {t('menuButton.label')}
+    <Icon aria-hidden="true" class="h-5 w-5" name="lucide:ellipsis-vertical" />
+    <span class="sr-only">{t('menuButton.label')}</span>
   </Fragment>
 
   <nav aria-label={t('navbar.primary')} class="space-y-4">
