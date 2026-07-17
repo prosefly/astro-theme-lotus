@@ -1,0 +1,293 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+
+const licenseRows = [
+  {
+    label: 'Commercial use',
+    value: 'Permitted',
+    detail: 'Use Lotus in products, client work, and internal documentation.',
+  },
+  {
+    label: 'Modification and redistribution',
+    value: 'Permitted',
+    detail: 'Change the source and redistribute source or binary forms.',
+  },
+  {
+    label: 'Copyright and license notice',
+    value: 'Required',
+    detail: 'Retain the copyright notice, conditions, and disclaimer.',
+  },
+  {
+    label: 'Warranty',
+    value: 'Not provided',
+    detail: 'The software is provided as-is under the license disclaimer.',
+  },
+];
+
+const supportOptions = [
+  {
+    title: 'Sponsor maintenance',
+    text: 'Fund compatibility work, documentation, and examples.',
+    icon: 'lucide:heart-handshake',
+    href: 'https://github.com/sponsors/lepture',
+  },
+  {
+    title: 'Contribute on GitHub',
+    text: 'Report issues, propose focused changes, or send a pull request.',
+    icon: 'lucide:git-pull-request',
+    href: 'https://github.com/prosefly/astro-theme-lotus',
+  },
+  {
+    title: 'Request implementation help',
+    text: 'Start a project-specific conversation in the issue tracker.',
+    icon: 'lucide:messages-square',
+    href: 'https://github.com/prosefly/astro-theme-lotus/issues',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Do sponsors receive extra features?',
+    answer: 'No. Sponsorship supports development but does not create a separate product tier or unlock features.',
+  },
+  {
+    question: 'Can a company use Lotus commercially?',
+    answer: 'Yes. Commercial use is permitted under BSD-3-Clause, provided the license conditions are followed.',
+  },
+  {
+    question: 'Does Lotus include hosting or support SLAs?',
+    answer: 'No. Lotus is source code you deploy yourself. The project does not include a hosted account or support SLA.',
+  },
+];
+---
+
+<PageSection padding="lg" size="xl">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,0.65fr)_minmax(30rem,1.35fr)]">
+    <div>
+      <p class="section-label">BSD-3-Clause</p>
+      <h2 class="heading mt-3">What the license allows and requires.</h2>
+      <p class="mt-5 max-w-lg text-sm leading-6 text-(--lotus-text-muted)">
+        This is a practical summary, not a substitute for the license text.
+      </p>
+      <a
+        class="text-link lotus-focus-ring mt-7"
+        href="https://github.com/prosefly/astro-theme-lotus/blob/main/LICENSE"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Read the full license <Icon name="lucide:arrow-up-right" />
+      </a>
+    </div>
+
+    <div class="license-table border-y border-(--lotus-border-subtle)">
+      {licenseRows.map((row) => (
+        <article>
+          <h3>{row.label}</h3>
+          <strong>{row.value}</strong>
+          <p>{row.detail}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</PageSection>
+
+<PageSection class="border-t border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
+  <div class="grid gap-14 lg:grid-cols-2">
+    <section>
+      <p class="section-label">Optional support</p>
+      <h2 class="subheading mt-3">Pay only if you want to support the work.</h2>
+      <div class="support-list mt-8 border-y border-(--lotus-border-subtle)">
+        {supportOptions.map((option) => (
+          <a href={option.href} rel="noreferrer" target="_blank" class="lotus-focus-ring">
+            <Icon name={option.icon} />
+            <span>
+              <strong>{option.title}</strong>
+              <small>{option.text}</small>
+            </span>
+            <Icon name="lucide:arrow-up-right" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <p class="section-label">Common questions</p>
+      <h2 class="subheading mt-3">No hidden plan details.</h2>
+      <div class="faq-list mt-8 border-y border-(--lotus-border-subtle)">
+        {faqs.map((faq) => (
+          <details>
+            <summary class="lotus-focus-ring">
+              <span>{faq.question}</span>
+              <Icon name="lucide:plus" />
+            </summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+
+  .subheading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+  }
+
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .license-table article {
+    align-items: baseline;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(10rem, 0.7fr) 8rem minmax(0, 1fr);
+    padding-block: 1.25rem;
+  }
+
+  .license-table article + article {
+    border-top: 1px solid var(--lotus-border-subtle);
+  }
+
+  .license-table h3,
+  .license-table strong,
+  .license-table p {
+    font-size: 0.8125rem;
+    margin: 0;
+  }
+
+  .license-table h3 {
+    color: var(--lotus-text-strong);
+    font-weight: 600;
+  }
+
+  .license-table strong {
+    color: var(--lotus-accent);
+    font-family: var(--lotus-font-mono);
+    font-weight: 500;
+  }
+
+  .license-table p {
+    color: var(--lotus-text-muted);
+    line-height: 1.55;
+  }
+
+  .support-list a {
+    align-items: center;
+    color: inherit;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: 1.15rem;
+  }
+
+  .support-list a + a,
+  .faq-list details + details {
+    border-top: 1px solid var(--lotus-border-subtle);
+  }
+
+  .support-list a > :global(.pl-icon:first-child) {
+    color: var(--lotus-accent);
+    height: 1.1rem;
+    width: 1.1rem;
+  }
+
+  .support-list a > :global(.pl-icon:last-child) {
+    color: var(--lotus-text-subtle);
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .support-list strong,
+  .support-list small {
+    display: block;
+  }
+
+  .support-list strong {
+    color: var(--lotus-text-strong);
+    font-size: 0.875rem;
+  }
+
+  .support-list small {
+    color: var(--lotus-text-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-top: 0.25rem;
+  }
+
+  .faq-list summary {
+    align-items: center;
+    color: var(--lotus-text-strong);
+    cursor: pointer;
+    display: flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    justify-content: space-between;
+    list-style: none;
+    padding-block: 1.3rem;
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list summary :global(.pl-icon) {
+    color: var(--lotus-text-subtle);
+    flex: 0 0 auto;
+    height: 1rem;
+    transition: transform 160ms ease;
+    width: 1rem;
+  }
+
+  .faq-list details[open] summary :global(.pl-icon) {
+    transform: rotate(45deg);
+  }
+
+  .faq-list p {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    margin: -0.25rem 2rem 1.3rem 0;
+  }
+
+  @media (max-width: 767px) {
+    .license-table article {
+      gap: 0.35rem 1rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .license-table p {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

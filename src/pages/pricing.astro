@@ -1,0 +1,23 @@
+---
+import {
+  BaseLayout,
+  SiteFooter,
+  SiteHeader,
+} from '@prosefly/astro-theme-lotus/layouts';
+import PricingHero from '../components/pricing/PricingHero.astro';
+import PricingIncluded from '../components/pricing/PricingIncluded.astro';
+import PricingLicenseSupport from '../components/pricing/PricingLicenseSupport.astro';
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Use every Astro Theme Lotus feature for $0 under the BSD-3-Clause license, including commercial and self-hosted projects."
+>
+  <SiteHeader currentPath="/pricing/" surface />
+  <main>
+    <PricingHero />
+    <PricingIncluded />
+    <PricingLicenseSupport />
+  </main>
+  <SiteFooter />
+</BaseLayout>

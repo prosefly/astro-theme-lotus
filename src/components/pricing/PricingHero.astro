@@ -1,0 +1,215 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+
+const facts = [
+  { term: 'Price', value: '$0' },
+  { term: 'License', value: 'BSD-3-Clause' },
+  { term: 'Features', value: 'All included' },
+  { term: 'Hosting', value: 'Self-hosted' },
+];
+---
+
+<PageSection class="pricing-hero overflow-hidden border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
+  <div class="hero-grid grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.62fr)] lg:items-end">
+    <div class="max-w-4xl">
+      <p class="section-label">Pricing / open source</p>
+      <h1 class="hero-title mt-5">
+        One <span>open-source</span> edition.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-(--lotus-text)">
+        Use Lotus for personal, commercial, and team documentation. There are
+        no paid tiers, hosted accounts, feature gates, or usage limits imposed
+        by the theme.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a class="primary-action lotus-focus-ring" href="/docs/overview/">
+          Get started <Icon name="lucide:arrow-right" />
+        </a>
+        <a
+          class="secondary-action lotus-focus-ring"
+          href="https://github.com/prosefly/astro-theme-lotus"
+          rel="noreferrer"
+          target="_blank"
+        >
+          View source <Icon name="simple-icons:github" />
+        </a>
+      </div>
+    </div>
+
+    <aside class="price-summary">
+      <div class="flex items-baseline justify-between gap-4">
+        <span class="font-mono text-xs text-(--lotus-text-subtle)">CURRENT PRICE</span>
+        <span class="text-sm text-(--lotus-text-muted)">No account required</span>
+      </div>
+      <div class="price mt-5"><span>$</span>0</div>
+      <p class="mt-3 text-sm leading-6 text-(--lotus-text-muted)">
+        The complete source is available under BSD-3-Clause. Sponsorship is
+        optional and does not unlock additional product features.
+      </p>
+      <div class="install-command mt-7">
+        <span aria-hidden="true">$</span>
+        <code>pnpm add @prosefly/astro-theme-lotus</code>
+      </div>
+    </aside>
+  </div>
+
+  <dl class="fact-grid mt-16 grid border-y border-(--lotus-border-subtle) sm:grid-cols-2 lg:grid-cols-4">
+    {facts.map((fact) => (
+      <div>
+        <dt>{fact.term}</dt>
+        <dd>{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .hero-title {
+    color: var(--lotus-text-strong);
+    font-size: clamp(3.5rem, 7.4vw, 7.25rem);
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    line-height: 0.88;
+  }
+
+  .hero-title span {
+    color: var(--lotus-accent);
+  }
+
+  .primary-action,
+  .secondary-action {
+    align-items: center;
+    border-radius: var(--lotus-radius-md);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.55rem;
+    height: 2.75rem;
+    justify-content: center;
+    padding-inline: 1.1rem;
+  }
+
+  .primary-action {
+    background: var(--lotus-accent);
+    color: var(--lotus-accent-contrast);
+  }
+
+  .secondary-action {
+    border: 1px solid var(--lotus-border-muted);
+    color: var(--lotus-text-strong);
+  }
+
+  .primary-action :global(.pl-icon),
+  .secondary-action :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .price-summary {
+    border-left: 1px solid var(--lotus-border-subtle);
+    padding: 1rem 0 0 2rem;
+  }
+
+  .price {
+    color: var(--lotus-text-strong);
+    font-size: clamp(5rem, 9vw, 8rem);
+    font-weight: 500;
+    letter-spacing: -0.07em;
+    line-height: 0.8;
+  }
+
+  .price span {
+    color: var(--lotus-text-subtle);
+    font-size: 0.42em;
+    margin-right: 0.1em;
+    vertical-align: top;
+  }
+
+  .install-command {
+    align-items: center;
+    border-block: 1px solid var(--lotus-border-subtle);
+    color: var(--lotus-accent);
+    display: flex;
+    gap: 0.75rem;
+    min-width: 0;
+    padding-block: 1rem;
+  }
+
+  .install-command code {
+    color: var(--lotus-text);
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fact-grid > div {
+    padding: 1.35rem 1.5rem;
+  }
+
+  .fact-grid > div + div {
+    border-left: 1px solid var(--lotus-border-subtle);
+  }
+
+  .fact-grid dt {
+    color: var(--lotus-text-subtle);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+  }
+
+  .fact-grid dd {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.45rem 0 0;
+  }
+
+  @media (max-width: 1023px) {
+    .price-summary {
+      border-left: 0;
+      border-top: 1px solid var(--lotus-border-subtle);
+      padding: 2rem 0 0;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .fact-grid > div:nth-child(3) {
+      border-left: 0;
+      border-top: 1px solid var(--lotus-border-subtle);
+    }
+
+    .fact-grid > div:nth-child(4) {
+      border-top: 1px solid var(--lotus-border-subtle);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero-title {
+      font-size: clamp(3.45rem, 18vw, 4.5rem);
+    }
+
+    .fact-grid > div {
+      align-items: baseline;
+      display: flex;
+      justify-content: space-between;
+      padding-inline: 0.25rem;
+    }
+
+    .fact-grid > div + div {
+      border-left: 0;
+      border-top: 1px solid var(--lotus-border-subtle);
+    }
+
+    .fact-grid dd {
+      margin: 0;
+    }
+  }
+</style>
