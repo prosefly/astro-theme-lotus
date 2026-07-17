@@ -52,8 +52,7 @@ import PageActions from 'virtual:prosefly/lotus/components/PageActions';
 This override keeps the default copy, Markdown, ChatGPT, Claude, and custom
 actions, but changes the surrounding container.
 
-```astro
-// src/components/PageActions.astro
+```astro title="src/components/lotus/PageActions.astro"
 ---
 import { PageActions } from '@prosefly/astro-theme-lotus/components';
 ---
@@ -66,7 +65,7 @@ import { PageActions } from '@prosefly/astro-theme-lotus/components';
 ```ts
 export default defineLotusConfig({
   components: {
-    PageActions: './src/components/PageActions.astro',
+    PageActions: './src/components/lotus/PageActions.astro',
   },
 });
 ```
@@ -76,8 +75,7 @@ export default defineLotusConfig({
 This override keeps the configured social icons, replaces the default theme
 control, and still works in both desktop and mobile header contexts.
 
-```astro
-// src/components/HeaderSocialIcons.astro
+```astro title="src/components/lotus/HeaderSocialIcons.astro"
 ---
 import {
   SocialIcons,
@@ -103,7 +101,7 @@ const { mobile = false } = Astro.props;
 ```ts
 export default defineLotusConfig({
   components: {
-    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+    HeaderSocialIcons: './src/components/lotus/HeaderSocialIcons.astro',
   },
 });
 ```
@@ -116,8 +114,7 @@ the desktop header and mobile menu.
 This override changes the page title layout while keeping the configured
 `PageActions` override point inside it.
 
-```astro
-// src/components/PageHeader.astro
+```astro title="src/components/lotus/PageHeader.astro"
 ---
 import PageActions from 'virtual:prosefly/lotus/components/PageActions';
 import type { NormalizedLocale } from '@prosefly/astro-theme-lotus';

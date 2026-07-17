@@ -2,7 +2,7 @@
 title: Theme Components
 description: Reuse public Lotus theme components inside local overrides.
 sidebar:
-  order: 10
+  order: 2
 ---
 
 Lotus exports composable theme components from
@@ -12,6 +12,9 @@ or rearrange the default behavior instead of replacing it from scratch.
 These exports come from Lotus' `components/theme` layer. They are reusable
 building blocks, not the internal page chrome. Lotus does not export
 `components/layout`, `components/defaults`, or `components/ui`.
+
+For custom Astro pages that need a full page shell, use
+`@prosefly/astro-theme-lotus/layouts` instead. See [Page Layouts](/docs/customization/page-layouts/).
 
 An override slot and a public component can have different names. For example,
 the shell slot is `HeaderNavbar`, while the reusable public component is
@@ -24,12 +27,15 @@ the shell slot is `HeaderNavbar`, while the reusable public component is
 | `AppearancePalette` | Complete appearance palette control. |
 | `AppearancePaletteContent` | Palette popover content without the trigger wrapper. |
 | `Assistant` | Hosted assistant widget loader. |
-| `FooterLinks` | Footer link sections rendered from `footer.sections`. |
-| `NavbarLinks` | Header navbar links and action buttons. |
-| `SocialIcons` | Social icon list. |
-| `PageActions` | Copy, Markdown, and assistant page actions. |
-| `EditThisPage` | Edit link used by the page aside. |
+| `AssistantTrigger` | Ask AI trigger button shown near search. |
 | `Contributors` | Contributors block below docs content. |
+| `Credits` | Built with Lotus footer credit. |
+| `EditThisPage` | Edit link used by the page aside. |
+| `FooterLinks` | Footer link sections rendered from `footer.sections`. |
+| `LanguageSelect` | Locale selector for configured locales. |
+| `LotusMark` | Built-in Lotus logo mark. |
+| `NavbarLinks` | Header navbar links and action buttons. |
+| `PageActions` | Copy, Markdown, and assistant page actions. |
 | `PageAside` | Right sidebar content with table of contents and edit link. |
 | `PageHeader` | Page title area with description and actions. |
 | `PageMeta` | Last updated and contributors area below docs content. |
@@ -38,6 +44,7 @@ the shell slot is `HeaderNavbar`, while the reusable public component is
 | `SearchDialogContent` | Search dialog body and client behavior. |
 | `SearchDialogTrigger` | Search trigger buttons. |
 | `SiteBrand` | Brand logo link. |
+| `SocialIcons` | Social icon list. |
 | `ThemeModeButton` | Icon button for cycling or selecting theme mode. |
 | `ThemeModeSegmentedControl` | Segmented light, dark, and system control. |
 | `ThemeModeSelect` | Select control for theme mode. |
@@ -135,8 +142,8 @@ Use the `components` configuration to replace shell-owned slots:
 ```ts
 export default defineLotusConfig({
   components: {
-    PageActions: './src/components/PageActions.astro',
-    SearchDialog: './src/components/SearchDialog.astro',
+    PageActions: './src/components/lotus/PageActions.astro',
+    SearchDialog: './src/components/lotus/SearchDialog.astro',
   },
 });
 ```

@@ -1,0 +1,109 @@
+---
+title: Page Layouts
+description: Build custom Astro pages with Lotus layout exports.
+sidebar:
+  order: 4
+---
+
+Lotus exports page-level layout primitives from
+`@prosefly/astro-theme-lotus/layouts`. Use them for custom Astro routes such as
+pricing pages, changelogs, landing pages, legal pages, and other pages that
+should share the same theme shell without using the docs sidebar layout.
+
+## Exports
+
+| Export | Purpose |
+| --- | --- |
+| `BaseLayout` | Document shell with Lotus styles, appearance attributes, metadata, favicon, JSON-LD, and assistant widget support. |
+| `SiteHeader` | Site header with brand, search, navbar, socials, language selector, theme switch, and mobile menu. |
+| `SiteFooter` | Footer shell using the configured brand, copyright, credits, and footer links. |
+| `PageContainer` | Responsive max-width container with Lotus horizontal page padding. |
+| `PageSection` | Page section wrapper with configurable vertical spacing and optional container. |
+| `SplashLayout` | Complete splash page layout with site header, hero area, content section, and footer. |
+| `TextLayout` | Complete centered prose layout for terms, privacy, and other plain text pages. |
+
+`DocsLayout` is intentionally not exported. It depends on generated docs
+context, sidebar navigation, table of contents, contributors, and pagination.
+
+## Pricing Page
+
+Use `BaseLayout` when the page needs a custom composition:
+
+```astro title="src/pages/pricing.astro"
+---
+import {
+  BaseLayout,
+  PageSection,
+  SiteFooter,
+  SiteHeader,
+} from '@prosefly/astro-theme-lotus/layouts';
+import { Card, CardGrid } from '@prosefly/astro-components';
+---
+
+<BaseLayout title="Pricing" description="Choose a plan for your team.">
+  <SiteHeader currentPath="/pricing/" />
+
+  <main>
+    <PageSection class="text-center" size="lg">
+      <p class="text-sm font-medium text-(--lotus-accent)">Pricing</p>
+      <h1 class="mt-3 text-4xl font-semibold text-(--lotus-text-strong)">
+        Plans for every documentation team
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-(--lotus-text-muted)">
+        Start with the free plan and upgrade when your docs need more workflow.
+      </p>
+    </PageSection>
+
+    <PageSection padding="md" size="lg">
+      <CardGrid>
+        <Card icon="lucide:sparkles" title="Starter">
+          Publish a polished documentation site with the default Lotus shell.
+        </Card>
+        <Card icon="lucide:building-2" title="Team">
+          Add search, page actions, contributors, and custom navigation.
+        </Card>
+      </CardGrid>
+    </PageSection>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+```
+
+## Splash Page
+
+Use `SplashLayout` when the page matches the built-in hero plus content shape:
+
+```astro
+---
+import { SplashLayout } from '@prosefly/astro-theme-lotus/layouts';
+---
+
+<SplashLayout
+  title="Pricing"
+  description="Plans for teams and builders."
+  hero={{
+    title: 'Pricing',
+    tagline: 'Choose the right plan for your docs.',
+    actions: [
+      { text: 'Get started', link: '/docs/overview/', variant: 'primary' },
+    ],
+  }}
+>
+  <p>Use normal Astro, Markdown, or MDX content here.</p>
+</SplashLayout>
+```
+
+## Text Page
+
+Use `TextLayout` for standalone prose:
+
+```astro
+---
+import { TextLayout } from '@prosefly/astro-theme-lotus/layouts';
+---
+
+<TextLayout title="Terms" description="Terms for using this service.">
+  <p>Terms content goes here.</p>
+</TextLayout>
+```

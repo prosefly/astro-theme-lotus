@@ -2,7 +2,7 @@
 title: Overriding Components
 description: Replace Lotus shell components when a project needs custom behavior.
 sidebar:
-  order: 11
+  order: 3
 ---
 
 Component overrides replace specific pieces of the Lotus documentation shell.
@@ -17,13 +17,13 @@ import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
 export default defineLotusConfig({
   components: {
-    SearchDialog: './src/components/SearchDialog.astro',
+    SearchDialog: './src/components/lotus/SearchDialog.astro',
   },
 });
 ```
 
 Paths are resolved from the project root. They can be relative paths like
-`./src/components/SearchDialog.astro` or absolute file-system paths.
+`./src/components/lotus/SearchDialog.astro` or absolute file-system paths.
 
 ## How Overrides Work
 
@@ -132,8 +132,7 @@ import PageActions from 'virtual:prosefly/lotus/components/PageActions';
 
 Create a local Astro component:
 
-```astro
-// src/components/SearchDialog.astro
+```astro title="src/components/lotus/SearchDialog.astro"
 ---
 ---
 
@@ -153,7 +152,7 @@ import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
 export default defineLotusConfig({
   components: {
-    SearchDialog: './src/components/SearchDialog.astro',
+    SearchDialog: './src/components/lotus/SearchDialog.astro',
   },
 });
 ```
