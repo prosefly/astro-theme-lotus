@@ -124,6 +124,7 @@ export interface ThemeLogoConfig {
   light: string;
   dark: string;
   href?: string;
+  variant?: 'mark' | 'lockup';
 }
 
 export type ThemeLogo = string | ThemeLogoConfig;

@@ -55,19 +55,32 @@ structured data.
 
 `logo` is optional. If it is omitted, Lotus renders the built-in Lotus mark.
 
-Use a string when one asset works in every theme mode.
+By default, Lotus treats the logo as a mark and renders it next to `name`.
+Use a string when one mark asset works in every theme mode.
 
 ```ts
 logo: '/logo.svg'
 ```
 
-Use an object when light and dark mode need different assets.
+Use an object when light and dark mode need different mark assets.
 
 ```ts
 logo: {
   light: '/logo-light.svg',
   dark: '/logo-dark.svg',
   href: '/',
+}
+```
+
+If your logo asset already includes the project name, set `variant: 'lockup'`.
+Lotus will render the image by itself and skip the extra `name` text. The
+default `variant` is `mark`.
+
+```ts
+logo: {
+  light: '/logo-lockup-light.svg',
+  dark: '/logo-lockup-dark.svg',
+  variant: 'lockup',
 }
 ```
 

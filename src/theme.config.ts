@@ -4,6 +4,11 @@ export default defineLotusConfig({
   name: 'Lotus',
   description: 'A documentation theme for Astro.',
   favicon: '/favicon.svg',
+  logo: {
+    variant: 'lockup',
+    light: '/lotus-light.svg',
+    dark: '/lotus-dark.svg',
+  },
   navbar: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Components', href: '/docs/components/icon/' },

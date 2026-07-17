@@ -19,6 +19,9 @@ const logo = themeConfig.logo;
 const logoHref = !logo || typeof logo === 'string' ? '/' : (logo.href ?? '/');
 const logoLight = typeof logo === 'string' ? logo : logo?.light;
 const logoDark = typeof logo === 'string' ? undefined : logo?.dark;
+const logoVariant = typeof logo === 'object' ? logo.variant ?? 'mark' : 'mark';
+const logoHasText = logoVariant === 'lockup';
+const logoAlt = logoHasText ? themeConfig.name : '';
 ---
 
 <a
@@ -28,12 +31,19 @@ const logoDark = typeof logo === 'string' ? undefined : logo?.dark;
   ]}
   href={logoHref}
 >
-  <span class="relative h-8 w-8 shrink-0">
+  <span
+    class:list={[
+      'relative h-8 shrink-0',
+      logoHasText ? 'max-w-40' : 'w-8',
+    ]}
+  >
     {logoLight ? (
       <img
-        alt=""
+        alt={logoAlt}
         class:list={[
-          'h-8 w-8 rounded-(--lotus-radius-md)',
+          logoHasText
+            ? 'block h-8 max-w-40 object-contain'
+            : 'block h-8 w-8 rounded-(--lotus-radius-md)',
           logoDark && 'lotus-logo-light',
         ]}
         src={logoLight}
@@ -43,13 +53,18 @@ const logoDark = typeof logo === 'string' ? undefined : logo?.dark;
     )}
     {logoLight && logoDark && (
       <img
-        alt=""
-        class="lotus-logo-dark absolute inset-0 h-8 w-8 rounded-(--lotus-radius-md)"
+        alt={logoAlt}
+        class:list={[
+          'lotus-logo-dark h-8',
+          logoHasText
+            ? 'max-w-40 object-contain'
+            : 'w-8 rounded-(--lotus-radius-md)',
+        ]}
         src={logoDark}
       />
     )}
   </span>
-  <span class={textClass}>{themeConfig.name}</span>
+  {!logoHasText && <span class={textClass}>{themeConfig.name}</span>}
 </a>
 
 <style>
