@@ -4,6 +4,7 @@ import {
   getDefaultLocale,
   getLocalizedHref,
   getLocalizedSlugFromEntryId,
+  getLocales,
   getLocaleByKey,
   getRouteSlugForLocalizedSlug,
   localizeDocsHref,
@@ -81,6 +82,26 @@ function getLocale(localeKey?: string): NormalizedLocale {
 
 function getEntryInfo(entry: DocsEntry) {
   return getLocalizedSlugFromEntryId(themeConfig, entry.id, entry.data.slug);
+}
+
+function normalizeEntryId(entryId: string): string {
+  return entryId.trim().replace(/^\/+|\/+$/g, '');
+}
+
+function isDocsEntry(entry: DocsEntry): boolean {
+  const locales = getLocales(themeConfig);
+
+  if (!themeConfig.locales || locales.some((locale) => !locale.directory)) {
+    return true;
+  }
+
+  const entryId = normalizeEntryId(entry.id);
+
+  return locales.some(
+    (locale) =>
+      entryId === locale.directory ||
+      entryId.startsWith(`${locale.directory}/`),
+  );
 }
 
 function toNavItem(entry: DocsEntry, section: string | undefined, localeKey: string): DocsNavItem {
@@ -452,9 +473,10 @@ function sortNavItems(items: DocsNavItem[]): DocsNavItem[] {
 
 export async function getDocsEntries(localeKey?: string): Promise<DocsEntry[]> {
   const entries = await getCollection('docs');
+  const docsEntries = entries.filter(isDocsEntry);
   const visibleEntries = import.meta.env.PROD
-    ? entries.filter((entry) => !entry.data.draft)
-    : entries;
+    ? docsEntries.filter((entry) => !entry.data.draft)
+    : docsEntries;
   const locale = localeKey ? getLocale(localeKey) : undefined;
   let localizedEntries = visibleEntries;
 

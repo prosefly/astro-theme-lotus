@@ -16,6 +16,7 @@ export default {
   logo: '/logo.svg',
   favicon: '/favicon.svg',
   docsBase: '/docs',
+  homepage: 'auto',
   editLink: {
     pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
     contentRoot: 'src/content',
@@ -23,7 +24,7 @@ export default {
   defaultLocale: 'root',
   locales: {
     root: { label: 'English', lang: 'en', directory: 'docs/en' },
-    'zh-cn': { label: '简体中文', lang: 'zh-CN' },
+    'zh-cn': { label: '简体中文', lang: 'zh-CN', directory: 'docs/zh-cn' },
   },
 }
 ```
@@ -110,6 +111,42 @@ Examples:
 Set `docsBase` to `/guide`, `/manual`, or `/` when docs should live somewhere
 else.
 
+## Homepage
+
+When `docsBase` is not `/`, Lotus can render a top-level
+`src/content/index.mdx` as the site homepage at `/`. This keeps the splash or
+marketing page separate from the docs tree.
+
+```txt
+src/content/
+  index.mdx              -> /
+  docs/
+    en/index.mdx         -> /docs/
+    zh-cn/index.mdx      -> /docs/zh-cn/
+```
+
+Use `template: splash` for a landing-style homepage, or `template: text` for a
+plain content page. The docs homepage still comes from the configured locale
+directory.
+
+The default is `homepage: 'auto'`. In auto mode, Lotus injects `/` only when
+`src/content/index.mdx` exists and the project does not have a user-defined
+`src/pages/index.*` route.
+
+```ts
+homepage: 'auto'
+```
+
+Set `homepage: false` when the project uses `src/pages/index.astro`, or when
+the docs collection loader intentionally excludes `src/content/index.mdx`.
+
+```ts
+homepage: false
+```
+
+Set `homepage: true` only when the project definitely includes
+`src/content/index.mdx` in the `docs` collection and wants Lotus to own `/`.
+
 ## Edit Links
 
 Configure `editLink` to generate "Edit this page" links from each content
@@ -186,6 +223,7 @@ locales: {
   'zh-cn': {
     label: '简体中文',
     lang: 'zh-CN',
+    directory: 'docs/zh-cn',
   },
 }
 ```

@@ -31,6 +31,7 @@ export interface LotusIntegrationOptions {
   pageActions?: PageActionConfig[];
   components?: OverrideComponentsConfig;
   docsBase?: string;
+  homepage?: LotusThemeConfig['homepage'];
   editLink?: LotusThemeConfig['editLink'];
   defaultLocale?: LotusThemeConfig['defaultLocale'];
   locales?: LotusThemeConfig['locales'];
@@ -66,6 +67,7 @@ const defaultConfig: LotusThemeConfig = {
   ],
   components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
+  homepage: 'auto',
   editLink: undefined,
   defaultLocale: undefined,
   locales: undefined,

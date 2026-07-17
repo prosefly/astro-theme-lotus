@@ -32,24 +32,31 @@ Without i18n, `src/content/docs/installation.mdx` has the entry ID
 `installation`, and `src/content/docs/components/icon.mdx` has the entry ID
 `components/icon`.
 
-With i18n, pages live inside locale directories but sidebar slugs remain
+With i18n, docs pages live inside locale directories but sidebar slugs remain
 locale-neutral:
 
 ```txt
-src/content/docs/
-  en/
-    index.mdx
-    overview.mdx
-    components/
-      icon.mdx
-  zh-cn/
-    index.mdx
-    overview.mdx
+src/content/
+  index.mdx
+  docs/
+    en/
+      index.mdx
+      overview.mdx
+      components/
+        icon.mdx
+    zh-cn/
+      index.mdx
+      overview.mdx
 ```
 
 With `docsLoader({ base: './src/content' })` and `root.directory: 'docs/en'`,
 `docs/en/overview.mdx` resolves to the content slug `overview` and renders
 without an `/en/` URL prefix.
+
+The top-level `src/content/index.mdx` is not part of the docs tree in this
+setup. When `docsBase` is not `/` and `homepage: 'auto'` can see that entry,
+Lotus renders it as the site homepage at `/`. The docs homepage remains
+`src/content/docs/en/index.mdx`, which renders at `/docs/`.
 
 ## Custom Loader Base
 
@@ -65,12 +72,13 @@ const docs = defineCollection({
 });
 ```
 
-With this setup, `src/content/docs/installation.mdx` has the entry ID
-`docs/installation`, while `src/content/index.mdx` has the entry ID `index`.
+With this setup, `src/content/docs/en/installation.mdx` has the entry ID
+`docs/en/installation`, while `src/content/index.mdx` has the entry ID `index`.
 
-Sidebar string items and `autogenerate.directory` values must use the resulting
-entry IDs. In i18n projects, keeping the default `src/content/docs` base is the
-simplest option.
+In i18n projects, `locales.*.directory` strips the locale directory before
+Lotus matches sidebar string items and `autogenerate.directory` values. For
+example, `docs/en/configuration/project.mdx` is referenced as
+`configuration/project` in `sidebars`.
 
 ## Docs Base
 
@@ -90,16 +98,22 @@ With `docsBase: '/docs'` and the default loader:
 | `installation` | `/docs/installation/` | `/docs/installation.md` |
 | `components/icon` | `/docs/components/icon/` | `/docs/components/icon.md` |
 
-With i18n and `root.directory: 'docs/en'`:
+With i18n, `docsLoader({ base: './src/content' })`,
+`root.directory: 'docs/en'`, and `zh-cn.directory: 'docs/zh-cn'`:
 
 | File | Page URL | Markdown URL |
 | --- | --- | --- |
-| `en/index.mdx` | `/docs/` | `/docs/index.md` |
-| `en/overview.mdx` | `/docs/overview/` | `/docs/overview.md` |
-| `zh-cn/overview.mdx` | `/docs/zh-cn/overview/` | `/docs/zh-cn/overview.md` |
+| `index.mdx` | `/` | - |
+| `docs/en/index.mdx` | `/docs/` | `/docs/index.md` |
+| `docs/en/overview.mdx` | `/docs/overview/` | `/docs/overview.md` |
+| `docs/zh-cn/overview.mdx` | `/docs/zh-cn/overview/` | `/docs/zh-cn/overview.md` |
 
 The search index follows the same base. It is `/docs/search.json` for
 `docsBase: '/docs'` and `/search.json` for `docsBase: '/'`.
+
+If a project owns `/` with `src/pages/index.astro`, keep that file in `pages`
+and Lotus will not inject a homepage in auto mode. If `src/content/index.mdx`
+exists but the docs loader excludes it, set `homepage: false`.
 
 ## Slug Overrides
 

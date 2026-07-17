@@ -24,9 +24,10 @@ rebuilding the chrome from scratch.
 
 ## How the docs tree works
 
-Write pages under `src/content/docs/`. Pages can live at the docs root or in
-nested folders. The `sidebars` config decides which sidebar and subnav section
-owns each page.
+Write docs pages under the locale directory configured in `locales`. This demo
+keeps English docs in `src/content/docs/en/` and Simplified Chinese docs in
+`src/content/docs/zh-cn/`. The `sidebars` config decides which sidebar and
+subnav section owns each page.
 
 Lotus injects the docs routes from `docsBase`. With the default
 `docsBase: '/docs'`, the integration generates:
@@ -35,31 +36,38 @@ Lotus injects the docs routes from `docsBase`. With the default
 - `/docs/*.md` Markdown source routes
 - `/docs/search.json` search index data
 
-This example site uses `docsBase: '/'` and a custom loader base of
-`./src/content`, so root-level content such as `src/content/index.mdx` renders
-at `/` while docs folder entries render under `/docs/...`.
+This example site uses `docsBase: '/docs'` and a custom loader base of
+`./src/content`. With `homepage: 'auto'`, the top-level
+`src/content/index.mdx` renders as the site homepage at `/`, while localized
+docs render under `/docs/...`.
 
 ```txt
-src/content/docs/
+src/content/
   index.mdx
-  overview.mdx
-  installation.mdx
-  configuration/
-    project.mdx
-    appearance.mdx
-    navbar.mdx
-  deployment.mdx
-  essentials/
-    markdown-syntax.mdx
-    images.mdx
-    code-blocks.mdx
-    frontmatter.mdx
-  customization/
-    css-styling.mdx
-    overriding-components.mdx
-  components/
-    callout.mdx
-    steps.mdx
+  docs/
+    en/
+      index.mdx
+      overview.mdx
+      installation.mdx
+      configuration/
+        project.mdx
+        appearance.mdx
+        navbar.mdx
+      deployment.mdx
+      essentials/
+        markdown-syntax.mdx
+        images.mdx
+        code-blocks.mdx
+        frontmatter.mdx
+      customization/
+        css-styling.mdx
+        overriding-components.mdx
+      components/
+        callout.mdx
+        steps.mdx
+    zh-cn/
+      index.mdx
+      overview.mdx
 ```
 
 ## First steps
