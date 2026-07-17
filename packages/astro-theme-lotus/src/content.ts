@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import type { SchemaContext } from 'astro:content';
+import type { HeadConfig } from './lib/head';
 
 export interface DocsLoaderOptions {
   base?: string;
@@ -110,6 +111,7 @@ const baseDocsSchema = z.object({
 
 type DocsSchemaExtension = ReturnType<typeof z.object>;
 type BaseDocsSchema = typeof baseDocsSchema;
+export type { HeadConfig };
 
 export interface DocsSchemaOptions {
   extend?: DocsSchemaExtension | ((context: SchemaContext) => DocsSchemaExtension);

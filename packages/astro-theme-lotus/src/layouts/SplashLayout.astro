@@ -4,6 +4,7 @@ import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
 import Button from '../components/ui/Button.astro';
 import { resolveIconName } from '../lib/icons';
+import type { HeadConfig } from '../lib/head';
 import type { NormalizedLocale } from '../lib/i18n';
 
 interface HeroAction {
@@ -25,6 +26,7 @@ interface HeroImage {
 interface Props {
   title: string;
   description?: string;
+  head?: HeadConfig;
   locale?: NormalizedLocale;
   pagefind?: boolean;
   hero?: {
@@ -35,7 +37,7 @@ interface Props {
   };
 }
 
-const { title, description, hero, locale, pagefind = true } = Astro.props;
+const { title, description, head, hero, locale, pagefind = true } = Astro.props;
 const heroTitle = hero?.title ?? title;
 const heroTagline = hero?.tagline ?? description;
 const actions = hero?.actions ?? [];
@@ -58,7 +60,7 @@ function getButtonColor(action: HeroAction): 'neutral' | 'accent' {
 }
 ---
 
-<BaseLayout title={title} description={description} locale={locale}>
+<BaseLayout title={title} description={description} head={head} locale={locale}>
   <MainHeader surface />
 
   <main {...pagefindAttrs}>

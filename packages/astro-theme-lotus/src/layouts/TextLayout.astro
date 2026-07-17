@@ -2,20 +2,22 @@
 import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
+import type { HeadConfig } from '../lib/head';
 import type { NormalizedLocale } from '../lib/i18n';
 
 interface Props {
   title: string;
   description?: string;
+  head?: HeadConfig;
   locale?: NormalizedLocale;
   pagefind?: boolean;
 }
 
-const { title, description, locale, pagefind = true } = Astro.props;
+const { title, description, head, locale, pagefind = true } = Astro.props;
 const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
 ---
 
-<BaseLayout title={title} description={description} locale={locale}>
+<BaseLayout title={title} description={description} head={head} locale={locale}>
   <MainHeader surface />
 
   <main class="mx-auto max-w-screen-2xl px-5 py-12 sm:px-6 sm:py-16">

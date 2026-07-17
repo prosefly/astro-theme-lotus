@@ -1,6 +1,7 @@
 ---
 import '../styles/app.css';
 import { getThemeAttributes } from '../lib/appearance';
+import { createHead, type HeadConfig } from '../lib/head';
 import { stringifyJsonLd, type JsonLdNode } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Assistant from 'virtual:prosefly/lotus/components/Assistant';
@@ -11,12 +12,13 @@ import packageJson from '../../package.json';
 interface Props {
   title?: string;
   description?: string;
+  head?: HeadConfig;
   jsonLd?: JsonLdNode | JsonLdNode[];
   locale?: NormalizedLocale;
 }
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const { title, description = themeConfig.description, jsonLd, locale = getDefaultLocale(themeConfig) } = Astro.props;
+const { title, description = themeConfig.description, head, jsonLd, locale = getDefaultLocale(themeConfig) } = Astro.props;
 const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.name}`
@@ -24,6 +26,20 @@ const pageTitle = title
 const generator = `Lotus (${packageJson.version}) by Prosefly`;
 const jsonLdContent = jsonLd ? stringifyJsonLd(jsonLd) : undefined;
 const faviconLinks = normalizeFaviconLinks(themeConfig.favicon);
+const headEntries = createHead(
+  [
+    { tag: 'meta', attrs: { charset: 'utf-8' } },
+    { tag: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
+    { tag: 'title', content: pageTitle },
+    ...(description ? [{ tag: 'meta', attrs: { name: 'description', content: description } }] : []),
+    { tag: 'meta', attrs: { name: 'generator', content: generator } },
+    ...faviconLinks.map((link) => ({ tag: 'link', attrs: link })),
+    ...(jsonLdContent
+      ? [{ tag: 'script', attrs: { type: 'application/ld+json' }, content: jsonLdContent }]
+      : []),
+  ],
+  head,
+);
 const themeInitScript = `
 (() => {
   try {
@@ -64,16 +80,8 @@ function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
 
 <html dir={locale.dir} lang={locale.lang} {...themeAttrs}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline set:html={themeInitScript}></script>
-    <title>{pageTitle}</title>
-    <meta name="description" content={description} />
-    <meta name="generator" content={generator} />
-    {faviconLinks.map((link) => <link {...link} />)}
-    {jsonLdContent && (
-      <script is:inline type="application/ld+json" set:html={jsonLdContent}></script>
-    )}
+    {headEntries.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
   </head>
   <body class="min-h-screen bg-(--lotus-background) text-(--lotus-text)">
     <slot />

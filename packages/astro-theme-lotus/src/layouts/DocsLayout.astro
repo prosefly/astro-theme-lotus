@@ -10,6 +10,7 @@ import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageMeta from 'virtual:prosefly/lotus/components/PageMeta';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } from '../lib/i18n';
+import type { HeadConfig } from '../lib/head';
 import { createDocsJsonLd } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { ContributorInfo, LotusThemeConfig } from '../lib/theme';
@@ -23,6 +24,7 @@ interface Heading {
 interface Props {
   title: string;
   description?: string;
+  head?: HeadConfig;
   sectionTitle?: string;
   currentLocale: NormalizedLocale;
   currentSlug?: string;
@@ -40,6 +42,7 @@ interface Props {
 const {
   title,
   description,
+  head,
   sectionTitle,
   currentLocale,
   currentSlug,
@@ -102,7 +105,7 @@ const jsonLd = createDocsJsonLd({
 });
 ---
 
-<BaseLayout title={title} description={description} jsonLd={jsonLd} locale={currentLocale}>
+<BaseLayout title={title} description={description} head={head} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
     headings={headings}
