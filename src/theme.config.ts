@@ -56,6 +56,7 @@ const themeConfig = {
   components: {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
+  credits: true,
   docsBase: '/docs',
   homepage: true,
   source: {

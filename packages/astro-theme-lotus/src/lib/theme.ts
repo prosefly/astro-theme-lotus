@@ -198,6 +198,7 @@ export interface LotusThemeConfig {
   pageActions: PageActionConfig[];
   contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;
+  credits: boolean;
   docsBase: string;
   homepage?: boolean;
   source?: ThemeSourceConfig;

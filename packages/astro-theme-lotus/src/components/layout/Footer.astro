@@ -1,6 +1,7 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
+import Credits from '../theme/Credits.astro';
 import { localizeDocsHref, translateLabel } from '../../lib/i18n';
 import type { LotusThemeConfig } from '../../lib/theme';
 
@@ -15,6 +16,7 @@ const currentLocale = Astro.locals.t.locale();
       <p class="max-w-sm text-sm leading-6 text-(--lotus-text-muted)">
         {themeConfig.footer.copyright}
       </p>
+      {themeConfig.credits && <Credits />}
     </div>
 
     <div class="@container">

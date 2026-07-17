@@ -31,6 +31,7 @@ export interface LotusIntegrationOptions {
   pageActions?: PageActionConfig[];
   contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;
+  credits?: LotusThemeConfig['credits'];
   docsBase?: string;
   homepage?: LotusThemeConfig['homepage'];
   source?: LotusThemeConfig['source'];
@@ -69,6 +70,7 @@ const defaultConfig: LotusThemeConfig = {
   ],
   contributors: false,
   components: {},
+  credits: true,
   docsBase: DEFAULT_DOCS_BASE_PATH,
   homepage: false,
   source: undefined,
