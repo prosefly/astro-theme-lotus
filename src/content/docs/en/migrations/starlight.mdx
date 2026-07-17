@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-import { Steps } from '@prosefly/astro-components';
+import { Callout, Steps } from '@prosefly/astro-components';
 
 Use this migration when an existing Astro Starlight site already has docs
 content, localized directories, sidebar configuration, and Starlight MDX
@@ -46,3 +46,73 @@ replacing Starlight-specific component imports.
 
 See [Frontmatter](/docs/essentials/frontmatter/) for accepted page fields and
 [Sidebars](/docs/configuration/sidebars/) for navigation structure.
+
+## AI-assisted Migration Prompt
+
+Use this prompt with Codex or another code-aware AI assistant when you want it
+to migrate an existing Starlight project automatically. Run it from the project
+root so the assistant can inspect `package.json`, Astro config, content
+collections, docs files, and theme configuration.
+
+<Callout type="warning" title="Review before committing">
+  Treat the AI output as a migration draft. Review the diff, run the checks, and
+  verify the site locally before publishing.
+</Callout>
+
+```txt title="Prompt"
+You are migrating an existing Astro Starlight documentation site to
+@prosefly/astro-theme-lotus.
+
+Goal:
+Move the project from Starlight to Lotus while preserving existing documentation
+content, routes, frontmatter intent, sidebars, i18n structure, search behavior,
+and MDX authoring patterns wherever Lotus supports them.
+
+Before editing:
+1. Inspect package.json, astro.config.*, src/content.config.*, docs content,
+   sidebar configuration, i18n directories, Starlight component imports, and any
+   custom theme overrides.
+2. Summarize the migration plan briefly.
+3. Do not delete content or rewrite prose unless it is required for compatibility.
+4. Preserve user changes and avoid destructive git commands.
+
+Migration tasks:
+1. Replace Starlight package usage with @prosefly/astro-theme-lotus and
+   @prosefly/astro-components where appropriate.
+2. Update Astro integration setup to use Lotus.
+3. Register docsLoader() and docsSchema() in src/content.config.ts.
+4. Move Starlight site, sidebar, social, edit link, i18n, search, and appearance
+   settings into src/theme.config.ts using defineLotusConfig().
+5. Preserve compatible frontmatter fields including title, description, slug,
+   sidebar, tableOfContents, prev, next, pagefind, and draft.
+6. Convert Starlight-only MDX component imports to @prosefly/astro-components.
+   Prefer Lotus-compatible components for Callout, Steps, FileTree, Tabs, cards,
+   accordions, badges, and icons.
+7. Convert Starlight sidebar autogeneration to Lotus sidebars[].items entries
+   using string slugs, groups, links, and autogenerate.directory.
+8. Convert Starlight locales into Lotus locales and defaultLocale. Keep root
+   locale unprefixed when the existing site uses unprefixed default docs.
+9. Keep docsBase and route behavior compatible with the existing public URLs
+   whenever possible.
+10. If the project has custom Starlight components or theme overrides, map them
+    to Lotus configuration, CSS tokens, or component overrides. Only add a Lotus
+    component override when configuration and CSS are not enough.
+
+Validation:
+1. Run the project's formatter or lint command if available.
+2. Run astro check or the package check command.
+3. Run a production build.
+4. Report any remaining Starlight imports, broken internal /docs links, missing
+   sidebar entries, or behavior that needs manual review.
+
+Output:
+1. List the files changed.
+2. Explain any manual decisions or behavior changes.
+3. Include the exact validation commands and results.
+```
+
+After the AI finishes, compare its changes with the Lotus pages for
+[Content Routing](/docs/configuration/content-routing/),
+[Internationalization](/docs/configuration/i18n/),
+[Sidebars](/docs/configuration/sidebars/), and
+[Overriding Components](/docs/customization/overriding-components/).

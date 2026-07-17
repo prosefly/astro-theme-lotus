@@ -121,9 +121,9 @@ index page renders at the configured `docsBase`, and nested pages use
 decides which top-level section owns each page and drives both the docs subnav
 and the section sidebar.
 
-This repository's example site uses `docsLoader({ base: './src/content' })`
-with `docsBase: '/'`, so `src/content/index.mdx` renders at `/` and
-`src/content/docs/overview.mdx` renders at `/docs/overview/`.
+This repository's example site uses the default `docsLoader()` with
+`docsBase: '/docs'`, so docs content lives under `src/content/docs/`. The root
+homepage is a normal Astro page at `src/pages/index.astro`.
 
 Frontmatter also controls table of contents behavior, previous/next links,
 search inclusion, draft filtering, and optional slug overrides.

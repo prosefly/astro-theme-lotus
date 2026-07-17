@@ -76,10 +76,11 @@ and documentation under `/docs`.
 
 - astro.config.ts registers the Lotus integration
 - src
-  - content.config.ts registers content from `./src/content`
-  - theme.config.ts enables `homepage: true`
+  - content.config.ts registers the docs collection
+  - theme.config.ts keeps `docsBase: '/docs'`
+  - pages
+    - index.astro site homepage at `/`
   - content
-    - index.mdx site homepage at `/`
     - docs
       - index.mdx docs homepage at `/docs/`
       - overview.mdx
@@ -90,8 +91,9 @@ and documentation under `/docs`.
 
 </FileTree>
 
-This structure needs `docsLoader({ base: './src/content' })` so the top-level
-`index.mdx` belongs to the docs collection.
+This structure keeps `docsLoader()` focused on `src/content/docs`. Use the
+exported Lotus layouts when the custom homepage should share the same header,
+footer, tokens, and theme initialization as the docs pages.
 
 ## Localized Docs
 
@@ -100,10 +102,9 @@ Use this when each locale has its own content directory.
 <FileTree>
 
 - src
-  - content.config.ts registers content from `./src/content`
+  - content.config.ts registers the docs collection
   - theme.config.ts maps locale directories
   - content
-    - index.mdx optional site homepage
     - docs
       - en
         - index.mdx
@@ -119,7 +120,7 @@ Use this when each locale has its own content directory.
 </FileTree>
 
 Sidebar strings stay locale-neutral. Reference `configuration/project`, not
-`docs/en/configuration/project`.
+`en/configuration/project`.
 
 ## With Overrides
 
@@ -161,7 +162,8 @@ route-focused.
 2. **Add locale directories only when translations exist.**
 
    A single-language site can use `src/content/docs`. A localized site should
-   move pages under directories such as `docs/en` and `docs/zh-cn`.
+   move pages under directories such as `src/content/docs/en` and
+   `src/content/docs/zh-cn`.
 
 3. **Keep content, theme config, and overrides separate.**
 

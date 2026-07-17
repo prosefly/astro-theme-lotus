@@ -44,9 +44,9 @@ and `packages/astro-components`.
 - Update the example docs in `src/content/docs/` when theme behavior changes.
 - Prefer one canonical page for each concept, then link to it from related
   pages instead of duplicating full reference tables.
-- When documenting routes, distinguish default consumer setup from this
-  repository's example setup. The example site uses `docsBase: '/'` and
-  `docsLoader({ base: './src/content' })`.
+- When documenting routes, keep examples aligned with the default loader. The
+  example site uses `docsBase: '/docs'`, `docsLoader()`, and a normal Astro
+  homepage at `src/pages/index.astro`.
 
 ## Package Boundaries
 

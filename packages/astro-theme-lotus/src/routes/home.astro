@@ -16,7 +16,7 @@ const entry = entries.find(
 
 if (!entry) {
   throw new Error(
-    '[Lotus] The homepage route requires src/content/index.mdx to be included in the docs collection.',
+    '[Lotus] The homepage route requires an index.mdx entry in the docs collection. Use src/pages/index.astro for a separate site homepage, or include src/content/index.mdx with docsLoader({ base: "./src/content" }).',
   );
 }
 

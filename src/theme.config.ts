@@ -41,7 +41,7 @@ export default defineLotusConfig({
     HeaderSocialIcons: './src/components/lotus/HeaderSocialIcons.astro',
     ThemeSwitch: './src/components/lotus/ThemeSwitch.astro',
   },
-  homepage: true,
+  homepage: false,
   source: {
     github: 'prosefly/astro-theme-lotus',
     branch: 'main',
@@ -52,12 +52,12 @@ export default defineLotusConfig({
     root: {
       label: 'English',
       lang: 'en',
-      directory: 'docs/en',
+      directory: 'en',
     },
     'zh-cn': {
       label: '简体中文',
       lang: 'zh-CN',
-      directory: 'docs/zh-cn',
+      directory: 'zh-cn',
     },
   },
   sidebars: [

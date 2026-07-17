@@ -13,13 +13,12 @@ Astro components, and TypeScript before a production build.
 Confirm the page is in the docs collection, is not `draft: true` in production,
 and is matched by either a sidebar string item or an `autogenerate.directory`
 entry. In i18n projects, sidebar values are locale-neutral, so use
-`configuration/project`, not `docs/en/configuration/project`.
+`configuration/project`, not `en/configuration/project`.
 
 ## A generated route is not the URL I expected
 
-Check `docsBase`, `docsLoader({ base })`, locale `directory`, and frontmatter
-`slug`. `slug` changes the public URL, but sidebar ownership still follows the
-content entry ID.
+Check `docsBase`, locale `directory`, and frontmatter `slug`. `slug` changes
+the public URL, but sidebar ownership still follows the content entry ID.
 
 ## The search index returns 404
 
