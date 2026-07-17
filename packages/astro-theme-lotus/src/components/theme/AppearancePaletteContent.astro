@@ -1,19 +1,9 @@
 ---
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { accentScales } from '../../lib/colors';
-import { getLocaleFromRouteSlug } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
 const grayScales = ['slate', 'zinc', 'neutral', 'stone'] as const;
 const radiusScales = ['none', 'small', 'medium', 'large', 'full'] as const;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
 ---
 
 <div class="space-y-4" data-lotus-appearance-palette>

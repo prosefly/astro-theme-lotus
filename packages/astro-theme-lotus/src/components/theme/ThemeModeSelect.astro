@@ -1,17 +1,7 @@
 ---
 import ThemeModeController from './ThemeModeController.astro';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getLocaleFromRouteSlug } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
 const modes = [
   { value: 'system', label: t('themeSelect.auto') },
   { value: 'light', label: t('themeSelect.light') },

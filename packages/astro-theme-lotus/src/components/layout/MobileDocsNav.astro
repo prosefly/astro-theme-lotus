@@ -1,12 +1,8 @@
 ---
 import { Icon } from '@prosefly/astro-components';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
-import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
 import { resolveIconName } from '../../lib/icons';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { getPageCountLabel, useTranslations } from '../../lib/translations';
 import LanguageSelect from '../theme/LanguageSelect.astro';
 import Sidebar from './Sidebar.astro';
 
@@ -18,7 +14,6 @@ interface Heading {
 
 interface Props {
   currentPath?: string;
-  currentLocale?: NormalizedLocale;
   headings?: Heading[];
   sectionTitle?: string;
   sections: DocsSectionNav[];
@@ -29,7 +24,6 @@ interface Props {
 
 const {
   currentPath,
-  currentLocale,
   headings = [],
   sectionTitle,
   sections,
@@ -37,16 +31,14 @@ const {
   sidebars = {},
   title,
 } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, resolvedLocale);
+const t = Astro.locals.t;
 const activeSection = sections.find((section) => section.active) ?? sections[0];
 const activeSectionSlug = activeSection?.slug;
 const visibleHeadings = headings;
+
+function formatPageCountLabel(count: number): string {
+  return t(count === 1 ? 'mobileDocs.pageCount.one' : 'mobileDocs.pageCount.other', { count });
+}
 
 function getHeadingIndent(depth: number): string {
   if (depth <= 2) {
@@ -173,7 +165,7 @@ function getHeadingIndent(depth: number): string {
                   {activeSection.label}
                 </span>
                 <span class="block truncate text-xs text-(--lotus-text-muted)" data-lotus-section-summary-count>
-                  {getPageCountLabel(themeConfig, resolvedLocale, activeSection.items.length)}
+                  {formatPageCountLabel(activeSection.items.length)}
                 </span>
               </span>
               <Icon
@@ -188,7 +180,7 @@ function getHeadingIndent(depth: number): string {
                   aria-current={section.slug === activeSectionSlug ? 'page' : undefined}
                   class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-2 text-left transition-colors"
                   data-active={section.slug === activeSectionSlug ? '' : undefined}
-                  data-lotus-section-count={getPageCountLabel(themeConfig, resolvedLocale, section.items.length)}
+                  data-lotus-section-count={formatPageCountLabel(section.items.length)}
                   data-lotus-section-label={section.label}
                   data-lotus-section-option={section.slug}
                   type="button"
@@ -203,7 +195,7 @@ function getHeadingIndent(depth: number): string {
                   <span class="min-w-0 flex-1">
                     <span class="block truncate text-sm font-semibold">{section.label}</span>
                     <span class="block truncate text-xs text-(--lotus-text-muted)">
-                      {getPageCountLabel(themeConfig, resolvedLocale, section.items.length)}
+                      {formatPageCountLabel(section.items.length)}
                     </span>
                   </span>
                   <span class="lotus-mobile-section-check ml-auto hidden h-4 w-4 shrink-0">
@@ -232,7 +224,7 @@ function getHeadingIndent(depth: number): string {
               data-lotus-section-panel={section.slug}
               hidden={section.slug !== activeSectionSlug}
             >
-              <Sidebar currentLocale={resolvedLocale} currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />
+              <Sidebar currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />
             </div>
           );
         })}

@@ -1,14 +1,10 @@
 ---
 import { Icon } from '@prosefly/astro-components';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Dropdown from '../ui/Dropdown.astro';
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
 import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
 import LanguageSelect from '../theme/LanguageSelect.astro';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
-import { getLocaleFromRouteSlug } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
 interface Props {
   currentPath?: string;
@@ -16,13 +12,7 @@ interface Props {
 }
 
 const { currentPath, showLanguage = true } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
 ---
 
 <Dropdown

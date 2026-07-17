@@ -1,7 +1,6 @@
 ---
 import TableOfContents from '../layout/TableOfContents.astro';
 import EditThisPage from './EditThisPage.astro';
-import type { NormalizedLocale } from '../../lib/i18n';
 
 interface Heading {
   depth: number;
@@ -10,7 +9,6 @@ interface Heading {
 }
 
 interface Props {
-  currentLocale?: NormalizedLocale;
   currentSlug?: string;
   editUrl?: string | boolean;
   headings: Heading[];
@@ -21,7 +19,6 @@ interface Props {
 }
 
 const {
-  currentLocale,
   currentSlug,
   editUrl,
   headings,
@@ -37,7 +34,7 @@ const hasTableOfContents = tableOfContents && headings.length > 0;
 {(hasTableOfContents || hasEditLink) && (
   <div class="space-y-5">
     {hasTableOfContents && (
-      <TableOfContents currentLocale={currentLocale} headings={headings} />
+      <TableOfContents headings={headings} />
     )}
 
     {hasEditLink && (
@@ -45,7 +42,6 @@ const hasTableOfContents = tableOfContents && headings.length > 0;
         tableOfContents && 'lotus-border-subtle border-t pt-4',
       ]}>
         <EditThisPage
-          currentLocale={currentLocale}
           currentSlug={currentSlug}
           editUrl={editUrl}
           markdownUrl={markdownUrl}

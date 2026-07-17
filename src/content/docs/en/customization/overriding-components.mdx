@@ -161,6 +161,26 @@ export default defineLotusConfig({
 those props when reusing a public theme component so built-in behavior keeps
 working.
 
+## Use Translations
+
+Lotus provides the resolved UI translator on `Astro.locals.t`. Use it in local
+overrides when visible shell text should follow the current locale.
+
+```astro
+---
+const t = Astro.locals.t;
+const locale = t.locale();
+---
+
+<a dir={t.dir()} hreflang={locale.lang} href="/docs/search/">
+  {t('search.label')}
+</a>
+```
+
+Use `t.exists('custom.key')` before rendering optional custom strings, or
+`t.all()` when an override needs to pass the full resolved dictionary to a
+client script.
+
 ## Use Public Building Blocks
 
 The public `@prosefly/astro-theme-lotus/components` export contains reusable

@@ -1,31 +1,19 @@
 ---
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { DocsSidebarNav } from '../../lib/docs';
-import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 import SidebarItem from '../ui/SidebarItem.astro';
 
 interface Props {
   sidebar: DocsSidebarNav;
   currentPath?: string;
-  currentLocale?: NormalizedLocale;
   maxHeight?: string;
 }
 
 const {
   sidebar,
   currentPath,
-  currentLocale,
   maxHeight = 'calc(100vh - var(--lotus-docs-chrome-height))',
 } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, resolvedLocale);
+const t = Astro.locals.t;
 ---
 
 <div

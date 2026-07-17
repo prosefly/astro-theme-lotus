@@ -1,10 +1,7 @@
 ---
 import { Icon } from '@prosefly/astro-components';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
 import { resolveIconName } from '../../lib/icons';
-import { normalizeDocsBasePath, type LotusThemeConfig, type PageActionConfig, type PageActionType } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
+import type { PageActionConfig, PageActionType } from '../../lib/theme';
 import Dropdown from '../ui/Dropdown.astro';
 
 interface ResolvedPageAction {
@@ -21,17 +18,10 @@ interface Props {
   title: string;
   pageUrl: string;
   markdownUrl: string;
-  currentLocale?: NormalizedLocale;
 }
 
 const { actions = [], title, pageUrl, markdownUrl } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = Astro.props.currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
 
 const defaultActionMeta: Record<PageActionType, { label: string; icon: string }> = {
   'copy-page': { label: t('pageActions.copyPage'), icon: 'lucide:copy' },

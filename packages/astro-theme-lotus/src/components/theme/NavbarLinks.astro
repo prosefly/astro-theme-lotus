@@ -1,9 +1,8 @@
 ---
 import Button from '../ui/Button.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
+import { localizeDocsHref, translateLabel } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
 interface Props {
   currentPath?: string;
@@ -15,13 +14,8 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
 const navbar = themeConfig.navbar ?? [];
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsRootHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
-const routeSlug = currentPath
-  ? docsBasePath === '/'
-    ? currentPath
-    : currentPath.replace(new RegExp(`^${docsBasePath}`), '')
-  : Astro.url.pathname;
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
+const currentLocale = t.locale();
 
 function normalizeHref(href: string): string {
   return href.endsWith('/') ? href : `${href}/`;

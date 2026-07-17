@@ -1,16 +1,11 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
-import { getLocaleFromRouteSlug, localizeDocsHref, translateLabel } from '../../lib/i18n';
-import { normalizeDocsBasePath } from '../../lib/theme';
+import { localizeDocsHref, translateLabel } from '../../lib/i18n';
 import type { LotusThemeConfig } from '../../lib/theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
+const currentLocale = Astro.locals.t.locale();
 ---
 
 <footer class="lotus-border-subtle border-t bg-(--lotus-background)">

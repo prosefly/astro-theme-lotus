@@ -1,6 +1,5 @@
 ---
 import PageActions from 'virtual:prosefly/lotus/components/PageActions';
-import type { NormalizedLocale } from '../../lib/i18n';
 import type { PageActionConfig } from '../../lib/theme';
 
 interface Props {
@@ -10,7 +9,6 @@ interface Props {
   pageActions?: PageActionConfig[];
   pageUrl: string;
   markdownUrl: string;
-  currentLocale?: NormalizedLocale;
 }
 
 const {
@@ -20,7 +18,6 @@ const {
   pageActions = [],
   pageUrl,
   markdownUrl,
-  currentLocale,
 } = Astro.props;
 ---
 
@@ -43,7 +40,6 @@ const {
       <div class="shrink-0 sm:pt-1">
         <PageActions
           actions={pageActions}
-          currentLocale={currentLocale}
           markdownUrl={markdownUrl}
           pageUrl={pageUrl}
           title={title}

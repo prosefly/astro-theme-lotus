@@ -102,7 +102,6 @@ const jsonLd = createDocsJsonLd({
 <BaseLayout title={title} description={description} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
-    currentLocale={currentLocale}
     headings={headings}
     sectionTitle={sectionTitle}
     sections={subnav}
@@ -116,7 +115,7 @@ const jsonLd = createDocsJsonLd({
       <aside class="hidden lg:block">
         <div class="sticky top-(--lotus-docs-chrome-height)">
           {(sidebar.links.length > 0 || sidebar.groups.length > 0) && (
-            <Sidebar currentLocale={currentLocale} currentPath={currentPath} sidebar={sidebar} />
+            <Sidebar currentPath={currentPath} sidebar={sidebar} />
           )}
         </div>
       </aside>
@@ -124,7 +123,6 @@ const jsonLd = createDocsJsonLd({
       <article class="min-w-0 pt-6 pb-10">
         <PageHeader
           description={description}
-          currentLocale={currentLocale}
           markdownUrl={markdownUrl}
           pageActions={pageActions}
           pageUrl={pageUrl}
@@ -137,7 +135,6 @@ const jsonLd = createDocsJsonLd({
         </div>
         <div class="xl:hidden">
           <PageAside
-            currentLocale={currentLocale}
             currentSlug={currentSlug}
             editUrl={editUrl}
             headings={headings}
@@ -149,17 +146,15 @@ const jsonLd = createDocsJsonLd({
         </div>
         <PageMeta
           contributors={contributors}
-          currentLocale={currentLocale}
           lastUpdated={lastUpdated}
           title={title}
         />
-        <PageNavigation currentLocale={currentLocale} navigation={pageNavigation} />
+        <PageNavigation navigation={pageNavigation} />
       </article>
 
       <aside class="hidden xl:block">
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
           <PageAside
-            currentLocale={currentLocale}
             currentSlug={currentSlug}
             editUrl={editUrl}
             headings={headings}

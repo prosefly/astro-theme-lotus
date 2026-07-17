@@ -322,6 +322,11 @@ Lotus includes template translations for English and Simplified Chinese. These
 strings cover shell UI such as search, theme mode controls, table of contents,
 page actions, edit links, mobile docs navigation, and the 404 page.
 
+Built-in messages live in package JSON files:
+
+- `@prosefly/astro-theme-lotus/src/messages/en.json`
+- `@prosefly/astro-theme-lotus/src/messages/zh-cn.json`
+
 Use `ui` to override built-in strings for a locale. Keys can match either the
 locale key or the locale language code.
 
@@ -336,3 +341,9 @@ ui: {
 ```
 
 Custom locales fall back to the default locale and then to English.
+Lotus also provides the resolved translator as `Astro.locals.t` for theme
+components and local overrides. The translator follows Starlight's shape:
+call `t(key, values)` to render a string, `t.all()` to read the resolved UI
+dictionary, `t.exists(key)` to check whether a key exists, `t.dir()` to get
+the current locale's text direction, and `t.locale()` to read the resolved
+Lotus locale object.

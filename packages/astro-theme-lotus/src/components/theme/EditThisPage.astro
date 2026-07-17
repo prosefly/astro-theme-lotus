@@ -1,13 +1,7 @@
 ---
 import { Icon } from '@prosefly/astro-components';
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-
-import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
 interface Props {
-  currentLocale?: NormalizedLocale;
   currentSlug?: string;
   editUrl?: string | boolean;
   markdownUrl?: string;
@@ -17,7 +11,6 @@ interface Props {
 }
 
 const {
-  currentLocale,
   currentSlug: _currentSlug,
   editUrl,
   markdownUrl: _markdownUrl,
@@ -25,13 +18,7 @@ const {
   placement = 'inline',
   title: _title,
 } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, resolvedLocale);
+const t = Astro.locals.t;
 const href = typeof editUrl === 'string' && editUrl.trim() ? editUrl : undefined;
 ---
 

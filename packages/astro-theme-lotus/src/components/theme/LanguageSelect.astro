@@ -4,12 +4,10 @@ import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Dropdown from '../ui/Dropdown.astro';
 import {
   getLocalizedHref,
-  getLocaleFromRouteSlug,
   getLocales,
   type NormalizedLocale,
 } from '../../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const locales = getLocales(themeConfig);
@@ -22,8 +20,8 @@ const isDocsPath = docsBasePath === '/'
 const routePath = docsBasePath === '/'
   ? pathname
   : pathname.slice(docsBasePath.length);
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routePath);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
+const currentLocale = t.locale();
 
 function getCurrentSlug(locale: NormalizedLocale): string {
   const normalizedRoutePath = routePath.replace(/^\/+|\/+$/g, '');

@@ -1,17 +1,12 @@
 ---
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import type { NormalizedLocale } from '../../lib/i18n';
-import { type ContributorInfo, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
+import type { ContributorInfo } from '../../lib/theme';
 
 interface Props {
   contributors?: ContributorInfo[];
-  currentLocale: NormalizedLocale;
 }
 
-const { contributors = [], currentLocale } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const t = useTranslations(themeConfig, currentLocale);
+const { contributors = [] } = Astro.props;
+const t = Astro.locals.t;
 const visibleContributors = contributors.filter((contributor) => contributor.name);
 
 function getInitials(name: string): string {

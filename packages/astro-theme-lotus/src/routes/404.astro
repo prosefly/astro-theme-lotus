@@ -3,18 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getLocaleFromRouteSlug } from '../lib/i18n';
 import { normalizeDocsBasePath, type LotusThemeConfig } from '../lib/theme';
-import { useTranslations } from '../lib/translations';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
 const docsHref = docsBasePath === '/' ? '/' : `${docsBasePath}/`;
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const currentLocale = getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, currentLocale);
+const t = Astro.locals.t;
+const currentLocale = t.locale();
 
 Astro.response.status = 404;
 ---

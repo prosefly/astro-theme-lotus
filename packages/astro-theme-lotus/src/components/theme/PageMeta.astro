@@ -1,29 +1,19 @@
 ---
-import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
-import { normalizeDocsBasePath, type ContributorInfo, type LotusThemeConfig } from '../../lib/theme';
-import { useTranslations } from '../../lib/translations';
+import type { ContributorInfo } from '../../lib/theme';
 
 interface Props {
   contributors?: ContributorInfo[];
-  currentLocale?: NormalizedLocale;
   lastUpdated?: Date | boolean;
   title: string;
 }
 
 const {
   contributors = [],
-  currentLocale,
   lastUpdated,
   title: _title,
 } = Astro.props;
-const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsBasePath = normalizeDocsBasePath(themeConfig.docsBase);
-const routeSlug = docsBasePath === '/'
-  ? Astro.url.pathname
-  : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
-const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
-const t = useTranslations(themeConfig, resolvedLocale);
+const t = Astro.locals.t;
+const currentLocale = t.locale();
 const updatedAt = lastUpdated instanceof Date && !Number.isNaN(lastUpdated.getTime())
   ? lastUpdated
   : undefined;
@@ -41,7 +31,7 @@ function getInitials(name: string): string {
 }
 
 function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat(resolvedLocale.lang, {
+  return new Intl.DateTimeFormat(currentLocale.lang, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

@@ -5,6 +5,12 @@ declare module 'virtual:prosefly/lotus/config' {
   export default config;
 }
 
+declare namespace App {
+  interface Locals {
+    t: import('./lib/translations').LotusTranslate;
+  }
+}
+
 declare module 'virtual:prosefly/lotus/components/SearchDialog' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 

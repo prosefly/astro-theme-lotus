@@ -40,7 +40,12 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
   return {
     name: '@prosefly/astro-theme-lotus',
     hooks: {
-      'astro:config:setup': ({ config: astroConfig, injectRoute, updateConfig }) => {
+      'astro:config:setup': ({
+        addMiddleware,
+        config: astroConfig,
+        injectRoute,
+        updateConfig,
+      }) => {
         if (docsBasePath !== '/' && config.homepage === true) {
           injectRoute({
             pattern: '/',
@@ -67,6 +72,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         injectRoute({
           pattern: localizedSearchPattern,
           entrypoint: new URL('./routes/search.json.ts', import.meta.url),
+        });
+        addMiddleware({
+          order: 'pre',
+          entrypoint: new URL('./middleware.ts', import.meta.url),
         });
 
         updateConfig({
@@ -135,6 +144,8 @@ export type {
   NormalizedLocale,
 } from './lib/i18n';
 export type {
+  LotusTranslate,
+  TranslationValues,
   UiTranslationKey,
   UiTranslations,
 } from './lib/translations';
