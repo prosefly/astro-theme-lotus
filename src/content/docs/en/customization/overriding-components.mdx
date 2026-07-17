@@ -62,6 +62,8 @@ Use a component override when the project needs to:
 - Use a different theme mode control.
 - Change the navbar or social-link rendering while keeping the same config
   data.
+- Change footer link rendering while keeping `footer.sections` as the source
+  data.
 
 ## Override Points
 
@@ -74,6 +76,7 @@ Use these names in `themeConfig.components`.
 | `SiteBrand` | Main header brand link. | none |
 | `HeaderNavbar` | Desktop header navbar and mobile menu navbar. | `currentPath?: string`, `mobile?: boolean` |
 | `HeaderSocialIcons` | Desktop header social area and mobile menu social area. | `mobile?: boolean` |
+| `FooterLinks` | Footer link grid. | none |
 | `SearchDialog` | Main header search trigger and dialog. | none |
 | `ThemeSwitch` | Desktop header and mobile menu theme mode area. | none |
 | `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl`, `currentLocale` |
@@ -94,6 +97,7 @@ Common slot and export pairs:
 | --- | --- |
 | `HeaderNavbar` | `NavbarLinks` |
 | `HeaderSocialIcons` | `SocialIcons` |
+| `FooterLinks` | `FooterLinks` |
 | `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` |
 | `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
 | `PageActions` | `PageActions` |

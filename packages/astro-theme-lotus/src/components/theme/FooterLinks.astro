@@ -1,0 +1,47 @@
+---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { localizeDocsHref, translateLabel } from '../../lib/i18n';
+import type { LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const currentLocale = Astro.locals.t.locale();
+---
+
+{themeConfig.footer.sections.map((section) => (
+  <section class="space-y-3">
+    <h2 class="text-sm font-medium text-(--lotus-text-subtle)">{section.title}</h2>
+    <ul class="space-y-2">
+      {section.links.map((link) => {
+        const isExternal = 'external' in link && link.external;
+
+        return (
+          <li>
+            <a
+              class="lotus-focus-ring inline-flex items-center gap-1 text-sm font-medium text-(--lotus-text) transition-colors hover:text-(--lotus-accent)"
+              href={isExternal ? link.href : localizeDocsHref(themeConfig, link.href, currentLocale.key)}
+              rel={isExternal ? 'noreferrer' : undefined}
+              target={isExternal ? '_blank' : undefined}
+            >
+              <span>{translateLabel(link.label, link.translations, currentLocale.key)}</span>
+              {isExternal && (
+                <svg
+                  aria-hidden="true"
+                  class="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M7 17 17 7" />
+                  <path d="M9 7h8v8" />
+                </svg>
+              )}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+))}

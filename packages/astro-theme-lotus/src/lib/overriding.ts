@@ -7,6 +7,7 @@ const resolvedOverrideComponentModulePrefix = `\0${overrideComponentModulePrefix
 
 const defaultOverrideComponents = {
   Assistant: new URL('../components/defaults/Assistant.astro', import.meta.url),
+  FooterLinks: new URL('../components/defaults/FooterLinks.astro', import.meta.url),
   HeaderNavbar: new URL('../components/defaults/HeaderNavbar.astro', import.meta.url),
   HeaderSocialIcons: new URL('../components/defaults/HeaderSocialIcons.astro', import.meta.url),
   PageActions: new URL('../components/defaults/PageActions.astro', import.meta.url),

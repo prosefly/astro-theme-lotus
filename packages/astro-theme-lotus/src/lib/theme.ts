@@ -108,6 +108,7 @@ export type ContributorsOption = boolean | ContributorsConfig;
 
 export type OverrideComponentName =
   | 'Assistant'
+  | 'FooterLinks'
   | 'HeaderNavbar'
   | 'HeaderSocialIcons'
   | 'PageActions'
