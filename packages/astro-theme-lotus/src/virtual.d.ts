@@ -5,6 +5,8 @@ declare module 'virtual:prosefly/lotus/config' {
   export default config;
 }
 
+declare module 'virtual:prosefly/lotus/styles.css' {}
+
 declare namespace App {
   interface Locals {
     t: import('./lib/translations').LotusTranslate;
