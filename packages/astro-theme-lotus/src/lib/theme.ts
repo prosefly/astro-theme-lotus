@@ -110,6 +110,7 @@ export type OverrideComponentName =
   | 'HeaderNavbar'
   | 'HeaderSocialIcons'
   | 'PageActions'
+  | 'PageAside'
   | 'PageHeader'
   | 'PageMeta'
   | 'PageNavigation'

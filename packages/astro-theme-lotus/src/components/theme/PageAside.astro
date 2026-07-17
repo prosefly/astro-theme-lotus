@@ -1,0 +1,59 @@
+---
+import TableOfContents from '../layout/TableOfContents.astro';
+import EditThisPage from './EditThisPage.astro';
+import type { NormalizedLocale } from '../../lib/i18n';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  currentLocale?: NormalizedLocale;
+  currentSlug?: string;
+  editUrl?: string | boolean;
+  headings: Heading[];
+  markdownUrl?: string;
+  pageUrl: string;
+  tableOfContents?: boolean;
+  title: string;
+}
+
+const {
+  currentLocale,
+  currentSlug,
+  editUrl,
+  headings,
+  markdownUrl,
+  pageUrl,
+  tableOfContents = true,
+  title,
+} = Astro.props;
+const hasEditLink = typeof editUrl === 'string' && editUrl.trim();
+const hasTableOfContents = tableOfContents && headings.length > 0;
+---
+
+{(hasTableOfContents || hasEditLink) && (
+  <div class="space-y-5">
+    {hasTableOfContents && (
+      <TableOfContents currentLocale={currentLocale} headings={headings} />
+    )}
+
+    {hasEditLink && (
+      <div class:list={[
+        tableOfContents && 'lotus-border-subtle border-t pt-4',
+      ]}>
+        <EditThisPage
+          currentLocale={currentLocale}
+          currentSlug={currentSlug}
+          editUrl={editUrl}
+          markdownUrl={markdownUrl}
+          pageUrl={pageUrl}
+          placement="aside"
+          title={title}
+        />
+      </div>
+    )}
+  </div>
+)}

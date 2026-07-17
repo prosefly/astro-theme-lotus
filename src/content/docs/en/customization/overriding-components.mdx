@@ -75,7 +75,8 @@ Use these names in `themeConfig.components`.
 | `ThemeSwitch` | Desktop header and mobile menu theme mode area. | none |
 | `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl`, `currentLocale` |
 | `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl`, `currentLocale?` |
-| `PageMeta` | Contributors and edit link between docs content and previous/next navigation. | `contributors`, `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale` |
+| `PageAside` | Right sidebar content and mobile page tools. | `headings`, `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale`, `tableOfContents?` |
+| `PageMeta` | Last updated and contributors between docs content and previous/next navigation. | `contributors`, `lastUpdated`, `title`, `currentLocale` |
 | `PageNavigation` | Previous and next links below docs content. | `navigation`, `currentLocale?` |
 
 Only these names are supported by the `components` config. Other components can
@@ -91,8 +92,9 @@ Common slot and export pairs:
 | `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` |
 | `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
 | `PageActions` | `PageActions` |
+| `PageAside` | `PageAside`, `EditThisPage` |
 | `PageHeader` | `PageHeader` |
-| `PageMeta` | `PageMeta`, `EditThisPage`, `Contributors` |
+| `PageMeta` | `PageMeta`, `Contributors` |
 | `PageNavigation` | `PageNavigation` |
 | `SiteBrand` | `SiteBrand` |
 
@@ -187,7 +189,8 @@ Useful public components include:
 | `SocialIcons` | Reusing configured social links. |
 | `PageActions` | Reusing copy, Markdown, ChatGPT, Claude, and custom actions. |
 | `PageHeader` | Reusing the default docs title area. |
-| `PageMeta`, `EditThisPage`, `Contributors` | Reusing the docs page meta area or its smaller parts. |
+| `PageAside`, `EditThisPage` | Reusing the right sidebar page tools or edit link. |
+| `PageMeta`, `Contributors` | Reusing the docs page meta area or its contributors block. |
 | `PageNavigation` | Reusing previous and next links. |
 | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` | Reusing built-in search. |
 | `SiteBrand` | Reusing configured logo and project name. |

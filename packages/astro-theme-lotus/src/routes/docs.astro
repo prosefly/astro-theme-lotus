@@ -14,6 +14,7 @@ import {
 } from '../lib/docs';
 import { resolveEditUrl } from '../lib/edit-link';
 import { getLocales, getRouteSlugForLocalizedSlug } from '../lib/i18n';
+import { getEntryLastUpdated } from '../lib/last-updated';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 
@@ -80,6 +81,7 @@ const sectionTitle = getSidebarSectionTitle(sidebar, entrySlug);
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const editUrl = resolveEditUrl(themeConfig, entry);
 const contributors = await getEntryContributors(themeConfig, entry);
+const lastUpdated = await getEntryLastUpdated(entry);
 const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
   previous: entry.data.prev,
   next: entry.data.next,
@@ -103,7 +105,7 @@ const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
     currentSlug={entrySlug}
     contributors={contributors}
     editUrl={editUrl}
-    lastUpdated={entry.data.lastUpdated}
+    lastUpdated={lastUpdated}
     pageNavigation={pageNavigation}
     subnav={subnav}
     sidebar={sidebar}

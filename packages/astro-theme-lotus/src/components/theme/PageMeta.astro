@@ -1,5 +1,4 @@
 ---
-import { Icon } from '@prosefly/astro-components';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { getLocaleFromRouteSlug, type NormalizedLocale } from '../../lib/i18n';
 import { normalizeDocsBasePath, type ContributorInfo, type LotusThemeConfig } from '../../lib/theme';
@@ -8,20 +7,14 @@ import { useTranslations } from '../../lib/translations';
 interface Props {
   contributors?: ContributorInfo[];
   currentLocale?: NormalizedLocale;
-  currentSlug?: string;
-  editUrl?: string | boolean;
-  markdownUrl?: string;
-  pageUrl: string;
+  lastUpdated?: Date | boolean;
   title: string;
 }
 
 const {
   contributors = [],
   currentLocale,
-  currentSlug: _currentSlug,
-  editUrl,
-  markdownUrl: _markdownUrl,
-  pageUrl: _pageUrl,
+  lastUpdated,
   title: _title,
 } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
@@ -31,7 +24,9 @@ const routeSlug = docsBasePath === '/'
   : Astro.url.pathname.replace(new RegExp(`^${docsBasePath}`), '');
 const resolvedLocale = currentLocale ?? getLocaleFromRouteSlug(themeConfig, routeSlug);
 const t = useTranslations(themeConfig, resolvedLocale);
-const href = typeof editUrl === 'string' && editUrl.trim() ? editUrl : undefined;
+const updatedAt = lastUpdated instanceof Date && !Number.isNaN(lastUpdated.getTime())
+  ? lastUpdated
+  : undefined;
 const allContributors = contributors.filter((contributor) => contributor.name);
 const visibleContributors = allContributors.slice(0, 6);
 const hiddenContributorCount = Math.max(0, allContributors.length - visibleContributors.length);
@@ -45,14 +40,30 @@ function getInitials(name: string): string {
     .join('');
 }
 
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat(resolvedLocale.lang, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+}
+
 const avatarClass = 'lotus-focus-ring relative inline-flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-(--lotus-background) bg-(--lotus-gray-soft) text-[0.6875rem] font-medium text-(--lotus-text-muted) ring-1 ring-(--lotus-border-subtle) transition-transform hover:z-10 hover:-translate-y-0.5 hover:text-(--lotus-text-strong)';
 ---
 
-{(visibleContributors.length > 0 || href) && (
-  <div class="flex items-center justify-between gap-4 my-4">
+{(updatedAt || visibleContributors.length > 0) && (
+  <div class="my-4 flex items-center justify-between gap-4 text-sm text-(--lotus-text-muted)">
     <div class="min-w-0">
-      {visibleContributors.length > 0 && (
-        <div aria-label={t('pageContributors.title')} class="flex items-center">
+      {updatedAt && (
+        <p>
+          {t('pageMeta.lastUpdated', { date: formatDate(updatedAt) })}
+        </p>
+      )}
+    </div>
+
+    {visibleContributors.length > 0 && (
+      <div class="shrink-0">
+        <div aria-label={t('pageContributors.title')} class="flex items-center justify-end">
           <ul class="-space-x-2 px-px py-1" role="list">
             {visibleContributors.map((contributor) => {
               const content = contributor.avatarUrl ? (
@@ -92,19 +103,7 @@ const avatarClass = 'lotus-focus-ring relative inline-flex h-7 w-7 shrink-0 item
           </ul>
           <span class="sr-only">{t('pageContributors.title')}</span>
         </div>
-      )}
-    </div>
-
-    {href && (
-      <a
-        class="lotus-focus-ring inline-flex shrink-0 items-center gap-1.5 rounded-(--lotus-radius-sm) py-1 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-        href={href}
-        rel="noreferrer"
-        target="_blank"
-      >
-        <Icon aria-hidden="true" class="h-3.5 w-3.5" name="lucide:pencil" />
-        <span>{t('page.editLink')}</span>
-      </a>
+      </div>
     )}
   </div>
 )}

@@ -6,6 +6,7 @@ export { default as LanguageSelect } from './components/theme/LanguageSelect.ast
 export { default as NavbarLinks } from './components/theme/NavbarLinks.astro';
 export { default as SocialIcons } from './components/theme/SocialIcons.astro';
 export { default as PageActions } from './components/theme/PageActions.astro';
+export { default as PageAside } from './components/theme/PageAside.astro';
 export { default as PageHeader } from './components/theme/PageHeader.astro';
 export { default as PageMeta } from './components/theme/PageMeta.astro';
 export { default as PageNavigation } from './components/theme/PageNavigation.astro';

@@ -12,6 +12,7 @@ interface Props {
   editUrl?: string | boolean;
   markdownUrl?: string;
   pageUrl: string;
+  placement?: 'aside' | 'inline';
   title: string;
 }
 
@@ -21,6 +22,7 @@ const {
   editUrl,
   markdownUrl: _markdownUrl,
   pageUrl: _pageUrl,
+  placement = 'inline',
   title: _title,
 } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
@@ -34,9 +36,11 @@ const href = typeof editUrl === 'string' && editUrl.trim() ? editUrl : undefined
 ---
 
 {href && (
-  <div class="mt-2 flex justify-end">
+  <div class:list={[
+    placement === 'aside' ? 'flex' : 'mt-2 flex justify-end',
+  ]}>
     <a
-      class="lotus-focus-ring inline-flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2 py-1 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+      class="lotus-focus-ring inline-flex items-center gap-1.5 rounded-(--lotus-radius-sm) py-1 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
       href={href}
       rel="noreferrer"
       target="_blank"

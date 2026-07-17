@@ -9,6 +9,7 @@ const defaultOverrideComponents = {
   HeaderNavbar: new URL('../components/defaults/HeaderNavbar.astro', import.meta.url),
   HeaderSocialIcons: new URL('../components/defaults/HeaderSocialIcons.astro', import.meta.url),
   PageActions: new URL('../components/defaults/PageActions.astro', import.meta.url),
+  PageAside: new URL('../components/defaults/PageAside.astro', import.meta.url),
   PageHeader: new URL('../components/defaults/PageHeader.astro', import.meta.url),
   PageMeta: new URL('../components/defaults/PageMeta.astro', import.meta.url),
   PageNavigation: new URL('../components/defaults/PageNavigation.astro', import.meta.url),

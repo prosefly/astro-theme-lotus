@@ -4,8 +4,8 @@ import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
-import TableOfContents from '../components/layout/TableOfContents.astro';
 import '@prosefly/astro-components/markdown/image-gallery.css';
+import PageAside from 'virtual:prosefly/lotus/components/PageAside';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
 import PageMeta from 'virtual:prosefly/lotus/components/PageMeta';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
@@ -135,13 +135,22 @@ const jsonLd = createDocsJsonLd({
         <div class="lotus-prose py-8">
           <slot />
         </div>
+        <div class="xl:hidden">
+          <PageAside
+            currentLocale={currentLocale}
+            currentSlug={currentSlug}
+            editUrl={editUrl}
+            headings={headings}
+            markdownUrl={markdownUrl}
+            pageUrl={pageUrl}
+            tableOfContents={false}
+            title={title}
+          />
+        </div>
         <PageMeta
           contributors={contributors}
           currentLocale={currentLocale}
-          currentSlug={currentSlug}
-          editUrl={editUrl}
-          markdownUrl={markdownUrl}
-          pageUrl={pageUrl}
+          lastUpdated={lastUpdated}
           title={title}
         />
         <PageNavigation currentLocale={currentLocale} navigation={pageNavigation} />
@@ -149,7 +158,15 @@ const jsonLd = createDocsJsonLd({
 
       <aside class="hidden xl:block">
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
-          <TableOfContents currentLocale={currentLocale} headings={headings} />
+          <PageAside
+            currentLocale={currentLocale}
+            currentSlug={currentSlug}
+            editUrl={editUrl}
+            headings={headings}
+            markdownUrl={markdownUrl}
+            pageUrl={pageUrl}
+            title={title}
+          />
         </div>
       </aside>
     </div>

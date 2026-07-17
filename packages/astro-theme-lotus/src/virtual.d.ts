@@ -33,6 +33,13 @@ declare module 'virtual:prosefly/lotus/components/PageActions' {
   export default component;
 }
 
+declare module 'virtual:prosefly/lotus/components/PageAside' {
+  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+  const component: AstroComponentFactory;
+  export default component;
+}
+
 declare module 'virtual:prosefly/lotus/components/PageHeader' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 

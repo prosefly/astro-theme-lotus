@@ -149,8 +149,21 @@ graph includes `WebSite`, `WebPage`, `TechArticle`, and `BreadcrumbList` data.
 ownership is used for breadcrumbs and article sections, and `lastUpdated` is
 used as `dateModified` when it is a date.
 
-`lastUpdated` currently affects structured data only. Lotus does not render a
-visible "last updated" label in the page chrome yet.
+When `lastUpdated` is omitted, Lotus reads the source file's modification time
+from the content entry `filePath`. The resolved date is rendered in the page
+meta area and used for structured data.
+
+Use `lastUpdated` to override the file timestamp:
+
+```md
+---
+title: Installation
+lastUpdated: 2026-07-17
+---
+```
+
+Set `lastUpdated: false` to hide the visible timestamp and omit
+`dateModified`.
 
 ## Previous and next
 
@@ -220,8 +233,8 @@ editUrl: https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/doc
 ---
 ```
 
-Set `editUrl: false` to hide the link for a page. The rendered meta area can be
-replaced with the `PageMeta` component override.
+Set `editUrl: false` to hide the link for a page. The rendered page tools area
+can be replaced with the `PageAside` component override.
 
 ## Contributors
 
