@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1200, initial-scale=1" />
+    <title>Lotus Open Graph Image</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      body {
+        background:
+          linear-gradient(90deg, rgb(79 70 229 / 0.055) 1px, transparent 1px),
+          linear-gradient(180deg, rgb(79 70 229 / 0.048) 1px, transparent 1px),
+          linear-gradient(90deg, transparent 0 40%, rgb(99 102 241 / 0.12) 58%, rgb(99 102 241 / 0.24) 100%),
+          #fbfbff;
+        background-size: 48px 48px, 48px 48px, auto, auto;
+        color: #111114;
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      }
+
+      .stage {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        padding: 72px;
+      }
+
+      .stage::before {
+        position: absolute;
+        inset: 34px;
+        border: 1px solid rgb(79 70 229 / 0.14);
+        border-radius: 34px;
+        content: "";
+      }
+
+      .accent-plane {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(72deg, transparent 0 50%, rgb(79 70 229 / 0.12) 50% 100%);
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 450px 1fr;
+        align-items: center;
+        gap: 64px;
+        height: 100%;
+      }
+
+      .brand {
+        display: block;
+        width: 156px;
+        height: auto;
+        margin-bottom: 40px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 62px;
+        font-weight: 760;
+        letter-spacing: -0.045em;
+        line-height: 1;
+      }
+
+      h1 span {
+        color: #4f46e5;
+        display: block;
+      }
+
+      .lede {
+        margin: 26px 0 0;
+        max-width: 430px;
+        color: #4b4b57;
+        font-size: 23px;
+        letter-spacing: -0.012em;
+        line-height: 1.34;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        color: #52525b;
+        font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 16px;
+        letter-spacing: 0.02em;
+      }
+
+      .meta span + span::before {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-right: 16px;
+        border-radius: 999px;
+        background: #818cf8;
+        content: "";
+        vertical-align: 2px;
+      }
+
+      .visual {
+        position: relative;
+        height: 410px;
+      }
+
+      .preview-shell {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 566px;
+        height: 362px;
+        overflow: hidden;
+        border: 1px solid rgb(79 70 229 / 0.2);
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 32px 84px rgb(49 46 129 / 0.24), 0 1px 3px rgb(17 17 20 / 0.08);
+      }
+
+      .preview-shell img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+
+      .preview-shell::after {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.65);
+        content: "";
+        pointer-events: none;
+      }
+
+      .caption {
+        position: absolute;
+        right: 44px;
+        bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 42px;
+        padding: 0 18px;
+        border: 1px solid rgb(79 70 229 / 0.14);
+        border-radius: 999px;
+        background: rgb(255 255 255 / 0.72);
+        box-shadow: 0 18px 50px rgb(49 46 129 / 0.12);
+        color: #3f3f46;
+        font-size: 18px;
+        backdrop-filter: blur(16px);
+      }
+
+      .caption i {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: #4f46e5;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage">
+      <div class="accent-plane"></div>
+      <section class="content">
+        <div>
+          <img class="brand" src="../../public/lotus-light.svg" alt="Lotus" />
+          <h1>
+            Astro docs,
+            <span>without</span>
+            <span>rebuilding</span>
+            <span>the shell.</span>
+          </h1>
+          <p class="lede">
+            Generated routes, responsive navigation, search, MDX components,
+            and design tokens.
+          </p>
+          <div class="meta">
+            <span>Prosefly theme</span>
+            <span>Astro v7</span>
+            <span>MDX</span>
+          </div>
+        </div>
+
+        <div class="visual">
+          <div class="preview-shell">
+            <img src="../../.github/assets/lotus-docs-light-dark.png" alt="" />
+          </div>
+          <div class="caption"><i></i> Light and dark docs shell</div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
