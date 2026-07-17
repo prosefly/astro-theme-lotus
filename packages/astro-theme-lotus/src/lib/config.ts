@@ -29,6 +29,7 @@ export interface LotusIntegrationOptions {
   socials?: ThemeSocialLink[];
   sidebars?: SidebarConfig[];
   search?: LotusThemeConfig['search'];
+  assistant?: LotusThemeConfig['assistant'];
   pageActions?: PageActionConfig[];
   contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;
@@ -63,6 +64,7 @@ const defaultConfig: LotusThemeConfig = {
   socials: [],
   sidebars: [],
   search: { provider: 'local' },
+  assistant: false,
   pageActions: [
     { type: 'copy-page', icon: 'lucide:copy' },
     { type: 'view-markdown', icon: 'lucide:file-text' },

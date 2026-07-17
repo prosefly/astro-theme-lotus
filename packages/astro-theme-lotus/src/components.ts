@@ -1,5 +1,7 @@
 export { default as AppearancePalette } from './components/theme/AppearancePalette.astro';
 export { default as AppearancePaletteContent } from './components/theme/AppearancePaletteContent.astro';
+export { default as Assistant } from './components/theme/Assistant.astro';
+export { default as AssistantTrigger } from './components/theme/AssistantTrigger.astro';
 export { default as Contributors } from './components/theme/Contributors.astro';
 export { default as Credits } from './components/theme/Credits.astro';
 export { default as EditThisPage } from './components/theme/EditThisPage.astro';

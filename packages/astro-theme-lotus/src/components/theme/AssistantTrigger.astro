@@ -1,0 +1,14 @@
+---
+import { Icon } from '@prosefly/astro-components';
+
+const t = Astro.locals.t;
+---
+
+<button
+  aria-label={t('assistant.label')}
+  class="lotus-focus-ring inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) lg:h-9 lg:w-9"
+  data-lotus-assistant-trigger
+  type="button"
+>
+  <Icon aria-hidden="true" class="h-4 w-4" name="lucide:sparkles" />
+</button>

@@ -1,16 +1,21 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import AssistantTrigger from './AssistantTrigger.astro';
 import SearchDialogContent from './SearchDialogContent.astro';
 import SearchDialogTrigger from './SearchDialogTrigger.astro';
 import type { LotusThemeConfig } from '../../lib/theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const enabled = themeConfig.search !== false;
+const searchEnabled = themeConfig.search !== false;
+const assistantEnabled = Boolean(themeConfig.assistant);
 ---
 
-{enabled && (
+{(searchEnabled || assistantEnabled) && (
   <>
-    <SearchDialogTrigger />
-    <SearchDialogContent />
+    <div class="ml-auto flex min-w-0 items-center gap-1 lg:ml-0">
+      {searchEnabled && <SearchDialogTrigger hasAssistant={assistantEnabled} />}
+      {assistantEnabled && <AssistantTrigger />}
+    </div>
+    {searchEnabled && <SearchDialogContent />}
   </>
 )}

@@ -107,6 +107,7 @@ export interface ContributorsConfig {
 export type ContributorsOption = boolean | ContributorsConfig;
 
 export type OverrideComponentName =
+  | 'Assistant'
   | 'HeaderNavbar'
   | 'HeaderSocialIcons'
   | 'PageActions'
@@ -178,6 +179,34 @@ export type SearchConfig =
       indexName: string | Record<string, string>;
     };
 
+export type AssistantConfig =
+  | false
+  | {
+      provider: 'inkeep';
+      apiKey: string;
+      organizationDisplayName?: string;
+      primaryBrandColor?: string;
+      integrationId?: string;
+      organizationId?: string;
+      scriptUrl?: string;
+      baseSettings?: Record<string, unknown>;
+      modalSettings?: Record<string, unknown>;
+      searchSettings?: Record<string, unknown>;
+      aiChatSettings?: Record<string, unknown>;
+    }
+  | {
+      provider: 'kapa';
+      websiteId: string;
+      projectName?: string;
+      projectColor?: string;
+      projectLogo?: string;
+      scriptUrl?: string;
+      attributes?: Record<string, string | number | boolean | undefined>;
+    }
+  | {
+      provider: 'custom';
+    };
+
 export interface ThemeSourceConfig {
   branch?: string;
   contentRoot?: string;
@@ -228,6 +257,7 @@ export interface LotusThemeConfig {
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
   search: SearchConfig;
+  assistant: AssistantConfig;
   pageActions: PageActionConfig[];
   contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;

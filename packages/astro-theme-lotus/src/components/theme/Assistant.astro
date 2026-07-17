@@ -1,0 +1,69 @@
+---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { AssistantConfig, LotusThemeConfig } from '../../lib/theme';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const assistant = themeConfig.assistant;
+const defaultAccentColor = '#6366f1';
+const inkeepScriptUrl = 'https://cdn.jsdelivr.net/npm/@inkeep/cxkit-js@0.5/dist/embed.js';
+const kapaScriptUrl = 'https://widget.kapa.ai/kapa-widget.bundle.js';
+
+function stringifyData(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
+function getInkeepSettings(config: Extract<AssistantConfig, { provider: 'inkeep' }>) {
+  return {
+    defaultView: 'chat',
+    baseSettings: {
+      apiKey: config.apiKey,
+      organizationDisplayName: config.organizationDisplayName ?? themeConfig.name,
+      primaryBrandColor: config.primaryBrandColor ?? defaultAccentColor,
+      integrationId: config.integrationId,
+      organizationId: config.organizationId,
+      ...config.baseSettings,
+    },
+    modalSettings: {
+      triggerSelector: '[data-lotus-assistant-trigger]',
+      ...config.modalSettings,
+    },
+    searchSettings: config.searchSettings,
+    aiChatSettings: config.aiChatSettings,
+  };
+}
+
+function getKapaAttributes(config: Extract<AssistantConfig, { provider: 'kapa' }>) {
+  return {
+    'data-website-id': config.websiteId,
+    'data-project-name': config.projectName ?? themeConfig.name,
+    'data-project-color': config.projectColor ?? defaultAccentColor,
+    'data-project-logo': config.projectLogo,
+    'data-launcher-button-hidden': 'true',
+    'data-modal-override-open-selector-ask-ai': '[data-lotus-assistant-trigger]',
+    ...(config.attributes ?? {}),
+  };
+}
+---
+
+{assistant && assistant.provider === 'inkeep' && (
+  <>
+    <div
+      data-lotus-inkeep
+      data-lotus-inkeep-script-url={assistant.scriptUrl ?? inkeepScriptUrl}
+      data-lotus-inkeep-settings={stringifyData(getInkeepSettings(assistant))}
+      hidden
+    />
+    <script>
+      import '../../client/assistant/inkeep';
+    </script>
+  </>
+)}
+
+{assistant && assistant.provider === 'kapa' && (
+  <script
+    async
+    is:inline
+    src={assistant.scriptUrl ?? kapaScriptUrl}
+    {...getKapaAttributes(assistant)}
+  />
+)}

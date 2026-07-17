@@ -14,6 +14,7 @@ const layoutIconNames = [
   'lucide:monitor',
   'lucide:moon',
   'lucide:pencil',
+  'lucide:sparkles',
   'lucide:sun',
   'lucide:x',
   'simple-icons:bun',

@@ -3,6 +3,7 @@ import '../styles/app.css';
 import { getThemeAttributes } from '../lib/appearance';
 import { stringifyJsonLd, type JsonLdNode } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import Assistant from 'virtual:prosefly/lotus/components/Assistant';
 import { getDefaultLocale, type NormalizedLocale } from '../lib/i18n';
 import type { LotusThemeConfig } from '../lib/theme';
 import packageJson from '../../package.json';
@@ -76,5 +77,6 @@ function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
   </head>
   <body class="min-h-screen bg-(--lotus-background) text-(--lotus-text)">
     <slot />
+    <Assistant />
   </body>
 </html>

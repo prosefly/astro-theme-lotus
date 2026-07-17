@@ -10,7 +10,7 @@ const currentLocale = Astro.locals.t.locale();
 ---
 
 <footer class="lotus-border-subtle border-t bg-(--lotus-background)" data-pagefind-ignore>
-  <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] xl:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)]">
+  <div class="mx-auto flex flex-col justify-between lg:flex-row max-w-screen-2xl gap-10 px-4 py-10 sm:px-6">
     <div class="space-y-4">
       <SiteBrand class="inline-flex" markIdPrefix="lotus-footer-brand" textClass="text-sm font-semibold sm:text-base" />
       {themeConfig.footer.copyright && (
@@ -21,7 +21,7 @@ const currentLocale = Astro.locals.t.locale();
       {themeConfig.credits && <Credits />}
     </div>
 
-    <div class="@container">
+    <div class="@container grow max-w-4xl">
       <div class="grid grid-cols-1 gap-8 @sm:grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-4">
         {themeConfig.footer.sections.map((section) => (
           <section class="space-y-3">

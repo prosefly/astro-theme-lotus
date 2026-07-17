@@ -11,18 +11,10 @@ export default defineLotusConfig({
   },
   navbar: [
     { label: 'Docs', href: '/docs/' },
-    { label: 'Components', href: '/docs/components/icon/' },
-    { label: 'References', href: '/docs/references/design-system/' },
     {
-      label: 'Dashboard',
-      href: '/docs/',
-      variant: 'soft',
-    },
-    {
-      label: 'Get started',
-      href: '/docs/overview/',
+      label: 'Source',
+      href: 'https://github.com/prosefly/astro-theme-lotus',
       variant: 'solid',
-      color: 'accent',
       trailingIcon: 'lucide:chevron-right',
     },
   ],
@@ -74,18 +66,6 @@ export default defineLotusConfig({
       icon: 'lucide:rocket',
       items: [
         {
-          label: 'GitHub',
-          link: 'https://github.com/prosefly/astro-theme-lotus',
-          external: true,
-          icon: 'simple-icons:github',
-        },
-        {
-          label: 'Discord',
-          link: 'https://discord.gg/prosefly',
-          external: true,
-          icon: 'simple-icons:discord',
-        },
-        {
           label: 'Blog',
           link: '/docs/essentials/markdown-syntax/',
           icon: 'lucide:newspaper',
@@ -100,6 +80,7 @@ export default defineLotusConfig({
               items: [{ autogenerate: { directory: 'configuration' } }],
             },
             'deployment',
+            'troubleshooting',
           ],
         },
         {
@@ -110,12 +91,21 @@ export default defineLotusConfig({
           label: 'Customization',
           items: [{ autogenerate: { directory: 'customization' } }],
         },
+        {
+          label: 'Migrations',
+          items: [{ autogenerate: { directory: 'migrations' } }],
+        },
       ],
     },
     {
       label: 'Components',
       icon: 'lucide:blocks',
       items: [{ autogenerate: { directory: 'components' } }],
+    },
+    {
+      label: 'Recipes',
+      icon: 'lucide:chef-hat',
+      items: [{ autogenerate: { directory: 'recipes' } }],
     },
     {
       label: 'References',
@@ -127,48 +117,36 @@ export default defineLotusConfig({
     copyright: 'Copyright © 2026 Prosefly.',
     sections: [
       {
-        title: 'Docs',
+        title: 'Tools',
         links: [
-          { label: 'Overview', href: '/docs/overview/' },
-          { label: 'Installation', href: '/docs/installation/' },
-          { label: 'Configuration', href: '/docs/configuration/project/' },
-          { label: 'Search', href: '/docs/configuration/search/' },
-          { label: 'i18n', href: '/docs/configuration/i18n/' },
-          { label: 'Deployment', href: '/docs/deployment/' },
+          { label: 'Appearance', href: '/docs/configuration/appearance/' },
         ],
       },
       {
-        title: 'Components',
+        title: 'Community',
         links: [
-          { label: 'Icon', href: '/docs/components/icon/' },
-          { label: 'Badge', href: '/docs/components/badge/' },
-          { label: 'Callout', href: '/docs/components/callout/' },
-          { label: 'Cards', href: '/docs/components/cards/' },
-          { label: 'Steps', href: '/docs/components/steps/' },
-          { label: 'Tabs', href: '/docs/components/tabs/' },
-          { label: 'Accordion', href: '/docs/components/accordion/' },
-          { label: 'File Tree', href: '/docs/components/file-tree/' },
-        ],
-      },
-      {
-        title: 'References',
-        links: [
-          { label: 'Design System', href: '/docs/references/design-system/' },
-          { label: 'Theme Tokens', href: '/docs/references/theme-tokens/' },
-          { label: 'Expressive Code', href: '/docs/references/expressive-code/' },
-          { label: 'Typography', href: '/docs/references/typography/' },
-        ],
-      },
-      {
-        title: 'Project',
-        links: [
-          { label: 'Privacy', href: '/docs/privacy/' },
-          { label: 'Terms', href: '/docs/terms/' },
           {
             label: 'GitHub',
             href: 'https://github.com/prosefly/astro-theme-lotus',
             external: true,
           },
+          {
+            label: 'X (Twitter)',
+            href: 'https://x.com/prosefly',
+            external: true,
+          },
+          {
+            label: 'Sponsor',
+            href: 'https://github.com/sponsors/lepture',
+            external: true,
+          },
+        ],
+      },
+      {
+        title: 'Legal',
+        links: [
+          { label: 'Privacy', href: '/docs/privacy/' },
+          { label: 'Terms', href: '/docs/terms/' },
         ],
       },
     ],

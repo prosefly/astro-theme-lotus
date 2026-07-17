@@ -11,6 +11,13 @@ declare namespace App {
   }
 }
 
+declare module 'virtual:prosefly/lotus/components/Assistant' {
+  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+  const component: AstroComponentFactory;
+  export default component;
+}
+
 declare module 'virtual:prosefly/lotus/components/SearchDialog' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 

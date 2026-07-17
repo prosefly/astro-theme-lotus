@@ -1,0 +1,119 @@
+---
+title: Assistant
+description: Configure hosted Ask AI widgets for documentation.
+sidebar:
+  order: 10
+---
+
+Lotus can load hosted Ask AI widgets for documentation sites. The theme does
+not implement retrieval, model routing, or chat protocols. Providers such as
+Inkeep and kapa.ai own the index, answer quality, citations, analytics, and
+widget UI.
+
+When an assistant provider is configured, Lotus adds an AI trigger button next
+to the header search trigger. The search trigger becomes slightly narrower on
+desktop so search and Ask AI read as one compact control group.
+
+Assistant widgets are disabled by default.
+
+```ts
+assistant: false
+```
+
+## Inkeep
+
+Use Inkeep when you want a hosted chat button backed by an Inkeep assistant.
+
+```ts
+assistant: {
+  provider: 'inkeep',
+  apiKey: '...',
+  organizationDisplayName: 'Acme',
+}
+```
+
+Lotus loads the Inkeep browser script only when this provider is enabled and
+initializes `Inkeep.ModalSearchAndChat`. The modal is connected to the header AI
+trigger with `modalSettings.triggerSelector`, and the default base settings sync
+with Lotus' `data-theme` attribute so the widget follows light and dark mode.
+
+Additional Inkeep settings can be passed through:
+
+```ts
+assistant: {
+  provider: 'inkeep',
+  apiKey: '...',
+  organizationDisplayName: 'Acme',
+  primaryBrandColor: '#6366f1',
+  aiChatSettings: {
+    aiAssistantName: 'Docs Assistant',
+    exampleQuestions: [
+      'How do I configure sidebars?',
+      'How do I override theme components?',
+    ],
+  },
+}
+```
+
+Use `scriptUrl` to pin or self-host the Inkeep script.
+
+## Kapa
+
+Use kapa.ai when you already have a Kapa Website Widget integration.
+
+```ts
+assistant: {
+  provider: 'kapa',
+  websiteId: '...',
+  projectName: 'Acme Docs',
+  projectColor: '#6366f1',
+  projectLogo: 'https://example.com/logo.png',
+}
+```
+
+Lotus renders Kapa's widget script only when this provider is enabled. The
+default Kapa launcher is hidden, and the header AI trigger opens Kapa in Ask AI
+mode through `data-modal-override-open-selector-ask-ai`.
+
+The `websiteId` value is the Kapa Website ID, which Kapa also labels as the
+Integration ID in the dashboard.
+
+Pass extra widget attributes with `attributes`:
+
+```ts
+assistant: {
+  provider: 'kapa',
+  websiteId: '...',
+  attributes: {
+    'data-modal-title': 'Ask AI',
+  },
+}
+```
+
+Use `scriptUrl` to self-host or pin the Kapa widget bundle.
+
+## Custom
+
+Use `custom` when the project wants to own the full assistant integration.
+
+```ts
+assistant: {
+  provider: 'custom',
+}
+```
+
+Then override `Assistant`:
+
+```ts
+export default defineLotusConfig({
+  assistant: {
+    provider: 'custom',
+  },
+  components: {
+    Assistant: './src/components/Assistant.astro',
+  },
+});
+```
+
+The default custom provider renders nothing. This keeps Lotus out of API keys,
+RAG pipelines, model gateways, and provider-specific chat protocols.
