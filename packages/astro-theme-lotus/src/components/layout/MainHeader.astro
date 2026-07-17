@@ -6,6 +6,8 @@ import MobileMenu from './MobileMenu.astro';
 import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConfig.assistant);
 ---
 
 <header
@@ -40,6 +44,10 @@ const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
       </div>
     </div>
 
-    <MobileMenu currentPath={currentPath} showLanguage={showMobileLanguage} />
+    <MobileMenu
+      class={hasMobileHeaderActions ? undefined : 'ml-auto'}
+      currentPath={currentPath}
+      showLanguage={showMobileLanguage}
+    />
   </div>
 </header>

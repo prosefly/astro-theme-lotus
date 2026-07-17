@@ -7,16 +7,17 @@ import LanguageSelect from '../theme/LanguageSelect.astro';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 
 interface Props {
+  class?: string;
   currentPath?: string;
   showLanguage?: boolean;
 }
 
-const { currentPath, showLanguage = true } = Astro.props;
+const { class: className, currentPath, showLanguage = true } = Astro.props;
 const t = Astro.locals.t;
 ---
 
 <Dropdown
-  class="lg:hidden"
+  class:list={['lg:hidden', className]}
   contentClass="lotus-border-muted absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-4 shadow-lg shadow-black/5"
   triggerClass="lotus-focus-ring flex h-10 w-10 cursor-pointer items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
 >
