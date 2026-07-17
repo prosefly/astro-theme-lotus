@@ -1,0 +1,32 @@
+---
+import {
+  ThemeModeSegmentedControl,
+  ThemeModeButton,
+  ThemeModeSelect,
+  ThemeModeSwitch,
+} from '@prosefly/astro-theme-lotus/components';
+---
+
+<div data-theme-switch-variant data-active="segmented">
+  <div class="hidden" data-type="segmented">
+    <ThemeModeSegmentedControl />
+  </div>
+  <div class="hidden" data-type="cycle">
+    <ThemeModeButton />
+  </div>
+  <div class="hidden" data-type="select">
+    <ThemeModeSelect />
+  </div>
+  <div class="hidden" data-type="switch">
+    <ThemeModeSwitch />
+  </div>
+</div>
+
+<style>
+  [data-theme-switch-variant][data-active="segmented"] > [data-type="segmented"],
+  [data-theme-switch-variant][data-active="cycle"] > [data-type="cycle"],
+  [data-theme-switch-variant][data-active="select"] > [data-type="select"],
+  [data-theme-switch-variant][data-active="switch"] > [data-type="switch"] {
+    display: block;
+  }
+</style>

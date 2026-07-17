@@ -1,0 +1,133 @@
+---
+const variants = [
+  {
+    value: 'segmented',
+    label: 'Segmented',
+    description: 'Show system, light, and dark as separate icon buttons.',
+    code: '<ThemeModeSegmentedControl />',
+  },
+  {
+    value: 'cycle',
+    label: 'Cycle button',
+    description: 'Use one compact button that cycles through every mode.',
+    code: '<ThemeModeButton />',
+  },
+  {
+    value: 'select',
+    label: 'Select menu',
+    description: 'Use labels instead of icon-only controls.',
+    code: '<ThemeModeSelect />',
+  },
+  {
+    value: 'switch',
+    label: 'Light/dark',
+    description: 'Expose only light and dark as a two-state switch.',
+    code: '<ThemeModeSwitch />',
+  },
+];
+---
+
+<div
+  class="my-6"
+  data-theme-switch-variant-demo
+>
+  <div class="grid gap-3 sm:grid-cols-2">
+    {
+      variants.map((variant) => (
+        <button
+          class="lotus-focus-ring rounded-(--lotus-radius-lg) border border-(--lotus-border-muted) bg-(--lotus-background) p-4 text-left transition-colors hover:border-(--lotus-accent)"
+          data-theme-switch-demo-option={variant.value}
+          type="button"
+        >
+          <span class="flex items-center justify-between gap-3">
+            <span class="font-medium text-(--lotus-text-strong)">{variant.label}</span>
+            <span
+              class="hidden rounded-full bg-(--lotus-accent-soft) px-2 py-0.5 text-xs font-medium text-(--lotus-accent)"
+              data-theme-switch-demo-active
+            >
+              Active
+            </span>
+          </span>
+          <span class="mt-2 block text-sm leading-6 text-(--lotus-text-muted)">
+            {variant.description}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <pre class="m-0 rounded-none border-x-0 border-b-0 border-t border-(--lotus-border-subtle)"><code data-theme-switch-demo-code>{variants[0].code}</code></pre>
+</div>
+
+<script>
+  const variantCode = {
+    segmented: '<ThemeModeSegmentedControl />',
+    cycle: '<ThemeModeButton />',
+    select: '<ThemeModeSelect />',
+    switch: '<ThemeModeSwitch />',
+  } as const;
+
+  type ThemeSwitchVariant = keyof typeof variantCode;
+
+  function isThemeSwitchVariant(value: string | undefined): value is ThemeSwitchVariant {
+    return value === 'segmented' || value === 'cycle' || value === 'select' || value === 'switch';
+  }
+
+  function setThemeSwitchVariant(demo: HTMLElement, variant: ThemeSwitchVariant) {
+    document.querySelectorAll<HTMLElement>('[data-theme-switch-variant]').forEach((target) => {
+      target.dataset.active = variant;
+    });
+
+    demo.querySelectorAll<HTMLElement>('[data-theme-switch-demo-option]').forEach((button) => {
+      const active = button.dataset.themeSwitchDemoOption === variant;
+      button.toggleAttribute('data-active', active);
+      button.querySelector('[data-theme-switch-demo-active]')?.toggleAttribute('hidden', !active);
+    });
+
+    const code = demo.querySelector('[data-theme-switch-demo-code]');
+
+    if (code) {
+      code.textContent = variantCode[variant];
+    }
+  }
+
+  function initThemeSwitchVariantDemos() {
+    document.querySelectorAll<HTMLElement>('[data-theme-switch-variant-demo]').forEach((demo) => {
+      if (demo.dataset.ready === 'true') {
+        return;
+      }
+
+      demo.dataset.ready = 'true';
+      setThemeSwitchVariant(demo, 'segmented');
+
+      demo.addEventListener('click', (event) => {
+        const button = event.target instanceof Element
+          ? event.target.closest<HTMLElement>('[data-theme-switch-demo-option]')
+          : null;
+        const variant = button?.dataset.themeSwitchDemoOption;
+
+        if (isThemeSwitchVariant(variant)) {
+          setThemeSwitchVariant(demo, variant);
+        }
+      });
+    });
+  }
+
+  initThemeSwitchVariantDemos();
+  document.addEventListener('astro:page-load', initThemeSwitchVariantDemos);
+</script>
+
+<style>
+  [data-theme-switch-demo-option][data-active] {
+    border-color: var(--lotus-accent);
+    background: var(--lotus-accent-soft);
+  }
+
+  [data-theme-switch-demo-option][data-active] [data-theme-switch-demo-active] {
+    display: inline-flex;
+  }
+
+  [data-theme-switch-demo-active][hidden] {
+    display: none;
+  }
+</style>

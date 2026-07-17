@@ -38,7 +38,8 @@ export default defineLotusConfig({
     exclude: ['github-actions[bot]'],
   },
   components: {
-    HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
+    HeaderSocialIcons: './src/components/lotus/HeaderSocialIcons.astro',
+    ThemeSwitch: './src/components/lotus/ThemeSwitch.astro',
   },
   homepage: true,
   source: {

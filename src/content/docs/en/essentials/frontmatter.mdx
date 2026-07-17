@@ -165,6 +165,40 @@ lastUpdated: 2026-07-17
 Set `lastUpdated: false` to hide the visible timestamp and omit
 `dateModified`.
 
+## Head
+
+Use `head` to add page-specific tags to the document `<head>`. The shape matches
+Starlight's `HeadConfig` entries:
+
+```md
+---
+title: Open Graph Example
+head:
+  - tag: title
+    content: Custom browser title
+  - tag: meta
+    attrs:
+      property: og:image
+      content: https://example.com/og.png
+  - tag: script
+    attrs:
+      defer: true
+      src: https://example.com/analytics.js
+---
+```
+
+Lotus merges these entries with the default page head. Later entries replace
+matching defaults for:
+
+- `title`
+- `meta` entries with the same `name`, `property`, or `http-equiv`
+- `link rel="canonical"`
+- `link rel="sitemap"`
+
+Other entries are appended. This means a frontmatter `head` entry can override
+the generated browser title or description meta tag for one page without
+replacing the rest of the default metadata.
+
 ## Previous and next
 
 Lotus generates previous and next links from the current sidebar order. Override
@@ -211,13 +245,10 @@ draft: true
 Lotus accepts several Starlight-style fields for schema compatibility, but the
 current UI does not render them yet:
 
-- `head`
 - `banner`
 
 These fields are safe to keep during migrations, but they should not be treated
-as active Lotus UI features until the theme starts consuming them. `head`
-entries are accepted by the content schema, but the current layout does not
-render them into the document head.
+as active Lotus UI features until the theme starts consuming them.
 
 ## Edit Link
 
