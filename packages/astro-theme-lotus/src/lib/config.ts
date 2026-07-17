@@ -29,9 +29,11 @@ export interface LotusIntegrationOptions {
   socials?: ThemeSocialLink[];
   sidebars?: SidebarConfig[];
   pageActions?: PageActionConfig[];
+  contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;
   docsBase?: string;
   homepage?: LotusThemeConfig['homepage'];
+  source?: LotusThemeConfig['source'];
   editLink?: LotusThemeConfig['editLink'];
   defaultLocale?: LotusThemeConfig['defaultLocale'];
   locales?: LotusThemeConfig['locales'];
@@ -65,9 +67,11 @@ const defaultConfig: LotusThemeConfig = {
     { type: 'open-chatgpt', icon: 'simple-icons:openai' },
     { type: 'open-claude', icon: 'simple-icons:claude' },
   ],
+  contributors: false,
   components: {},
   docsBase: DEFAULT_DOCS_BASE_PATH,
   homepage: false,
+  source: undefined,
   editLink: undefined,
   defaultLocale: undefined,
   locales: undefined,

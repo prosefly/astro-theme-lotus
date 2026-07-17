@@ -19,13 +19,6 @@ declare module 'virtual:prosefly/lotus/components/HeaderNavbar' {
   export default component;
 }
 
-declare module 'virtual:prosefly/lotus/components/EditThisPage' {
-  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
-
-  const component: AstroComponentFactory;
-  export default component;
-}
-
 declare module 'virtual:prosefly/lotus/components/HeaderSocialIcons' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
@@ -41,6 +34,13 @@ declare module 'virtual:prosefly/lotus/components/PageActions' {
 }
 
 declare module 'virtual:prosefly/lotus/components/PageHeader' {
+  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+  const component: AstroComponentFactory;
+  export default component;
+}
+
+declare module 'virtual:prosefly/lotus/components/PageMeta' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
   const component: AstroComponentFactory;

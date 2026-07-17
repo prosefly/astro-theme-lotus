@@ -85,12 +85,33 @@ export interface PageActionConfig {
   external?: boolean;
 }
 
+export interface ContributorInfo {
+  name: string;
+  email?: string;
+  username?: string;
+  avatarUrl?: string;
+  profileUrl?: string;
+  commits: number;
+  lastCommit?: string;
+}
+
+export interface ContributorsConfig {
+  avatar?: 'github' | 'gravatar' | false;
+  contentRoot?: string;
+  exclude?: string[];
+  github?: string;
+  branch?: string;
+  max?: number;
+}
+
+export type ContributorsOption = boolean | ContributorsConfig;
+
 export type OverrideComponentName =
-  | 'EditThisPage'
   | 'HeaderNavbar'
   | 'HeaderSocialIcons'
   | 'PageActions'
   | 'PageHeader'
+  | 'PageMeta'
   | 'PageNavigation'
   | 'SearchDialog'
   | 'SiteBrand'
@@ -122,6 +143,14 @@ export interface LocaleConfig {
   lang?: string;
   dir?: 'ltr' | 'rtl';
   directory?: string;
+}
+
+export interface ThemeSourceConfig {
+  branch?: string;
+  contentRoot?: string;
+  github?: string;
+  gitlab?: string;
+  codeberg?: string;
 }
 
 export interface EditLinkBaseConfig {
@@ -166,10 +195,12 @@ export interface LotusThemeConfig {
   socials: ThemeSocialLink[];
   sidebars: SidebarConfig[];
   pageActions: PageActionConfig[];
+  contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;
   docsBase: string;
   homepage?: boolean;
-  editLink?: false | EditLinkConfig;
+  source?: ThemeSourceConfig;
+  editLink?: boolean | EditLinkConfig;
   defaultLocale?: string;
   locales?: Record<string, LocaleConfig>;
   ui?: Record<string, Partial<UiTranslations>>;

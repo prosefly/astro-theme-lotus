@@ -48,15 +48,22 @@ const themeConfig = {
     { type: 'open-chatgpt' },
     { type: 'open-claude' },
   ],
+  contributors: {
+    avatar: 'gravatar',
+    max: 6,
+    exclude: ['github-actions[bot]'],
+  },
   components: {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
   docsBase: '/docs',
   homepage: true,
-  editLink: {
-    pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+  source: {
+    github: 'prosefly/astro-theme-lotus',
+    branch: 'main',
     contentRoot: 'src/content',
   },
+  editLink: true,
   defaultLocale: 'root',
   locales: {
     root: {

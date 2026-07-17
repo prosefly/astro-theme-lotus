@@ -99,6 +99,7 @@ const baseDocsSchema = z.object({
     })
     .optional(),
   lastUpdated: z.union([z.date(), z.boolean()]).optional(),
+  contributors: z.boolean().optional(),
   prev: paginationItemSchema.optional(),
   next: paginationItemSchema.optional(),
   pagefind: z.boolean().default(true),

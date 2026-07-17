@@ -55,6 +55,7 @@ Use a component override when the project needs to:
 - Replace the search UI with another search provider.
 - Change the header brand markup.
 - Move, hide, or restyle page actions beyond what `pageActions` supports.
+- Replace the page contributors block.
 - Replace previous and next page navigation.
 - Use a different theme mode control.
 - Change the navbar or social-link rendering while keeping the same config
@@ -74,7 +75,7 @@ Use these names in `themeConfig.components`.
 | `ThemeSwitch` | Desktop header and mobile menu theme mode area. | none |
 | `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl`, `currentLocale` |
 | `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl`, `currentLocale?` |
-| `EditThisPage` | Edit link between docs content and previous/next navigation. | `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale` |
+| `PageMeta` | Contributors and edit link between docs content and previous/next navigation. | `contributors`, `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale` |
 | `PageNavigation` | Previous and next links below docs content. | `navigation`, `currentLocale?` |
 
 Only these names are supported by the `components` config. Other components can
@@ -90,8 +91,8 @@ Common slot and export pairs:
 | `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` |
 | `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
 | `PageActions` | `PageActions` |
-| `EditThisPage` | `EditThisPage` |
 | `PageHeader` | `PageHeader` |
+| `PageMeta` | `PageMeta`, `EditThisPage`, `Contributors` |
 | `PageNavigation` | `PageNavigation` |
 | `SiteBrand` | `SiteBrand` |
 
@@ -185,8 +186,8 @@ Useful public components include:
 | `NavbarLinks` | Reusing configured navbar links. |
 | `SocialIcons` | Reusing configured social links. |
 | `PageActions` | Reusing copy, Markdown, ChatGPT, Claude, and custom actions. |
-| `EditThisPage` | Reusing the edit link below docs content. |
 | `PageHeader` | Reusing the default docs title area. |
+| `PageMeta`, `EditThisPage`, `Contributors` | Reusing the docs page meta area or its smaller parts. |
 | `PageNavigation` | Reusing previous and next links. |
 | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` | Reusing built-in search. |
 | `SiteBrand` | Reusing configured logo and project name. |

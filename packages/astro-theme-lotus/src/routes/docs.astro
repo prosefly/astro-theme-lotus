@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import DocsLayout from '../layouts/DocsLayout.astro';
 import SplashLayout from '../layouts/SplashLayout.astro';
 import TextLayout from '../layouts/TextLayout.astro';
+import { getEntryContributors } from '../lib/contributors';
 import {
   getDocsContext,
   getEntrySectionFromContext,
@@ -78,6 +79,7 @@ const entrySlug = getEntrySlug(entry);
 const sectionTitle = getSidebarSectionTitle(sidebar, entrySlug);
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const editUrl = resolveEditUrl(themeConfig, entry);
+const contributors = await getEntryContributors(themeConfig, entry);
 const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
   previous: entry.data.prev,
   next: entry.data.next,
@@ -99,6 +101,7 @@ const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
     sectionTitle={sectionTitle}
     currentLocale={currentLocale}
     currentSlug={entrySlug}
+    contributors={contributors}
     editUrl={editUrl}
     lastUpdated={entry.data.lastUpdated}
     pageNavigation={pageNavigation}

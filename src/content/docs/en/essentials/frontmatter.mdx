@@ -220,5 +220,20 @@ editUrl: https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/doc
 ---
 ```
 
-Set `editUrl: false` to hide the link for a page. The rendered area can be
-replaced with the `EditThisPage` component override.
+Set `editUrl: false` to hide the link for a page. The rendered meta area can be
+replaced with the `PageMeta` component override.
+
+## Contributors
+
+When `themeConfig.contributors` is enabled, Lotus infers page contributors from
+the source file history. Set `contributors: false` on pages that should not show
+the contributors block.
+
+```md
+---
+title: Terms
+contributors: false
+---
+```
+
+The rendered meta area can be replaced with the `PageMeta` component override.

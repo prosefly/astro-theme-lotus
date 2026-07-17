@@ -1,11 +1,13 @@
 export { default as AppearancePalette } from './components/theme/AppearancePalette.astro';
 export { default as AppearancePaletteContent } from './components/theme/AppearancePaletteContent.astro';
+export { default as Contributors } from './components/theme/Contributors.astro';
 export { default as EditThisPage } from './components/theme/EditThisPage.astro';
 export { default as LanguageSelect } from './components/theme/LanguageSelect.astro';
 export { default as NavbarLinks } from './components/theme/NavbarLinks.astro';
 export { default as SocialIcons } from './components/theme/SocialIcons.astro';
 export { default as PageActions } from './components/theme/PageActions.astro';
 export { default as PageHeader } from './components/theme/PageHeader.astro';
+export { default as PageMeta } from './components/theme/PageMeta.astro';
 export { default as PageNavigation } from './components/theme/PageNavigation.astro';
 export { default as SearchDialog } from './components/theme/SearchDialog.astro';
 export { default as SearchDialogContent } from './components/theme/SearchDialogContent.astro';

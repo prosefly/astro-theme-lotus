@@ -1,67 +1,29 @@
 import type { CollectionEntry } from 'astro:content';
-import type { EditLinkConfig, LotusThemeConfig } from './theme';
+import type { EditLinkConfig, LotusThemeConfig, ThemeSourceConfig } from './theme';
+import {
+  getEntrySourcePath,
+  getSourceBranch,
+  mergeSourceConfig,
+  normalizeHostedRepo,
+} from './source';
 
 type DocsEntry = CollectionEntry<'docs'>;
 
-interface HostedRepo {
-  origin: string;
-  path: string;
-}
+function getEditLinkSource(
+  config: LotusThemeConfig,
+): ThemeSourceConfig | undefined {
+  if (config.editLink === true) {
+    return mergeSourceConfig(config);
+  }
 
-function normalizeRepoPath(path: string, stripKnownRoutes = false): string {
-  const segments = path
-    .replace(/^\/+|\/+$/g, '')
-    .split('/')
-    .filter(Boolean);
-  const knownRouteIndex = stripKnownRoutes
-    ? segments.findIndex((segment) =>
-        segment === '-' ||
-        segment === '_edit' ||
-        segment === 'edit' ||
-        segment === 'src' ||
-        segment === 'branch',
-      )
-    : -1;
-  const repoSegments = knownRouteIndex === -1 ? segments : segments.slice(0, knownRouteIndex);
-
-  return repoSegments.join('/').replace(/\.git$/, '');
-}
-
-function normalizeHostedRepo(repo: string, defaultOrigin: string): HostedRepo | undefined {
-  const input = repo.trim();
-
-  if (!input) {
+  if (!config.editLink || typeof config.editLink === 'boolean') {
     return undefined;
   }
 
-  try {
-    const url = new URL(input);
-    const path = normalizeRepoPath(url.pathname, true);
-
-    return path ? { origin: url.origin, path } : undefined;
-  } catch {
-    // Continue with shorthand and SSH-style formats.
-  }
-
-  const sshMatch = input.match(/^git@([^:]+):(.+)$/);
-
-  if (sshMatch) {
-    const [, host, repoPath] = sshMatch;
-    const path = normalizeRepoPath(repoPath);
-
-    return path ? { origin: `https://${host}`, path } : undefined;
-  }
-
-  const path = normalizeRepoPath(input);
-
-  if (!/^[^\s]+\/[^\s]+$/.test(path)) {
-    return undefined;
-  }
-
-  return { origin: defaultOrigin, path };
+  return mergeSourceConfig(config, config.editLink);
 }
 
-function getEditLinkPattern(config: EditLinkConfig): string | undefined {
+function getEditLinkPattern(config: ThemeSourceConfig | EditLinkConfig): string | undefined {
   if ('pattern' in config && config.pattern) {
     return config.pattern;
   }
@@ -86,14 +48,6 @@ function getEditLinkPattern(config: EditLinkConfig): string | undefined {
 
   return undefined;
 }
-
-function joinPath(...parts: string[]): string {
-  return parts
-    .map((part) => part.replace(/^\/+|\/+$/g, ''))
-    .filter(Boolean)
-    .join('/');
-}
-
 function applyEditLinkPattern(pattern: string, sourcePath: string, branch: string): string {
   return pattern
     .replaceAll('{path}', sourcePath)
@@ -113,19 +67,20 @@ export function resolveEditUrl(
     return entry.data.editUrl;
   }
 
-  if (!config.editLink) {
+  const source = getEditLinkSource(config);
+
+  if (!source) {
     return undefined;
   }
 
-  const pattern = getEditLinkPattern(config.editLink);
+  const pattern = getEditLinkPattern(source);
 
   if (!pattern) {
     return undefined;
   }
 
-  const branch = config.editLink.branch ?? 'main';
-  const contentRoot = config.editLink.contentRoot ?? 'src/content';
-  const sourcePath = joinPath(contentRoot, `${entry.id}.mdx`);
+  const branch = getSourceBranch(config, source);
+  const sourcePath = getEntrySourcePath(config, entry, source);
 
   return applyEditLinkPattern(pattern, sourcePath, branch);
 }

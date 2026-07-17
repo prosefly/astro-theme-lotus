@@ -17,9 +17,14 @@ export default {
   favicon: '/favicon.svg',
   docsBase: '/docs',
   homepage: true,
-  editLink: {
-    pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+  source: {
+    github: 'prosefly/astro-theme-lotus',
+    branch: 'main',
     contentRoot: 'src/content',
+  },
+  editLink: true,
+  contributors: {
+    avatar: 'gravatar',
   },
   defaultLocale: 'root',
   locales: {
@@ -144,20 +149,58 @@ Keep `homepage` omitted, or set it to `false`, when the project uses
 homepage: false
 ```
 
-## Edit Links
+## Source
 
-Configure `editLink` to generate "Edit this page" links from each content
-entry ID. The recommended form is a URL pattern with a `{path}` placeholder.
+`source` describes where the documentation files live in version control. Lotus
+uses it for features that need to map a docs page back to its source file, such
+as edit links and contributors.
 
 ```ts
-editLink: {
-  pattern: 'https://github.com/prosefly/astro-theme-lotus/edit/main/{path}',
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
   contentRoot: 'src/content',
 }
 ```
 
-`contentRoot` defaults to `src/content`. Lotus joins it with the source entry ID
-and replaces `{path}` with the final source path.
+`contentRoot` defaults to `src/content`, and `branch` defaults to `main`.
+Repository fields accept either repository shorthand or a full repository URL.
+
+When `source` is omitted, Lotus tries to infer the repository provider and URL
+from `git config --get remote.origin.url`. This supports common GitHub, GitLab,
+and Codeberg remotes, including SSH remotes such as
+`git@github.com:owner/repo.git`. Lotus does not infer the branch from git; set
+`source.branch` when the edit links should point somewhere other than `main`.
+
+```ts
+source: {
+  gitlab: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+```ts
+source: {
+  codeberg: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+## Edit Links
+
+Set `editLink: true` to generate "Edit this page" links from `source`.
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+  contentRoot: 'src/content',
+},
+editLink: true
+```
+
+Lotus joins `source.contentRoot` with the source entry ID and builds the edit
+URL for the configured repository provider.
 
 For `src/content/docs/en/overview.mdx`, Lotus generates:
 
@@ -165,44 +208,87 @@ For `src/content/docs/en/overview.mdx`, Lotus generates:
 https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/overview.mdx
 ```
 
-Patterns can also use `{branch}` and `{encodedPath}`. `branch` defaults to
-`main`.
+Use an object when edit links need a custom URL pattern. The object inherits
+`source.contentRoot` and `source.branch`, so only the pattern needs to be
+different.
 
 ```ts
 editLink: {
   pattern: 'https://gitlab.com/prosefly/astro-theme-lotus/-/edit/{branch}/{path}',
-  branch: 'main',
 }
 ```
 
-Lotus also provides shortcuts for common code hosting services. These accept
-either repository shorthand or a repository URL.
-
-```ts
-editLink: {
-  github: 'https://github.com/prosefly/astro-theme-lotus',
-  branch: 'main',
-  contentRoot: 'src/content',
-}
-```
+Patterns can use `{path}`, `{encodedPath}`, and `{branch}`. Object values can
+also override the shared source fields when a project has unusual repository
+layout.
 
 ```ts
 editLink: {
-  gitlab: 'prosefly/astro-theme-lotus',
-  branch: 'main',
+  pattern: 'https://example.com/edit/{branch}/{encodedPath}',
+  contentRoot: 'content',
 }
 ```
 
-```ts
-editLink: {
-  codeberg: 'prosefly/astro-theme-lotus',
-  branch: 'main',
-}
-```
+Set `editLink: false` or omit `editLink` to hide generated edit links.
 
 Edit links use the actual source entry ID, not the localized route. If a
 localized page falls back to default-locale content, its edit link points to the
 default-locale source file.
+
+## Contributors
+
+Lotus can show page contributors above the previous and next links. The default
+source is local `git log`, which works without network access.
+
+```ts
+contributors: true
+```
+
+When `source.contentRoot` is configured, contributors use that same source root.
+Set `contributors` to an object when you want to limit or filter the rendered
+list.
+
+```ts
+contributors: {
+  max: 6,
+  exclude: ['github-actions[bot]'],
+}
+```
+
+Use Gravatar when you want avatars without calling an API during the static
+build. Lotus hashes each local git email and renders a Gravatar image URL.
+
+```ts
+contributors: {
+  avatar: 'gravatar',
+  max: 6,
+}
+```
+
+Use GitHub avatars when `source.github` is configured and you want profile
+links from the GitHub commits API.
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+},
+contributors: {
+  avatar: 'github',
+  max: 6,
+}
+```
+
+`contributors.github`, `contributors.branch`, and `contributors.contentRoot`
+can still override the shared `source` fields for unusual cases.
+
+Lotus uses `GITHUB_TOKEN` or `GH_TOKEN` automatically when either environment
+variable is present. If the GitHub request fails, Lotus falls back to local git
+history so static builds can still finish.
+
+Contributor paths use the same localized content entry IDs as edit links. For
+`src/content/docs/en/overview.mdx`, Lotus queries the source path
+`src/content/docs/en/overview.mdx`, even though the root English locale renders
+at `/docs/overview/`.
 
 ## Locales
 

@@ -6,13 +6,13 @@ import Header from '../components/layout/Header.astro';
 import Sidebar from '../components/layout/Sidebar.astro';
 import TableOfContents from '../components/layout/TableOfContents.astro';
 import '@prosefly/astro-components/markdown/image-gallery.css';
-import EditThisPage from 'virtual:prosefly/lotus/components/EditThisPage';
 import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
+import PageMeta from 'virtual:prosefly/lotus/components/PageMeta';
 import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } from '../lib/i18n';
 import { createDocsJsonLd } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
-import type { LotusThemeConfig } from '../lib/theme';
+import type { ContributorInfo, LotusThemeConfig } from '../lib/theme';
 
 interface Heading {
   depth: number;
@@ -26,6 +26,7 @@ interface Props {
   sectionTitle?: string;
   currentLocale: NormalizedLocale;
   currentSlug?: string;
+  contributors?: ContributorInfo[];
   editUrl?: string | boolean;
   pageNavigation?: DocsPaginationNav;
   lastUpdated?: Date | boolean;
@@ -41,6 +42,7 @@ const {
   sectionTitle,
   currentLocale,
   currentSlug,
+  contributors = [],
   editUrl,
   pageNavigation = {},
   lastUpdated,
@@ -133,7 +135,8 @@ const jsonLd = createDocsJsonLd({
         <div class="lotus-prose py-8">
           <slot />
         </div>
-        <EditThisPage
+        <PageMeta
+          contributors={contributors}
           currentLocale={currentLocale}
           currentSlug={currentSlug}
           editUrl={editUrl}
