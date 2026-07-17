@@ -4,9 +4,4 @@ import themeConfig from './src/theme.config';
 
 export default defineConfig({
   integrations: [lotus(themeConfig)],
-  vite: {
-    server: {
-      allowedHosts: ['5400.hsiaoming.com'],
-    },
-  },
 });
