@@ -1,0 +1,181 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+---
+
+<PageSection class="border-t border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,0.7fr)_minmax(30rem,1fr)] lg:items-center">
+    <div>
+      <p class="section-label">Installation</p>
+      <h2 class="heading mt-3">Add Lotus to an existing Astro project.</h2>
+      <p class="mt-5 max-w-xl text-base leading-7 text-(--lotus-text-muted)">
+        Install both packages, pass the theme config directly to the integration,
+        and register the docs content collection.
+      </p>
+      <a class="text-link lotus-focus-ring mt-7" href="/docs/installation/">
+        Read the installation guide <Icon name="lucide:arrow-right" />
+      </a>
+    </div>
+
+    <div class="code-window overflow-hidden border border-(--lotus-border-subtle) bg-(--lotus-background)">
+      <div class="flex items-center justify-between border-b border-(--lotus-border-subtle) bg-(--lotus-surface) px-4 py-3">
+        <span class="font-mono text-xs text-(--lotus-text-muted)">astro.config.ts</span>
+        <span class="flex items-center gap-1.5 text-xs text-(--lotus-text-subtle)"><span class="size-1.5 rounded-full bg-emerald-500"></span>Ready</span>
+      </div>
+      <pre class="m-0 overflow-x-auto border-0 bg-transparent p-5 text-sm leading-7 text-(--lotus-text)" aria-label="Astro configuration"><code><span class="syntax-keyword">import</span>{` { `}<span class="syntax-function">defineConfig</span>{` } `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'astro/config'</span>{`;
+`}<span class="syntax-keyword">import</span>{` `}<span class="syntax-function">lotus</span>{` `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'@prosefly/astro-theme-lotus'</span>{`;
+`}<span class="syntax-keyword">import</span>{` `}<span class="syntax-variable">themeConfig</span>{` `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'./src/theme.config'</span>{`;
+
+`}<span class="syntax-keyword">export default</span>{` `}<span class="syntax-function">defineConfig</span>{`({
+  `}<span class="syntax-property">integrations</span>{`: [`}<span class="syntax-function">lotus</span>{`(`}<span class="syntax-variable">themeConfig</span>{`)],
+});`}</code></pre>
+    </div>
+  </div>
+
+  <dl class="setup-facts mt-12 grid border-y border-(--lotus-border-subtle) md:grid-cols-3">
+    <div>
+      <dt>Packages</dt>
+      <dd><code>@prosefly/astro-theme-lotus</code> + <code>@prosefly/astro-components</code></dd>
+    </div>
+    <div>
+      <dt>Content collection</dt>
+      <dd><code>docsLoader()</code> + <code>docsSchema()</code></dd>
+    </div>
+    <div>
+      <dt>Default content root</dt>
+      <dd><code>src/content/docs</code></dd>
+    </div>
+  </dl>
+
+  <div class="mt-10 flex flex-wrap items-center justify-between gap-4">
+    <p class="text-sm text-(--lotus-text-muted)">The homepage remains a normal Astro route.</p>
+    <div class="flex flex-wrap gap-5">
+      <a class="text-link lotus-focus-ring" href="/docs/overview/">
+        Open the docs <Icon name="lucide:arrow-up-right" />
+      </a>
+      <a class="text-link lotus-focus-ring" href="https://github.com/prosefly/astro-theme-lotus">
+        View source <Icon name="simple-icons:github" />
+      </a>
+    </div>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .code-window {
+    --install-syntax-keyword: #cf222e;
+    --install-syntax-function: #8250df;
+    --install-syntax-property: #0550ae;
+    --install-syntax-string: #0a3069;
+    border-radius: 0.55rem;
+  }
+
+  .code-window pre {
+    background: var(--lotus-code-background);
+    font-family: var(--lotus-font-mono);
+  }
+
+  .code-window code {
+    color: inherit;
+    font: inherit;
+  }
+
+  .syntax-keyword {
+    color: var(--install-syntax-keyword);
+  }
+
+  .syntax-function {
+    color: var(--install-syntax-function);
+  }
+
+  .syntax-property,
+  .syntax-variable {
+    color: var(--install-syntax-property);
+  }
+
+  .syntax-string {
+    color: var(--install-syntax-string);
+  }
+
+  :global(:root[data-theme="dark"]) .code-window {
+    --install-syntax-keyword: #ff7b72;
+    --install-syntax-function: #d2a8ff;
+    --install-syntax-property: #79c0ff;
+    --install-syntax-string: #a5d6ff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root[data-theme="system"]) .code-window {
+      --install-syntax-keyword: #ff7b72;
+      --install-syntax-function: #d2a8ff;
+      --install-syntax-property: #79c0ff;
+      --install-syntax-string: #a5d6ff;
+    }
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+  }
+
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .setup-facts > div {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .setup-facts > div + div {
+    border-left: 1px solid var(--lotus-border-subtle);
+  }
+
+  .setup-facts dt {
+    color: var(--lotus-text-subtle);
+    font-size: 0.75rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .setup-facts dd {
+    color: var(--lotus-text);
+    font-size: 0.8125rem;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .setup-facts code {
+    color: var(--lotus-text-strong);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 767px) {
+    .setup-facts > div {
+      padding-inline: 0.25rem;
+    }
+
+    .setup-facts > div + div {
+      border-left: 0;
+      border-top: 1px solid var(--lotus-border-subtle);
+    }
+  }
+</style>

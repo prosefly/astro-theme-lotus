@@ -4,6 +4,7 @@ import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import { resolveIconName } from '../../lib/icons';
 import LanguageSelect from '../theme/LanguageSelect.astro';
+import Dropdown from '../ui/Dropdown.astro';
 import Sidebar from './Sidebar.astro';
 
 interface Heading {
@@ -78,33 +79,38 @@ function getHeadingIndent(depth: number): string {
     </button>
 
     {visibleHeadings.length > 0 && (
-      <details class="relative shrink-0" data-lotus-mobile-toc-menu>
-        <summary class="lotus-focus-ring flex h-9 cursor-pointer list-none items-center rounded-(--lotus-radius-md) px-2.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) marker:hidden">
+      <Dropdown
+        class="shrink-0"
+        contentClass="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-xl"
+        triggerClass="lotus-focus-ring flex h-9 cursor-pointer items-center rounded-(--lotus-radius-md) px-2.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+        triggerLabel={t('tableOfContents.onThisPage')}
+      >
+        <Fragment slot="trigger">
           {t('tableOfContents.onThisPage')}
-        </summary>
-        <div class="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-xl">
-          <nav aria-label={t('tableOfContents.onThisPage')}>
-            <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
-              <li aria-hidden="true" class="lotus-toc-indicator"></li>
-              {visibleHeadings.map((heading) => (
-                <li>
-                  <a
-                    class:list={[
-                      'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-sm leading-5 transition-colors',
-                      getHeadingIndent(heading.depth),
-                      'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
-                    ]}
-                    data-toc-link={heading.slug}
-                    href={`#${heading.slug}`}
-                  >
-                    {heading.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </details>
+        </Fragment>
+
+        <nav aria-label={t('tableOfContents.onThisPage')}>
+          <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
+            <li aria-hidden="true" class="lotus-toc-indicator"></li>
+            {visibleHeadings.map((heading) => (
+              <li>
+                <a
+                  class:list={[
+                    'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-sm leading-5 transition-colors',
+                    getHeadingIndent(heading.depth),
+                    'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
+                  ]}
+                  data-lotus-dropdown-close
+                  data-toc-link={heading.slug}
+                  href={`#${heading.slug}`}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </Dropdown>
     )}
   </div>
 

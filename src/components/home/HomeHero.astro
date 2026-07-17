@@ -1,0 +1,213 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+import LotusDocsPreview from './LotusDocsPreview.astro';
+import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
+---
+
+<PageSection class="home-hero overflow-hidden border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
+  <div class="home-hero__grid relative z-10 grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(25rem,0.95fr)] lg:items-center">
+    <div class="min-w-0 max-w-3xl">
+      <p class="mb-7 flex flex-wrap items-center gap-3 font-mono text-xs text-(--lotus-text-muted)">
+        <span>Astro v7</span>
+        <span class="border-l border-(--lotus-border-muted) pl-3">Tailwind CSS v4</span>
+        <span class="border-l border-(--lotus-border-muted) pl-3">MDX</span>
+      </p>
+
+      <h1 class="home-hero__title max-w-3xl font-semibold text-(--lotus-text-strong)">
+        Build Astro documentation <span>without rebuilding the shell.</span>
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-(--lotus-text) sm:text-xl sm:leading-9">
+        Lotus provides docs routes, responsive navigation, search, MDX
+        components, and design tokens. The rest of the Astro project stays
+        under your control.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a class="home-button home-button--primary" href="/docs/overview/">
+          Get started <Icon name="lucide:arrow-up-right" />
+        </a>
+        <a class="home-button home-button--secondary" href="https://github.com/prosefly/astro-theme-lotus">
+          <Icon name="simple-icons:github" /> View source
+        </a>
+      </div>
+
+      <div class="home-command mt-6 flex max-w-full items-center gap-3 rounded-(--lotus-radius-lg) border border-(--lotus-border-subtle) bg-(--lotus-background)/90 px-4 py-3 shadow-sm backdrop-blur sm:max-w-xl">
+        <span class="select-none text-sm text-(--lotus-accent)">$</span>
+        <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap text-sm text-(--lotus-text-strong)">pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components</code>
+        <button
+          class="home-copy lotus-focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+          type="button"
+          data-copy-install
+          aria-label="Copy install command"
+        >
+          <span data-copy-icon><Icon name="lucide:copy" /></span>
+          <span class="text-xs font-medium" data-copy-success hidden>Copied</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="home-preview">
+      <div class="home-preview__desktop"><LotusDocsPreview /></div>
+      <div class="home-preview__mobile"><LotusMobileDocsPreview /></div>
+    </div>
+  </div>
+</PageSection>
+
+<script>
+  const installCommand = 'pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components';
+
+  function initInstallCopy() {
+    document.querySelectorAll('[data-copy-install]').forEach((button) => {
+      if (!(button instanceof HTMLButtonElement) || button.dataset.ready === 'true') return;
+      button.dataset.ready = 'true';
+
+      button.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(installCommand);
+        button.setAttribute('aria-label', 'Install command copied');
+        button.querySelector('[data-copy-icon]')?.setAttribute('hidden', '');
+        button.querySelector('[data-copy-success]')?.removeAttribute('hidden');
+        window.setTimeout(() => {
+          button.setAttribute('aria-label', 'Copy install command');
+          button.querySelector('[data-copy-icon]')?.removeAttribute('hidden');
+          button.querySelector('[data-copy-success]')?.setAttribute('hidden', '');
+        }, 1800);
+      });
+    });
+  }
+
+  initInstallCopy();
+  document.addEventListener('astro:page-load', initInstallCopy);
+</script>
+
+<style>
+  .home-hero {
+    background:
+      radial-gradient(circle at 82% 18%, color-mix(in oklab, var(--lotus-accent) 8%, transparent), transparent 31rem),
+      linear-gradient(180deg, color-mix(in oklab, var(--lotus-accent-soft) 18%, var(--lotus-background)) 0%, var(--lotus-background) 76%);
+    position: relative;
+  }
+
+  .home-hero::before {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--lotus-border-subtle) 55%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--lotus-border-subtle) 55%, transparent) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    content: '';
+    inset: 0;
+    mask-image: linear-gradient(to bottom, black, transparent 78%);
+    opacity: 0.36;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .home-hero__title {
+    font-size: clamp(2.8rem, 6.7vw, 4.75rem);
+    letter-spacing: -0.052em;
+    line-height: 0.98;
+  }
+
+  .home-hero__title span {
+    color: var(--lotus-accent);
+  }
+
+  .home-button {
+    align-items: center;
+    border-radius: var(--lotus-radius-md);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+    height: 2.75rem;
+    justify-content: center;
+    padding-inline: 1.125rem;
+    transition: opacity 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .home-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .home-button:focus-visible {
+    outline: 2px solid var(--lotus-accent);
+    outline-offset: 3px;
+  }
+
+  .home-button--primary {
+    background: var(--lotus-accent);
+    color: var(--lotus-accent-contrast);
+  }
+
+  .home-button--primary:hover {
+    opacity: 0.9;
+  }
+
+  .home-button--secondary {
+    background: var(--lotus-background);
+    border: 1px solid var(--lotus-border-muted);
+    color: var(--lotus-text-strong);
+  }
+
+  .home-button--secondary:hover {
+    border-color: var(--lotus-accent);
+  }
+
+  .home-button :global(.pl-icon),
+  .home-copy :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .home-preview,
+  .home-preview__desktop {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .home-preview {
+    overflow: hidden;
+  }
+
+  .home-preview__mobile {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .home-hero__title {
+      font-size: clamp(2.65rem, 13vw, 3.5rem);
+    }
+
+    .home-command {
+      padding-inline: 0.75rem;
+    }
+
+    .home-preview__desktop {
+      display: none;
+    }
+
+    .home-preview__mobile {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .home-hero__grid > * {
+      animation: home-rise 600ms both;
+    }
+
+    .home-hero__grid > :last-child {
+      animation-delay: 100ms;
+    }
+
+    @keyframes home-rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>

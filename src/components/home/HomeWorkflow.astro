@@ -1,0 +1,237 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+
+const contentFiles = [
+  'src/content/docs/en/index.mdx',
+  'src/content/docs/en/installation.mdx',
+  'src/content/docs/en/components/callout.mdx',
+];
+
+const routes = [
+  { label: '/docs/', href: '/docs/' },
+  { label: '/docs/overview.md', href: '/docs/overview.md' },
+  { label: '/docs/search.json', href: '/docs/search.json' },
+];
+---
+
+<PageSection class="border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(24rem,0.75fr)] lg:items-end lg:justify-between">
+    <div>
+      <p class="section-label">How Lotus works</p>
+      <h2 class="heading mt-3">One config, a docs collection, and generated routes.</h2>
+    </div>
+    <p class="max-w-xl text-base leading-7 text-(--lotus-text-muted) lg:justify-self-end">
+      Configure the shell once, write normal Markdown or MDX, and let the
+      integration produce pages, Markdown source routes, and search data.
+    </p>
+  </div>
+
+  <div class="workflow mt-12">
+    <article class="workflow-stage">
+      <header>
+        <span>Configure</span>
+        <code>src/theme.config.ts</code>
+      </header>
+      <pre><code><span class="syntax-keyword">export default</span> defineLotusConfig(&#123;
+  <span class="syntax-property">docsBase</span>: <span class="syntax-string">'/docs'</span>,
+  <span class="syntax-property">appearance</span>: &#123;
+    <span class="syntax-property">accent</span>: <span class="syntax-string">'indigo'</span>,
+  &#125;,
+&#125;);</code></pre>
+    </article>
+
+    <div class="workflow-connector" aria-hidden="true">
+      <Icon name="lucide:arrow-right" />
+    </div>
+
+    <article class="workflow-stage">
+      <header>
+        <span>Write</span>
+        <code>src/content/docs/en</code>
+      </header>
+      <ul class="artifact-list">
+        {contentFiles.map((file) => (
+          <li><Icon name="lucide:file-text" /><code>{file}</code></li>
+        ))}
+      </ul>
+    </article>
+
+    <div class="workflow-connector" aria-hidden="true">
+      <Icon name="lucide:arrow-right" />
+    </div>
+
+    <article class="workflow-stage">
+      <header>
+        <span>Ship</span>
+        <code>generated output</code>
+      </header>
+      <ul class="artifact-list">
+        {routes.map((route) => (
+          <li>
+            <Icon name="lucide:arrow-up-right" />
+            <a class="lotus-focus-ring" href={route.href}><code>{route.label}</code></a>
+          </li>
+        ))}
+      </ul>
+    </article>
+  </div>
+
+  <a class="workflow-link lotus-focus-ring mt-7" href="/docs/configuration/content-routing/">
+    Read how content routing works <Icon name="lucide:arrow-right" />
+  </a>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    max-width: 46rem;
+  }
+
+  .workflow {
+    border-block: 1px solid var(--lotus-border-subtle);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 3rem minmax(0, 1fr) 3rem minmax(0, 1fr);
+  }
+
+  .workflow-stage {
+    min-width: 0;
+    padding: 1.75rem 1.5rem;
+  }
+
+  .workflow-stage header {
+    align-items: baseline;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .workflow-stage header span {
+    color: var(--lotus-text-strong);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .workflow-stage header code {
+    color: var(--lotus-text-subtle);
+    font-size: 0.6875rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .workflow-stage pre {
+    background: transparent;
+    border: 0;
+    color: var(--lotus-text);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    margin: 0;
+    overflow-x: auto;
+    padding: 0;
+  }
+
+  .syntax-keyword,
+  .syntax-property {
+    color: var(--lotus-accent);
+  }
+
+  .syntax-string {
+    color: var(--lotus-text-strong);
+  }
+
+  .workflow-connector {
+    align-items: center;
+    border-inline: 1px solid var(--lotus-border-subtle);
+    color: var(--lotus-text-subtle);
+    display: flex;
+    justify-content: center;
+  }
+
+  .artifact-list {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .artifact-list li {
+    align-items: center;
+    border-top: 1px solid var(--lotus-border-subtle);
+    color: var(--lotus-text-muted);
+    display: flex;
+    gap: 0.65rem;
+    min-width: 0;
+    padding-block: 0.65rem;
+  }
+
+  .artifact-list li:last-child {
+    border-bottom: 1px solid var(--lotus-border-subtle);
+  }
+
+  .artifact-list code {
+    color: var(--lotus-text);
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .artifact-list a {
+    border-radius: var(--lotus-radius-sm);
+    min-width: 0;
+  }
+
+  .workflow-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+  }
+
+  .workflow :global(.pl-icon),
+  .workflow-link :global(.pl-icon) {
+    flex: 0 0 auto;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  @media (max-width: 1023px) {
+    .workflow {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .workflow-connector {
+      border-block: 1px solid var(--lotus-border-subtle);
+      border-inline: 0;
+      min-height: 3rem;
+    }
+
+    .workflow-connector :global(.pl-icon) {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .workflow-stage {
+      padding-inline: 0.25rem;
+    }
+  }
+</style>

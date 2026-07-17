@@ -4,7 +4,6 @@ function initMobileDocsNav(): void {
   const closeButtons = drawer
     ? Array.from(drawer.querySelectorAll('[data-lotus-mobile-sidebar-close]'))
     : [];
-  const tocMenu = document.querySelector<HTMLDetailsElement>('[data-lotus-mobile-toc-menu]');
   const sectionSwitch = document.querySelector<HTMLDetailsElement>('[data-lotus-section-switch]');
   const sectionOptions = Array.from(document.querySelectorAll<HTMLElement>('[data-lotus-section-option]'));
   const sectionPanels = Array.from(document.querySelectorAll<HTMLElement>('[data-lotus-section-panel]'));
@@ -96,16 +95,9 @@ function initMobileDocsNav(): void {
     });
   });
 
-  tocMenu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      tocMenu.removeAttribute('open');
-    });
-  });
-
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeDrawer();
-      tocMenu?.removeAttribute('open');
     }
   });
 }

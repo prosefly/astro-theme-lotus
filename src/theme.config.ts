@@ -11,6 +11,7 @@ export default defineLotusConfig({
   },
   navbar: [
     { label: 'Docs', href: '/docs/' },
+    { label: 'Pricing', href: '/pricing/' },
     {
       label: 'Source',
       href: 'https://github.com/prosefly/astro-theme-lotus',

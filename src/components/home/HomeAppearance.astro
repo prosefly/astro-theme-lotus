@@ -1,0 +1,56 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+import AppearanceConfigDemo from '../AppearanceConfigDemo.astro';
+---
+
+<PageSection padding="lg" size="xl">
+  <div class="grid gap-12 lg:grid-cols-[minmax(28rem,1fr)_minmax(0,0.8fr)] lg:items-center">
+    <div class="order-2 lg:order-1">
+      <AppearanceConfigDemo />
+    </div>
+    <div class="order-1 lg:order-2">
+      <p class="section-label">Appearance</p>
+      <h2 class="heading mt-3">Change the theme from one configuration object.</h2>
+      <p class="mt-5 text-lg leading-8 text-(--lotus-text-muted)">
+        Configure accent color, gray scale, radius, and the default color mode
+        in the Lotus theme config. Font and lower-level semantic CSS tokens stay
+        available for project styles and local components.
+      </p>
+      <a class="text-link lotus-focus-ring mt-8" href="/docs/configuration/appearance/">
+        Customize the theme <Icon name="lucide:arrow-right" />
+      </a>
+    </div>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+  }
+
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+</style>

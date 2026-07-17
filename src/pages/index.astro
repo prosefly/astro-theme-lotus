@@ -1,183 +1,27 @@
 ---
-import { Card, CardGrid, Icon } from '@prosefly/astro-components';
 import {
   BaseLayout,
-  PageSection,
   SiteFooter,
   SiteHeader,
 } from '@prosefly/astro-theme-lotus/layouts';
-
-const features = [
-  {
-    title: 'Docs chrome',
-    icon: 'lucide:panel-top',
-    href: '/docs/configuration/navbar/',
-    text: 'Header, subnav, sidebar, TOC, footer, search, language switch, and mobile navigation are configured from one theme file.',
-  },
-  {
-    title: 'Content-first routing',
-    icon: 'lucide:route',
-    href: '/docs/configuration/content-routing/',
-    text: 'Keep docs under src/content/docs, choose a docsBase, and let Lotus generate pages, Markdown routes, and search indexes.',
-  },
-  {
-    title: 'MDX components',
-    icon: 'lucide:blocks',
-    href: '/docs/components/callout/',
-    text: 'Use Prosefly components for callouts, steps, tabs, cards, file trees, badges, accordions, icons, and image galleries.',
-  },
-  {
-    title: 'Design tokens',
-    icon: 'lucide:palette',
-    href: '/docs/references/theme-tokens/',
-    text: 'Preview accent, gray, radius, and dark mode settings with CSS variables that stay available to local components.',
-  },
-];
-
-const shellItems = [
-  'Configurable navbar',
-  'Sidebar from sidebars',
-  'Synced table of contents',
-  'Markdown source routes',
-];
-
-const installSnippet = `import lotus from '@prosefly/astro-theme-lotus';
-
-export default defineConfig({
-  integrations: [
-    lotus({
-      configFile: './src/theme.config.ts',
-    }),
-  ],
-});`;
+import HomeAppearance from '../components/home/HomeAppearance.astro';
+import HomeComponentsShowcase from '../components/home/HomeComponentsShowcase.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import HomeInstall from '../components/home/HomeInstall.astro';
+import HomeWorkflow from '../components/home/HomeWorkflow.astro';
 ---
 
 <BaseLayout
   title="Astro Theme Lotus"
-  description="A documentation theme for Astro with MDX, Tailwind CSS, searchable docs, theme tokens, and reusable Prosefly components."
+  description="Build Astro documentation with generated routes, responsive navigation, local search, MDX components, and configurable design tokens."
 >
   <SiteHeader currentPath="/" surface />
   <main>
-    <PageSection class="border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,30rem)] lg:items-center">
-        <div class="max-w-3xl">
-          <div class="mb-6 flex items-center gap-3">
-            <img class="lotus-home-logo lotus-home-logo-light" src="/prosefly-mark.svg" alt="Prosefly" />
-            <span class="text-sm font-medium text-(--lotus-text-muted)">Prosefly documentation theme</span>
-          </div>
-          <h1 class="max-w-3xl text-4xl font-semibold tracking-normal text-(--lotus-text-strong) sm:text-5xl">
-            Astro Theme Lotus
-          </h1>
-          <p class="mt-5 max-w-2xl text-lg leading-8 text-(--lotus-text)">
-            Build documentation with an Astro integration, MDX content, Tailwind
-            CSS tokens, responsive docs navigation, and reusable components that
-            can also ship as their own package.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a
-              class="inline-flex h-10 items-center gap-2 rounded-(--lotus-radius-md) bg-(--lotus-accent) px-4 text-sm font-medium text-(--lotus-accent-contrast) transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--lotus-accent)"
-              href="/docs/overview/"
-            >
-              Get started
-              <Icon name="lucide:chevron-right" />
-            </a>
-            <a
-              class="inline-flex h-10 items-center gap-2 rounded-(--lotus-radius-md) border border-(--lotus-border-muted) px-4 text-sm font-medium text-(--lotus-text-strong) transition hover:border-(--lotus-accent) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--lotus-accent)"
-              href="/docs/components/callout/"
-            >
-              Browse components
-            </a>
-          </div>
-        </div>
-
-        <div class="lotus-home-preview border border-(--lotus-border-subtle) bg-(--lotus-surface) p-4 shadow-sm">
-          <div class="flex items-center justify-between border-b border-(--lotus-border-subtle) pb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-2.5 rounded-full bg-(--lotus-accent)"></span>
-              <span class="text-sm font-medium text-(--lotus-text-strong)">Lotus docs</span>
-            </div>
-            <span class="rounded-(--lotus-radius-sm) bg-(--lotus-gray-soft) px-2 py-1 text-xs text-(--lotus-text-muted)">/docs</span>
-          </div>
-          <div class="grid gap-4 pt-4 sm:grid-cols-[8rem_minmax(0,1fr)]">
-            <aside class="space-y-2">
-              <div class="h-4 w-16 rounded-sm bg-(--lotus-gray-soft)"></div>
-              <div class="rounded-(--lotus-radius-md) bg-(--lotus-accent-soft) px-3 py-2 text-sm font-medium text-(--lotus-accent)">Overview</div>
-              <div class="px-3 py-1.5 text-sm text-(--lotus-text-muted)">Installation</div>
-              <div class="px-3 py-1.5 text-sm text-(--lotus-text-muted)">Configuration</div>
-            </aside>
-            <section class="min-w-0 rounded-(--lotus-radius-lg) border border-(--lotus-border-subtle) p-4">
-              <div class="mb-3 text-xs font-medium uppercase text-(--lotus-text-muted)">Getting Started</div>
-              <div class="mb-3 h-7 max-w-60 rounded-sm bg-(--lotus-text-strong)/10"></div>
-              <div class="space-y-2">
-                {shellItems.map((item) => (
-                  <div class="flex items-center gap-2 text-sm text-(--lotus-text)">
-                    <Icon name="lucide:check" class="text-(--lotus-accent)" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </PageSection>
-
-    <PageSection padding="md" size="xl">
-      <div class="mb-8 max-w-2xl">
-        <h2 class="text-2xl font-semibold text-(--lotus-text-strong)">A theme skeleton that stays configurable</h2>
-        <p class="mt-3 text-(--lotus-text-muted)">
-          Lotus keeps routing, navigation, appearance, search, i18n, and
-          component overrides in the integration, while leaving normal Astro
-          pages available for product, legal, and marketing surfaces.
-        </p>
-      </div>
-      <CardGrid>
-        {features.map((feature) => (
-          <Card title={feature.title} icon={feature.icon} href={feature.href}>
-            {feature.text}
-          </Card>
-        ))}
-      </CardGrid>
-    </PageSection>
-
-    <PageSection class="border-y border-(--lotus-border-subtle) bg-(--lotus-surface)" padding="md" size="xl">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-start">
-        <div>
-          <h2 class="text-2xl font-semibold text-(--lotus-text-strong)">Install the package, configure the theme</h2>
-          <p class="mt-3 text-(--lotus-text-muted)">
-            Docs content lives in <code class="lotus-home-code">src/content/docs</code>.
-            The homepage can be any Astro page, including one built with Lotus'
-            exported layouts.
-          </p>
-        </div>
-        <pre class="overflow-x-auto rounded-(--lotus-radius-lg) border border-(--lotus-border-subtle) bg-(--lotus-background) p-4 text-sm leading-6 text-(--lotus-text)"><code>{installSnippet}</code></pre>
-      </div>
-    </PageSection>
+    <HomeHero />
+    <HomeWorkflow />
+    <HomeComponentsShowcase />
+    <HomeAppearance />
+    <HomeInstall />
   </main>
   <SiteFooter />
 </BaseLayout>
-
-<style>
-  .lotus-home-logo {
-    display: block;
-    height: 1.625rem;
-    width: 1.625rem;
-  }
-
-  .lotus-home-preview {
-    border-radius: min(var(--lotus-radius-lg), 1rem);
-  }
-
-  .lotus-home-code {
-    border: 1px solid var(--lotus-border-subtle);
-    border-radius: min(var(--lotus-radius-sm), 0.375rem);
-    color: var(--lotus-text-strong);
-    font-size: 0.875em;
-    padding: 0.125rem 0.25rem;
-  }
-
-  .lotus-home-preview :global(.pl-icon) {
-    height: 1rem;
-    width: 1rem;
-  }
-</style>

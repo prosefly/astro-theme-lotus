@@ -1,0 +1,172 @@
+---
+import { Callout, Icon, TabItem, Tabs } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+---
+
+<PageSection class="border-b border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
+  <div class="showcase-grid grid min-w-0 gap-12 lg:grid-cols-[minmax(0,0.75fr)_minmax(30rem,1.25fr)] lg:items-center">
+    <div class="min-w-0">
+      <p class="section-label">MDX components</p>
+      <h2 class="heading mt-3">Use real UI components inside Markdown.</h2>
+      <p class="mt-5 text-lg leading-8 text-(--lotus-text-muted)">
+        Import components from <code class="break-all font-mono text-base text-(--lotus-text-strong)">@prosefly/astro-components</code>.
+        They inherit the same appearance tokens as the docs shell.
+      </p>
+      <ul class="spec-list mt-7">
+        {['Callouts for important context', 'Synced package-manager tabs', 'Steps, cards, accordions, file trees, badges, and icons'].map((item) => (
+          <li>
+            <Icon name="lucide:check" /> {item}
+          </li>
+        ))}
+      </ul>
+      <a class="text-link lotus-focus-ring mt-8" href="/docs/components/callout/">
+        Browse all components <Icon name="lucide:arrow-right" />
+      </a>
+    </div>
+
+    <div class="component-stage min-w-0 max-w-full overflow-hidden border border-(--lotus-border-subtle) bg-(--lotus-background) p-5 sm:p-7">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-(--lotus-border-subtle) pb-4">
+        <span class="text-sm font-semibold text-(--lotus-text-strong)">MDX building blocks</span>
+        <span class="font-mono text-xs text-(--lotus-text-subtle)">rendered components</span>
+      </div>
+      <Callout type="note" title="Shared appearance tokens">
+        Components respond to the same accent, gray scale, radius, and color mode as Lotus.
+      </Callout>
+      <Tabs defaultValue="pnpm" copy>
+        <TabItem label="pnpm" value="pnpm">
+          <pre><code>pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+        </TabItem>
+        <TabItem label="npm" value="npm">
+          <pre><code>npm install @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+        </TabItem>
+        <TabItem label="yarn" value="yarn">
+          <pre><code>yarn add @prosefly/astro-theme-lotus @prosefly/astro-components</code></pre>
+        </TabItem>
+      </Tabs>
+      <div class="component-index grid border-t border-(--lotus-border-subtle) sm:grid-cols-3">
+        {['Steps', 'Cards', 'Accordions'].map((label) => (
+          <div class="py-3 text-sm text-(--lotus-text)">
+            <code>{label}</code>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</PageSection>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .heading {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+  }
+
+  .component-stage {
+    border-radius: var(--lotus-radius-lg);
+    box-sizing: border-box;
+  }
+
+  .spec-list {
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .spec-list li {
+    align-items: center;
+    border-top: 1px solid var(--lotus-border-subtle);
+    color: var(--lotus-text);
+    display: flex;
+    font-size: 0.875rem;
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+  }
+
+  .spec-list li:last-child {
+    border-bottom: 1px solid var(--lotus-border-subtle);
+  }
+
+  .spec-list :global(.pl-icon) {
+    color: var(--lotus-accent);
+    flex: 0 0 auto;
+  }
+
+  .component-index > div {
+    padding-inline: 0.75rem;
+  }
+
+  .component-index > div + div {
+    border-left: 1px solid var(--lotus-border-subtle);
+  }
+
+  .component-index code {
+    color: var(--lotus-text-strong);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.75rem;
+  }
+
+  .component-stage :global(.pl-callout),
+  .component-stage :global(.pl-tabs) {
+    max-width: 100%;
+    margin-block: 1rem;
+    min-width: 0;
+  }
+
+  .component-stage :global(pre) {
+    border: 0;
+    box-sizing: border-box;
+    margin: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .component-stage :global(.pl-tabs__panels),
+  .component-stage :global(.pl-tabs__panel) {
+    background: var(--lotus-background);
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .component-stage :global(.pl-tabs__panel code) {
+    display: block;
+    min-width: max-content;
+  }
+
+  .component-stage :global(.pl-icon),
+  .text-link :global(.pl-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  @media (max-width: 639px) {
+    .component-index > div {
+      padding-inline: 0;
+    }
+
+    .component-index > div + div {
+      border-left: 0;
+      border-top: 1px solid var(--lotus-border-subtle);
+    }
+  }
+</style>

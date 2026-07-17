@@ -1,0 +1,314 @@
+---
+import { Icon } from '@prosefly/astro-components';
+---
+
+<figure class="mobile-preview overflow-hidden border border-(--lotus-border-subtle) bg-(--lotus-background) shadow-2xl shadow-black/10">
+  <div class="mobile-preview__canvas" aria-hidden="true">
+    <div class="mobile-preview__header">
+      <span class="mobile-preview__brand">
+        <img class="mobile-preview__logo-light" src="/lotus-light.svg" alt="" />
+        <img class="mobile-preview__logo-dark" src="/lotus-dark.svg" alt="" />
+      </span>
+      <span class="mobile-preview__actions">
+        <span class="mobile-preview__action"><Icon name="lucide:search" /></span>
+        <span class="mobile-preview__action"><Icon name="lucide:ellipsis-vertical" /></span>
+      </span>
+    </div>
+
+    <div class="mobile-preview__context">
+      <span class="mobile-preview__sidebar-trigger">
+        <span class="mobile-preview__context-menu"><Icon name="lucide:menu" /></span>
+        <span class="mobile-preview__context-path">
+          <strong>Getting Started</strong>
+          <i>›</i>
+          <span>Overview</span>
+        </span>
+      </span>
+      <span class="mobile-preview__toc-trigger">On this page</span>
+    </div>
+
+    <article class="mobile-preview__article">
+      <div class="mobile-preview__topline">
+        <span>Getting Started</span>
+        <span class="mobile-preview__copy"><Icon name="lucide:copy" /> Copy</span>
+      </div>
+      <h2>Overview</h2>
+      <p class="mobile-preview__lede">Learn what Lotus provides and how the documentation theme is organized.</p>
+      <span class="mobile-preview__rule"></span>
+      <p>
+        Lotus provides the page shell, navigation model, theme tokens, and MDX
+        components needed to start documentation without rebuilding the chrome.
+      </p>
+      <h3>What Lotus includes</h3>
+      <div class="mobile-preview__cards">
+        <span class="mobile-preview__card">
+          <Icon name="lucide:panel-top" />
+          <span><strong>Docs shell</strong><small>Responsive navigation and search.</small></span>
+        </span>
+        <span class="mobile-preview__card">
+          <Icon name="lucide:route" />
+          <span><strong>Routing</strong><small>Content-driven Astro pages.</small></span>
+        </span>
+      </div>
+    </article>
+  </div>
+
+  <figcaption>
+    <span><i></i>Mobile token preview</span>
+    <a class="lotus-focus-ring" href="/docs/overview/">
+      Live docs <Icon name="lucide:arrow-up-right" />
+    </a>
+  </figcaption>
+</figure>
+
+<style>
+  .mobile-preview {
+    border-radius: min(var(--lotus-radius-lg), 1.25rem);
+    margin-inline: auto;
+    max-width: 23rem;
+    width: 100%;
+  }
+
+  .mobile-preview__canvas {
+    color: var(--lotus-text);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+  }
+
+  .mobile-preview__header,
+  .mobile-preview__context,
+  .mobile-preview__brand,
+  .mobile-preview__actions,
+  .mobile-preview__action,
+  .mobile-preview__sidebar-trigger,
+  .mobile-preview__context-menu,
+  .mobile-preview__context-path,
+  .mobile-preview__toc-trigger,
+  .mobile-preview__topline,
+  .mobile-preview__copy,
+  .mobile-preview__card,
+  figcaption,
+  figcaption span,
+  figcaption a {
+    align-items: center;
+    display: flex;
+  }
+
+  .mobile-preview__header {
+    height: 3.25rem;
+    justify-content: space-between;
+    padding: 0 0.85rem;
+  }
+
+  .mobile-preview__brand {
+    min-width: 0;
+  }
+
+  .mobile-preview__brand img {
+    height: 1.6rem;
+    max-width: 4rem;
+    object-fit: contain;
+  }
+
+  .mobile-preview__logo-dark {
+    display: none;
+  }
+
+  :global(:root[data-theme="dark"]) .mobile-preview__logo-light {
+    display: none;
+  }
+
+  :global(:root[data-theme="dark"]) .mobile-preview__logo-dark {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root[data-theme="system"]) .mobile-preview__logo-light {
+      display: none;
+    }
+
+    :global(:root[data-theme="system"]) .mobile-preview__logo-dark {
+      display: block;
+    }
+  }
+
+  .mobile-preview__actions {
+    color: var(--lotus-text-muted);
+    gap: 0.75rem;
+  }
+
+  .mobile-preview__action {
+    border-radius: var(--lotus-radius-md);
+    height: 2rem;
+    justify-content: center;
+    width: 2rem;
+  }
+
+  .mobile-preview__context {
+    border-top: 1px solid var(--lotus-border-subtle);
+    border-bottom: 1px solid var(--lotus-border-subtle);
+    gap: 0.6rem;
+    height: 2.4rem;
+    min-width: 0;
+    padding: 0 0.4rem;
+  }
+
+  .mobile-preview__sidebar-trigger {
+    color: var(--lotus-text-muted);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mobile-preview__context-menu {
+    flex: 0 0 1.8rem;
+    height: 1.8rem;
+    justify-content: center;
+  }
+
+  .mobile-preview__context-path {
+    flex: 1;
+    gap: 0.35rem;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .mobile-preview__context-path strong {
+    color: var(--lotus-text-strong);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-preview__context-path > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-preview__context-path i {
+    flex: 0 0 auto;
+    font-style: normal;
+  }
+
+  .mobile-preview__toc-trigger {
+    border-radius: var(--lotus-radius-md);
+    flex: 0 0 auto;
+    font-size: 0.625rem;
+    font-weight: 500;
+    height: 1.8rem;
+    padding: 0 0.5rem;
+  }
+
+  .mobile-preview__article {
+    padding: 1.35rem 1.1rem 1.5rem;
+  }
+
+  .mobile-preview__topline {
+    color: var(--lotus-accent);
+    justify-content: space-between;
+  }
+
+  .mobile-preview__copy {
+    border: 1px solid var(--lotus-border-muted);
+    border-radius: var(--lotus-radius-md);
+    color: var(--lotus-text-strong);
+    gap: 0.3rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .mobile-preview__article h2 {
+    color: var(--lotus-text-strong);
+    font-size: 1.65rem;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin: 0.7rem 0 0.5rem;
+  }
+
+  .mobile-preview__article h3 {
+    color: var(--lotus-text-strong);
+    font-size: 0.9rem;
+    margin: 1.15rem 0 0.65rem;
+  }
+
+  .mobile-preview__article p {
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .mobile-preview__lede {
+    color: var(--lotus-text-muted);
+    font-size: 0.75rem;
+  }
+
+  .mobile-preview__rule {
+    background: var(--lotus-border-subtle);
+    display: block;
+    height: 1px;
+    margin: 1rem 0;
+  }
+
+  .mobile-preview__cards {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .mobile-preview__card {
+    border: 1px solid var(--lotus-border-subtle);
+    border-radius: var(--lotus-radius-lg);
+    gap: 0.65rem;
+    padding: 0.7rem;
+  }
+
+  .mobile-preview__card > :global(.pl-icon) {
+    background: var(--lotus-accent-soft);
+    border-radius: var(--lotus-radius-md);
+    box-sizing: content-box;
+    color: var(--lotus-accent);
+    flex: 0 0 auto;
+    padding: 0.4rem;
+  }
+
+  .mobile-preview__card strong,
+  .mobile-preview__card small {
+    display: block;
+  }
+
+  .mobile-preview__card strong {
+    color: var(--lotus-text-strong);
+  }
+
+  .mobile-preview__card small {
+    color: var(--lotus-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  figcaption {
+    border-top: 1px solid var(--lotus-border-subtle);
+    color: var(--lotus-text-muted);
+    font-size: 0.75rem;
+    justify-content: space-between;
+    padding: 0.75rem 0.9rem;
+  }
+
+  figcaption span,
+  figcaption a {
+    gap: 0.4rem;
+  }
+
+  figcaption i {
+    background: var(--lotus-accent);
+    border-radius: 999px;
+    height: 0.4rem;
+    width: 0.4rem;
+  }
+
+  figcaption a {
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    font-weight: 600;
+  }
+
+  .mobile-preview :global(.pl-icon) {
+    height: 0.9rem;
+    width: 0.9rem;
+  }
+</style>
