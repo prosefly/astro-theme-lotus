@@ -5,8 +5,6 @@ sidebar:
   order: 10
 ---
 
-import { TabItem, Tabs } from '@prosefly/astro-components';
-
 `source` describes where documentation files live in version control. Lotus uses
 it for features that need to map a rendered page back to its source file, such
 as edit links and contributors.
@@ -32,32 +30,32 @@ and Codeberg remotes, including SSH remotes such as
 Lotus does not infer the branch from git. Set `source.branch` when links should
 point somewhere other than `main`.
 
-<Tabs>
-  <TabItem label="GitHub">
-    ```ts
-    source: {
-      github: 'prosefly/astro-theme-lotus',
-      branch: 'main',
-    }
-    ```
-  </TabItem>
-  <TabItem label="GitLab">
-    ```ts
-    source: {
-      gitlab: 'prosefly/astro-theme-lotus',
-      branch: 'main',
-    }
-    ```
-  </TabItem>
-  <TabItem label="Codeberg">
-    ```ts
-    source: {
-      codeberg: 'prosefly/astro-theme-lotus',
-      branch: 'main',
-    }
-    ```
-  </TabItem>
-</Tabs>
+### GitHub
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+### GitLab
+
+```ts
+source: {
+  gitlab: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+### Codeberg
+
+```ts
+source: {
+  codeberg: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
 
 Repository fields can also use full repository URLs when shorthand is not
 enough.

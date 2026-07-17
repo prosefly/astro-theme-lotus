@@ -1,0 +1,48 @@
+---
+title: Starlight
+description: Move existing Starlight content into Lotus with compatible frontmatter and MDX patterns.
+sidebar:
+  order: 2
+---
+
+import { Steps } from '@prosefly/astro-components';
+
+Use this migration when an existing Astro Starlight site already has docs
+content, localized directories, sidebar configuration, and Starlight MDX
+components.
+
+Lotus keeps several authoring patterns close to Starlight: frontmatter fields,
+`Steps`, `FileTree`, localized directories, and sidebar-style content
+organization. The main migration work is moving configuration into Lotus and
+replacing Starlight-specific component imports.
+
+<Steps>
+
+1. **Move content into the Lotus docs collection.**
+
+   Register `docsLoader()` and `docsSchema()` in `src/content.config.ts`.
+
+2. **Keep compatible frontmatter.**
+
+   Fields such as `title`, `description`, `slug`, `sidebar`, `tableOfContents`,
+   `prev`, `next`, `pagefind`, and `draft` are accepted.
+
+3. **Rebuild sidebars in `theme.config.ts`.**
+
+   Lotus owns sidebar structure from `themeConfig.sidebars`. Use string items,
+   groups, links, and `autogenerate.directory` entries.
+
+4. **Replace Starlight-only components.**
+
+   Use `@prosefly/astro-components` for `Steps`, `FileTree`, `Tabs`, cards,
+   callouts, accordions, badges, and icons.
+
+5. **Configure i18n explicitly.**
+
+   Use `locales` and `defaultLocale` to map locale directories to public route
+   prefixes.
+
+</Steps>
+
+See [Frontmatter](/docs/essentials/frontmatter/) for accepted page fields and
+[Sidebars](/docs/configuration/sidebars/) for navigation structure.

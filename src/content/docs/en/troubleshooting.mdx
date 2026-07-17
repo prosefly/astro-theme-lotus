@@ -1,0 +1,46 @@
+---
+title: Troubleshooting
+description: Diagnose common Lotus setup, routing, MDX, search, i18n, and override issues.
+sidebar:
+  order: 5
+---
+
+Start with `pnpm run check`. It validates content collections, MDX imports,
+Astro components, and TypeScript before a production build.
+
+## A docs page does not appear in the sidebar
+
+Confirm the page is in the docs collection, is not `draft: true` in production,
+and is matched by either a sidebar string item or an `autogenerate.directory`
+entry. In i18n projects, sidebar values are locale-neutral, so use
+`configuration/project`, not `docs/en/configuration/project`.
+
+## A generated route is not the URL I expected
+
+Check `docsBase`, `docsLoader({ base })`, locale `directory`, and frontmatter
+`slug`. `slug` changes the public URL, but sidebar ownership still follows the
+content entry ID.
+
+## The search index returns 404
+
+Confirm `docsBase` and the active locale. With `docsBase: '/docs'`, the root
+search index is `/docs/search.json`; localized indexes include the locale
+prefix, such as `/docs/zh-cn/search.json`.
+
+## Icons do not render
+
+Use full Iconify names such as `lucide:search` or configure aliases where
+supported. If an icon name is built dynamically, add it to `iconify.preload`
+because static scanning cannot detect it.
+
+## A component override does not apply
+
+Confirm the key matches a supported override slot exactly, the path is relative
+to the project root, and the dev server was restarted after editing
+`src/theme.config.ts`.
+
+## A translated page falls back to English
+
+Add the matching file under the locale directory. Fallback pages keep the target
+locale route but use the default-locale source file for edit links and
+contributors.

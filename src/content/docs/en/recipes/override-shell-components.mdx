@@ -1,51 +1,51 @@
 ---
-title: Override Recipes
+title: Override Shell Components
 description: Copy complete examples for common Lotus component overrides.
 sidebar:
-  order: 12
+  order: 6
 ---
-
-import { TabItem, Tabs } from '@prosefly/astro-components';
 
 Use these recipes after reviewing
 [Overriding Components](/docs/customization/overriding-components/). Each
 example replaces one shell slot through `themeConfig.components`.
 
-<Tabs>
-  <TabItem label="Replace">
-    Use this when the default slot behavior is not useful for the project.
+## Override Patterns
 
-    ```astro
-    ---
-    ---
+### Replace
 
-    <a href="/search/">Search</a>
-    ```
-  </TabItem>
-  <TabItem label="Reuse public">
-    Use this when the package default behavior is correct and only the wrapper
-    or placement changes.
+Use this when the default slot behavior is not useful for the project.
 
-    ```astro
-    ---
-    import { PageActions } from '@prosefly/astro-theme-lotus/components';
-    ---
+```astro
+---
+---
 
-    <PageActions {...Astro.props} />
-    ```
-  </TabItem>
-  <TabItem label="Call slot">
-    Use this when one override should respect another configured override.
+<a href="/search/">Search</a>
+```
 
-    ```astro
-    ---
-    import PageActions from 'virtual:prosefly/lotus/components/PageActions';
-    ---
+### Reuse public
 
-    <PageActions {...Astro.props} />
-    ```
-  </TabItem>
-</Tabs>
+Use this when the package default behavior is correct and only the wrapper or
+placement changes.
+
+```astro
+---
+import { PageActions } from '@prosefly/astro-theme-lotus/components';
+---
+
+<PageActions {...Astro.props} />
+```
+
+### Call slot
+
+Use this when one override should respect another configured override.
+
+```astro
+---
+import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+---
+
+<PageActions {...Astro.props} />
+```
 
 ## Reuse Page Actions
 

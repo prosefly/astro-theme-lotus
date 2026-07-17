@@ -1,0 +1,49 @@
+---
+title: Configuration
+description: Reference Lotus theme configuration fields, defaults, and related docs.
+sidebar:
+  order: 1
+---
+
+This reference lists top-level `defineLotusConfig()` fields. Use the linked
+configuration pages for examples and behavior details.
+
+| Field | Default | See |
+| --- | --- | --- |
+| `name` | `'Documentation'` | [Project](/docs/configuration/project/) |
+| `description` | `'Project documentation.'` | [Project](/docs/configuration/project/) |
+| `logo` | built-in Lotus mark | [Project](/docs/configuration/project/) |
+| `favicon` | none | [Project](/docs/configuration/project/) |
+| `appearance` | `accent: 'indigo'`, `gray: 'neutral'`, `defaultMode: 'system'`, `radius: 'medium'` | [Appearance](/docs/configuration/appearance/) |
+| `docsBase` | `'/docs'` | [Content Routing](/docs/configuration/content-routing/) |
+| `homepage` | `false` | [Content Routing](/docs/configuration/content-routing/#homepage) |
+| `defaultLocale` | first configured locale | [Internationalization](/docs/configuration/i18n/) |
+| `locales` | none | [Internationalization](/docs/configuration/i18n/) |
+| `ui` | built-in English messages | [Internationalization](/docs/configuration/i18n/#ui-translations) |
+| `navbar` | one Docs link | [Navbar](/docs/configuration/navbar/) |
+| `socials` | `[]` | [Navbar](/docs/configuration/navbar/#social-links) |
+| `sidebars` | `[]` | [Sidebars](/docs/configuration/sidebars/) |
+| `footer` | empty copyright and sections | [Footer](/docs/configuration/footer/) |
+| `search` | `{ provider: 'local' }` | [Search](/docs/configuration/search/) |
+| `pageActions` | copy, Markdown, ChatGPT, Claude | [Page Actions](/docs/configuration/page-actions/) |
+| `source` | inferred when possible | [Source](/docs/configuration/source/) |
+| `editLink` | hidden | [Source](/docs/configuration/source/#edit-links) |
+| `contributors` | `false` | [Source](/docs/configuration/source/#contributors) |
+| `components` | `{}` | [Overriding Components](/docs/customization/overriding-components/) |
+| `credits` | `true` | [Footer](/docs/configuration/footer/#credits) |
+| `iconify` | default Iconify API, scan enabled | [Integrations](/docs/configuration/integrations/#iconify) |
+| `expressiveCode` | Lotus defaults | [Expressive Code](/docs/references/expressive-code/) |
+| `packageManagerTabs` | enabled | [Code Blocks](/docs/essentials/code-blocks/#package-manager-tabs) |
+
+## Helper
+
+Use `defineLotusConfig()` for type inference:
+
+```ts title="src/theme.config.ts"
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+
+export default defineLotusConfig({
+  name: 'My Docs',
+  description: 'Documentation for my project.',
+});
+```

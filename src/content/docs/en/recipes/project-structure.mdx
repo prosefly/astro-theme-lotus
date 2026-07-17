@@ -1,0 +1,174 @@
+---
+title: Project Structure
+description: Choose a Lotus project layout based on routing, localization, and customization needs.
+sidebar:
+  order: 2
+---
+
+import { FileTree, Steps } from '@prosefly/astro-components';
+
+Lotus does not require one fixed directory layout. Start with the smallest
+structure that matches the site, then add homepage, locale, or override folders
+only when the project needs them.
+
+## Docs Only
+
+Use this for a documentation-only site where every page lives under the docs
+route.
+
+<FileTree>
+
+- astro.config.ts registers the Lotus integration
+- src
+  - content.config.ts registers the docs collection
+  - theme.config.ts stores Lotus theme config
+  - content
+    - docs
+      - index.mdx docs homepage
+      - overview.mdx
+      - installation.mdx
+      - configuration
+        - project.mdx
+- public
+  - favicon.svg
+
+</FileTree>
+
+Keep the default loader base and the default `docsBase: '/docs'`.
+
+## Docs At Root
+
+Use this for a documentation-only site that should not have a `/docs` prefix.
+
+<FileTree>
+
+- astro.config.ts registers the Lotus integration
+- src
+  - content.config.ts registers the docs collection
+  - theme.config.ts sets `docsBase: '/'`
+  - content
+    - docs
+      - index.mdx homepage at `/`
+      - installation.mdx
+      - components
+        - icon.mdx
+- public
+  - favicon.svg
+
+</FileTree>
+
+```ts title="src/theme.config.ts"
+export default defineLotusConfig({
+  docsBase: '/',
+  homepage: false,
+});
+```
+
+With this setup, `installation.mdx` renders at `/installation/`, and its
+Markdown route is `/installation.md`.
+
+## Homepage + Docs
+
+Use this when the site needs a top-level marketing or product homepage at `/`
+and documentation under `/docs`.
+
+<FileTree>
+
+- astro.config.ts registers the Lotus integration
+- src
+  - content.config.ts registers content from `./src/content`
+  - theme.config.ts enables `homepage: true`
+  - content
+    - index.mdx site homepage at `/`
+    - docs
+      - index.mdx docs homepage at `/docs/`
+      - overview.mdx
+      - installation.mdx
+- public
+  - logo.svg
+  - favicon.svg
+
+</FileTree>
+
+This structure needs `docsLoader({ base: './src/content' })` so the top-level
+`index.mdx` belongs to the docs collection.
+
+## Localized Docs
+
+Use this when each locale has its own content directory.
+
+<FileTree>
+
+- src
+  - content.config.ts registers content from `./src/content`
+  - theme.config.ts maps locale directories
+  - content
+    - index.mdx optional site homepage
+    - docs
+      - en
+        - index.mdx
+        - overview.mdx
+        - configuration
+          - project.mdx
+      - zh-cn
+        - index.mdx
+        - overview.mdx
+        - configuration
+          - project.mdx
+
+</FileTree>
+
+Sidebar strings stay locale-neutral. Reference `configuration/project`, not
+`docs/en/configuration/project`.
+
+## With Overrides
+
+Use this when the project replaces shell components or adds local UI around the
+Lotus theme.
+
+<FileTree>
+
+- src
+  - content.config.ts
+  - theme.config.ts references local override paths
+  - content
+    - docs
+      - index.mdx
+      - overview.mdx
+  - components
+    - lotus
+      - HeaderSocialIcons.astro
+      - PageActions.astro
+      - SearchDialog.astro
+  - styles
+    - lotus.css optional custom CSS tokens
+- public
+  - logo.svg
+  - favicon.svg
+
+</FileTree>
+
+Keep local overrides outside `src/content` so content remains portable and
+route-focused.
+
+<Steps>
+
+1. **Pick the route model first.**
+
+   Decide whether docs live under `/docs` or `/`, and whether the site has a
+   separate homepage.
+
+2. **Add locale directories only when translations exist.**
+
+   A single-language site can use `src/content/docs`. A localized site should
+   move pages under directories such as `docs/en` and `docs/zh-cn`.
+
+3. **Keep content, theme config, and overrides separate.**
+
+   Put content in `src/content`, site configuration in `src/theme.config.ts`,
+   and local shell overrides in `src/components`.
+
+</Steps>
+
+See [Content Routing](/docs/configuration/content-routing/) and
+[Internationalization](/docs/configuration/i18n/) for route and locale behavior.
