@@ -6,7 +6,7 @@ sidebar:
 ---
 
 import { FileTree, Steps } from '@prosefly/astro-components';
-import ThemeSwitchVariantDemo from '../../../../components/ThemeSwitchVariantDemo.astro';
+import ThemeSwitchVariantDemo from '@/components/ThemeSwitchVariantDemo.astro';
 
 Use this recipe when the default segmented theme switch is not the right shape
 for the header or mobile menu. Lotus exports several ready-made theme mode
@@ -32,12 +32,17 @@ initial mode before a visitor chooses a preference.
 
 <Steps>
 
-1. **Create a dynamic local `ThemeSwitch` override.**
+1. **Choose one built-in theme mode control.**
 
-   Render each built-in theme mode control inside a wrapper and use a
-   `data-active` value to decide which one is visible.
+   Use `ThemeModeSegmentedControl`, `ThemeModeButton`, `ThemeModeSelect`, or
+   `ThemeModeSwitch`.
 
-2. **Register the override.**
+2. **Create a local `ThemeSwitch` override.**
+
+   Import the chosen public component from
+   `@prosefly/astro-theme-lotus/components` and render it directly.
+
+3. **Register the override.**
 
    ```ts title="src/theme.config.ts"
    export default defineLotusConfig({
@@ -47,59 +52,14 @@ initial mode before a visitor chooses a preference.
    });
    ```
 
-3. **Add a demo control when the docs should switch variants live.**
+4. **Keep the override self-contained.**
 
-   The demo above updates every `data-theme-switch-variant` instance on the
-   page, including the desktop header and mobile menu controls.
-
-4. **Keep each control self-contained.**
-
-   Import one public theme mode component and render it directly. The built-in
-   components already include the client controller they need.
+   The built-in components already include the client controller they need.
 
 </Steps>
 
-## Dynamic ThemeSwitch
-
-Use this local override when the docs need to demonstrate multiple controls at
-runtime.
-
-```astro title="src/components/lotus/ThemeSwitch.astro"
----
-import { ThemeModeButton } from '@prosefly/astro-theme-lotus/components';
-import { ThemeModeSegmentedControl } from '@prosefly/astro-theme-lotus/components';
-import { ThemeModeSelect } from '@prosefly/astro-theme-lotus/components';
-import { ThemeModeSwitch } from '@prosefly/astro-theme-lotus/components';
----
-
-<div data-theme-switch-variant data-active="segmented">
-  <div class="hidden" data-type="segmented">
-    <ThemeModeSegmentedControl />
-  </div>
-  <div class="hidden" data-type="cycle">
-    <ThemeModeButton />
-  </div>
-  <div class="hidden" data-type="select">
-    <ThemeModeSelect />
-  </div>
-  <div class="hidden" data-type="switch">
-    <ThemeModeSwitch />
-  </div>
-</div>
-
-<style>
-  [data-theme-switch-variant][data-active="segmented"] > [data-type="segmented"],
-  [data-theme-switch-variant][data-active="cycle"] > [data-type="cycle"],
-  [data-theme-switch-variant][data-active="select"] > [data-type="select"],
-  [data-theme-switch-variant][data-active="switch"] > [data-type="switch"] {
-    display: block;
-  }
-</style>
-```
-
 ## Segmented Control
 
-If the project does not need runtime switching, use a smaller static override.
 Use the segmented control when all three modes should be visible at once. This
 is the Lotus default.
 
