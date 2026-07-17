@@ -23,7 +23,7 @@ const { previous, next } = navigation;
 ---
 
 {(previous || next) && (
-  <nav aria-label={t('pageNavigation.accessibleLabel')} class="lotus-border-subtle mt-10 flex items-center justify-between gap-4 border-t pt-6">
+  <nav aria-label={t('pageNavigation.accessibleLabel')} class="lotus-border-subtle mt-6 flex items-center justify-between gap-4 border-t pt-6">
     {previous ? (
       <a
         class="lotus-focus-ring group inline-flex min-w-0 items-center gap-1.5 rounded-(--lotus-radius-md) py-2 pr-3 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"

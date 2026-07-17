@@ -1,11 +1,8 @@
 import type { APIRoute } from 'astro';
 import {
-  getDocsEntries,
-  getDocsNavigation,
-  getEntryLocale,
-  getEntrySection,
+  getDocsContext,
+  getEntrySectionFromContext,
   getEntrySlug,
-  getSidebarNavigation,
   getSidebarSectionTitle,
 } from '../lib/docs';
 import { getLocalizedHref, getLocales } from '../lib/i18n';
@@ -49,29 +46,32 @@ export async function getStaticPaths() {
 
 export const GET: APIRoute = async ({ props }) => {
   const localeKey = props.localeKey as string | undefined;
-  const entries = (await getDocsEntries(localeKey)).filter((entry) => entry.data.pagefind !== false);
-  const sections = await getDocsNavigation(undefined, localeKey);
-  const sectionLabels = new Map(sections.map((section) => [section.slug, section.label]));
-  const items = await Promise.all(
-    entries.map(async (entry) => {
-      const entryLocaleKey = localeKey ?? getEntryLocale(entry).key;
-      const section = getEntrySection(entry, entries, entryLocaleKey);
-      const sidebar = await getSidebarNavigation(section, entryLocaleKey);
-      const sectionTitle = getSidebarSectionTitle(sidebar, getEntrySlug(entry));
-      const content = stripMdx(entry.body ?? '');
-
-      return {
-        title: entry.data.title,
-        description: entry.data.description,
-        href: getLocalizedHref(themeConfig, getEntrySlug(entry), entryLocaleKey),
-        slug: getEntrySlug(entry),
-        section: section ? sectionLabels.get(section) : undefined,
-        group: sectionTitle,
-        excerpt: createExcerpt(content),
-        content,
-      };
-    }),
+  const docsContext = await getDocsContext(undefined, localeKey);
+  const entries = docsContext.entries.filter((entry) => entry.data.pagefind !== false);
+  const sectionLabels = new Map(
+    docsContext.sections.map((section) => [section.slug, section.label]),
   );
+  const items = entries.map((entry) => {
+    const entryLocaleKey = docsContext.locale.key;
+    const section = getEntrySectionFromContext(docsContext, entry);
+    const sidebar = section ? docsContext.sidebars[section] : undefined;
+    const entrySlug = getEntrySlug(entry);
+    const sectionTitle = sidebar
+      ? getSidebarSectionTitle(sidebar, entrySlug)
+      : undefined;
+    const content = stripMdx(entry.body ?? '');
+
+    return {
+      title: entry.data.title,
+      description: entry.data.description,
+      href: getLocalizedHref(themeConfig, entrySlug, entryLocaleKey),
+      slug: entrySlug,
+      section: section ? sectionLabels.get(section) : undefined,
+      group: sectionTitle,
+      excerpt: createExcerpt(content),
+      content,
+    };
+  });
 
   return new Response(JSON.stringify({ items }), {
     headers: {

@@ -1,0 +1,47 @@
+function initLotusDropdowns(): void {
+  document.querySelectorAll('[data-lotus-dropdown]').forEach((details) => {
+    if (!(details instanceof HTMLDetailsElement) || details.dataset.lotusDropdownReady) {
+      return;
+    }
+
+    details.dataset.lotusDropdownReady = 'true';
+
+    details.addEventListener('toggle', () => {
+      if (!details.open) {
+        return;
+      }
+
+      document.querySelectorAll('[data-lotus-dropdown][open]').forEach((otherDetails) => {
+        if (otherDetails !== details && otherDetails instanceof HTMLDetailsElement) {
+          otherDetails.open = false;
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!details.open || !(event.target instanceof Node) || details.contains(event.target)) {
+        return;
+      }
+
+      details.open = false;
+    });
+
+    details.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      details.open = false;
+      details.querySelector('summary')?.focus();
+    });
+
+    details.querySelectorAll('[data-lotus-dropdown-close]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        details.open = false;
+      });
+    });
+  });
+}
+
+initLotusDropdowns();
+document.addEventListener('astro:page-load', initLotusDropdowns);

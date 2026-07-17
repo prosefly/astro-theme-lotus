@@ -59,38 +59,6 @@ const t = useTranslations(themeConfig, resolvedLocale);
   <div class="lotus-sidebar-fade lotus-sidebar-fade-bottom" data-lotus-sidebar-fade-bottom></div>
 </div>
 
-<script is:inline>
-  (() => {
-    const containers = Array.from(document.querySelectorAll('[data-lotus-sidebar-scroll]'));
-
-    for (const container of containers) {
-      if (container.hasAttribute('data-lotus-sidebar-ready')) {
-        continue;
-      }
-
-      container.setAttribute('data-lotus-sidebar-ready', '');
-
-      const scrollArea = container.querySelector('[data-lotus-sidebar-scroll-area]');
-      const topFade = container.querySelector('[data-lotus-sidebar-fade-top]');
-      const bottomFade = container.querySelector('[data-lotus-sidebar-fade-bottom]');
-
-      if (!scrollArea || !topFade || !bottomFade) {
-        continue;
-      }
-
-      const updateFades = () => {
-        const overflow = scrollArea.scrollHeight > scrollArea.clientHeight + 1;
-        const atTop = scrollArea.scrollTop <= 1;
-        const atBottom =
-          scrollArea.scrollTop + scrollArea.clientHeight >= scrollArea.scrollHeight - 1;
-
-        topFade.toggleAttribute('data-visible', overflow && !atTop);
-        bottomFade.toggleAttribute('data-visible', overflow && !atBottom);
-      };
-
-      scrollArea.addEventListener('scroll', updateFades, { passive: true });
-      window.addEventListener('resize', updateFades);
-      updateFades();
-    }
-  })();
+<script>
+  import '../../client/sidebar';
 </script>

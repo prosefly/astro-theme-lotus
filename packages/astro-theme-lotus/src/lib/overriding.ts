@@ -2,18 +2,6 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import type { Plugin } from 'vite';
 import type { OverrideComponentName, OverrideComponentsConfig } from './theme';
-
-const overrideComponentNames = [
-  'EditThisPage',
-  'HeaderNavbar',
-  'HeaderSocialIcons',
-  'PageActions',
-  'PageHeader',
-  'PageNavigation',
-  'SearchDialog',
-  'SiteBrand',
-  'ThemeSwitch',
-] as const satisfies OverrideComponentName[];
 const overrideComponentModulePrefix = 'virtual:prosefly/lotus/components/';
 const resolvedOverrideComponentModulePrefix = `\0${overrideComponentModulePrefix}`;
 
@@ -28,6 +16,10 @@ const defaultOverrideComponents = {
   SiteBrand: new URL('../components/defaults/SiteBrand.astro', import.meta.url),
   ThemeSwitch: new URL('../components/defaults/ThemeSwitch.astro', import.meta.url),
 } satisfies Record<OverrideComponentName, URL>;
+
+const overrideComponentNames = Object.keys(
+  defaultOverrideComponents,
+) as OverrideComponentName[];
 
 function normalizeModulePath(filePath: string): string {
   return filePath.split(path.sep).join(path.posix.sep);

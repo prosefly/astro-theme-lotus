@@ -98,10 +98,10 @@ const jsonLd = createDocsJsonLd({
 ---
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd} locale={currentLocale}>
-      <Header
-        currentPath={currentPath}
-        currentLocale={currentLocale}
-        headings={headings}
+  <Header
+    currentPath={currentPath}
+    currentLocale={currentLocale}
+    headings={headings}
     sectionTitle={sectionTitle}
     sections={subnav}
     sidebar={sidebar}
@@ -114,7 +114,7 @@ const jsonLd = createDocsJsonLd({
       <aside class="hidden lg:block">
         <div class="sticky top-(--lotus-docs-chrome-height)">
           {(sidebar.links.length > 0 || sidebar.groups.length > 0) && (
-        <Sidebar currentLocale={currentLocale} currentPath={currentPath} sidebar={sidebar} />
+            <Sidebar currentLocale={currentLocale} currentPath={currentPath} sidebar={sidebar} />
           )}
         </div>
       </aside>
@@ -146,7 +146,7 @@ const jsonLd = createDocsJsonLd({
 
       <aside class="hidden xl:block">
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
-        <TableOfContents currentLocale={currentLocale} headings={headings} />
+          <TableOfContents currentLocale={currentLocale} headings={headings} />
         </div>
       </aside>
     </div>
