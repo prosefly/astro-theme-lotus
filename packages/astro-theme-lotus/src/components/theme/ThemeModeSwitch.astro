@@ -7,7 +7,7 @@ const t = Astro.locals.t;
 
 <div
   aria-label={t('themeSelect.accessibleLabel')}
-  class="lotus-border-muted grid h-9 grid-cols-2 rounded-full border p-0.5 flex items-center"
+  class="lotus-border-muted grid h-9 grid-cols-2 items-center rounded-(--lotus-radius-md) border p-0.5"
   data-lotus-theme-switch
   data-theme-label-dark={t('themeSelect.dark')}
   data-theme-label-light={t('themeSelect.light')}
@@ -16,7 +16,7 @@ const t = Astro.locals.t;
 >
   <button
     aria-label={t('themeSelect.lightTheme')}
-    class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-full text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+    class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-mode="light"
     title={t('themeSelect.lightTheme')}
     type="button"
@@ -25,7 +25,7 @@ const t = Astro.locals.t;
   </button>
   <button
     aria-label={t('themeSelect.darkTheme')}
-    class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-full text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+    class="lotus-focus-ring inline-flex h-7 w-7 items-center justify-center rounded-[calc(var(--lotus-radius-md)-2px)] text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-mode="dark"
     title={t('themeSelect.darkTheme')}
     type="button"

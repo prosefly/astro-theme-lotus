@@ -7,6 +7,7 @@ sidebar:
 
 import AppearanceConfigDemo from '@/components/AppearanceConfigDemo.astro';
 import AccentColors from '@/components/AccentColors.astro';
+import ThemeSwitchVariantDemo from '@/components/ThemeSwitchVariantDemo.astro';
 
 `appearance` controls the document attributes and design tokens used by Lotus
 layouts and Prosefly MDX components.
@@ -23,6 +24,13 @@ defaultMode: 'system'
 
 Supported values are `light`, `dark`, and `system`. The system mode follows
 `prefers-color-scheme` until the visitor chooses a mode in the theme switch.
+
+<ThemeSwitchVariantDemo />
+
+The switch shape is a component override, not an `appearance` option. Use
+[Theme Switch Variants](/docs/recipes/theme-switch-variants/) to replace the
+default segmented control with a cycle button, select menu, or light/dark
+switch.
 
 ## Accent
 
