@@ -7,6 +7,7 @@ sidebar:
 
 import AppearanceConfigDemo from '@/components/AppearanceConfigDemo.astro';
 import AccentColors from '@/components/AccentColors.astro';
+import BackgroundTextColors from '@/components/BackgroundTextColors.astro';
 import ThemeSwitchVariantDemo from '@/components/ThemeSwitchVariantDemo.astro';
 
 `appearance` controls the document attributes and design tokens used by Lotus
@@ -64,6 +65,39 @@ Supported values are `slate`, `zinc`, `neutral`, and `stone`.
 Lotus renders this as a document attribute such as `data-gray="neutral"` and
 maps semantic tokens like `--lotus-text`, `--lotus-text-muted`,
 `--lotus-background`, and `--lotus-surface` from that scale.
+
+## Background and Text
+
+Background and text colors are not separate `appearance` fields. Lotus derives
+them from the selected `gray` scale and color mode, then exposes the result as
+CSS variables.
+
+Use CSS variable overrides when a project needs brand-level background or text
+colors. The preset chooser below applies the generated variables to the current
+`<body>` while you preview a combination, but it does not store the selection:
+
+<BackgroundTextColors />
+
+Preset names are descriptive examples, not Lotus API values. Copy the generated
+CSS variables instead of depending on the preset labels.
+
+The most important variables are:
+
+| Variable | Purpose |
+| --- | --- |
+| `--lotus-background` | Page and shell background. |
+| `--lotus-surface` | Subtle panels, hover states, and soft UI. |
+| `--lotus-code-background` | Inline code and plain code block background. |
+| `--lotus-text-strong` | Headings, labels, and active text. |
+| `--lotus-text` | Body copy and default foreground. |
+| `--lotus-text-muted` | Secondary text, captions, and inactive navigation. |
+| `--lotus-text-subtle` | Lower-emphasis helper text. |
+| `--lotus-border-muted` | Normal control and panel borders. |
+| `--lotus-border-subtle` | Low-emphasis dividers and separators. |
+| `--lotus-border-hover` | Stronger borders for hover and focus-adjacent states. |
+
+Override these tokens together. Changing only `--lotus-background` or only
+`--lotus-text` usually creates contrast, hover, border, or code-block issues.
 
 ## Radius
 

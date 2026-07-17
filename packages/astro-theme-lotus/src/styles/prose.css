@@ -17,7 +17,7 @@
   line-height: var(--lotus-prose-leading);
 }
 
-.lotus-prose :where(*) {
+.lotus-prose :where(*):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block: 0;
 }
 
@@ -34,6 +34,9 @@
   font-size: 2.25em;
   font-weight: 800;
   line-height: 1.1111111;
+}
+
+.lotus-prose :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: 0.8888889em;
 }
 
@@ -41,6 +44,9 @@
   font-size: 1.5em;
   font-weight: 700;
   line-height: 1.3333333;
+}
+
+.lotus-prose :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: 1em;
   margin-block-start: 2em;
 }
@@ -49,6 +55,9 @@
   font-size: 1.25em;
   font-weight: 600;
   line-height: 1.6;
+}
+
+.lotus-prose :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: 0.6em;
   margin-block-start: 1.6em;
 }
@@ -56,6 +65,9 @@
 .lotus-prose :where(h4) {
   font-size: 1em;
   line-height: 1.5;
+}
+
+.lotus-prose :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: 0.5em;
   margin-block-start: 1.5em;
 }
@@ -64,27 +76,57 @@
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
-.lotus-prose :where(p, ul, ol, blockquote, table, pre, hr, img, video, iframe, figure, .pl-image-gallery, .expressive-code) {
+.lotus-prose
+  :where(
+    p,
+    ul,
+    ol,
+    blockquote,
+    table,
+    pre,
+    hr,
+    img,
+    video,
+    iframe,
+    figure,
+    .astro-code,
+    .pl-image-gallery,
+    .expressive-code
+  ):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: var(--lotus-prose-flow);
 }
 
-.lotus-prose :where(p) {
+.lotus-prose :where(p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: var(--lotus-prose-flow);
 }
 
-.lotus-prose :where(.expressive-code) {
+.lotus-prose :where(.astro-code, .expressive-code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: var(--lotus-prose-flow);
 }
 
-.lotus-prose > :where(:first-child) {
+.lotus-prose > :where(:first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0;
 }
 
-.lotus-prose > :where(:last-child) {
+.lotus-prose > :where(:last-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-end: 0;
 }
 
-.lotus-prose :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, table, pre, figure, iframe, .pl-image-gallery, .expressive-code) {
+.lotus-prose
+  :where(h1, h2, h3, h4)
+  + :where(
+    p,
+    ul,
+    ol,
+    blockquote,
+    table,
+    pre,
+    figure,
+    iframe,
+    .astro-code,
+    .pl-image-gallery,
+    .expressive-code
+  ):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0;
 }
 

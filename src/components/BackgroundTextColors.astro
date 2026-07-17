@@ -1,0 +1,412 @@
+---
+const presets = [
+  {
+    name: 'Parchment',
+    description: 'Warm editorial background for long-form docs.',
+    background: '#fffaf2',
+    mode: 'light',
+    text: '#24313f',
+  },
+  {
+    name: 'Porcelain',
+    description: 'Cool blue-white surface with calm navy text.',
+    background: '#f6fbff',
+    mode: 'light',
+    text: '#22324a',
+  },
+  {
+    name: 'Sage',
+    description: 'Low-saturation green tint for product docs.',
+    background: '#f4fbf4',
+    mode: 'light',
+    text: '#253729',
+  },
+  {
+    name: 'Sand',
+    description: 'Soft neutral warmth without feeling yellow.',
+    background: '#fbf7ef',
+    mode: 'light',
+    text: '#332d24',
+  },
+  {
+    name: 'Slate',
+    description: 'Dark technical surface with crisp light text.',
+    background: '#111827',
+    mode: 'dark',
+    text: '#f8fafc',
+  },
+  {
+    name: 'Carbon',
+    description: 'Near-black reading mode with softer contrast.',
+    background: '#151515',
+    mode: 'dark',
+    text: '#e7e2d8',
+  },
+];
+
+const defaultPreset = presets[0];
+---
+
+<div
+  class="background-text-color-demo not-prose my-6 overflow-hidden rounded-(--background-text-radius-lg) border border-(--lotus-border-muted) bg-(--lotus-background)"
+  data-background-text-color-demo
+  data-current-background={defaultPreset.background}
+  data-current-text={defaultPreset.text}
+>
+  <div class="grid min-w-0 gap-0 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+    <div class="min-w-0 space-y-4 border-b border-(--lotus-border-subtle) p-3 sm:space-y-5 sm:p-4 xl:border-b-0 xl:border-r">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-wide text-(--lotus-text-muted)">Background presets</p>
+        <h3 class="mt-2 text-lg font-semibold text-(--lotus-text-strong)">Choose a page tone</h3>
+        <p class="mt-2 text-sm leading-6 text-(--lotus-text-muted)">
+          These presets are curated background and text pairs. Selecting one
+          temporarily applies the generated <code>&lt;body&gt;</code> variables
+          to this page.
+        </p>
+      </div>
+
+      <div class="grid min-w-0 gap-3 sm:grid-cols-2">
+        {
+          presets.map((preset, index) => (
+            <button
+              class="lotus-focus-ring group min-w-0 rounded-(--background-text-radius-lg) border border-(--lotus-border-subtle) p-2 text-left transition hover:border-(--lotus-border-hover) data-active:border-(--lotus-accent) sm:p-3"
+              data-active={index === 0 ? true : undefined}
+              data-background={preset.background}
+              data-color-preset
+              data-mode={preset.mode}
+              data-name={preset.name}
+              data-text={preset.text}
+              type="button"
+            >
+              <span
+                class="block min-w-0 rounded-(--background-text-radius-md) border p-3"
+                style={`background: ${preset.background}; border-color: color-mix(in oklab, ${preset.text} 18%, transparent); color: ${preset.text};`}
+              >
+                <span class="block text-sm font-semibold">{preset.name}</span>
+                <span class="mt-2 block text-xs leading-5 opacity-70">{preset.description}</span>
+              </span>
+              <span class="mt-2 flex min-w-0 flex-wrap items-center justify-between gap-2">
+                <code class="min-w-0 text-xs text-(--lotus-text-muted)">{preset.background}</code>
+                <span class="rounded-(--background-text-radius-sm) bg-(--lotus-surface) px-1.5 py-0.5 text-xs font-medium text-(--lotus-text-muted)">
+                  {preset.mode}
+                </span>
+              </span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="min-w-0 space-y-4 p-3 sm:p-4">
+      <div class="min-w-0 rounded-(--background-text-radius-lg) border p-4 sm:p-5" data-color-preview>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p class="text-xs font-medium uppercase tracking-wide" data-preview-muted>
+            Selected preset
+          </p>
+          <span class="rounded-(--background-text-radius-sm) border px-2 py-1 text-xs font-medium" data-contrast-rating>
+            Checking
+          </span>
+        </div>
+        <h3 class="mt-3 text-xl font-semibold tracking-tight sm:text-2xl" data-preview-strong>
+          <span data-preset-name>{defaultPreset.name}</span> documentation tone
+        </h3>
+        <p class="mt-3 text-sm leading-6" data-preview-text>
+          The preset applies a coordinated set of background, surface, text,
+          border, and code tokens so the page keeps its visual hierarchy.
+        </p>
+        <div class="mt-4 flex min-w-0 flex-wrap items-center gap-2">
+          <code class="min-w-0 rounded-(--background-text-radius-sm) border px-2 py-1 text-sm" data-preview-code data-token-value="background">
+            {defaultPreset.background}
+          </code>
+          <code class="min-w-0 rounded-(--background-text-radius-sm) border px-2 py-1 text-sm" data-preview-code data-token-value="text">
+            {defaultPreset.text}
+          </code>
+          <strong class="basis-full text-sm font-semibold sm:ml-auto sm:basis-auto" data-contrast-ratio>0.00:1</strong>
+        </div>
+      </div>
+
+      <pre class="m-0 max-w-full overflow-x-auto rounded-(--background-text-radius-md) border border-(--lotus-border-subtle) bg-(--lotus-code-background) p-3 text-xs leading-6 sm:p-4 sm:text-sm"><code data-css-output></code></pre>
+
+      <div class="mt-4">
+        <button
+          class="lotus-focus-ring w-full rounded-(--background-text-radius-md) border border-(--lotus-border-muted) px-3 py-2 text-sm font-medium text-(--lotus-text-strong) sm:w-auto"
+          data-color-reset
+          type="button"
+        >
+          Reset page colors
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  type PresetTokens = {
+    background: string;
+    mode: ThemeMode;
+    text: string;
+  };
+
+  type CssToken = [name: string, value: string];
+  type ThemeMode = 'system' | 'light' | 'dark';
+
+  const themeModes = ['system', 'light', 'dark'];
+
+  const bodyTokenNames = [
+    '--lotus-background',
+    '--lotus-surface',
+    '--lotus-code-background',
+    '--lotus-text-strong',
+    '--lotus-text',
+    '--lotus-text-muted',
+    '--lotus-text-subtle',
+    '--lotus-border-muted',
+    '--lotus-border-subtle',
+    '--lotus-border-hover',
+  ];
+
+  function normalizeHex(value: string | null | undefined, fallback: string): string {
+    return /^#[0-9a-f]{6}$/i.test(value ?? '') ? value!.toLowerCase() : fallback;
+  }
+
+  function getCssTokens(tokens: PresetTokens): CssToken[] {
+    const { background, text } = tokens;
+
+    return [
+      ['--lotus-background', background],
+      ['--lotus-surface', `color-mix(in oklab, ${background} 94%, ${text})`],
+      ['--lotus-code-background', `color-mix(in oklab, ${background} 90%, ${text})`],
+      ['--lotus-text-strong', text],
+      ['--lotus-text', `color-mix(in oklab, ${text} 84%, ${background})`],
+      ['--lotus-text-muted', `color-mix(in oklab, ${text} 62%, ${background})`],
+      ['--lotus-text-subtle', `color-mix(in oklab, ${text} 48%, ${background})`],
+      ['--lotus-border-muted', `color-mix(in oklab, ${text} 22%, transparent)`],
+      ['--lotus-border-subtle', `color-mix(in oklab, ${text} 14%, transparent)`],
+      ['--lotus-border-hover', `color-mix(in oklab, ${text} 34%, transparent)`],
+    ];
+  }
+
+  function buildCss(tokens: PresetTokens): string {
+    const lines = getCssTokens(tokens).map(([name, value]) => `  ${name}: ${value};`);
+
+    return `html[data-theme="${tokens.mode}"] {
+${lines.join('\n')}
+}`;
+  }
+
+  function hexToRgb(hex: string): [number, number, number] {
+    return [
+      Number.parseInt(hex.slice(1, 3), 16),
+      Number.parseInt(hex.slice(3, 5), 16),
+      Number.parseInt(hex.slice(5, 7), 16),
+    ];
+  }
+
+  function srgbToLinear(channel: number): number {
+    const value = channel / 255;
+
+    return value <= 0.03928
+      ? value / 12.92
+      : ((value + 0.055) / 1.055) ** 2.4;
+  }
+
+  function getRelativeLuminance(hex: string): number {
+    const [red, green, blue] = hexToRgb(hex).map(srgbToLinear);
+
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+  }
+
+  function getContrastRatio(background: string, text: string): number {
+    const backgroundLuminance = getRelativeLuminance(background);
+    const textLuminance = getRelativeLuminance(text);
+    const lighter = Math.max(backgroundLuminance, textLuminance);
+    const darker = Math.min(backgroundLuminance, textLuminance);
+
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  function getContrastRating(ratio: number): string {
+    if (ratio >= 7) {
+      return 'AAA';
+    }
+
+    if (ratio >= 4.5) {
+      return 'AA';
+    }
+
+    return 'Low contrast';
+  }
+
+  function isThemeMode(value: string | undefined): value is ThemeMode {
+    return themeModes.includes(value ?? '');
+  }
+
+  function getThemeLabel(switcher: HTMLElement, mode: ThemeMode): string {
+    const labelKey = `themeLabel${mode[0].toUpperCase()}${mode.slice(1)}`;
+
+    return switcher.dataset[labelKey] || mode[0].toUpperCase() + mode.slice(1);
+  }
+
+  function syncThemeSwitchControls(mode: ThemeMode) {
+    document.querySelectorAll<HTMLElement>('[data-lotus-theme-switch]').forEach((switcher) => {
+      switcher.querySelectorAll('[data-theme-mode]').forEach((control) => {
+        const active = control.getAttribute('data-theme-mode') === mode;
+        control.setAttribute('aria-pressed', active ? 'true' : 'false');
+        control.toggleAttribute('data-active', active);
+      });
+
+      switcher.querySelectorAll<HTMLSelectElement>('[data-theme-select]').forEach((select) => {
+        select.value = mode;
+      });
+
+      switcher.querySelectorAll('[data-theme-current]').forEach((label) => {
+        label.textContent = getThemeLabel(switcher, mode);
+      });
+
+      switcher.querySelectorAll<HTMLElement>('[data-theme-mode-icon]').forEach((icon) => {
+        icon.hidden = icon.getAttribute('data-theme-mode-icon') !== mode;
+      });
+    });
+  }
+
+  function setTemporaryTheme(mode: ThemeMode) {
+    document.documentElement.dataset.theme = mode;
+    syncThemeSwitchControls(mode);
+  }
+
+  function restoreTheme(demo: HTMLElement) {
+    const originalTheme = demo.dataset.originalTheme;
+    const mode = isThemeMode(originalTheme) ? originalTheme : 'system';
+
+    document.documentElement.dataset.theme = mode;
+    syncThemeSwitchControls(mode);
+  }
+
+  function applyCssTokens(target: HTMLElement, tokens: CssToken[]) {
+    tokens.forEach(([name, value]) => {
+      target.style.setProperty(name, value);
+    });
+  }
+
+  function clearBodyCssTokens() {
+    bodyTokenNames.forEach((name) => {
+      document.body?.style.removeProperty(name);
+    });
+  }
+
+  function setActivePreset(demo: HTMLElement, selected: HTMLElement) {
+    demo.querySelectorAll<HTMLElement>('[data-color-preset]').forEach((button) => {
+      button.toggleAttribute('data-active', button === selected);
+    });
+  }
+
+  function updateDemo(demo: HTMLElement, source: HTMLElement, applyToBody = false) {
+    const preview = demo.querySelector<HTMLElement>('[data-color-preview]');
+    const output = demo.querySelector<HTMLElement>('[data-css-output]');
+    const ratio = demo.querySelector<HTMLElement>('[data-contrast-ratio]');
+    const rating = demo.querySelector<HTMLElement>('[data-contrast-rating]');
+    const name = demo.querySelector<HTMLElement>('[data-preset-name]');
+    const backgroundValue = demo.querySelector<HTMLElement>('[data-token-value="background"]');
+    const textValue = demo.querySelector<HTMLElement>('[data-token-value="text"]');
+    const tokens: PresetTokens = {
+      background: normalizeHex(source.dataset.background, '#fffaf2'),
+      mode: isThemeMode(source.dataset.mode) ? source.dataset.mode : 'light',
+      text: normalizeHex(source.dataset.text, '#24313f'),
+    };
+
+    if (!preview || !output || !ratio || !rating || !name || !backgroundValue || !textValue) {
+      return;
+    }
+
+    const cssTokens = getCssTokens(tokens);
+    const contrastRatio = getContrastRatio(tokens.background, tokens.text);
+
+    output.textContent = buildCss(tokens);
+    ratio.textContent = `${contrastRatio.toFixed(2)}:1`;
+    rating.textContent = getContrastRating(contrastRatio);
+    name.textContent = source.dataset.name || 'Custom';
+    backgroundValue.textContent = tokens.background;
+    textValue.textContent = tokens.text;
+    demo.dataset.currentBackground = tokens.background;
+    demo.dataset.currentText = tokens.text;
+    applyCssTokens(preview, cssTokens);
+    setActivePreset(demo, source);
+
+    if (applyToBody && document.body) {
+      setTemporaryTheme(tokens.mode);
+      applyCssTokens(document.body, cssTokens);
+    }
+  }
+
+  function initBackgroundTextColorDemos() {
+    document.querySelectorAll('[data-background-text-color-demo]').forEach((demo) => {
+      if (!(demo instanceof HTMLElement) || demo.dataset.ready === 'true') {
+        return;
+      }
+
+      const firstPreset = demo.querySelector<HTMLElement>('[data-color-preset]');
+
+      if (!firstPreset) {
+        return;
+      }
+
+      demo.dataset.ready = 'true';
+      demo.dataset.originalTheme = document.documentElement.dataset.theme || 'system';
+      demo.querySelectorAll<HTMLElement>('[data-color-preset]').forEach((button) => {
+        button.addEventListener('click', () => updateDemo(demo, button, true));
+      });
+      demo.querySelector('[data-color-reset]')?.addEventListener('click', () => {
+        clearBodyCssTokens();
+        restoreTheme(demo);
+        updateDemo(demo, firstPreset);
+      });
+      updateDemo(demo, firstPreset);
+    });
+  }
+
+  initBackgroundTextColorDemos();
+  document.addEventListener('astro:page-load', initBackgroundTextColorDemos);
+  document.addEventListener('astro:before-swap', () => {
+    document.querySelectorAll('[data-background-text-color-demo]').forEach((demo) => {
+      if (demo instanceof HTMLElement) {
+        restoreTheme(demo);
+      }
+    });
+    clearBodyCssTokens();
+  });
+</script>
+
+<style>
+  .background-text-color-demo {
+    --background-text-radius-lg: min(var(--lotus-radius-lg), 1rem);
+    --background-text-radius-md: min(var(--lotus-radius-md), 0.75rem);
+    --background-text-radius-sm: min(var(--lotus-radius-sm), 0.5rem);
+  }
+
+  .background-text-color-demo [data-color-preview] {
+    background: var(--lotus-background);
+    border-color: var(--lotus-border-muted);
+    color: var(--lotus-text);
+  }
+
+  .background-text-color-demo [data-css-output] {
+    display: block;
+    min-width: max-content;
+  }
+
+  .background-text-color-demo [data-preview-strong] {
+    color: var(--lotus-text-strong);
+  }
+
+  .background-text-color-demo [data-preview-muted],
+  .background-text-color-demo [data-preview-text] {
+    color: var(--lotus-text-muted);
+  }
+
+  .background-text-color-demo [data-preview-code],
+  .background-text-color-demo [data-contrast-rating] {
+    background: var(--lotus-code-background);
+    border-color: var(--lotus-border-muted);
+    color: var(--lotus-text-strong);
+  }
+</style>
