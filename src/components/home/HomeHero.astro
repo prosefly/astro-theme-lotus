@@ -42,7 +42,7 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
           aria-label="Copy install command"
         >
           <span data-copy-icon><Icon name="lucide:copy" /></span>
-          <span class="text-xs font-medium" data-copy-success hidden>Copied</span>
+          <span data-copy-success hidden><Icon name="lucide:check" /></span>
         </button>
       </div>
     </div>
@@ -158,6 +158,16 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
     width: 1rem;
   }
 
+  .home-copy [data-copy-success] {
+    align-items: center;
+    color: oklch(0.57 0.16 155);
+    display: inline-flex;
+  }
+
+  .home-copy [data-copy-success][hidden] {
+    display: none;
+  }
+
   .home-preview,
   .home-preview__desktop {
     max-width: 100%;
@@ -165,7 +175,7 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
   }
 
   .home-preview {
-    overflow: hidden;
+    overflow: visible;
   }
 
   .home-preview__mobile {
