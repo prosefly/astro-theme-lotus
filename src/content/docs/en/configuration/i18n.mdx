@@ -137,6 +137,37 @@ ui: {
 
 Custom locales fall back to the default locale and then to English.
 
+## Config Labels
+
+Labels written in `theme.config.ts` are project content, not built-in UI
+messages. Add `translations` next to the label when the same config item should
+render differently per locale.
+
+```ts
+sidebars: [
+  {
+    slug: 'guide',
+    label: 'Guides',
+    translations: {
+      'zh-cn': '指南',
+    },
+    items: [
+      {
+        label: 'Getting Started',
+        translations: {
+          'zh-cn': '入门',
+        },
+        items: ['overview', 'installation'],
+      },
+    ],
+  },
+]
+```
+
+The same pattern is supported by navbar items, social links, sidebar sections,
+sidebar groups, and sidebar link items. Page links generated from content use
+the localized page frontmatter instead.
+
 ## Translator API
 
 Lotus provides the resolved translator as `Astro.locals.t` for theme components

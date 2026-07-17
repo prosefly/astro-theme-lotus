@@ -1,0 +1,61 @@
+---
+title: 概览
+description: 了解 Lotus 提供了什么，以及文档主题如何组织内容。
+sidebar:
+  order: 1
+---
+
+import { Card, CardGrid, Steps } from '@prosefly/astro-components';
+
+Lotus 是一个面向 Astro v7、Tailwind CSS v4 和 MDX 的文档主题。它提供
+文档页面外壳、路由、导航模型、主题 tokens，以及常用的 MDX 组件，让项目
+可以更快搭建文档站点。
+
+## Lotus 包含什么
+
+<CardGrid>
+  <Card icon="lucide:layout-template" title="文档外壳" href="/docs/configuration/project/">
+    通过主题配置渲染响应式 header、subnav、sidebar、文章布局、目录、
+    页面元信息和 footer。
+  </Card>
+  <Card icon="lucide:route" title="路由" href="/docs/configuration/content-routing/">
+    从 Astro content collection 生成文档页面、Markdown 源码路由、
+    搜索索引、本地化 URL 和可选首页。
+  </Card>
+  <Card icon="lucide:palette" title="设计 tokens" href="/docs/configuration/appearance/">
+    配置 accent、gray、radius、color mode、字体，以及更底层的 CSS
+    variables。
+  </Card>
+  <Card icon="lucide:blocks" title="MDX 组件" href="/docs/components/callout/">
+    使用 callout、cards、steps、tabs、accordion、file tree、badge 和
+    Iconify 图标组合内容。
+  </Card>
+</CardGrid>
+
+## i18n 检查点
+
+这是一篇中文本地化页面，用来验证 `zh-cn` locale 是否生效：
+
+- 当前页面应该渲染在 `/docs/zh-cn/overview/`。
+- 页面标题应该显示为“概览”，而不是英文的 “Overview”。
+- 指向 `/docs/...` 的内部链接应该根据当前 locale 本地化。
+- 其他没有中文版本的页面应该回退到英文内容。
+
+## 第一步
+
+<Steps>
+
+1. **检查路由。**
+
+   打开 `/docs/zh-cn/overview/`，确认当前页面使用中文内容。
+
+2. **检查链接。**
+
+   点击上方 cards 中的配置、路由、外观或组件链接，确认链接会进入
+   `/docs/zh-cn/...` 路径。
+
+3. **检查回退。**
+
+   打开一个还没有中文文档的页面，确认它仍然可以显示英文 fallback。
+
+</Steps>

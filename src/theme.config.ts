@@ -65,20 +65,33 @@ export default defineLotusConfig({
     {
       slug: 'guide',
       label: 'Guides',
+      translations: {
+        'zh-cn': '指南',
+      },
       icon: 'lucide:rocket',
       items: [
         {
-          label: 'Blog',
-          link: '/docs/essentials/markdown-syntax/',
-          icon: 'lucide:newspaper',
+          label: 'Discussion',
+          translations: {
+            'zh-cn': '讨论',
+          },
+          link: 'https://github.com/prosefly/astro-theme-lotus/discussions',
+          external: true,
+          icon: 'lucide:messages-square',
         },
         {
           label: 'Getting Started',
+          translations: {
+            'zh-cn': '入门',
+          },
           items: [
             'overview',
             'installation',
             {
               label: 'Configuration',
+              translations: {
+                'zh-cn': '配置',
+              },
               items: [{ autogenerate: { directory: 'configuration' } }],
             },
             'deployment',
@@ -87,30 +100,48 @@ export default defineLotusConfig({
         },
         {
           label: 'Essentials',
+          translations: {
+            'zh-cn': '基础',
+          },
           items: [{ autogenerate: { directory: 'essentials' } }],
         },
         {
           label: 'Customization',
+          translations: {
+            'zh-cn': '自定义',
+          },
           items: [{ autogenerate: { directory: 'customization' } }],
         },
         {
           label: 'Migrations',
+          translations: {
+            'zh-cn': '迁移',
+          },
           items: [{ autogenerate: { directory: 'migrations' } }],
         },
       ],
     },
     {
       label: 'Components',
+      translations: {
+        'zh-cn': '组件',
+      },
       icon: 'lucide:blocks',
       items: [{ autogenerate: { directory: 'components' } }],
     },
     {
       label: 'Recipes',
+      translations: {
+        'zh-cn': '实践',
+      },
       icon: 'lucide:chef-hat',
       items: [{ autogenerate: { directory: 'recipes' } }],
     },
     {
       label: 'References',
+      translations: {
+        'zh-cn': '参考',
+      },
       icon: 'lucide:book-open',
       items: [{ autogenerate: { directory: 'references' } }],
     },
