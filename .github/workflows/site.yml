@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - '*.lock'
   workflow_dispatch:
 
 concurrency:
