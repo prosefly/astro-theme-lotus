@@ -30,6 +30,7 @@
     "@prosefly/astro-components": "^0.1.0",
     "@tailwindcss/vite": "latest",
     "astro-expressive-code": "^0.44.0",
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "vite": "^8.1.5"
   }
 }
