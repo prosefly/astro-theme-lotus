@@ -1,13 +1,14 @@
 ---
 title: Code Blocks
-description: Author syntax-highlighted code blocks, annotations, diffs, and terminal examples.
+description: Author syntax-highlighted code blocks, titles, highlights, and command examples.
 sidebar:
-  order: 9
+  order: 4
 ---
 
-Lotus renders fenced code blocks with Expressive Code by default. Use code block
-metadata to add titles, frames, highlighted lines, inline markers, diffs, line
-numbers, and wrapping behavior.
+Lotus renders fenced code blocks with Expressive Code by default. Use this page
+for day-to-day authoring patterns. See
+[Expressive Code](/docs/references/expressive-code/) for advanced markers,
+diffs, line numbers, and integration options.
 
 ## Basic Syntax
 
@@ -26,35 +27,7 @@ export const enabled = true;
 Common language names include `ts`, `tsx`, `js`, `astro`, `css`, `html`, `json`,
 `md`, `mdx`, `sh`, and `bash`.
 
-## Expressive Code
-
-Expressive Code is enabled by default in Lotus. It adds editor and terminal
-frames, copy buttons, line markers, diff markers, word wrap, and light/dark
-syntax themes to regular Markdown code fences.
-
-You can disable it when a site should use Astro's built-in Shiki renderer.
-
-```ts
-lotus({
-  expressiveCode: false,
-})
-```
-
-Pass Expressive Code options through the Lotus integration when you need to
-change the default themes or block behavior.
-
-```ts
-lotus({
-  expressiveCode: {
-    themes: ['github-light', 'github-dark'],
-    defaultProps: {
-      wrap: true,
-    },
-  },
-})
-```
-
-### Titles And Frames
+## Titles And Frames
 
 Add `title` to show a file name in an editor-style frame.
 
@@ -72,18 +45,6 @@ export default defineLotusConfig({
 })
 ```
 
-Use `frame="none"` when a snippet should stay minimal.
-
-````md
-```ts frame="none"
-export const bare = true;
-```
-````
-
-```ts frame="none"
-export const bare = true;
-```
-
 Shell languages render as terminal frames automatically. You can still add a
 custom title.
 
@@ -97,7 +58,19 @@ pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components
 pnpm add @prosefly/astro-theme-lotus @prosefly/astro-components
 ```
 
-### Highlighted Lines
+Use `frame="none"` when a snippet should stay minimal.
+
+````md
+```ts frame="none"
+export const bare = true;
+```
+````
+
+```ts frame="none"
+export const bare = true;
+```
+
+## Highlighted Lines
 
 Use `{line}` or `{start-end}` to mark important lines. Multiple selectors can be
 combined with commas.
@@ -124,184 +97,6 @@ export default defineLotusConfig({
     radius: 'medium',
   },
 })
-```
-
-### Inserted And Deleted Lines
-
-Use `ins={...}` and `del={...}` for changed lines. Plain `{...}` remains a
-neutral highlight.
-
-````md
-```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
-export default defineLotusConfig({
-  navigation: [{ label: 'Docs', href: '/docs/' }],
-  navbar: [
-    { label: 'Docs', href: '/docs/' },
-    { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  ],
-  pageActions: [],
-})
-```
-````
-
-```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
-export default defineLotusConfig({
-  navigation: [{ label: 'Docs', href: '/docs/' }],
-  navbar: [
-    { label: 'Docs', href: '/docs/' },
-    { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  ],
-  pageActions: [],
-})
-```
-
-### Inline Markers
-
-Mark text inside a line with quoted strings or regular expressions. Prefix the
-marker with `ins=`, `del=`, or `mark=` to choose the marker type.
-
-````md
-```ts "docsBase" ins="'/docs'" del="'/documentation'" title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  previousBase: '/documentation',
-})
-```
-````
-
-```ts "docsBase" ins="'/docs'" del="'/documentation'" title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  previousBase: '/documentation',
-})
-```
-
-Regular expressions are useful when the exact value changes across examples.
-
-````md
-```ts /variant: '[^']+'/ title="src/theme.config.ts"
-export const navbar = [
-  { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  { label: 'Login', href: '/login/', variant: 'outline' },
-]
-```
-````
-
-```ts /variant: '[^']+'/ title="src/theme.config.ts"
-export const navbar = [
-  { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  { label: 'Login', href: '/login/', variant: 'outline' },
-]
-```
-
-### Diff Blocks
-
-Use the `diff` language for compact before-and-after examples.
-
-````md
-```diff
-- navigation: [{ label: 'Docs', href: '/docs/' }]
-+ navbar: [{ label: 'Docs', href: '/docs/' }]
-```
-````
-
-```diff
-- navigation: [{ label: 'Docs', href: '/docs/' }]
-+ navbar: [{ label: 'Docs', href: '/docs/' }]
-```
-
-Use `lang="..."` when you want diff markers and syntax highlighting for the
-underlying language.
-
-````md
-```diff lang="ts" title="src/theme.config.ts"
- export default defineLotusConfig({
--  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  navbar: [{ label: 'Docs', href: '/docs/' }],
- })
-```
-````
-
-```diff lang="ts" title="src/theme.config.ts"
- export default defineLotusConfig({
--  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  navbar: [{ label: 'Docs', href: '/docs/' }],
- })
-```
-
-### Line Numbers
-
-Lotus includes Expressive Code's line number plugin, but keeps line numbers off
-by default. Add `showLineNumbers` to a block when line references matter.
-
-````md
-```ts showLineNumbers title="src/content.config.ts"
-import { docsLoader } from '@prosefly/astro-theme-lotus/content';
-import { defineCollection } from 'astro:content';
-
-const docs = defineCollection({
-  loader: docsLoader(),
-});
-
-export const collections = { docs };
-```
-````
-
-```ts showLineNumbers title="src/content.config.ts"
-import { docsLoader } from '@prosefly/astro-theme-lotus/content';
-import { defineCollection } from 'astro:content';
-
-const docs = defineCollection({
-  loader: docsLoader(),
-});
-
-export const collections = { docs };
-```
-
-Use `startLineNumber` for snippets taken from the middle of a file.
-
-````md
-```ts showLineNumbers startLineNumber=24 {27} title="src/theme.config.ts"
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
-  },
-```
-````
-
-```ts showLineNumbers startLineNumber=24 {4} title="src/theme.config.ts"
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
-  },
-```
-
-### Word Wrap
-
-Use `wrap` for long lines that should stay inside the content column.
-
-````md
-```ts wrap title="src/copy.ts"
-export const description = 'Lotus is an Astro documentation theme with configurable navigation, sidebars, appearance tokens, MDX components, and Expressive Code integration.'
-```
-````
-
-```ts wrap title="src/copy.ts"
-export const description = 'Lotus is an Astro documentation theme with configurable navigation, sidebars, appearance tokens, MDX components, and Expressive Code integration.'
-```
-
-Use `hangingIndent` to keep wrapped lines easier to scan.
-
-````md
-```ts wrap hangingIndent=2 title="src/sidebar.ts"
-export const sidebar = [{ label: 'Guides', items: [{ label: 'Getting Started', items: ['overview', 'installation', { label: 'Configuration', items: [{ autogenerate: { directory: 'configuration' } }] }] }] }]
-```
-````
-
-```ts wrap hangingIndent=2 title="src/sidebar.ts"
-export const sidebar = [{ label: 'Guides', items: [{ label: 'Getting Started', items: ['overview', 'installation', { label: 'Configuration', items: [{ autogenerate: { directory: 'configuration' } }] }] }] }]
 ```
 
 ## Package Manager Tabs
@@ -336,13 +131,16 @@ lotus({
 })
 ```
 
-## Configuration
+## Word Wrap
 
-Disable Expressive Code entirely when a site should use Astro's built-in Shiki
-renderer instead.
+Use `wrap` for long lines that should stay inside the content column.
 
-```ts
-lotus({
-  expressiveCode: false,
-})
+````md
+```ts wrap title="src/copy.ts"
+export const description = 'Lotus is an Astro documentation theme with configurable navigation, sidebars, appearance tokens, MDX components, and Expressive Code integration.'
+```
+````
+
+```ts wrap title="src/copy.ts"
+export const description = 'Lotus is an Astro documentation theme with configurable navigation, sidebars, appearance tokens, MDX components, and Expressive Code integration.'
 ```

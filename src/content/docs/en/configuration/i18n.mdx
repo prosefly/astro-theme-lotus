@@ -1,0 +1,160 @@
+---
+title: Internationalization
+description: Configure locale directories, localized routes, fallbacks, and UI translations.
+sidebar:
+  order: 3
+---
+
+import { Callout, FileTree } from '@prosefly/astro-components';
+
+Lotus follows Starlight's i18n model: each locale has a key, a label, a
+language tag, an optional text direction, and a content directory. The special
+`root` locale renders without a locale prefix.
+
+<Callout type="note" title="Root locale">
+  The `root` locale is the default unprefixed locale. It renders at `/docs/...`,
+  not `/docs/root/...`.
+</Callout>
+
+```ts
+defaultLocale: 'root',
+locales: {
+  root: {
+    label: 'English',
+    lang: 'en',
+    directory: 'docs/en',
+  },
+  'zh-cn': {
+    label: '简体中文',
+    lang: 'zh-CN',
+    directory: 'docs/zh-cn',
+  },
+}
+```
+
+With `docsLoader({ base: './src/content' })`, this config makes English files
+live in `src/content/docs/en/` while rendering at `/docs/overview/`.
+Simplified Chinese files live in `src/content/docs/zh-cn/` and render at
+`/docs/zh-cn/overview/`.
+
+<FileTree>
+
+- src
+  - content
+    - docs
+      - en
+        - index.mdx `/docs/`
+        - overview.mdx `/docs/overview/`
+      - zh-cn
+        - index.mdx `/docs/zh-cn/`
+        - overview.mdx `/docs/zh-cn/overview/`
+
+</FileTree>
+
+## Locale Keys And Prefixes
+
+Locale keys control route prefixes. `root` has no prefix; every other key is
+used as the first segment after `docsBase`.
+
+| Locale key | Directory | Page URL |
+| --- | --- | --- |
+| `root` | `docs/en` | `/docs/overview/` |
+| `zh-cn` | `docs/zh-cn` | `/docs/zh-cn/overview/` |
+
+Use lowercase locale keys for predictable URLs. Use `lang` for the HTML
+language tag when the browser-facing value needs casing such as `zh-CN`.
+
+## Directory Mapping
+
+`locales.*.directory` strips the locale directory before Lotus matches sidebar
+string items and `autogenerate.directory` values.
+
+For example, `src/content/docs/en/configuration/project.mdx` and
+`src/content/docs/zh-cn/configuration/project.mdx` are both referenced as
+`configuration/project` in `sidebars`.
+
+<FileTree>
+
+- docs
+  - en
+    - configuration
+      - **project.mdx** referenced as `configuration/project`
+  - zh-cn
+    - configuration
+      - **project.mdx** referenced as `configuration/project`
+
+</FileTree>
+
+```ts
+sidebars: [
+  {
+    label: 'Guides',
+    items: [
+      {
+        label: 'Configuration',
+        items: [{ autogenerate: { directory: 'configuration' } }],
+      },
+    ],
+  },
+]
+```
+
+See [Content Routing](/docs/configuration/content-routing/) for the full route
+generation model.
+
+## Fallbacks
+
+If a non-default locale does not include a page, Lotus can fall back to the
+default locale entry. This keeps partially translated sites navigable while
+translations are still in progress.
+
+Fallback pages keep the target locale route, but source-aware features such as
+edit links and contributors still point to the source file that actually
+rendered. See [Source](/docs/configuration/source/) for source path behavior.
+
+## UI Translations
+
+Lotus includes template translations for English and Simplified Chinese. These
+strings cover shell UI such as search, theme mode controls, table of contents,
+page actions, edit links, mobile docs navigation, and the 404 page.
+
+Built-in messages live in package JSON files:
+
+- `@prosefly/astro-theme-lotus/src/messages/en.json`
+- `@prosefly/astro-theme-lotus/src/messages/zh-cn.json`
+
+Use `ui` to override built-in strings for a locale. Keys can match either the
+locale key or the locale language code.
+
+```ts
+ui: {
+  'zh-cn': {
+    'page.editLink': '在 GitHub 上编辑',
+    'tableOfContents.onThisPage': '页面目录',
+    'search.placeholder': '搜索',
+  },
+}
+```
+
+Custom locales fall back to the default locale and then to English.
+
+## Translator API
+
+Lotus provides the resolved translator as `Astro.locals.t` for theme components
+and local overrides. The translator follows Starlight's shape.
+
+```astro
+---
+const t = Astro.locals.t;
+const locale = t.locale();
+---
+
+<a dir={t.dir()} hreflang={locale.lang} href="/docs/search/">
+  {t('search.label')}
+</a>
+```
+
+Use `t(key, values)` to render a string, `t.all()` to read the resolved UI
+dictionary, `t.exists(key)` to check whether a key exists, `t.dir()` to get the
+current locale's text direction, and `t.locale()` to read the resolved Lotus
+locale object.

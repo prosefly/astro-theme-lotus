@@ -5,72 +5,82 @@ sidebar:
   order: 2
 ---
 
-Install the theme and shared components in an Astro project:
+import { Steps } from '@prosefly/astro-components';
 
-```sh
-npm install @prosefly/astro-theme-lotus @prosefly/astro-components
-```
+Install the theme, register the integration, connect the content collection,
+and start the Astro development server.
 
-## Add the integration
+<Steps>
 
-Configure Astro with the Lotus integration:
+1. **Install the packages.**
 
-```ts
-// astro.config.ts
-import { defineConfig } from 'astro/config';
-import lotus from '@prosefly/astro-theme-lotus';
-import themeConfig from './src/theme.config';
+   Add the theme and shared components package to an Astro project.
 
-export default defineConfig({
-  integrations: [lotus(themeConfig)],
-});
-```
+   ```sh
+   npm install @prosefly/astro-theme-lotus @prosefly/astro-components
+   ```
 
-Create the matching `src/theme.config.ts`:
+2. **Add the integration.**
 
-```ts
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+   Configure Astro with the Lotus integration.
 
-export default defineLotusConfig({
-  name: 'My Docs',
-  description: 'Documentation for my project.',
-  navbar: [{ label: 'Docs', href: '/docs/' }],
-  sidebars: [
-    {
-      label: 'Guides',
-      items: ['index'],
-    },
-  ],
-});
-```
+   ```ts title="astro.config.ts"
+   import { defineConfig } from 'astro/config';
+   import lotus from '@prosefly/astro-theme-lotus';
+   import themeConfig from './src/theme.config';
 
-## Register the content collection
+   export default defineConfig({
+     integrations: [lotus(themeConfig)],
+   });
+   ```
 
-Create `src/content.config.ts` and use the loader and schema from Lotus:
+3. **Create the theme config.**
 
-```ts
-import { defineCollection } from 'astro:content';
-import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
+   Add the project identity and initial sidebar structure.
 
-const docs = defineCollection({
-  loader: docsLoader(),
-  schema: docsSchema(),
-});
+   ```ts title="src/theme.config.ts"
+   import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
-export const collections = { docs };
-```
+   export default defineLotusConfig({
+     name: 'My Docs',
+     description: 'Documentation for my project.',
+     navbar: [{ label: 'Docs', href: '/docs/' }],
+     sidebars: [
+       {
+         label: 'Guides',
+         items: ['index'],
+       },
+     ],
+   });
+   ```
 
-Lotus reads from `src/content/docs` by default. The integration also injects a
-Markdown source route for each page and a search index route under the same
-`docsBase`.
+4. **Register the content collection.**
 
-## Start development
+   Create `src/content.config.ts` and use the loader and schema from Lotus.
 
-Run the standard Astro development server:
+   ```ts title="src/content.config.ts"
+   import { defineCollection } from 'astro:content';
+   import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
 
-```sh
-npm run dev
-```
+   const docs = defineCollection({
+     loader: docsLoader(),
+     schema: docsSchema(),
+   });
+
+   export const collections = { docs };
+   ```
+
+5. **Start development.**
+
+   Lotus reads from `src/content/docs` by default. The integration also injects
+   a Markdown source route for each page and a search index route under the same
+   `docsBase`.
+
+   ```sh
+   npm run dev
+   ```
+
+</Steps>
 
 Use `npm run check` before shipping changes. It validates content collections,
 MDX imports, and TypeScript.

@@ -2,11 +2,31 @@
 title: Integrations
 description: Configure Iconify preloading, Expressive Code, and package manager tabs.
 sidebar:
-  order: 7
+  order: 11
 ---
+
+import { Card, CardGrid } from '@prosefly/astro-components';
 
 Lotus includes integrations for icons, syntax highlighting, image galleries,
 and package-manager command tabs.
+
+<CardGrid>
+  <Card icon="lucide:sparkles" title="Iconify" href="#iconify">
+    Preload icon data used by the theme, MDX components, theme config, and
+    static `Icon` usage.
+  </Card>
+  <Card icon="lucide:code-2" title="Expressive Code" href="#expressive-code">
+    Render syntax-highlighted code blocks with frames, copy buttons, markers,
+    and theme-aware styling.
+  </Card>
+  <Card icon="lucide:terminal" title="Package Manager Tabs" href="#package-manager-tabs">
+    Turn recognized npm and Python install commands into synchronized tabbed
+    command blocks.
+  </Card>
+  <Card icon="lucide:images" title="Image Galleries" href="#image-galleries">
+    Transform Markdown image-only paragraphs into responsive gallery figures.
+  </Card>
+</CardGrid>
 
 ## Iconify
 

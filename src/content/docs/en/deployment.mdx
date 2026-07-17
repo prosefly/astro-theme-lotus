@@ -5,37 +5,50 @@ sidebar:
   order: 4
 ---
 
+import { Steps, TabItem, Tabs } from '@prosefly/astro-components';
+
 Lotus builds to static output, so deployment works anywhere Astro static sites
 are supported.
 
 ## Build before deploying
 
-Use the production build locally first:
+<Steps>
 
-```sh
-npm run build
-```
+1. **Run a production build locally.**
 
-This verifies that your docs content, MDX imports, and theme configuration all
-render cleanly.
+   ```sh
+   npm run build
+   ```
+
+2. **Verify the generated output.**
+
+   Confirm that docs pages, MDX imports, search routes, and localized pages all
+   render cleanly.
+
+3. **Publish `dist/`.**
+
+   Deploy the generated static output to the host.
+
+</Steps>
+
 
 ## Common static hosts
 
-### Vercel
-
-Use the default Astro static build settings. The generated `dist/` directory is
-what Vercel publishes.
-
-### Netlify
-
-Point the build command to `npm run build` and publish the `dist/` directory.
-
-### Cloudflare Pages
-
-Use the same static output flow: install dependencies, run `npm run build`, and
-publish `dist/`.
-
-### Any static host
-
-If the host can serve files from `dist/`, Lotus can be deployed there. No
-server-side runtime is required for the first release.
+<Tabs>
+  <TabItem label="Vercel">
+    Use the default Astro static build settings. The generated `dist/`
+    directory is what Vercel publishes.
+  </TabItem>
+  <TabItem label="Netlify">
+    Point the build command to `npm run build` and publish the `dist/`
+    directory.
+  </TabItem>
+  <TabItem label="Cloudflare Pages">
+    Use the same static output flow: install dependencies, run `npm run build`,
+    and publish `dist/`.
+  </TabItem>
+  <TabItem label="Static host">
+    If the host can serve files from `dist/`, Lotus can be deployed there. No
+    server-side runtime is required for the first release.
+  </TabItem>
+</Tabs>

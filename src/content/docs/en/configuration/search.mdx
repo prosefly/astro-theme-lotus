@@ -1,12 +1,15 @@
 ---
 title: Search
-description: Use the built-in search dialog and generated search index.
+description: Configure the built-in search dialog and generated search index.
 sidebar:
-  order: 6
+  order: 9
 ---
 
-Lotus includes a client-side search dialog and a generated JSON index. The
-integration injects the search route beside the docs routes.
+import { Callout } from '@prosefly/astro-components';
+
+Lotus includes a client-side search dialog and a generated JSON index. Treat
+search as site behavior: the integration injects the search route beside the
+docs routes, and the default header renders the search dialog.
 
 With the default `docsBase: '/docs'`, the search index is available at
 `/docs/search.json`. When `docsBase` is `/`, the index is available at
@@ -88,6 +91,12 @@ The built-in content component reads the current `docsBase` and fetches the
 matching search index automatically.
 
 ## Limits
+
+<Callout type="tip" title="Keep the default until scale requires more">
+  The built-in search is designed for documentation sites that can ship a static
+  JSON index. Start there, then switch to a dedicated provider only when content
+  volume or language requirements demand it.
+</Callout>
 
 Lotus search is intentionally lightweight. It does not provide stemming,
 language-aware tokenization, typo correction, or server-side ranking. Use a

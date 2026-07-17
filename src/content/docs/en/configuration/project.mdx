@@ -1,37 +1,32 @@
 ---
 title: Project
-description: Configure site identity, logo assets, favicon links, and docs routing.
+description: Configure site identity, logo assets, and favicon links.
 sidebar:
   order: 1
 ---
 
-Lotus uses a small set of top-level fields for site identity and generated
-routes. These values are available to layouts, metadata, structured data, and
-theme components.
+`Project` settings describe the documentation site itself. Keep this page for
+identity fields that affect metadata, branding, and browser chrome.
 
 ```ts
-export default {
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+
+export default defineLotusConfig({
   name: 'Astro Theme Lotus',
   description: 'A documentation theme for Astro.',
+  logo: {
+    light: '/logo-light.svg',
+    dark: '/logo-dark.svg',
+    href: '/',
+  },
   favicon: '/favicon.svg',
-  docsBase: '/docs',
-  homepage: true,
-  source: {
-    github: 'prosefly/astro-theme-lotus',
-    branch: 'main',
-    contentRoot: 'src/content',
-  },
-  editLink: true,
-  contributors: {
-    avatar: 'gravatar',
-  },
-  defaultLocale: 'root',
-  locales: {
-    root: { label: 'English', lang: 'en', directory: 'docs/en' },
-    'zh-cn': { label: '简体中文', lang: 'zh-CN', directory: 'docs/zh-cn' },
-  },
-}
+});
 ```
+
+Routing, i18n, source links, and contributors are separate configuration
+topics. See [Content Routing](/docs/configuration/content-routing/),
+[Internationalization](/docs/configuration/i18n/), and
+[Source](/docs/configuration/source/).
 
 ## Name
 
@@ -98,253 +93,3 @@ favicon: [
 
 Each object renders as a `<link>` in the document head. Supported fields are
 `href`, `rel`, `type`, `sizes`, `media`, and `color`.
-
-## Docs Base
-
-`docsBase` controls where Lotus mounts docs pages, Markdown source routes, and
-the search index.
-
-```ts
-docsBase: '/docs'
-```
-
-Examples:
-
-- `/docs/overview/`
-- `/docs/overview.md`
-- `/docs/search.json`
-
-Set `docsBase` to `/guide`, `/manual`, or `/` when docs should live somewhere
-else.
-
-## Homepage
-
-When `docsBase` is not `/`, Lotus can render a top-level
-`src/content/index.mdx` as the site homepage at `/`. This keeps the splash or
-marketing page separate from the docs tree.
-
-```txt
-src/content/
-  index.mdx              -> /
-  docs/
-    en/index.mdx         -> /docs/
-    zh-cn/index.mdx      -> /docs/zh-cn/
-```
-
-Use `template: splash` for a landing-style homepage, or `template: text` for a
-plain content page. The docs homepage still comes from the configured locale
-directory.
-
-Lotus does not inject `/` by default. Enable it only when
-`src/content/index.mdx` is included in the `docs` collection.
-
-```ts
-homepage: true
-```
-
-Keep `homepage` omitted, or set it to `false`, when the project uses
-`src/pages/index.astro` or when the docs collection loader excludes
-`src/content/index.mdx`.
-
-```ts
-homepage: false
-```
-
-## Source
-
-`source` describes where the documentation files live in version control. Lotus
-uses it for features that need to map a docs page back to its source file, such
-as edit links and contributors.
-
-```ts
-source: {
-  github: 'prosefly/astro-theme-lotus',
-  branch: 'main',
-  contentRoot: 'src/content',
-}
-```
-
-`contentRoot` defaults to `src/content`, and `branch` defaults to `main`.
-Repository fields accept either repository shorthand or a full repository URL.
-
-When `source` is omitted, Lotus tries to infer the repository provider and URL
-from `git config --get remote.origin.url`. This supports common GitHub, GitLab,
-and Codeberg remotes, including SSH remotes such as
-`git@github.com:owner/repo.git`. Lotus does not infer the branch from git; set
-`source.branch` when the edit links should point somewhere other than `main`.
-
-```ts
-source: {
-  gitlab: 'prosefly/astro-theme-lotus',
-  branch: 'main',
-}
-```
-
-```ts
-source: {
-  codeberg: 'prosefly/astro-theme-lotus',
-  branch: 'main',
-}
-```
-
-## Edit Links
-
-Set `editLink: true` to generate "Edit this page" links from `source`.
-
-```ts
-source: {
-  github: 'prosefly/astro-theme-lotus',
-  branch: 'main',
-  contentRoot: 'src/content',
-},
-editLink: true
-```
-
-Lotus joins `source.contentRoot` with the source entry ID and builds the edit
-URL for the configured repository provider.
-
-For `src/content/docs/en/overview.mdx`, Lotus generates:
-
-```txt
-https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/overview.mdx
-```
-
-Use an object when edit links need a custom URL pattern. The object inherits
-`source.contentRoot` and `source.branch`, so only the pattern needs to be
-different.
-
-```ts
-editLink: {
-  pattern: 'https://gitlab.com/prosefly/astro-theme-lotus/-/edit/{branch}/{path}',
-}
-```
-
-Patterns can use `{path}`, `{encodedPath}`, and `{branch}`. Object values can
-also override the shared source fields when a project has unusual repository
-layout.
-
-```ts
-editLink: {
-  pattern: 'https://example.com/edit/{branch}/{encodedPath}',
-  contentRoot: 'content',
-}
-```
-
-Set `editLink: false` or omit `editLink` to hide generated edit links.
-
-Edit links use the actual source entry ID, not the localized route. If a
-localized page falls back to default-locale content, its edit link points to the
-default-locale source file.
-
-## Contributors
-
-Lotus can show page contributors above the previous and next links. The default
-source is local `git log`, which works without network access.
-
-```ts
-contributors: true
-```
-
-When `source.contentRoot` is configured, contributors use that same source root.
-Set `contributors` to an object when you want to limit or filter the rendered
-list.
-
-```ts
-contributors: {
-  max: 6,
-  exclude: ['github-actions[bot]'],
-}
-```
-
-Use Gravatar when you want avatars without calling an API during the static
-build. Lotus hashes each local git email and renders a Gravatar image URL.
-
-```ts
-contributors: {
-  avatar: 'gravatar',
-  max: 6,
-}
-```
-
-Use GitHub avatars when `source.github` is configured and you want profile
-links from the GitHub commits API.
-
-```ts
-source: {
-  github: 'prosefly/astro-theme-lotus',
-},
-contributors: {
-  avatar: 'github',
-  max: 6,
-}
-```
-
-`contributors.github`, `contributors.branch`, and `contributors.contentRoot`
-can still override the shared `source` fields for unusual cases.
-
-Lotus uses `GITHUB_TOKEN` or `GH_TOKEN` automatically when either environment
-variable is present. If the GitHub request fails, Lotus falls back to local git
-history so static builds can still finish.
-
-Contributor paths use the same localized content entry IDs as edit links. For
-`src/content/docs/en/overview.mdx`, Lotus queries the source path
-`src/content/docs/en/overview.mdx`, even though the root English locale renders
-at `/docs/overview/`.
-
-## Locales
-
-Use `locales` to enable internationalized docs. Locale keys control URL
-prefixes. The special `root` locale renders without a locale prefix.
-
-```ts
-defaultLocale: 'root',
-locales: {
-  root: {
-    label: 'English',
-    lang: 'en',
-    directory: 'docs/en',
-  },
-  'zh-cn': {
-    label: '简体中文',
-    lang: 'zh-CN',
-    directory: 'docs/zh-cn',
-  },
-}
-```
-
-With `docsLoader({ base: './src/content' })`, this config makes English files
-live in `src/content/docs/en/` while rendering at `/docs/overview/`.
-Simplified Chinese files live in `src/content/docs/zh-cn/` and render at
-`/docs/zh-cn/overview/`.
-
-## UI Translations
-
-Lotus includes template translations for English and Simplified Chinese. These
-strings cover shell UI such as search, theme mode controls, table of contents,
-page actions, edit links, mobile docs navigation, and the 404 page.
-
-Built-in messages live in package JSON files:
-
-- `@prosefly/astro-theme-lotus/src/messages/en.json`
-- `@prosefly/astro-theme-lotus/src/messages/zh-cn.json`
-
-Use `ui` to override built-in strings for a locale. Keys can match either the
-locale key or the locale language code.
-
-```ts
-ui: {
-  'zh-cn': {
-    'page.editLink': '在 GitHub 上编辑',
-    'tableOfContents.onThisPage': '页面目录',
-    'search.placeholder': '搜索',
-  },
-}
-```
-
-Custom locales fall back to the default locale and then to English.
-Lotus also provides the resolved translator as `Astro.locals.t` for theme
-components and local overrides. The translator follows Starlight's shape:
-call `t(key, values)` to render a string, `t.all()` to read the resolved UI
-dictionary, `t.exists(key)` to check whether a key exists, `t.dir()` to get
-the current locale's text direction, and `t.locale()` to read the resolved
-Lotus locale object.

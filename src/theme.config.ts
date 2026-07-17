@@ -127,6 +127,8 @@ export default defineLotusConfig({
           { label: 'Overview', href: '/docs/overview/' },
           { label: 'Installation', href: '/docs/installation/' },
           { label: 'Configuration', href: '/docs/configuration/project/' },
+          { label: 'Search', href: '/docs/configuration/search/' },
+          { label: 'i18n', href: '/docs/configuration/i18n/' },
           { label: 'Deployment', href: '/docs/deployment/' },
         ],
       },
@@ -148,6 +150,7 @@ export default defineLotusConfig({
         links: [
           { label: 'Design System', href: '/docs/references/design-system/' },
           { label: 'Theme Tokens', href: '/docs/references/theme-tokens/' },
+          { label: 'Expressive Code', href: '/docs/references/expressive-code/' },
           { label: 'Typography', href: '/docs/references/typography/' },
         ],
       },
