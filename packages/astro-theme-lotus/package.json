@@ -1,8 +1,18 @@
 {
   "name": "@prosefly/astro-theme-lotus",
   "version": "0.1.0",
+  "description": "An installable documentation theme for Astro.",
   "type": "module",
   "license": "BSD-3-Clause",
+  "keywords": [
+    "astro",
+    "astro-theme",
+    "documentation",
+    "docs",
+    "mdx",
+    "tailwindcss"
+  ],
+  "homepage": "https://github.com/prosefly/astro-theme-lotus#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prosefly/astro-theme-lotus.git",
