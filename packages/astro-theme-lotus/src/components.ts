@@ -4,6 +4,7 @@ export { default as Contributors } from './components/theme/Contributors.astro';
 export { default as Credits } from './components/theme/Credits.astro';
 export { default as EditThisPage } from './components/theme/EditThisPage.astro';
 export { default as LanguageSelect } from './components/theme/LanguageSelect.astro';
+export { default as LotusMark } from './components/theme/LotusMark.astro';
 export { default as NavbarLinks } from './components/theme/NavbarLinks.astro';
 export { default as SocialIcons } from './components/theme/SocialIcons.astro';
 export { default as PageActions } from './components/theme/PageActions.astro';

@@ -1,18 +1,24 @@
 ---
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../../lib/theme';
+import LotusMark from './LotusMark.astro';
 
 interface Props {
   class?: string;
+  markIdPrefix?: string;
   textClass?: string;
 }
 
-const { class: className, textClass = 'truncate text-sm font-semibold sm:text-base' } = Astro.props;
+const {
+  class: className,
+  markIdPrefix = 'lotus-site-brand',
+  textClass = 'truncate text-sm font-semibold sm:text-base',
+} = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const logo = themeConfig.logo;
-const logoHref = typeof logo === 'string' ? '/' : (logo.href ?? '/');
-const logoLight = typeof logo === 'string' ? logo : logo.light;
-const logoDark = typeof logo === 'string' ? undefined : logo.dark;
+const logoHref = !logo || typeof logo === 'string' ? '/' : (logo.href ?? '/');
+const logoLight = typeof logo === 'string' ? logo : logo?.light;
+const logoDark = typeof logo === 'string' ? undefined : logo?.dark;
 ---
 
 <a
@@ -23,15 +29,19 @@ const logoDark = typeof logo === 'string' ? undefined : logo.dark;
   href={logoHref}
 >
   <span class="relative h-8 w-8 shrink-0">
-    <img
-      alt=""
-      class:list={[
-        'h-8 w-8 rounded-(--lotus-radius-md)',
-        logoDark && 'lotus-logo-light',
-      ]}
-      src={logoLight}
-    />
-    {logoDark && (
+    {logoLight ? (
+      <img
+        alt=""
+        class:list={[
+          'h-8 w-8 rounded-(--lotus-radius-md)',
+          logoDark && 'lotus-logo-light',
+        ]}
+        src={logoLight}
+      />
+    ) : (
+      <LotusMark class="h-8 w-8 rounded-(--lotus-radius-md)" idPrefix={markIdPrefix} />
+    )}
+    {logoLight && logoDark && (
       <img
         alt=""
         class="lotus-logo-dark absolute inset-0 h-8 w-8 rounded-(--lotus-radius-md)"

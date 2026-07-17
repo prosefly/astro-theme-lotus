@@ -1,4 +1,5 @@
 ---
+import LotusMark from './LotusMark.astro';
 ---
 
 <a
@@ -8,46 +9,6 @@
   target="_blank"
   title="Lotus by Prosefly"
 >
-  <svg
-    aria-hidden="true"
-    class="h-3.5 w-3.5"
-    focusable="false"
-    viewBox="0 0 64 64"
-  >
-    <defs>
-      <linearGradient id="lotus-credit-b" x1="32" x2="32" y1="10" y2="37" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#fff" />
-        <stop offset="1" stop-color="#dbe4ff" />
-      </linearGradient>
-      <linearGradient id="lotus-credit-c" x1="21" x2="31" y1="16" y2="38" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#c7d2fe" />
-        <stop offset="1" stop-color="#818cf8" />
-      </linearGradient>
-      <linearGradient id="lotus-credit-d" x1="43" x2="33" y1="16" y2="38" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#c7d2fe" />
-        <stop offset="1" stop-color="#818cf8" />
-      </linearGradient>
-      <linearGradient id="lotus-credit-e" x1="13" x2="28" y1="25" y2="43" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#a5b4fc" />
-        <stop offset="1" stop-color="#4f46e5" />
-      </linearGradient>
-      <linearGradient id="lotus-credit-f" x1="51" x2="36" y1="25" y2="43" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#a5b4fc" />
-        <stop offset="1" stop-color="#4f46e5" />
-      </linearGradient>
-      <linearGradient id="lotus-credit-g" x1="21" x2="43" y1="42" y2="49" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#818cf8" />
-        <stop offset="1" stop-color="#6366f1" />
-      </linearGradient>
-    </defs>
-    <g transform="translate(-8 -6) scale(1.25)">
-      <path fill="url(#lotus-credit-b)" d="M32 10.5c-3.9 3.7-5.9 8-5.9 13 0 4.3 2 7.7 5.9 10.2 3.9-2.5 5.9-5.9 5.9-10.2 0-5-2-9.3-5.9-13" />
-      <path fill="url(#lotus-credit-c)" d="M25.4 16.8c-4.2 3.1-6.6 7.5-6.6 12.2q0 5.7 5.7 9 5.55-3 7.5-9.3c-3.2-2.1-5.4-6-6.6-11.9" />
-      <path fill="url(#lotus-credit-d)" d="M38.6 16.8c-1.2 5.9-3.4 9.8-6.6 11.9q1.95 6.3 7.5 9.3 5.7-3.3 5.7-9c0-4.7-2.4-9.1-6.6-12.2" />
-      <path fill="url(#lotus-credit-e)" d="M18.2 24.3c-4.4 3.6-6.6 7.4-6.6 11.3 0 3.2 1.7 5.7 5 7.4q7.5-1.95 11.7-8.4c-4.2-1.5-7.6-4.9-10.1-10.3" />
-      <path fill="url(#lotus-credit-f)" d="M45.8 24.3c-2.5 5.4-5.9 8.8-10.1 10.3q4.2 6.45 11.7 8.4c3.3-1.7 5-4.2 5-7.4 0-3.9-2.2-7.7-6.6-11.3" />
-      <path fill="url(#lotus-credit-g)" d="M21.5 42.8c2.4-1.9 5.9-2.9 10.5-2.9s8.1 1 10.5 2.9q-3.3 6.3-10.5 6.3c-7.2 0-8.3-2.1-10.5-6.3" />
-    </g>
-  </svg>
+  <LotusMark class="h-3.5 w-3.5" idPrefix="lotus-credit" />
   <span>Built with Lotus</span>
 </a>

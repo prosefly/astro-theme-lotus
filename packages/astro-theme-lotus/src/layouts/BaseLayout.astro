@@ -5,6 +5,7 @@ import { stringifyJsonLd, type JsonLdNode } from '../lib/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { getDefaultLocale, type NormalizedLocale } from '../lib/i18n';
 import type { LotusThemeConfig } from '../lib/theme';
+import packageJson from '../../package.json';
 
 interface Props {
   title?: string;
@@ -19,6 +20,7 @@ const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.name}`
   : themeConfig.name;
+const generator = `Lotus (${packageJson.version}) by Prosefly`;
 const jsonLdContent = jsonLd ? stringifyJsonLd(jsonLd) : undefined;
 const faviconLinks = normalizeFaviconLinks(themeConfig.favicon);
 const themeInitScript = `
@@ -66,6 +68,7 @@ function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
     <script is:inline set:html={themeInitScript}></script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="generator" content={generator} />
     {faviconLinks.map((link) => <link {...link} />)}
     {jsonLdContent && (
       <script is:inline type="application/ld+json" set:html={jsonLdContent}></script>

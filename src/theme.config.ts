@@ -1,16 +1,9 @@
-import type { LotusThemeConfig } from '@prosefly/astro-theme-lotus';
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
-const themeConfig = {
+export default defineLotusConfig({
   name: 'Lotus',
   description: 'A documentation theme for Astro.',
-  logo: '/logo.svg',
   favicon: '/favicon.svg',
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    defaultMode: 'system',
-    radius: 'medium',
-  },
   navbar: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Components', href: '/docs/components/icon/' },
@@ -42,12 +35,6 @@ const themeConfig = {
       icon: 'x',
     },
   ],
-  pageActions: [
-    { type: 'copy-page' },
-    { type: 'view-markdown' },
-    { type: 'open-chatgpt' },
-    { type: 'open-claude' },
-  ],
   contributors: {
     avatar: 'gravatar',
     max: 6,
@@ -56,8 +43,6 @@ const themeConfig = {
   components: {
     HeaderSocialIcons: './src/components/HeaderSocialIcons.astro',
   },
-  credits: true,
-  docsBase: '/docs',
   homepage: true,
   source: {
     github: 'prosefly/astro-theme-lotus',
@@ -65,7 +50,6 @@ const themeConfig = {
     contentRoot: 'src/content',
   },
   editLink: true,
-  defaultLocale: 'root',
   locales: {
     root: {
       label: 'English',
@@ -181,6 +165,4 @@ const themeConfig = {
       },
     ],
   },
-} satisfies LotusThemeConfig;
-
-export default themeConfig;
+});

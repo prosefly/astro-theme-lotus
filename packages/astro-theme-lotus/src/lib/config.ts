@@ -49,9 +49,8 @@ export interface LotusIntegrationOptions {
 }
 
 const defaultConfig: LotusThemeConfig = {
-  name: 'Prosefly Lotus',
-  description: 'A documentation theme for Astro.',
-  logo: '/logo.svg',
+  name: 'Documentation',
+  description: 'Project documentation.',
   favicon: undefined,
   appearance: {
     accent: 'indigo',
@@ -84,7 +83,7 @@ const defaultConfig: LotusThemeConfig = {
     scan: true,
   },
   footer: {
-    copyright: 'Copyright © 2026 Prosefly.',
+    copyright: '',
     sections: [],
   },
 };

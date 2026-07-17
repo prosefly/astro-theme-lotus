@@ -184,7 +184,7 @@ export type EditLinkConfig =
 export interface LotusThemeConfig {
   name: string;
   description: string;
-  logo: ThemeLogo;
+  logo?: ThemeLogo;
   favicon?: ThemeFavicon;
   appearance: {
     accent: ThemeAccent;
