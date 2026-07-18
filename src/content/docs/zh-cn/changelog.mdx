@@ -18,15 +18,17 @@ import { Badge, Card, CardGrid } from '@prosefly/astro-components';
   </Card>
 </CardGrid>
 
-## 未发布
+## [0.3.0](https://github.com/prosefly/astro-theme-lotus/releases/tag/0.3.0)
 
-已合并但尚未发布的变更。
+<Badge variant="subtle" color="neutral">2026-07-19</Badge>
 
 ### 新增
 
 - 为 `h2`、`h3` 和 `h4` 添加 SSR heading anchors。
 - 为自定义页面添加基于 Shiki highlight 的 `CodeBlock` export。
 - 为自定义页面添加 `Prose` export。
+- 为 docs 页面 metadata 添加 Markdown alternate links。
+- 添加自动生成的 `/llms.txt` endpoint，用于 AI-readable docs discovery。
 - 为 `info`、`success`、`warning` 和 `danger` 添加语义化 status color tokens。
 
 ### 变更
@@ -38,6 +40,7 @@ import { Badge, Card, CardGrid } from '@prosefly/astro-components';
 
 - 修复 headings 内 prose links 的样式。
 - 改进移动端 heading anchor 样式。
+- 修复宽屏下 docs content width，避免 page actions 与 table of contents 重叠。
 
 ## [0.2.0](https://github.com/prosefly/astro-theme-lotus/releases/tag/0.2.0)
 
