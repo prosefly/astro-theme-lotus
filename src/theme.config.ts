@@ -9,6 +9,7 @@ export default defineLotusConfig({
     light: '/lotus-light.svg',
     dark: '/lotus-dark.svg',
   },
+  docsBase: '/docs',
   navbar: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Pricing', href: '/pricing/' },
@@ -43,7 +44,6 @@ export default defineLotusConfig({
     HeaderSocialIcons: './src/components/lotus/HeaderSocialIcons.astro',
     ThemeSwitch: './src/components/lotus/ThemeSwitch.astro',
   },
-  homepage: false,
   source: {
     github: 'prosefly/astro-theme-lotus',
     branch: 'main',

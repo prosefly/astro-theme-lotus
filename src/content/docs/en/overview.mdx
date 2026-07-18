@@ -21,7 +21,7 @@ rebuilding the chrome from scratch.
   </Card>
   <Card icon="lucide:route" title="Routing" href="/docs/configuration/content-routing/">
     Generate docs pages, Markdown source routes, search indexes, localized URLs,
-    and optional homepage routes from Astro content collection entries.
+    and route-prefixed docs from Astro content collection entries.
   </Card>
   <Card icon="lucide:search" title="Search" href="/docs/configuration/search/">
     Use the built-in client-side search dialog and generated JSON index, or
@@ -46,15 +46,15 @@ rebuilding the chrome from scratch.
 
 Lotus reads MDX entries from the `docs` content collection, then injects page,
 Markdown source, and search routes under `docsBase`. With the default
-`docsBase: '/docs'`, Lotus generates:
+`docsBase: '/'`, Lotus generates:
 
-- `/docs/` and nested docs pages
-- `/docs/*.md` Markdown source routes
-- `/docs/search.json` search index data
+- `/` and nested docs pages
+- `/*.md` Markdown source routes
+- `/search.json` search index data
 
 The `sidebars` config decides which sidebar and subnav section owns each page.
 For locale directories, route prefixes, and fallback behavior, see
-[Internationalization](/docs/configuration/i18n/). For loader base, homepage,
+[Internationalization](/docs/configuration/i18n/). For loader base, docsBase,
 and slug behavior, see [Content Routing](/docs/configuration/content-routing/).
 
 ## First steps
@@ -71,8 +71,8 @@ and slug behavior, see [Content Routing](/docs/configuration/content-routing/).
 
 2. **Configure routes and locales.**
 
-   Decide where docs are mounted, whether the site needs a homepage, and how
-   localized content directories map to public URLs.
+   Decide where docs are mounted and how localized content directories map to
+   public URLs.
 
    [Review content routing](/docs/configuration/content-routing/)
 

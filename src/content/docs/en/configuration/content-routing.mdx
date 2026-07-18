@@ -40,10 +40,10 @@ Without i18n, `src/content/docs/installation.mdx` has the entry ID
 - src
   - content
     - docs
-      - index.mdx `/docs/`
-      - installation.mdx `/docs/installation/`
+      - index.mdx `/`
+      - installation.mdx `/installation/`
       - components
-        - icon.mdx `/docs/components/icon/`
+        - icon.mdx `/components/icon/`
 
 </FileTree>
 
@@ -68,13 +68,28 @@ const docs = defineCollection({
 
 With this setup, `src/content/docs/en/installation.mdx` has the entry ID
 `docs/en/installation`, while `src/content/index.mdx` has the entry ID `index`.
-This is useful for projects that want Lotus to render a content-backed homepage
-from the same collection. For most sites, keep the default loader and create the
-site homepage with `src/pages/index.astro`.
+For most sites, keep the default loader and create non-docs pages with Astro's
+normal `src/pages` routing.
 
 ## Docs Base
 
 `docsBase` controls where Lotus injects the page, Markdown, and search routes.
+The default is `/`, matching Starlight's route model: `src/content/docs` is the
+content collection root, not a public URL prefix.
+
+With the default `docsBase: '/'` and the default loader:
+
+| Entry ID | Page URL | Markdown URL |
+| --- | --- | --- |
+| `index` | `/` | `/index.md` |
+| `installation` | `/installation/` | `/installation.md` |
+| `components/icon` | `/components/icon/` | `/components/icon.md` |
+
+The search index follows the same base. With the default route base, it is
+available at `/search.json`.
+
+Set `docsBase` when the project also has a marketing site, app routes, or other
+pages outside the documentation.
 
 ```ts
 export default defineLotusConfig({
@@ -90,13 +105,16 @@ With `docsBase: '/docs'` and the default loader:
 | `installation` | `/docs/installation/` | `/docs/installation.md` |
 | `components/icon` | `/docs/components/icon/` | `/docs/components/icon.md` |
 
-The search index follows the same base. It is `/docs/search.json` for
-`docsBase: '/docs'` and `/search.json` for `docsBase: '/'`.
+The prefixed search index is `/docs/search.json`.
 
-## Homepage
+## Site Homepage
 
-When `docsBase` is not `/`, keep the site homepage outside the docs collection
-and create it with Astro's normal file-based routing.
+The docs collection `index` entry always renders at the current `docsBase`.
+With the default `docsBase: '/'`, `src/content/docs/index.mdx` is the site
+homepage. With `docsBase: '/docs'`, the same entry renders at `/docs/`.
+
+For a custom marketing homepage, keep the site homepage outside the docs
+collection and create it with Astro's normal file-based routing.
 
 ```txt
 src/
@@ -131,8 +149,8 @@ import {
 </BaseLayout>
 ```
 
-For a docs-only site, set `docsBase: '/'` and keep the docs homepage at
-`src/content/docs/index.mdx`.
+For a docs-only site, keep the default `docsBase: '/'` and put the docs
+homepage at `src/content/docs/index.mdx`.
 
 ```txt
 src/content/
@@ -144,21 +162,12 @@ src/content/
 <FileTree>
 
 - src
-  - pages
-    - index.astro site homepage at `/`
   - content
     - docs
-      - index.mdx docs homepage at `/docs/`
-      - installation.mdx `/docs/installation/`
+      - index.mdx docs homepage at `/`
+      - installation.mdx `/installation/`
 
 </FileTree>
-
-Lotus does not inject `/` by default. Keep `homepage` omitted, or set it to
-`false`, when the project uses `src/pages/index.astro`.
-
-```ts
-homepage: false
-```
 
 ## Slug Overrides
 

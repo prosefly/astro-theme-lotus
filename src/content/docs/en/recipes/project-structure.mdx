@@ -8,8 +8,8 @@ sidebar:
 import { FileTree, Steps } from '@prosefly/astro-components';
 
 Lotus does not require one fixed directory layout. Start with the smallest
-structure that matches the site, then add homepage, locale, or override folders
-only when the project needs them.
+structure that matches the site, then add locale, custom pages, or override
+folders only when the project needs them.
 
 ## Docs Only
 
@@ -34,18 +34,19 @@ route.
 
 </FileTree>
 
-Keep the default loader base and the default `docsBase: '/docs'`.
+Keep the default loader base and the default `docsBase: '/'`.
 
 ## Docs At Root
 
-Use this for a documentation-only site that should not have a `/docs` prefix.
+Use this for a documentation-only site. It matches Lotus defaults and does not
+need an explicit `docsBase`.
 
 <FileTree>
 
 - astro.config.ts registers the Lotus integration
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts sets `docsBase: '/'`
+  - theme.config.ts uses the default `docsBase: '/'`
   - content
     - docs
       - index.mdx homepage at `/`
@@ -56,13 +57,6 @@ Use this for a documentation-only site that should not have a `/docs` prefix.
   - favicon.svg
 
 </FileTree>
-
-```ts title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/',
-  homepage: false,
-});
-```
 
 With this setup, `installation.mdx` renders at `/installation/`, and its
 Markdown route is `/installation.md`.
@@ -77,7 +71,7 @@ and documentation under `/docs`.
 - astro.config.ts registers the Lotus integration
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts keeps `docsBase: '/docs'`
+  - theme.config.ts sets `docsBase: '/docs'`
   - pages
     - index.astro site homepage at `/`
   - content

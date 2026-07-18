@@ -43,8 +43,9 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
-Create docs in `src/content/docs/`. With the default `docsBase: '/docs'`,
-`src/content/docs/index.mdx` renders at `/docs/`.
+Create docs in `src/content/docs/`. By default, Lotus renders docs from the
+site root: `src/content/docs/index.mdx` renders at `/`, and
+`src/content/docs/installation.mdx` renders at `/installation/`.
 
 ## Configure
 
@@ -57,7 +58,7 @@ export default defineLotusConfig({
   description: 'Documentation for Acme.',
   logo: '/logo.svg',
   navbar: [
-    { label: 'Docs', href: '/docs/' },
+    { label: 'Docs', href: '/' },
     { label: 'GitHub', href: 'https://github.com/acme/acme', external: true },
   ],
   sidebars: [
