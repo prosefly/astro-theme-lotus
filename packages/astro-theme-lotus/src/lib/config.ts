@@ -17,6 +17,7 @@ import {
 } from './theme';
 import { rehypeHeadingAnchors } from './heading-anchors';
 import { readPublicImageDimensions } from './image-size';
+import { remarkHeadingIds } from './remark-heading-ids';
 
 const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
 const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
@@ -179,6 +180,7 @@ export function resolveMarkdownConfig(
       ? markdownProcessor.options
       : undefined;
   const remarkPlugins = [
+    remarkHeadingIds,
     ...(unifiedOptions?.remarkPlugins ?? markdownConfig?.remarkPlugins ?? []),
     ...(options.packageManagerTabs === false ? [] : [remarkPackageManagerTabs]),
   ];
