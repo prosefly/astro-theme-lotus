@@ -304,24 +304,3 @@ export interface LotusThemeConfig {
     sections: FooterSection[];
   };
 }
-
-export const DEFAULT_DOCS_BASE_PATH = '/';
-
-export function normalizeDocsBasePath(
-  basePath?: string,
-  fallback = DEFAULT_DOCS_BASE_PATH,
-): string {
-  const input = basePath?.trim() || fallback;
-  const normalized = `/${input}`.replace(/\/+/g, '/').replace(/\/$/, '');
-
-  return normalized || '/';
-}
-
-export function getSectionForSlug(slug: string): string | undefined {
-  if (!slug || slug === 'index') {
-    return undefined;
-  }
-
-  const [section] = slug.split('/');
-  return section || undefined;
-}

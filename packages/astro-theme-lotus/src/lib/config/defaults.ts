@@ -1,7 +1,6 @@
-import {
-  DEFAULT_DOCS_BASE_PATH,
-  type LotusThemeConfig,
-} from '../theme';
+import type { LotusThemeConfig } from '../theme';
+
+export const DEFAULT_DOCS_BASE_PATH = '/';
 
 export const defaultConfig: LotusThemeConfig = {
   name: 'Documentation',

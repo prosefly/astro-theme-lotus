@@ -7,7 +7,8 @@ import {
   getLocales,
   type NormalizedLocale,
 } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import { normalizeDocsBasePath } from '../../lib/config';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const locales = getLocales(themeConfig);

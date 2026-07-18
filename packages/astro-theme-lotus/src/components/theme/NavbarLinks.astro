@@ -1,8 +1,9 @@
 ---
 import Button from '../ui/Button.astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { normalizeDocsBasePath } from '../../lib/config';
 import { localizeDocsHref, translateLabel } from '../../lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from '../../lib/theme';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   currentPath?: string;

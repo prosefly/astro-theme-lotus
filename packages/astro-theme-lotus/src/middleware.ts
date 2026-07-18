@@ -1,7 +1,8 @@
 import type { MiddlewareHandler } from 'astro';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { normalizeDocsBasePath } from './lib/config';
 import { getLocaleFromRouteSlug } from './lib/i18n';
-import { normalizeDocsBasePath, type LotusThemeConfig } from './lib/theme';
+import type { LotusThemeConfig } from './lib/theme';
 import { useTranslations } from './lib/translations';
 
 function getRouteSlug(pathname: string, docsBasePath: string): string {

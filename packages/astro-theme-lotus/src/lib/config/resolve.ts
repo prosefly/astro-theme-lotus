@@ -1,9 +1,6 @@
 import { readPublicImageDimensions } from '../image-size';
-import {
-  normalizeDocsBasePath,
-  type LotusThemeConfig,
-} from '../theme';
-import { defaultConfig } from './defaults';
+import type { LotusThemeConfig } from '../theme';
+import { defaultConfig, DEFAULT_DOCS_BASE_PATH } from './defaults';
 import type { LotusIntegrationOptions } from './options';
 
 export function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig {
@@ -60,4 +57,14 @@ export function resolveLocalAssetConfig(
       height: config.logo.height ?? dimensions.height,
     },
   };
+}
+
+export function normalizeDocsBasePath(
+  basePath?: string,
+  fallback = DEFAULT_DOCS_BASE_PATH,
+): string {
+  const input = basePath?.trim() || fallback;
+  const normalized = `/${input}`.replace(/\/+/g, '/').replace(/\/$/, '');
+
+  return normalized || '/';
 }

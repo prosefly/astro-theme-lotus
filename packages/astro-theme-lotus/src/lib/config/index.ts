@@ -3,6 +3,7 @@ export { resolveExpressiveCodeOptions } from './expressive-code';
 export { resolveMarkdownConfig } from './markdown';
 export { defineLotusConfig } from './options';
 export {
+  normalizeDocsBasePath,
   resolveLocalAssetConfig,
   resolveLotusConfig,
 } from './resolve';
