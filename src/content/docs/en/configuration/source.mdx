@@ -105,15 +105,23 @@ Set `editLink: false` or omit `editLink` to hide generated edit links.
 
 ## Contributors
 
-Lotus can show page contributors above the previous and next links. The default
-source is local `git log`, which works without network access.
+Lotus can show page contributors above the previous and next links.
 
 ```ts
 contributors: true
 ```
 
-Contributors use the same entry file path as edit links. Set `contributors` to
-an object when you want to limit or filter the rendered list.
+Contributors use the same entry file path as edit links. Lotus reads per-page
+contributors from local `git log`, then enriches matching users with GitHub
+avatars and profile links when `source.github` is configured. The GitHub lookup
+uses the repository contributors endpoint once per repository, not once per
+page. Lotus also loads GitHub user profiles for the first 10 non-excluded
+repository contributors so it can match local git author names against GitHub
+public emails and full names. Contributors that cannot be matched to GitHub
+fall back to Gravatar URLs for local git email addresses.
+
+Set `contributors` to an object when you want to limit or filter the rendered
+list.
 
 ```ts
 contributors: {
@@ -122,8 +130,17 @@ contributors: {
 }
 ```
 
-Use Gravatar when you want avatars without calling an API during the static
-build. Lotus hashes each local git email and renders a Gravatar image URL.
+Use `githubProfileLimit` to change how many GitHub user profiles Lotus requests
+for full-name matching. Set it to `0` to skip full-name matching.
+
+```ts
+contributors: {
+  githubProfileLimit: 5,
+}
+```
+
+Set `avatar: 'gravatar'` when you always want local git history and Gravatar,
+without calling the GitHub API.
 
 ```ts
 contributors: {
@@ -132,8 +149,8 @@ contributors: {
 }
 ```
 
-Use GitHub avatars when `source.github` is configured and you want profile
-links from the GitHub commits API.
+Set `avatar: 'github'` when you always want to query GitHub repository
+contributors for avatars and profile links.
 
 ```ts
 source: {
@@ -145,8 +162,8 @@ contributors: {
 }
 ```
 
-`contributors.github` and `contributors.branch` can still override the shared
-`source` fields for unusual cases.
+`contributors.github` can still override the shared `source.github` field for
+unusual cases.
 
 Lotus uses `GITHUB_TOKEN` or `GH_TOKEN` automatically when either environment
 variable is present. If the GitHub request fails, Lotus falls back to local git
