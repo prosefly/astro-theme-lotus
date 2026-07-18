@@ -21,7 +21,7 @@ jobs:
     name: Publish @prosefly/astro-theme-lotus
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
@@ -66,3 +66,18 @@ jobs:
         if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
         working-directory: packages/astro-theme-lotus
         run: npm publish --access public
+
+      - name: Create GitHub release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "GitHub release already exists for $GITHUB_REF_NAME."
+            exit 0
+          fi
+
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag
