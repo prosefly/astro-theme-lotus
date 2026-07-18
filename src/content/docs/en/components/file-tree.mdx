@@ -154,7 +154,8 @@ characters that Markdown may treat as formatting.
 
 ## File Icons
 
-File icons are selected from the file name or extension.
+File icons are selected from the file name or extension. By default, `FileTree`
+uses simple Lucide file and folder icons.
 
 <FileTree>
 
@@ -167,10 +168,47 @@ File icons are selected from the file name or extension.
 
 </FileTree>
 
+Use `iconSet="vscode-icons"` for richer file-type icons.
+
+<FileTree iconSet="vscode-icons">
+
+- astro.config.mjs
+- package.json
+- tsconfig.json
+- src
+  - components
+    - Header.astro
+    - SearchDialog.ts
+  - content
+    - docs
+      - overview.mdx
+      - images.md
+  - styles
+    - app.css
+- public
+  - logo.svg
+
+</FileTree>
+
+```mdx
+<FileTree iconSet="vscode-icons">
+
+- astro.config.mjs
+- package.json
+- tsconfig.json
+- src
+  - components
+    - Header.astro
+    - SearchDialog.ts
+
+</FileTree>
+```
+
 ## Props
 
-`FileTree` does not accept component props. It reads and transforms the Markdown
-list passed to its slot.
+| Prop | Type | Default |
+| --- | --- | --- |
+| `iconSet` | `'lucide' \| 'vscode-icons'` | `'lucide'` |
 
 ## Syntax Rules
 

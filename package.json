@@ -14,13 +14,12 @@
   "dependencies": {
     "@astrojs/check": "latest",
     "@astrojs/mdx": "latest",
+    "@prosefly/astro-components": "^0.2.1",
+    "@prosefly/astro-theme-lotus": "workspace:*",
     "@tailwindcss/vite": "latest",
     "@types/node": "latest",
-    "@prosefly/astro-components": "^0.1.0",
-    "@prosefly/astro-theme-lotus": "workspace:*",
     "astro": "^7.0.0",
     "tailwindcss": "latest",
     "typescript": "^6.0.3"
-  },
-  "devDependencies": {}
+  }
 }
