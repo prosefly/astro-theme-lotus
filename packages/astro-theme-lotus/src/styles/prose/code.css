@@ -1,0 +1,172 @@
+.lotus-prose :where(:not(pre) > code) {
+  background: var(--lotus-code-background);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-strong);
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.875em;
+  font-weight: 600;
+  padding: 0.15em 0.35em;
+}
+
+.lotus-prose :where(pre) {
+  background: var(--lotus-code-background);
+  border: 1px solid var(--lotus-code-border);
+  border-radius: var(--lotus-prose-surface-radius);
+  color: var(--lotus-text);
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.8571429em 1.1428571em;
+}
+
+.lotus-prose :where(pre code) {
+  background: transparent;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0;
+}
+
+.lotus-prose .expressive-code {
+  --ec-brdRad: var(--lotus-prose-surface-radius);
+  --ec-frm-edTabBrdRad: var(--lotus-prose-surface-radius);
+  --ec-frm-frameBoxShdCssVal: none;
+  --ec-frm-inlBtnBg: var(--lotus-surface);
+  --ec-frm-inlBtnBrd: var(--lotus-border-muted);
+  --ec-frm-inlBtnFg: var(--lotus-text-muted);
+}
+
+.lotus-prose .expressive-code .frame {
+  border-radius: var(--lotus-prose-surface-radius);
+  box-shadow: none;
+}
+
+.lotus-prose .expressive-code pre {
+  border-radius: var(--lotus-prose-surface-radius);
+}
+
+.lotus-prose .expressive-code .frame .header {
+  border-radius: var(--lotus-prose-surface-radius) var(--lotus-prose-surface-radius) 0 0;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
+.lotus-prose .expressive-code .frame.is-terminal {
+  --button-spacing: 0.125rem;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) {
+  --lotus-code-header-padding-block: 0.5rem;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .header {
+  padding-block: var(--lotus-code-header-padding-block);
+  padding-inline-start: var(--ec-uiPadInl);
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+  content: none;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--lotus-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+.lotus-prose .expressive-code .frame.is-terminal .header {
+  padding-block: 0.5rem;
+  padding-block-end: calc(0.5rem + var(--ec-brdWd));
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .copy button {
+  background: transparent;
+  border-radius: var(--lotus-radius-md);
+  height: 2rem;
+  width: 2rem;
+}
+
+.lotus-prose .expressive-code .copy button div {
+  background: var(--lotus-surface);
+  opacity: 0;
+}
+
+.lotus-prose .expressive-code .copy button::before {
+  border-color: transparent;
+  opacity: 0;
+}
+
+.lotus-prose .expressive-code .copy button::after {
+  background-color: var(--lotus-text-muted);
+  margin: 0.5rem;
+}
+
+.lotus-prose .expressive-code .copy button:hover,
+.lotus-prose .expressive-code .copy button:focus-visible {
+  opacity: 1;
+}
+
+.lotus-prose .expressive-code .copy button:hover div,
+.lotus-prose .expressive-code .copy button:focus-visible div {
+  opacity: 1;
+}
+
+.lotus-prose .expressive-code .copy button:hover::after,
+.lotus-prose .expressive-code .copy button:focus-visible::after {
+  background-color: var(--lotus-text-strong);
+}
+
+.lotus-prose .expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--lotus-accent);
+  outline-offset: 2px;
+}
+
+.lotus-prose .expressive-code .copy .feedback {
+  --tooltip-bg: var(--lotus-text-strong);
+
+  background-color: var(--lotus-text-strong);
+  border-radius: var(--lotus-radius-md);
+  color: var(--lotus-background);
+}
+
+@media (hover: hover) {
+  .lotus-prose .expressive-code .copy button {
+    opacity: 0;
+  }
+
+  .lotus-prose .expressive-code .frame:hover .copy button:not(:hover),
+  .lotus-prose .expressive-code .frame:focus-within .copy button,
+  .lotus-prose .expressive-code .frame .copy .feedback.show ~ button:not(:hover) {
+    opacity: 1;
+  }
+}
+
+/* Astro/Shiki emits light inline styles plus dark CSS variables. */
+:root[data-theme="dark"] .lotus-prose :where(.astro-code, .astro-code span) {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .lotus-prose :where(.astro-code, .astro-code span) {
+    background-color: var(--shiki-dark-bg) !important;
+    color: var(--shiki-dark) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}

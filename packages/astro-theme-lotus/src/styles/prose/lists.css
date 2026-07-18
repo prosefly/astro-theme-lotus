@@ -1,0 +1,78 @@
+.lotus-prose :where(ul, ol) {
+  padding-inline-start: 1.625em;
+}
+
+.lotus-prose :where(ul) {
+  list-style-type: disc;
+}
+
+.lotus-prose :where(ol) {
+  list-style-type: decimal;
+}
+
+.lotus-prose :where(li) {
+  padding-inline-start: 0.375em;
+}
+
+.lotus-prose :where(li)::marker {
+  color: var(--lotus-prose-marker);
+  font-weight: 400;
+}
+
+.lotus-prose :where(li + li, li > p + p) {
+  margin-block-start: 0.5em;
+}
+
+.lotus-prose :where(li > ul, li > ol) {
+  margin-block-start: 0.75em;
+}
+
+.lotus-prose :where(ul.contains-task-list) {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.lotus-prose :where(li.task-list-item) {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.625em;
+  padding-inline-start: 0;
+}
+
+.lotus-prose :where(li.task-list-item + li.task-list-item) {
+  margin-block-start: 0.5em;
+}
+
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]) {
+  appearance: none;
+  background: var(--lotus-background);
+  border: 1px solid var(--lotus-border-hover);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-accent);
+  display: inline-grid;
+  flex: 0 0 auto;
+  height: 1em;
+  margin: 0.375em 0 0;
+  place-content: center;
+  width: 1em;
+}
+
+.lotus-prose :where(li.task-list-item > input[type="checkbox"])::before {
+  background: currentColor;
+  clip-path: polygon(14% 44%, 0 59%, 39% 100%, 100% 19%, 84% 6%, 37% 70%);
+  content: "";
+  height: 0.625em;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 120ms ease;
+  width: 0.625em;
+}
+
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked) {
+  background: var(--lotus-accent-soft);
+  border-color: color-mix(in oklab, var(--lotus-accent) 52%, transparent);
+}
+
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked)::before {
+  transform: scale(1);
+}

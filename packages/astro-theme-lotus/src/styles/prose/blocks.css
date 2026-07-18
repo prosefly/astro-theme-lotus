@@ -1,0 +1,56 @@
+.lotus-prose :where(blockquote) {
+  border-inline-start: 0.25rem solid var(--lotus-prose-border);
+  color: var(--lotus-text-muted);
+  padding-inline-start: 1rem;
+}
+
+.lotus-prose :where(blockquote p) {
+  color: inherit;
+}
+
+.lotus-prose :where(hr) {
+  border: 0;
+  border-block-start: 1px solid var(--lotus-prose-border);
+  margin-block-start: 3em;
+}
+
+.lotus-prose :where(table) {
+  border-collapse: collapse;
+  display: table;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  max-width: 100%;
+  table-layout: auto;
+  width: 100%;
+}
+
+.lotus-prose :where(thead) {
+  border-block-end: 2px solid var(--lotus-prose-border);
+}
+
+.lotus-prose :where(tr) {
+  border-block-end: 1px solid var(--lotus-prose-border);
+}
+
+.lotus-prose :where(th, td) {
+  padding: 0.5714286em 0.5714286em;
+  text-align: start;
+  vertical-align: top;
+}
+
+.lotus-prose :where(th:first-child, td:first-child) {
+  padding-inline-start: 0;
+}
+
+.lotus-prose :where(th:last-child, td:last-child) {
+  padding-inline-end: 0;
+}
+
+.lotus-prose :where(th) {
+  color: var(--lotus-text-strong);
+  font-weight: 600;
+}
+
+.lotus-prose :where(td) {
+  color: var(--lotus-text-muted);
+}

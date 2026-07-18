@@ -1,0 +1,185 @@
+.lotus-prose :where(a) {
+  color: var(--lotus-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--lotus-accent) 38%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.lotus-prose :where(a:hover) {
+  text-decoration-color: var(--lotus-accent);
+}
+
+.lotus-prose :where(a:focus-visible) {
+  border-radius: var(--lotus-radius-sm);
+  outline: 2px solid var(--lotus-accent);
+  outline-offset: 0.15em;
+}
+
+.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a) {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration-color: color-mix(in oklab, currentColor 28%, transparent);
+}
+
+.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a:hover) {
+  text-decoration-color: currentColor;
+}
+
+.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+  position: absolute;
+  inset-block-start: 0.2em;
+  inset-inline-start: -1.45em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 0.95em;
+  block-size: 0.95em;
+  border: 1px solid var(--lotus-border-subtle);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-subtle);
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease;
+}
+
+.lotus-prose :where(h4) > :where(a.lotus-heading-anchor) {
+  inset-block-start: 0.14em;
+}
+
+.lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
+.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
+  color: var(--lotus-text);
+  opacity: 1;
+}
+
+.lotus-prose :where(a.lotus-heading-anchor:hover) {
+  border-color: var(--lotus-border-hover);
+  color: var(--lotus-accent);
+  text-decoration: none;
+}
+
+.lotus-prose :where(a.lotus-heading-anchor) :where(svg) {
+  inline-size: 0.58em;
+  block-size: 0.58em;
+}
+
+@media (max-width: 1000px) {
+  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+    inset-inline-start: -1em;
+    opacity: 0.42;
+  }
+
+  .lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
+  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
+    opacity: 1;
+  }
+}
+
+.lotus-prose :where(strong) {
+  color: var(--lotus-text-strong);
+  font-weight: 700;
+}
+
+.lotus-prose :where(mark) {
+  background: color-mix(
+    in oklab,
+    var(--lotus-color-yellow-400, oklch(0.852 0.199 91.936)) 34%,
+    transparent
+  );
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-strong);
+  padding: 0.075em 0.25em;
+}
+
+.lotus-prose :where(kbd) {
+  background: var(--lotus-surface);
+  border: 1px solid var(--lotus-border-muted);
+  border-block-end-color: var(--lotus-border-hover);
+  border-radius: var(--lotus-radius-sm);
+  box-shadow: inset 0 -1px 0 var(--lotus-border-subtle);
+  color: var(--lotus-text-strong);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.8125em;
+  font-weight: 600;
+  line-height: 1.2;
+  min-height: 1.55em;
+  padding: 0.1em 0.45em;
+  vertical-align: 0.05em;
+}
+
+.lotus-prose :where(code, kbd, pre, samp) {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+.lotus-prose :where(abbr[title]) {
+  cursor: help;
+  text-decoration: underline dotted var(--lotus-border-hover);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.lotus-prose :where(small) {
+  color: var(--lotus-text-muted);
+  font-size: 0.875em;
+}
+
+.lotus-prose :where(del, s) {
+  color: var(--lotus-text-muted);
+  text-decoration-color: var(--lotus-border-hover);
+}
+
+.lotus-prose :where(ins) {
+  background: var(--lotus-accent-soft);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-strong);
+  padding: 0.075em 0.2em;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--lotus-accent) 48%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.lotus-prose :where(sub, sup:not(:has(a[data-footnote-ref]))) {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.lotus-prose :where(sub) {
+  inset-block-end: -0.25em;
+}
+
+.lotus-prose :where(sup:not(:has(a[data-footnote-ref]))) {
+  inset-block-start: -0.5em;
+}
+
+.lotus-prose :where(samp, var) {
+  font-family: var(--lotus-prose-font-mono);
+  font-size: 0.875em;
+}
+
+.lotus-prose :where(samp) {
+  color: var(--lotus-text-strong);
+}
+
+.lotus-prose :where(var) {
+  color: var(--lotus-accent);
+  font-style: italic;
+}
+
+.lotus-prose :where(q) {
+  color: var(--lotus-text-strong);
+}
+
+.lotus-prose :where(cite) {
+  color: var(--lotus-text-muted);
+  font-style: italic;
+}

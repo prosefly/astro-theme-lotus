@@ -1,6 +1,8 @@
-import { createLocalSearchProvider } from './providers/local';
-import { createPagefindSearchProvider } from './providers/pagefind';
-import type { SearchProvider, SearchResult } from './types';
+import { getSearchKeyboardAction } from './keyboard';
+import { getSearchMessages } from './messages';
+import { createSearchProvider } from './provider';
+import { createSearchMessageElement, createSearchResultList } from './render';
+import type { SearchResult } from './types';
 
 export {};
 
@@ -8,47 +10,6 @@ declare global {
   interface Window {
     __lotusSearchDialogReady?: boolean;
   }
-}
-
-interface SearchMessages {
-  loading: string;
-  noResults: string;
-  typeToSearch: string;
-  unavailable: string;
-}
-
-function getMessage(dialog: Element, name: string, fallback: string): string {
-  return dialog.getAttribute(name) || fallback;
-}
-
-function createUnavailableProvider(): SearchProvider {
-  return {
-    async load() {
-      throw new Error('Search provider is unavailable.');
-    },
-
-    async search() {
-      throw new Error('Search provider is unavailable.');
-    },
-  };
-}
-
-function createSearchProvider(dialog: Element): SearchProvider | undefined {
-  const provider = dialog.getAttribute('data-lotus-search-provider') || 'local';
-
-  if (provider === 'local') {
-    const indexUrl = dialog.getAttribute('data-lotus-search-index');
-
-    return indexUrl ? createLocalSearchProvider(indexUrl) : undefined;
-  }
-
-  if (provider === 'pagefind') {
-    const bundlePath = dialog.getAttribute('data-lotus-pagefind-bundle');
-
-    return bundlePath ? createPagefindSearchProvider(bundlePath) : undefined;
-  }
-
-  return createUnavailableProvider();
 }
 
 function initSearchDialog(): void {
@@ -67,12 +28,7 @@ function initSearchDialog(): void {
     return;
   }
 
-  const messages: SearchMessages = {
-    loading: getMessage(dialog, 'data-lotus-search-loading', 'Loading search index...'),
-    noResults: getMessage(dialog, 'data-lotus-search-no-results', 'No results found.'),
-    typeToSearch: getMessage(dialog, 'data-lotus-search-type-to-search', 'Type to search documentation.'),
-    unavailable: getMessage(dialog, 'data-lotus-search-unavailable', 'Search is unavailable.'),
-  };
+  const messages = getSearchMessages(dialog);
   let activeResults: SearchResult[] = [];
   let selectedIndex = -1;
   let providerReady = false;
@@ -82,10 +38,7 @@ function initSearchDialog(): void {
     selectedIndex = -1;
     input.removeAttribute('aria-activedescendant');
     results.replaceChildren();
-    const empty = document.createElement('div');
-    empty.className = 'px-3 py-8 text-center text-sm text-(--lotus-text-muted)';
-    empty.textContent = message;
-    results.append(empty);
+    results.append(createSearchMessageElement(message));
   };
 
   const updateSelectedResult = () => {
@@ -127,51 +80,6 @@ function initSearchDialog(): void {
     updateSelectedResult();
   };
 
-  const createResult = (item: SearchResult, index: number) => {
-    const link = document.createElement('a');
-    link.className = 'lotus-search-result lotus-focus-ring block px-3 py-2.5 transition-colors';
-    link.dataset.lotusSearchResult = '';
-    link.href = item.href ?? '#';
-    link.id = `lotus-search-result-${index}`;
-    link.setAttribute('role', 'option');
-    link.setAttribute('aria-selected', 'false');
-    link.addEventListener('mouseenter', () => {
-      selectedIndex = index;
-      updateSelectedResult();
-    });
-
-    const meta = document.createElement('div');
-    meta.className = 'mb-1 flex min-w-0 items-center gap-2 text-xs text-(--lotus-text-muted)';
-
-    const section = [item.section, item.group].filter(Boolean).join(' / ');
-    if (section) {
-      const sectionEl = document.createElement('span');
-      sectionEl.className = 'truncate';
-      sectionEl.textContent = section;
-      meta.append(sectionEl);
-    }
-
-    const title = document.createElement('div');
-    title.className = 'truncate text-sm font-medium text-(--lotus-text-strong)';
-    title.textContent = item.title ?? '';
-
-    const excerpt = document.createElement('p');
-    excerpt.className = 'mt-1 line-clamp-2 text-sm leading-6 text-(--lotus-text-muted)';
-    excerpt.textContent = item.description || item.excerpt || '';
-
-    if (meta.childNodes.length) {
-      link.append(meta);
-    }
-
-    link.append(title);
-
-    if (excerpt.textContent) {
-      link.append(excerpt);
-    }
-
-    return link;
-  };
-
   const renderResults = async () => {
     const query = input.value.trim();
 
@@ -200,35 +108,29 @@ function initSearchDialog(): void {
       return;
     }
 
-    const list = document.createElement('div');
-    list.className = 'space-y-1';
-
-    activeResults.forEach((item, index) => {
-      list.append(createResult(item, index));
-    });
-
-    results.append(list);
+    results.append(createSearchResultList(activeResults, (index) => {
+      selectedIndex = index;
+      updateSelectedResult();
+    }));
     updateSelectedResult();
   };
 
   const handleSearchKeydown = (event: KeyboardEvent) => {
-    if (event.isComposing) {
-      return;
-    }
+    const action = getSearchKeyboardAction(event);
 
-    if (event.key === 'ArrowDown') {
+    if (action === 'next') {
       event.preventDefault();
       moveSelectedResult(1);
       return;
     }
 
-    if (event.key === 'ArrowUp') {
+    if (action === 'previous') {
       event.preventDefault();
       moveSelectedResult(-1);
       return;
     }
 
-    if (event.key === 'Enter') {
+    if (action === 'submit') {
       event.preventDefault();
       navigateToSelectedResult();
     }

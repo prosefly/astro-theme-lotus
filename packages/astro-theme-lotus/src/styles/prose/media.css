@@ -1,0 +1,45 @@
+.lotus-prose :where(img, video, iframe) {
+  border-radius: var(--lotus-prose-surface-radius);
+  max-width: 100%;
+}
+
+.lotus-prose :where(iframe) {
+  background: var(--lotus-surface);
+  border: 1px solid var(--lotus-prose-border);
+  display: block;
+}
+
+.lotus-prose :where(
+  iframe[src*="youtube.com"],
+  iframe[src*="youtube-nocookie.com"],
+  iframe[src*="youtu.be"],
+  iframe[src*="vimeo.com"],
+  iframe[src*="player.vimeo.com"]
+) {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  width: 100%;
+}
+
+.lotus-prose :where(figcaption) {
+  color: var(--lotus-text-muted);
+  font-size: 0.875em;
+  line-height: 1.4285714;
+  margin-block-start: 0.8571429em;
+}
+
+.lotus-prose :where(figcaption > *) {
+  color: inherit;
+  margin-block: 0;
+}
+
+.lotus-prose :where(figcaption > * + *) {
+  margin-block-start: 0.5em;
+}
+
+@media (max-width: 640px) {
+  .lotus-prose :where(table) {
+    display: block;
+    overflow-x: auto;
+  }
+}

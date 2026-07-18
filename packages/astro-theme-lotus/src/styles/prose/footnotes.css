@@ -1,0 +1,89 @@
+.lotus-prose :where(sup) {
+  line-height: 0;
+}
+
+.lotus-prose :where(a[data-footnote-ref]) {
+  background: var(--lotus-accent-soft);
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-accent);
+  display: inline-block;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  margin-inline: 0.125em;
+  min-width: 1.35em;
+  padding: 0.2em 0.35em;
+  scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1rem);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: super;
+}
+
+.lotus-prose :where(a[data-footnote-ref]:hover) {
+  background: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
+  text-decoration: none;
+}
+
+.lotus-prose :where(a[data-footnote-ref]:focus-visible) {
+  outline-offset: 0.15em;
+}
+
+.lotus-prose :where(section[data-footnotes]) {
+  border-block-start: 1px solid var(--lotus-prose-border);
+  color: var(--lotus-text-muted);
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  margin-block-start: 3em;
+  padding-block-start: 1.25em;
+}
+
+.lotus-prose :where(section[data-footnotes] ol) {
+  margin-block-start: 0;
+  padding-inline-start: 1.5em;
+}
+
+.lotus-prose :where(section[data-footnotes] li) {
+  color: inherit;
+  padding-inline-start: 0.375em;
+  scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1rem);
+}
+
+.lotus-prose :where(section[data-footnotes] li::marker) {
+  color: var(--lotus-accent);
+  font-weight: 600;
+}
+
+.lotus-prose :where(section[data-footnotes] li:target) {
+  background: var(--lotus-accent-soft);
+  border-radius: var(--lotus-radius-md);
+  color: var(--lotus-text);
+  margin-inline-start: -0.5em;
+  padding: 0.375em 0.625em 0.375em 0.875em;
+}
+
+.lotus-prose :where(section[data-footnotes] li > p) {
+  color: inherit;
+  margin: 0;
+}
+
+.lotus-prose :where(section[data-footnotes] li + li) {
+  margin-block-start: 0.75em;
+}
+
+.lotus-prose :where(a[data-footnote-backref]) {
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-muted);
+  display: inline-flex;
+  font-size: 0.875em;
+  font-weight: 600;
+  line-height: 1;
+  margin-inline-start: 0.35em;
+  padding: 0.15em;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+.lotus-prose :where(a[data-footnote-backref]:hover) {
+  color: var(--lotus-accent);
+  text-decoration: none;
+}

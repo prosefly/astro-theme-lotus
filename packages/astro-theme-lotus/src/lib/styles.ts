@@ -7,7 +7,13 @@ const virtualStylesModuleId = 'virtual:prosefly/lotus/styles.css';
 const styleFileUrls = [
   new URL('../styles/colors.css', import.meta.url),
   new URL('../styles/tokens.css', import.meta.url),
-  new URL('../styles/prose.css', import.meta.url),
+  new URL('../styles/prose/base.css', import.meta.url),
+  new URL('../styles/prose/inline.css', import.meta.url),
+  new URL('../styles/prose/lists.css', import.meta.url),
+  new URL('../styles/prose/footnotes.css', import.meta.url),
+  new URL('../styles/prose/blocks.css', import.meta.url),
+  new URL('../styles/prose/code.css', import.meta.url),
+  new URL('../styles/prose/media.css', import.meta.url),
   new URL('../styles/components.css', import.meta.url),
 ];
 const lotusSourceRoot = fileURLToPath(new URL('..', import.meta.url));
