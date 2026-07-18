@@ -33,6 +33,10 @@ export function getLotusInjectedRoutes(config: LotusThemeConfig): LotusInjectedR
       entrypoint: new URL('../routes/404.astro', import.meta.url),
     },
     {
+      pattern: '/llms.txt',
+      entrypoint: new URL('../routes/llms.txt.ts', import.meta.url),
+    },
+    {
       pattern: getDocsRoutePattern(docsBasePath, '/[...slug]'),
       entrypoint: new URL('../routes/docs.astro', import.meta.url),
     },
