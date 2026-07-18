@@ -5,6 +5,8 @@ sidebar:
   order: 2
 ---
 
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
+
 Lotus exports composable theme components from
 `@prosefly/astro-theme-lotus/components`. Use them when an override should wrap
 or rearrange the default behavior instead of replacing it from scratch.
@@ -28,6 +30,7 @@ the shell slot is `HeaderNavbar`, while the reusable public component is
 | `AppearancePaletteContent` | Palette popover content without the trigger wrapper. |
 | `Assistant` | Hosted assistant widget loader. |
 | `AssistantTrigger` | Ask AI trigger button shown near search. |
+| `CodeBlock` | Static Shiki-highlighted code block for custom pages. |
 | `Contributors` | Contributors block below docs content. |
 | `Credits` | Built with Lotus footer credit. |
 | `EditThisPage` | Edit link used by the page aside. |
@@ -116,6 +119,38 @@ import { PageActions } from '@prosefly/astro-theme-lotus/components';
 
 Use this pattern when a project wants a different container or placement while
 keeping the default copy, Markdown, ChatGPT, and Claude behavior.
+
+## Highlighting Code
+
+Use `CodeBlock` on custom Astro pages that are not rendered from Markdown.
+Markdown fenced code blocks still use the configured Markdown and Expressive
+Code pipeline.
+
+<CodeBlock
+  lang="ts"
+  title="astro.config.mjs"
+  code={`import lotus from '@prosefly/astro-theme-lotus';
+
+export default {
+  integrations: [lotus()],
+};`}
+/>
+
+```astro
+---
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
+---
+
+<CodeBlock
+  lang="ts"
+  title="astro.config.mjs"
+  code={`import lotus from '@prosefly/astro-theme-lotus';
+
+export default {
+  integrations: [lotus()],
+};`}
+/>
+```
 
 ## Reusing Theme Mode Controls
 

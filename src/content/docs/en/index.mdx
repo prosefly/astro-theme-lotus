@@ -5,12 +5,12 @@ template: splash
 tableOfContents: false
 hero:
   title: Start building with Lotus
-  tagline: Install the Astro docs theme, configure the shell, and write MDX content with shared components.
+  tagline: Choose the path that matches your project, then configure the docs shell and start writing.
   actions:
-    - text: Install Lotus
+    - text: Use the starter
       link: /docs/installation/
       variant: primary
-      icon: lucide:download
+      icon: lucide:sparkles
     - text: Read the overview
       link: /docs/overview/
       variant: secondary
@@ -20,40 +20,37 @@ sidebar:
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
-## Choose your path
+## Choose Your Path
 
 <CardGrid>
-  <Card icon="lucide:rocket" title="Install Lotus" href="/docs/installation/">
-    Add the theme package, register the integration, and connect the docs
+  <Card icon="lucide:sparkles" title="New docs site" href="/docs/installation/#starter-template">
+    Start from the Lotus starter template when you want a working Astro docs
+    site with the theme already wired up.
+  </Card>
+  <Card icon="lucide:wrench" title="Existing Astro project" href="/docs/installation/#manual-setup">
+    Install Lotus manually, register the integration, and connect your docs
     content collection.
   </Card>
-  <Card icon="lucide:layout-template" title="Understand the shell" href="/docs/overview/">
-    See how Lotus provides docs routes, navigation, search, theme tokens, and
-    shared MDX components.
-  </Card>
-  <Card icon="lucide:settings-2" title="Configure the project" href="/docs/configuration/project/">
-    Set identity, route ownership, sidebars, navbar links, search, page actions,
-    and footer links.
+  <Card icon="lucide:settings-2" title="Configure Lotus" href="/docs/configuration/project/">
+    Set project identity, docs routing, navigation, sidebars, footer links,
+    search, source links, and page actions.
   </Card>
   <Card icon="lucide:file-text" title="Write docs content" href="/docs/essentials/frontmatter/">
-    Author Markdown and MDX pages with frontmatter, images, code blocks, and
-    page metadata.
+    Learn frontmatter, Markdown, images, code blocks, and MDX authoring patterns
+    for Lotus pages.
   </Card>
-  <Card icon="lucide:blocks" title="Use MDX components" href="/docs/components/callout/">
-    Compose callouts, cards, steps, tabs, accordions, file trees, badges, and
-    icons from `@prosefly/astro-components`.
+  <Card icon="lucide:palette" title="Customize the UI" href="/docs/customization/css-styling/">
+    Tune appearance, CSS tokens, layouts, and shell component overrides when
+    configuration is not enough.
   </Card>
-  <Card icon="lucide:palette" title="Customize the theme" href="/docs/customization/css-styling/">
-    Tune CSS tokens, typography, page layouts, and shell component overrides
-    when configuration is not enough.
+  <Card icon="lucide:move-right" title="Migrate from Starlight" href="/docs/migrations/starlight/">
+    Move existing Starlight content, sidebars, i18n directories, and MDX
+    component usage into Lotus.
   </Card>
 </CardGrid>
 
-## Common next steps
+## Reference Links
 
-- Review [content routing](/docs/configuration/content-routing/) when you need
-  custom slugs, localized routes, route prefixes, or Markdown source routes.
-- Visit [recipes](/docs/recipes/) for task-oriented guides that combine config,
-  content, and overrides.
-- Use [references](/docs/references/configuration/) when you need exact option
-  names, defaults, tokens, or integration behavior.
+- Read [Overview](/docs/overview/) for the high-level model.
+- Visit [Recipes](/docs/recipes/) for task-oriented setup guides.
+- Check [Changelog](/docs/changelog/) before upgrading Lotus.

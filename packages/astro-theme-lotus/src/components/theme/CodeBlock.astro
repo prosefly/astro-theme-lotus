@@ -1,0 +1,113 @@
+---
+import { codeToHtml } from 'shiki';
+
+interface Props {
+  code: string;
+  lang?: string;
+  title?: string;
+  class?: string;
+  trim?: boolean;
+}
+
+const {
+  code,
+  lang = 'text',
+  title,
+  class: className,
+  trim = true,
+} = Astro.props;
+const highlightedCode = trim ? code.trim() : code;
+
+async function highlightCode(source: string, language: string): Promise<string> {
+  try {
+    return await codeToHtml(source, {
+      lang: language,
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    });
+  } catch (error) {
+    if (language === 'text') {
+      throw error;
+    }
+
+    return codeToHtml(source, {
+      lang: 'text',
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+    });
+  }
+}
+
+const html = await highlightCode(highlightedCode, lang);
+---
+
+<figure class:list={['lotus-code-block', title && 'lotus-code-block--framed', className]}>
+  {title && <figcaption class="lotus-code-block__header">{title}</figcaption>}
+  <div class="lotus-code-block__body" set:html={html} />
+</figure>
+
+<style is:global>
+  .lotus-code-block {
+    background: var(--lotus-code-background);
+    border: 1px solid var(--lotus-code-border);
+    border-radius: min(var(--lotus-radius-lg), 1rem);
+    color: var(--lotus-text);
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .lotus-code-block__header {
+    border-block-end: 1px solid var(--lotus-code-border);
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .lotus-code-block__body {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .lotus-code-block .shiki {
+    background: transparent !important;
+    color: var(--lotus-text);
+    font-family: var(--lotus-font-mono);
+    font-feature-settings: var(--default-mono-font-feature-settings);
+    font-size: 0.875rem;
+    line-height: 1.7142857;
+    margin: 0;
+    overflow: visible;
+    padding: 0.8571429rem 1rem;
+  }
+
+  .lotus-code-block .shiki code {
+    display: block;
+    min-width: max-content;
+  }
+
+  :root[data-theme="dark"] .lotus-code-block .shiki,
+  :root[data-theme="dark"] .lotus-code-block .shiki span {
+    color: var(--shiki-dark) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="system"] .lotus-code-block .shiki,
+    :root[data-theme="system"] .lotus-code-block .shiki span {
+      color: var(--shiki-dark) !important;
+      font-style: var(--shiki-dark-font-style) !important;
+      font-weight: var(--shiki-dark-font-weight) !important;
+      text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+  }
+</style>

@@ -2,6 +2,7 @@ export { default as AppearancePalette } from './components/theme/AppearancePalet
 export { default as AppearancePaletteContent } from './components/theme/AppearancePaletteContent.astro';
 export { default as Assistant } from './components/theme/Assistant.astro';
 export { default as AssistantTrigger } from './components/theme/AssistantTrigger.astro';
+export { default as CodeBlock } from './components/theme/CodeBlock.astro';
 export { default as Contributors } from './components/theme/Contributors.astro';
 export { default as Credits } from './components/theme/Credits.astro';
 export { default as EditThisPage } from './components/theme/EditThisPage.astro';
