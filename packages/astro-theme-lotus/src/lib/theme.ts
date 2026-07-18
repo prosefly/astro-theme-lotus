@@ -30,11 +30,33 @@ export interface ThemeSocialLink extends ThemeLink {
   icon: string;
 }
 
+export type SidebarBadgePosition = 'leading' | 'trailing';
+
+export type SidebarBadgeVariant = 'solid' | 'soft' | 'subtle' | 'outline';
+
+export type SidebarBadgeColor =
+  | 'neutral'
+  | 'accent'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'danger';
+
+export type SidebarBadge =
+  | string
+  | {
+      label: string;
+      position?: SidebarBadgePosition;
+      variant?: SidebarBadgeVariant;
+      color?: SidebarBadgeColor;
+    };
+
 export interface SidebarLinkItem {
   label: string;
   link: string;
   external?: boolean;
   icon?: string;
+  badge?: SidebarBadge;
   translations?: Record<string, string>;
 }
 

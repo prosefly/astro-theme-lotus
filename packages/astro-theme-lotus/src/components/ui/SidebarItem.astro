@@ -1,7 +1,8 @@
 ---
-import { Icon } from '@prosefly/astro-components';
+import { Badge, Icon } from '@prosefly/astro-components';
 import { resolveIconName } from '../../lib/icons';
 import type { DocsSidebarItem } from '../../lib/docs';
+import type { SidebarBadge } from '../../lib/theme';
 
 interface Props {
   item: DocsSidebarItem;
@@ -28,10 +29,25 @@ function hasActiveChild(link: DocsSidebarItem): boolean {
   return Boolean(link.items?.some((child) => isItemActive(child) || hasActiveChild(child)));
 }
 
+function normalizeSidebarBadge(badge: SidebarBadge | undefined): Exclude<SidebarBadge, string> | undefined {
+  if (!badge) {
+    return undefined;
+  }
+
+  if (typeof badge === 'string') {
+    return { label: badge };
+  }
+
+  return badge;
+}
+
 const active = isItemActive(item);
 const expanded = active || hasActiveChild(item) || item.collapsed === false;
 const iconName = item.icon ? resolveIconName(item.icon) : undefined;
 const childItems = item.items ?? [];
+const badge = normalizeSidebarBadge(item.badge);
+const leadingBadge = badge?.position === 'leading' ? badge : undefined;
+const trailingBadge = badge && badge.position !== 'leading' ? badge : undefined;
 const linkClass = [
   'lotus-focus-ring flex min-h-9 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-1 text-sm transition-colors',
   depth > 0 && 'ps-6',
@@ -45,8 +61,26 @@ const linkClass = [
   hasChildren ? (
     <details class="group/sidebar-item" open={expanded}>
       <summary class:list={[linkClass, 'cursor-pointer marker:hidden']}>
+        {leadingBadge && (
+          <Badge
+            class="lotus-sidebar-badge shrink-0"
+            color={leadingBadge.color ?? 'neutral'}
+            variant={leadingBadge.variant ?? 'soft'}
+          >
+            {leadingBadge.label}
+          </Badge>
+        )}
         {iconName && <Icon class="h-4 w-4 shrink-0 opacity-70" name={iconName} />}
         <span class="min-w-0 flex-1 truncate">{item.label}</span>
+        {trailingBadge && (
+          <Badge
+            class="lotus-sidebar-badge shrink-0"
+            color={trailingBadge.color ?? 'neutral'}
+            variant={trailingBadge.variant ?? 'soft'}
+          >
+            {trailingBadge.label}
+          </Badge>
+        )}
         <Icon
           aria-hidden="true"
           class="h-4 w-4 shrink-0 text-(--lotus-text-muted) transition-transform group-open/sidebar-item:rotate-90"
@@ -67,8 +101,34 @@ const linkClass = [
       rel={item.external ? 'noreferrer' : undefined}
       target={item.external ? '_blank' : undefined}
     >
+      {leadingBadge && (
+        <Badge
+          class="lotus-sidebar-badge shrink-0"
+          color={leadingBadge.color ?? 'neutral'}
+          variant={leadingBadge.variant ?? 'soft'}
+        >
+          {leadingBadge.label}
+        </Badge>
+      )}
       {iconName && <Icon class="h-4 w-4 shrink-0 opacity-70" name={iconName} />}
       <span class="min-w-0 flex-1 truncate">{item.label}</span>
+      {trailingBadge && (
+        <Badge
+          class="lotus-sidebar-badge shrink-0"
+          color={trailingBadge.color ?? 'neutral'}
+          variant={trailingBadge.variant ?? 'soft'}
+        >
+          {trailingBadge.label}
+        </Badge>
+      )}
     </a>
   )
 }
+
+<style>
+  :global(.lotus-sidebar-badge.pl-badge) {
+    font-size: 0.625rem;
+    letter-spacing: 0;
+    padding: 0.1875rem 0.375rem;
+  }
+</style>

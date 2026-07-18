@@ -1,3 +1,5 @@
+import type { SidebarBadge } from '../theme';
+
 export interface DocsNavItem {
   title: string;
   href: string;
@@ -12,6 +14,7 @@ export interface DocsSidebarItem {
   collapsed?: boolean;
   external?: boolean;
   icon?: string;
+  badge?: SidebarBadge;
   order?: number;
   slug?: string;
   items?: DocsSidebarItem[];

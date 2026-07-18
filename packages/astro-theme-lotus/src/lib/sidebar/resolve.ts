@@ -129,6 +129,7 @@ function linkToSidebarItem(
     href: external ? item.link : localizeDocsHref(config, item.link, localeKey),
     external,
     icon: item.icon,
+    badge: item.badge,
   };
 }
 
