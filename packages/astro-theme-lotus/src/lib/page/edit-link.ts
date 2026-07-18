@@ -1,11 +1,11 @@
 import type { CollectionEntry } from 'astro:content';
-import type { EditLinkConfig, LotusThemeConfig, ThemeSourceConfig } from './theme';
+import type { EditLinkConfig, LotusThemeConfig, ThemeSourceConfig } from '../theme';
 import {
   getEntrySourcePath,
   getSourceBranch,
   mergeSourceConfig,
   normalizeHostedRepo,
-} from './source';
+} from '../source';
 
 type DocsEntry = CollectionEntry<'docs'>;
 

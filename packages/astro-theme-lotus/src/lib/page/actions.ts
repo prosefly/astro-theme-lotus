@@ -19,10 +19,3 @@ export function createPageMarkdown({ title, description, body }: PageMarkdownInp
 
   return `${parts.join('\n')}\n`;
 }
-
-export function getPageMarkdownHref(slug: string | undefined, docsBasePath: string): string {
-  const normalizedSlug = slug && slug !== 'index' ? slug.replace(/^\/+|\/+$/g, '') : 'index';
-  const normalizedBase = docsBasePath === '/' ? '' : docsBasePath.replace(/\/$/, '');
-
-  return `${normalizedBase}/${normalizedSlug}.md`;
-}

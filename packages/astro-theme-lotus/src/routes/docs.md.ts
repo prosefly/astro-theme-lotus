@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getDocsEntries, getEntrySlug } from '../lib/docs';
 import { getLocales } from '../lib/i18n';
-import { createPageMarkdown } from '../lib/page-actions';
+import { createPageMarkdown } from '../lib/page/actions';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 

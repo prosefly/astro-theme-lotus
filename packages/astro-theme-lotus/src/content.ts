@@ -1,7 +1,7 @@
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import type { SchemaContext } from 'astro:content';
-import type { HeadConfig } from './lib/head';
+import type { HeadConfig } from './lib/page/head';
 
 export interface DocsLoaderOptions {
   base?: string;

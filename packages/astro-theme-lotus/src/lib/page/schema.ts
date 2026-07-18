@@ -1,4 +1,4 @@
-import type { LotusThemeConfig } from './theme';
+import type { LotusThemeConfig } from '../theme';
 
 export type JsonLdNode = Record<string, unknown>;
 

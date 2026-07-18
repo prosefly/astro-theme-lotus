@@ -1,8 +1,8 @@
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as pagefind from 'pagefind';
-import type { LotusThemeConfig } from './theme';
-import { getPagefindOutputSubdir } from './search';
+import type { LotusThemeConfig } from '../theme';
+import { getPagefindOutputSubdir } from './index';
 
 interface PagefindLogger {
   info(message: string): void;
