@@ -15,6 +15,7 @@ export { default as PageAside } from './components/theme/PageAside.astro';
 export { default as PageHeader } from './components/theme/PageHeader.astro';
 export { default as PageMeta } from './components/theme/PageMeta.astro';
 export { default as PageNavigation } from './components/theme/PageNavigation.astro';
+export { default as Prose } from './components/theme/Prose.astro';
 export { default as SearchDialog } from './components/theme/SearchDialog.astro';
 export { default as SearchDialogContent } from './components/theme/SearchDialogContent.astro';
 export { default as SearchDialogTrigger } from './components/theme/SearchDialogTrigger.astro';

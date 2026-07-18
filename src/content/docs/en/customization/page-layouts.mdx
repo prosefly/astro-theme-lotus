@@ -5,6 +5,8 @@ sidebar:
   order: 4
 ---
 
+import { Badge } from '@prosefly/astro-components';
+
 Lotus exports page-level layout primitives from
 `@prosefly/astro-theme-lotus/layouts`. Use them for custom Astro routes such as
 pricing pages, changelogs, landing pages, legal pages, and other pages that
@@ -24,6 +26,25 @@ should share the same theme shell without using the docs sidebar layout.
 
 `DocsLayout` is intentionally not exported. It depends on generated docs
 context, sidebar navigation, table of contents, contributors, and pagination.
+
+## Header Controls
+
+`SiteHeader` is a standalone shell header for custom pages. It accepts
+page-level switches for pages that share Lotus branding and navigation but do
+not need the full docs header behavior.
+
+```astro
+<SiteHeader
+  currentPath="/blog/"
+  search={false}
+  assistant={false}
+  showLanguage={false}
+  showSocials={false}
+/>
+```
+
+Use these props for template pages such as blogs, marketing pages, and custom
+dashboards. They do not change the global Lotus config.
 
 ## Pricing Page
 
@@ -106,4 +127,65 @@ import { TextLayout } from '@prosefly/astro-theme-lotus/layouts';
 <TextLayout title="Terms" description="Terms for using this service.">
   <p>Terms content goes here.</p>
 </TextLayout>
+```
+
+## Blog Pages
+
+<Badge variant="subtle" color="warning">New in 0.3.0</Badge>
+
+Blog collections belong in your project, not in Lotus config. Use Lotus layouts
+and the exported `Prose` component to keep posts visually consistent with docs
+pages.
+
+```astro title="src/pages/blog/[...slug].astro"
+---
+import { getCollection, render } from 'astro:content';
+import {
+  BaseLayout,
+  PageContainer,
+  SiteFooter,
+  SiteHeader,
+} from '@prosefly/astro-theme-lotus/layouts';
+import { Prose } from '@prosefly/astro-theme-lotus/components';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.mdx?$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <SiteHeader currentPath="/blog/" search={false} assistant={false} />
+
+  <main class="py-16">
+    <PageContainer size="md">
+      <header class="mb-10">
+        <p class="text-sm font-medium text-(--lotus-text-muted)">
+          {post.data.date.toLocaleDateString()}
+        </p>
+        <h1 class="mt-3 text-4xl font-semibold text-(--lotus-text-strong)">
+          {post.data.title}
+        </h1>
+        {post.data.description && (
+          <p class="mt-4 text-lg text-(--lotus-text-muted)">
+            {post.data.description}
+          </p>
+        )}
+      </header>
+
+      <Prose>
+        <Content />
+      </Prose>
+    </PageContainer>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
 ```
