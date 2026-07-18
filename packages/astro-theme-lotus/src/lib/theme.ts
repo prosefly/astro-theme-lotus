@@ -261,7 +261,6 @@ export interface LotusThemeConfig {
   components?: OverrideComponentsConfig;
   credits: boolean;
   docsBase: string;
-  homepage?: boolean;
   source?: ThemeSourceConfig;
   editLink?: boolean | EditLinkConfig;
   defaultLocale?: string;
@@ -278,7 +277,7 @@ export interface LotusThemeConfig {
   };
 }
 
-export const DEFAULT_DOCS_BASE_PATH = '/docs';
+export const DEFAULT_DOCS_BASE_PATH = '/';
 
 export function normalizeDocsBasePath(
   basePath?: string,

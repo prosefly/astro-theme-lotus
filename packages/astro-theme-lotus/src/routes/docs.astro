@@ -38,7 +38,8 @@ function getTableOfContentsHeadings(
 }
 
 export async function getStaticPaths() {
-  const locales = getLocales(rawThemeConfig as LotusThemeConfig);
+  const themeConfig = rawThemeConfig as LotusThemeConfig;
+  const locales = getLocales(themeConfig);
   const paths = await Promise.all(locales.map(async (currentLocale) => {
     const docsContext = await getDocsContext(undefined, currentLocale.key);
 

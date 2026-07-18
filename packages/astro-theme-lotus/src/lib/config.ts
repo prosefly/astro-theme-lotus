@@ -35,7 +35,6 @@ export interface LotusIntegrationOptions {
   components?: OverrideComponentsConfig;
   credits?: LotusThemeConfig['credits'];
   docsBase?: string;
-  homepage?: LotusThemeConfig['homepage'];
   source?: LotusThemeConfig['source'];
   editLink?: LotusThemeConfig['editLink'];
   defaultLocale?: LotusThemeConfig['defaultLocale'];
@@ -60,7 +59,7 @@ const defaultConfig: LotusThemeConfig = {
     defaultMode: 'system',
     radius: 'medium',
   },
-  navbar: [{ label: 'Docs', href: '/docs/' }],
+  navbar: [{ label: 'Docs', href: '/' }],
   socials: [],
   sidebars: [],
   search: { provider: 'local' },
@@ -75,7 +74,6 @@ const defaultConfig: LotusThemeConfig = {
   components: {},
   credits: true,
   docsBase: DEFAULT_DOCS_BASE_PATH,
-  homepage: false,
   source: undefined,
   editLink: undefined,
   defaultLocale: undefined,

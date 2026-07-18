@@ -33,10 +33,14 @@ const docs = defineCollection({
 export const collections = { docs };
 ```
 
-Add MDX pages in `src/content/docs/`. Lotus injects the route from
-`themeConfig.docsBase` and renders the bundled docs layout, navigation, search,
-table of contents, and footer. The integration also injects a Markdown source
-route at `*.md` and a search index route at `search.json`.
+Add MDX pages in `src/content/docs/`. By default, Lotus renders those pages
+from the site root, similar to Starlight: `src/content/docs/index.mdx` renders
+at `/`, and nested files render as matching URL segments. Set
+`themeConfig.docsBase` when you want docs under a prefix such as `/docs`.
+
+Lotus renders the bundled docs layout, navigation, search, table of contents,
+and footer. The integration also injects a Markdown source route at `*.md` and a
+search index route at `search.json`.
 
 Common integration options include `docsBase`, `sidebars`, `pageActions`,
 `footer`, `iconify`, `expressiveCode`, `packageManagerTabs`, and `components`

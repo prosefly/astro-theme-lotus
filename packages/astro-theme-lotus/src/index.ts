@@ -48,13 +48,6 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         injectRoute,
         updateConfig,
       }) => {
-        if (docsBasePath !== '/' && config.homepage === true) {
-          injectRoute({
-            pattern: '/',
-            entrypoint: new URL('./routes/home.astro', import.meta.url),
-          });
-        }
-
         injectRoute({
           pattern: '/404',
           entrypoint: new URL('./routes/404.astro', import.meta.url),
