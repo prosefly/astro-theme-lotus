@@ -22,7 +22,7 @@ const t = Astro.locals.t;
   style={`--lotus-sidebar-max-height: ${maxHeight}`}
 >
   <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
-  <nav aria-label={t('sidebar.accessibleLabel')} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pr-2" data-lotus-sidebar-scroll-area>
+  <nav aria-label={t('sidebar.accessibleLabel')} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pe-2" data-lotus-sidebar-scroll-area>
     {sidebar.links.length > 0 && (
       <div class="space-y-1">
         {sidebar.links.map((item) => (

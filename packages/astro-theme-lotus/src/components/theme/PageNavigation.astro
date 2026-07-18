@@ -9,19 +9,30 @@ interface Props {
 const { navigation } = Astro.props;
 const t = Astro.locals.t;
 const { previous, next } = navigation;
+const isRtl = t.dir() === 'rtl';
+const previousIcon = isRtl ? 'lucide:chevron-right' : 'lucide:chevron-left';
+const nextIcon = isRtl ? 'lucide:chevron-left' : 'lucide:chevron-right';
+const previousIconClass = [
+  'h-4 w-4 shrink-0 transition-transform',
+  isRtl ? 'group-hover:translate-x-0.5' : 'group-hover:-translate-x-0.5',
+];
+const nextIconClass = [
+  'h-4 w-4 shrink-0 transition-transform',
+  isRtl ? 'group-hover:-translate-x-0.5' : 'group-hover:translate-x-0.5',
+];
 ---
 
 {(previous || next) && (
   <nav aria-label={t('pageNavigation.accessibleLabel')} class="flex items-center justify-between gap-4 my-4">
     {previous ? (
       <a
-        class="lotus-focus-ring group inline-flex min-w-0 items-center gap-1.5 rounded-(--lotus-radius-md) py-2 pr-3 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+        class="lotus-focus-ring group inline-flex min-w-0 items-center gap-1.5 rounded-(--lotus-radius-md) py-2 pe-3 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
         href={previous.href}
       >
         <Icon
           aria-hidden="true"
-          class="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-0.5"
-          name="lucide:chevron-left"
+          class:list={previousIconClass}
+          name={previousIcon}
         />
         <span class="truncate">{previous.label}</span>
       </a>
@@ -31,14 +42,14 @@ const { previous, next } = navigation;
 
     {next && (
       <a
-        class="lotus-focus-ring group ml-auto inline-flex min-w-0 items-center gap-1.5 rounded-(--lotus-radius-md) py-2 pl-3 text-right text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+        class="lotus-focus-ring group ms-auto inline-flex min-w-0 items-center gap-1.5 rounded-(--lotus-radius-md) py-2 ps-3 text-end text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
         href={next.href}
       >
         <span class="truncate">{next.label}</span>
         <Icon
           aria-hidden="true"
-          class="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5"
-          name="lucide:chevron-right"
+          class:list={nextIconClass}
+          name={nextIcon}
         />
       </a>
     )}

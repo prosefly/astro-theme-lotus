@@ -111,7 +111,7 @@ const primaryAction =
   >
     {primaryAction.isCopy ? (
       <button
-        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70"
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70"
         data-lotus-copy-page
         type="button"
       >
@@ -120,7 +120,7 @@ const primaryAction =
       </button>
     ) : (
       <a
-        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
         href={primaryAction.href}
         data-lotus-page-action={primaryAction.type}
         data-lotus-page-action-href-template={primaryAction.hrefTemplate}
@@ -133,8 +133,8 @@ const primaryAction =
     )}
     <Dropdown
       class="static"
-      contentClass="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:left-auto sm:right-0 sm:w-56"
-      triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-r-(--lotus-radius-md) border-l lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+      contentClass="absolute start-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:start-auto sm:end-0 sm:w-56"
+      triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-e-(--lotus-radius-md) border-s lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       triggerLabel={t('pageActions.show')}
     >
       <Fragment slot="trigger">
@@ -147,7 +147,7 @@ const primaryAction =
       {resolvedActions.map((action) => (
         action.isCopy ? (
           <button
-            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-left text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) disabled:pointer-events-none disabled:opacity-70"
+            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-start text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) disabled:pointer-events-none disabled:opacity-70"
             data-lotus-copy-page
             data-lotus-dropdown-close
             type="button"

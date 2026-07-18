@@ -16,8 +16,33 @@ export interface LocalizedSlug {
   slug: string;
 }
 
+const rtlLanguageCodes = new Set([
+  'ar',
+  'arc',
+  'dv',
+  'fa',
+  'ha',
+  'he',
+  'khw',
+  'ks',
+  'ku',
+  'ps',
+  'ur',
+  'yi',
+]);
+
 function normalizePathSegment(value: string | undefined): string {
   return value?.trim().replace(/^\/+|\/+$/g, '') ?? '';
+}
+
+export function getLanguageDirection(localeKeyOrLang: string | undefined): 'ltr' | 'rtl' {
+  if (!localeKeyOrLang) {
+    return 'ltr';
+  }
+
+  const [languageCode] = localeKeyOrLang.trim().toLowerCase().split('-');
+
+  return rtlLanguageCodes.has(languageCode) ? 'rtl' : 'ltr';
 }
 
 function createDefaultRootLocale(): NormalizedLocale {
@@ -47,7 +72,7 @@ export function getLocales(config: LotusThemeConfig): NormalizedLocale[] {
       key,
       label: locale.label,
       lang: locale.lang ?? (key === ROOT_LOCALE ? locale.label : key),
-      dir: locale.dir ?? 'ltr',
+      dir: locale.dir ?? getLanguageDirection(locale.lang ?? key),
       directory,
       pathPrefix: key === ROOT_LOCALE ? '' : normalizePathSegment(key),
     };

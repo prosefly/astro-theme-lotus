@@ -34,7 +34,7 @@ const iconName = item.icon ? resolveIconName(item.icon) : undefined;
 const childItems = item.items ?? [];
 const linkClass = [
   'lotus-focus-ring flex min-h-9 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-1 text-sm transition-colors',
-  depth > 0 && 'pl-6',
+  depth > 0 && 'ps-6',
   active
     ? 'bg-(--lotus-accent-soft) font-medium text-(--lotus-accent)'
     : 'text-(--lotus-text-muted) hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)',

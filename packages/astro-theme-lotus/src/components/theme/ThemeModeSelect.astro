@@ -33,10 +33,10 @@ const modes = [
         <path d="m6 9 6 6 6-6" />
       </svg>
     </summary>
-    <div class="lotus-border-muted absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-32 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-1 shadow-lg shadow-black/5">
+    <div class="lotus-border-muted absolute end-0 top-[calc(100%+0.5rem)] z-50 min-w-32 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-1 shadow-lg shadow-black/5">
       {modes.map((mode) => (
         <button
-          class="lotus-focus-ring flex w-full items-center rounded-[calc(var(--lotus-radius-md)-2px)] px-2.5 py-1.5 text-left text-sm text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+          class="lotus-focus-ring flex w-full items-center rounded-[calc(var(--lotus-radius-md)-2px)] px-2.5 py-1.5 text-start text-sm text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
           data-theme-mode={mode.value}
           type="button"
         >

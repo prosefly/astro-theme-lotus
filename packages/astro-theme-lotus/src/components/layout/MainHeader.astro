@@ -33,11 +33,11 @@ const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConf
 
     <SearchDialog />
 
-    <div class="ml-auto hidden min-w-0 items-center gap-5 lg:flex">
+    <div class="ms-auto hidden min-w-0 items-center gap-5 lg:flex">
       <HeaderNavbar currentPath={currentPath} />
 
       <div class="flex items-center gap-2">
-        <div class="lotus-border-subtle h-5 border-l"></div>
+        <div class="lotus-border-subtle h-5 border-s"></div>
         <HeaderSocialIcons />
         <LanguageSelect />
         <ThemeSwitch />
@@ -45,7 +45,7 @@ const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConf
     </div>
 
     <MobileMenu
-      class={hasMobileHeaderActions ? undefined : 'ml-auto'}
+      class={hasMobileHeaderActions ? undefined : 'ms-auto'}
       currentPath={currentPath}
       showLanguage={showMobileLanguage}
     />

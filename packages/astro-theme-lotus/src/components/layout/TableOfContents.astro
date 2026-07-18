@@ -15,14 +15,14 @@ const visibleHeadings = headings;
 
 function getHeadingIndent(depth: number): string {
   if (depth <= 2) {
-    return 'pl-3';
+    return 'ps-3';
   }
 
   if (depth === 3) {
-    return 'pl-5';
+    return 'ps-5';
   }
 
-  return 'pl-7';
+  return 'ps-7';
 }
 ---
 
@@ -30,13 +30,13 @@ function getHeadingIndent(depth: number): string {
   visibleHeadings.length > 0 && (
     <nav aria-label={t('tableOfContents.onThisPage')} class="space-y-2">
       <p class="text-sm font-semibold leading-5 text-(--lotus-text-strong)">{t('tableOfContents.onThisPage')}</p>
-      <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
+      <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-s" data-toc-list>
         <li aria-hidden="true" class="lotus-toc-indicator"></li>
         {visibleHeadings.map((heading) => (
           <li>
             <a
               class:list={[
-                'lotus-focus-ring lotus-toc-link block py-1 pr-2 text-sm leading-5 transition-colors',
+                'lotus-focus-ring lotus-toc-link block py-1 pe-2 text-sm leading-5 transition-colors',
                 getHeadingIndent(heading.depth),
                 'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
               ]}

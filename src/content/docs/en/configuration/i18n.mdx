@@ -63,6 +63,11 @@ used as the first segment after `docsBase`.
 Use lowercase locale keys for predictable URLs. Use `lang` for the HTML
 language tag when the browser-facing value needs casing such as `zh-CN`.
 
+Lotus sets the page `<html dir>` from each locale. If `dir` is omitted, common
+RTL language codes such as `ar`, `fa`, `he`, and `ur` are inferred from `lang`
+or the locale key. Set `dir` explicitly when a locale needs to override that
+default.
+
 ## Directory Mapping
 
 `locales.*.directory` strips the locale directory before Lotus matches sidebar

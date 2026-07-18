@@ -79,11 +79,11 @@
 
 .lotus-sidebar-fade {
   height: 1.5rem;
-  left: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0.5rem;
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  right: 0.5rem;
   transition: opacity 120ms ease;
   z-index: 1;
 }
@@ -116,6 +116,10 @@
 .lotus-mobile-sidebar-panel {
   transform: translateX(-100%);
   transition: transform 180ms ease;
+}
+
+[dir="rtl"] .lotus-mobile-sidebar-panel {
+  transform: translateX(100%);
 }
 
 .lotus-mobile-sidebar[data-open] .lotus-mobile-sidebar-panel {
@@ -169,7 +173,7 @@
 .lotus-toc-indicator {
   background: var(--lotus-accent);
   border-radius: 999px;
-  left: -1px;
+  inset-inline-start: -1px;
   list-style: none;
   opacity: 0;
   position: absolute;

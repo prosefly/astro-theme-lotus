@@ -43,14 +43,14 @@ function formatPageCountLabel(count: number): string {
 
 function getHeadingIndent(depth: number): string {
   if (depth <= 2) {
-    return 'pl-3';
+    return 'ps-3';
   }
 
   if (depth === 3) {
-    return 'pl-5';
+    return 'ps-5';
   }
 
-  return 'pl-7';
+  return 'ps-7';
 }
 ---
 
@@ -60,7 +60,7 @@ function getHeadingIndent(depth: number): string {
       aria-controls="lotus-mobile-sidebar"
       aria-expanded="false"
       aria-label={t('mobileDocs.openMenu')}
-      class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-(--lotus-radius-md) text-left text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+      class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-(--lotus-radius-md) text-start text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       data-lotus-mobile-sidebar-open
       type="button"
     >
@@ -83,7 +83,7 @@ function getHeadingIndent(depth: number): string {
     {visibleHeadings.length > 0 && (
       <Dropdown
         class="shrink-0"
-        contentClass="lotus-border-subtle absolute right-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-xl"
+        contentClass="lotus-border-subtle absolute end-0 top-11 z-50 max-h-[min(22rem,calc(100vh-var(--lotus-docs-chrome-height)-1rem))] w-64 overflow-y-auto rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-3 shadow-xl"
         triggerClass="lotus-focus-ring flex h-9 cursor-pointer items-center rounded-(--lotus-radius-md) px-2.5 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
         triggerLabel={t('tableOfContents.onThisPage')}
       >
@@ -92,13 +92,13 @@ function getHeadingIndent(depth: number): string {
         </Fragment>
 
         <nav aria-label={t('tableOfContents.onThisPage')}>
-          <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-l" data-toc-list>
+          <ul class="lotus-border-subtle lotus-toc-list relative space-y-0.5 border-s" data-toc-list>
             <li aria-hidden="true" class="lotus-toc-indicator"></li>
             {visibleHeadings.map((heading) => (
               <li>
                 <a
                   class:list={[
-                    'lotus-focus-ring lotus-toc-link block py-1.5 pr-2 text-sm leading-5 transition-colors',
+                    'lotus-focus-ring lotus-toc-link block py-1.5 pe-2 text-sm leading-5 transition-colors',
                     getHeadingIndent(heading.depth),
                     'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
                   ]}
@@ -185,11 +185,11 @@ function getHeadingIndent(depth: number): string {
                 name="lucide:chevron-down"
               />
             </summary>
-            <div class="lotus-border-subtle absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 space-y-1 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-1.5 shadow-lg">
+            <div class="lotus-border-subtle absolute start-0 end-0 top-[calc(100%+0.5rem)] z-20 space-y-1 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-1.5 shadow-lg">
               {sections.map((section) => (
                 <button
                   aria-current={section.slug === activeSectionSlug ? 'page' : undefined}
-                  class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-2 text-left transition-colors"
+                  class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-2 text-start transition-colors"
                   data-active={section.slug === activeSectionSlug ? '' : undefined}
                   data-lotus-section-count={formatPageCountLabel(section.items.length)}
                   data-lotus-section-label={section.label}
@@ -209,7 +209,7 @@ function getHeadingIndent(depth: number): string {
                       {formatPageCountLabel(section.items.length)}
                     </span>
                   </span>
-                  <span class="lotus-mobile-section-check ml-auto hidden h-4 w-4 shrink-0">
+                  <span class="lotus-mobile-section-check ms-auto hidden h-4 w-4 shrink-0">
                     <Icon
                       aria-hidden="true"
                       class="h-4 w-4 text-(--lotus-accent)"

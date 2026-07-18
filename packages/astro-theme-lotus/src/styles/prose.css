@@ -190,6 +190,12 @@
   vertical-align: 0.05em;
 }
 
+.lotus-prose :where(code, kbd, pre, samp) {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
 .lotus-prose :where(abbr[title]) {
   cursor: help;
   text-decoration: underline dotted var(--lotus-border-hover);

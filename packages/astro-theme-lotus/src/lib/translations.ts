@@ -1,4 +1,9 @@
-import { getDefaultLocale, getLocales, type NormalizedLocale } from './i18n';
+import {
+  getDefaultLocale,
+  getLanguageDirection,
+  getLocales,
+  type NormalizedLocale,
+} from './i18n';
 import type { LotusThemeConfig } from './theme';
 import arabicMessages from '../messages/ar.json';
 import germanMessages from '../messages/de.json';
@@ -48,21 +53,6 @@ export interface LotusTranslate {
   locale(): NormalizedLocale;
 }
 
-const rtlLanguageCodes = new Set([
-  'ar',
-  'arc',
-  'dv',
-  'fa',
-  'ha',
-  'he',
-  'khw',
-  'ks',
-  'ku',
-  'ps',
-  'ur',
-  'yi',
-]);
-
 function normalizeLocaleKey(localeKey: string | undefined): string | undefined {
   return localeKey?.trim().toLowerCase();
 }
@@ -104,9 +94,7 @@ function getLocaleDirection(config: LotusThemeConfig, localeKey: string | undefi
     return locale.dir;
   }
 
-  const [languageCode] = (normalized ?? localeKey).split('-');
-
-  return rtlLanguageCodes.has(languageCode) ? 'rtl' : 'ltr';
+  return getLanguageDirection(normalized ?? localeKey);
 }
 
 export function interpolate(template: string, values?: TranslationValues): string {
