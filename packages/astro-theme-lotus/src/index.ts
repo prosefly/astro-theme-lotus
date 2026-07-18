@@ -7,6 +7,7 @@ import {
   defineLotusConfig,
   lotusConfigPlugin,
   resolveExpressiveCodeOptions,
+  resolveLocalAssetConfig,
   resolveLotusConfig,
   resolveMarkdownConfig,
   type LotusIntegrationOptions,
@@ -19,7 +20,7 @@ import { lotusStylesPlugin } from './lib/styles';
 import { normalizeDocsBasePath } from './lib/theme';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
-  const config = resolveLotusConfig(options);
+  let config = resolveLotusConfig(options);
   const expressiveCodeOptions = resolveExpressiveCodeOptions(options.expressiveCode);
   const docsBasePath = normalizeDocsBasePath(config.docsBase);
   const docsPattern =
@@ -48,6 +49,8 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         injectRoute,
         updateConfig,
       }) => {
+        config = resolveLocalAssetConfig(config, astroConfig.publicDir);
+
         injectRoute({
           pattern: '/404',
           entrypoint: new URL('./routes/404.astro', import.meta.url),

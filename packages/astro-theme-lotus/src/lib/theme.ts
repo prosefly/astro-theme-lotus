@@ -128,6 +128,8 @@ export interface ThemeLogoConfig {
   light: string;
   dark: string;
   href?: string;
+  width?: number;
+  height?: number;
   variant?: 'mark' | 'lockup';
 }
 

@@ -23,7 +23,12 @@ const logoLight = typeof logo === 'string' ? logo : logo?.light;
 const logoDark = typeof logo === 'string' ? undefined : logo?.dark;
 const logoVariant = typeof logo === 'object' ? logo.variant ?? 'mark' : 'mark';
 const logoHasText = logoVariant === 'lockup';
-const logoAlt = logoHasText ? themeConfig.name : '';
+const visibleLogoAlt = logoHasText ? themeConfig.name : '';
+const alternateLogoAlt = logoDark ? '' : visibleLogoAlt;
+const logoWidth = typeof logo === 'object' ? logo.width : undefined;
+const logoHeight = typeof logo === 'object' ? logo.height : undefined;
+const imageWidth = logoHasText ? logoWidth : 32;
+const imageHeight = logoHasText ? logoHeight : 32;
 ---
 
 <a
@@ -41,30 +46,34 @@ const logoAlt = logoHasText ? themeConfig.name : '';
   >
     {logoLight ? (
       <img
-        alt={logoAlt}
+        alt={alternateLogoAlt}
         class:list={[
           logoHasText
-            ? 'block h-8 max-w-40 object-contain'
+            ? 'block h-8 w-auto max-w-40 object-contain'
             : 'block h-8 w-8 rounded-(--lotus-radius-md)',
           logoDark && 'lotus-logo-light',
         ]}
         fetchpriority={fetchPriority}
+        height={imageHeight}
         src={logoLight}
+        width={imageWidth}
       />
     ) : (
       <LotusMark class="h-8 w-8 rounded-(--lotus-radius-md)" idPrefix={markIdPrefix} />
     )}
     {logoLight && logoDark && (
       <img
-        alt={logoAlt}
+        alt={visibleLogoAlt}
         class:list={[
           'lotus-logo-dark h-8',
           logoHasText
-            ? 'max-w-40 object-contain'
+            ? 'w-auto max-w-40 object-contain'
             : 'w-8 rounded-(--lotus-radius-md)',
         ]}
         fetchpriority={fetchPriority}
+        height={imageHeight}
         src={logoDark}
+        width={imageWidth}
       />
     )}
   </span>

@@ -85,6 +85,10 @@ logo: {
 ```
 
 `href` controls the brand link target. If omitted, the brand links to `/`.
+For local assets in `public/`, Lotus reads the image dimensions during the
+Astro config setup step and renders `width` and `height` attributes
+automatically. Add `width` and `height` only for remote logo URLs or custom
+paths Lotus cannot read from `public/`.
 
 ## Favicon
 

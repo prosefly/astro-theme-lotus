@@ -16,6 +16,7 @@ import {
   type ThemeSocialLink,
 } from './theme';
 import { rehypeHeadingAnchors } from './heading-anchors';
+import { readPublicImageDimensions } from './image-size';
 
 const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
 const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
@@ -114,6 +115,35 @@ export function resolveLotusConfig(options: LotusIntegrationOptions): LotusTheme
     footer: {
       ...defaultConfig.footer,
       ...themeOptions.footer,
+    },
+  };
+}
+
+export function resolveLocalAssetConfig(
+  config: LotusThemeConfig,
+  publicDir: URL,
+): LotusThemeConfig {
+  if (!config.logo || typeof config.logo === 'string') {
+    return config;
+  }
+
+  if (config.logo.width && config.logo.height) {
+    return config;
+  }
+
+  const dimensions =
+    readPublicImageDimensions(config.logo.light, publicDir)
+    ?? readPublicImageDimensions(config.logo.dark, publicDir);
+  if (!dimensions) {
+    return config;
+  }
+
+  return {
+    ...config,
+    logo: {
+      ...config.logo,
+      width: config.logo.width ?? dimensions.width,
+      height: config.logo.height ?? dimensions.height,
     },
   };
 }
