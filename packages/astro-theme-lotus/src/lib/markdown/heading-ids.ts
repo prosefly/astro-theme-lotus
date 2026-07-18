@@ -1,4 +1,5 @@
 import type { RemarkPlugin } from '@astrojs/markdown-remark';
+import GithubSlugger from 'github-slugger';
 import { mdastHeadingId } from 'mdast-heading-id';
 import { micromarkHeadingId } from 'micromark-heading-id';
 
@@ -25,6 +26,14 @@ function createTextNode(value: string): MdastNode {
   };
 }
 
+function getNodeText(node: MdastNode): string {
+  if (node.type === 'text' && typeof node.value === 'string') {
+    return node.value;
+  }
+
+  return (node.children ?? []).map(getNodeText).join('');
+}
+
 function trimTrailingText(children: MdastNode[]): void {
   for (let index = children.length - 1; index >= 0; index -= 1) {
     const child = children[index];
@@ -44,7 +53,7 @@ function trimTrailingText(children: MdastNode[]): void {
   }
 }
 
-function transformIdStrings(node: MdastNode): void {
+function transformHeadingIds(node: MdastNode, slugger: GithubSlugger): void {
   const children = node.children;
 
   if (!children) {
@@ -52,14 +61,15 @@ function transformIdStrings(node: MdastNode): void {
   }
 
   for (const child of children) {
-    transformIdStrings(child);
+    transformHeadingIds(child, slugger);
   }
 
   if (node.type === 'heading') {
     const lastChild = children.at(-1);
+    let id: string | undefined;
 
     if (lastChild && isIdString(lastChild)) {
-      const id = lastChild.value as string;
+      id = lastChild.value as string;
 
       if (!VALID_HEADING_ID_PATTERN.test(id)) {
         throw new Error(
@@ -69,7 +79,12 @@ function transformIdStrings(node: MdastNode): void {
 
       children.pop();
       trimTrailingText(children);
+    } else {
+      const text = getNodeText(node).trim();
+      id = text ? slugger.slug(text) : undefined;
+    }
 
+    if (id && id !== 'footnote-label') {
       node.data = {
         ...node.data,
         hProperties: {
@@ -102,6 +117,6 @@ export const remarkHeadingIds: RemarkPlugin = function () {
   fromMarkdownExtensions.push(mdastHeadingId());
 
   return (tree): void => {
-    transformIdStrings(tree as MdastNode);
+    transformHeadingIds(tree as MdastNode, new GithubSlugger());
   };
 };

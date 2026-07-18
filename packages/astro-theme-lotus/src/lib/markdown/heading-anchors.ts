@@ -1,5 +1,3 @@
-import GithubSlugger from 'github-slugger';
-
 interface HastElement {
   type: 'element';
   tagName: string;
@@ -12,15 +10,9 @@ interface HastRoot {
   children?: HastNode[];
 }
 
-interface HastText {
-  type: 'text';
-  value: string;
-}
-
-type HastNode = HastElement | HastRoot | HastText | { type: string; children?: HastNode[] };
+type HastNode = HastElement | HastRoot | { type: string; children?: HastNode[] };
 
 const ANCHORED_HEADINGS = new Set(['h2', 'h3', 'h4']);
-const SLUGGED_HEADINGS = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
 
 function isElement(node: HastNode): node is HastElement {
   return node.type === 'element' && typeof (node as HastElement).tagName === 'string';
@@ -36,15 +28,6 @@ function visitElements(node: HastNode, callback: (element: HastElement) => void)
   for (const child of children ?? []) {
     visitElements(child, callback);
   }
-}
-
-function getNodeText(node: HastNode): string {
-  if (node.type === 'text' && 'value' in node && typeof node.value === 'string') {
-    return node.value;
-  }
-
-  const children = 'children' in node && Array.isArray(node.children) ? node.children : undefined;
-  return (children ?? []).map(getNodeText).join('');
 }
 
 function hasHeadingAnchor(element: HastElement): boolean {
@@ -109,30 +92,14 @@ function createHeadingAnchor(slug: string): HastElement {
 
 export function rehypeHeadingAnchors() {
   return (tree: HastRoot): void => {
-    const slugger = new GithubSlugger();
-
     visitElements(tree, (element) => {
-      if (!SLUGGED_HEADINGS.has(element.tagName)) {
-        return;
-      }
-
-      const text = getNodeText(element).trim();
-      const existingSlug = element.properties?.id;
-      const generatedSlug = text ? slugger.slug(text) : undefined;
-      const slug = typeof existingSlug === 'string' && existingSlug.length > 0
-        ? existingSlug
-        : generatedSlug;
-
-      if (!slug || slug === 'footnote-label') {
-        return;
-      }
-
-      element.properties = {
-        ...element.properties,
-        id: slug,
-      };
-
       if (!ANCHORED_HEADINGS.has(element.tagName)) {
+        return;
+      }
+
+      const slug = element.properties?.id;
+
+      if (typeof slug !== 'string' || !slug || slug === 'footnote-label') {
         return;
       }
 

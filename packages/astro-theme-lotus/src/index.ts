@@ -11,7 +11,7 @@ import {
   resolveLotusConfig,
   resolveMarkdownConfig,
   type LotusIntegrationOptions,
-} from './lib/config';
+} from './lib/config/index';
 import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
 import { buildPagefindIndex } from './lib/pagefind';
@@ -109,7 +109,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
 export { accentScales, defineLotusConfig, lotus };
 export type {
   LotusIntegrationOptions,
-} from './lib/config';
+} from './lib/config/index';
 export type {
   AccentScale,
   EditLinkBaseConfig,

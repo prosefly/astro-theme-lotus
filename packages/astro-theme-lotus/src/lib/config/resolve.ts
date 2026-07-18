@@ -1,0 +1,63 @@
+import { readPublicImageDimensions } from '../image-size';
+import {
+  normalizeDocsBasePath,
+  type LotusThemeConfig,
+} from '../theme';
+import { defaultConfig } from './defaults';
+import type { LotusIntegrationOptions } from './options';
+
+export function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig {
+  const {
+    expressiveCode: _expressiveCode,
+    packageManagerTabs: _packageManagerTabs,
+    ...themeOptions
+  } = options;
+
+  return {
+    ...defaultConfig,
+    ...themeOptions,
+    appearance: {
+      ...defaultConfig.appearance,
+      ...themeOptions.appearance,
+    },
+    pageActions: themeOptions.pageActions ?? defaultConfig.pageActions,
+    docsBase: normalizeDocsBasePath(themeOptions.docsBase, defaultConfig.docsBase),
+    iconify: {
+      ...defaultConfig.iconify,
+      ...themeOptions.iconify,
+    },
+    footer: {
+      ...defaultConfig.footer,
+      ...themeOptions.footer,
+    },
+  };
+}
+
+export function resolveLocalAssetConfig(
+  config: LotusThemeConfig,
+  publicDir: URL,
+): LotusThemeConfig {
+  if (!config.logo || typeof config.logo === 'string') {
+    return config;
+  }
+
+  if (config.logo.width && config.logo.height) {
+    return config;
+  }
+
+  const dimensions =
+    readPublicImageDimensions(config.logo.light, publicDir)
+    ?? readPublicImageDimensions(config.logo.dark, publicDir);
+  if (!dimensions) {
+    return config;
+  }
+
+  return {
+    ...config,
+    logo: {
+      ...config.logo,
+      width: config.logo.width ?? dimensions.width,
+      height: config.logo.height ?? dimensions.height,
+    },
+  };
+}
