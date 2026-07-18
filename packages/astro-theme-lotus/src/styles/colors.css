@@ -110,6 +110,22 @@
   --lotus-accent: var(--lotus-accent-light);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background));
   --lotus-accent-contrast: oklch(1 0 0);
+  --lotus-info: var(--lotus-color-blue-600, oklch(0.546 0.245 262.881));
+  --lotus-info-ink: color-mix(in oklab, var(--lotus-info) 82%, var(--lotus-text-strong));
+  --lotus-info-soft: color-mix(in oklab, var(--lotus-info) 10%, var(--lotus-background));
+  --lotus-info-contrast: oklch(1 0 0);
+  --lotus-success: var(--lotus-color-emerald-600, oklch(0.596 0.145 163.225));
+  --lotus-success-ink: color-mix(in oklab, var(--lotus-success) 82%, var(--lotus-text-strong));
+  --lotus-success-soft: color-mix(in oklab, var(--lotus-success) 10%, var(--lotus-background));
+  --lotus-success-contrast: oklch(1 0 0);
+  --lotus-warning: var(--lotus-color-amber-600, oklch(0.666 0.179 58.318));
+  --lotus-warning-ink: color-mix(in oklab, var(--lotus-warning) 78%, var(--lotus-text-strong));
+  --lotus-warning-soft: color-mix(in oklab, var(--lotus-warning) 12%, var(--lotus-background));
+  --lotus-warning-contrast: oklch(0.18 0.04 80);
+  --lotus-danger: var(--lotus-color-red-600, oklch(0.577 0.245 27.325));
+  --lotus-danger-ink: color-mix(in oklab, var(--lotus-danger) 82%, var(--lotus-text-strong));
+  --lotus-danger-soft: color-mix(in oklab, var(--lotus-danger) 10%, var(--lotus-background));
+  --lotus-danger-contrast: oklch(1 0 0);
 
   --pl-text-strong: var(--lotus-text-strong);
   --pl-text: var(--lotus-text);
@@ -122,6 +138,22 @@
   --pl-accent: var(--lotus-accent);
   --pl-accent-soft: var(--lotus-accent-soft);
   --pl-accent-contrast: var(--lotus-accent-contrast);
+  --pl-info: var(--lotus-info);
+  --pl-info-ink: var(--lotus-info-ink);
+  --pl-info-soft: var(--lotus-info-soft);
+  --pl-info-contrast: var(--lotus-info-contrast);
+  --pl-success: var(--lotus-success);
+  --pl-success-ink: var(--lotus-success-ink);
+  --pl-success-soft: var(--lotus-success-soft);
+  --pl-success-contrast: var(--lotus-success-contrast);
+  --pl-warning: var(--lotus-warning);
+  --pl-warning-ink: var(--lotus-warning-ink);
+  --pl-warning-soft: var(--lotus-warning-soft);
+  --pl-warning-contrast: var(--lotus-warning-contrast);
+  --pl-danger: var(--lotus-danger);
+  --pl-danger-ink: var(--lotus-danger-ink);
+  --pl-danger-soft: var(--lotus-danger-soft);
+  --pl-danger-contrast: var(--lotus-danger-contrast);
 }
 
 :root[data-gray="slate"] {
@@ -281,6 +313,22 @@
   --lotus-accent: var(--lotus-accent-dark);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
   --lotus-accent-contrast: var(--lotus-gray-950);
+  --lotus-info: var(--lotus-color-blue-400, oklch(0.707 0.165 254.624));
+  --lotus-info-ink: color-mix(in oklab, var(--lotus-info) 72%, var(--lotus-text-strong));
+  --lotus-info-soft: color-mix(in oklab, var(--lotus-info) 16%, var(--lotus-background));
+  --lotus-info-contrast: var(--lotus-gray-950);
+  --lotus-success: var(--lotus-color-emerald-400, oklch(0.765 0.177 163.223));
+  --lotus-success-ink: color-mix(in oklab, var(--lotus-success) 72%, var(--lotus-text-strong));
+  --lotus-success-soft: color-mix(in oklab, var(--lotus-success) 16%, var(--lotus-background));
+  --lotus-success-contrast: var(--lotus-gray-950);
+  --lotus-warning: var(--lotus-color-amber-400, oklch(0.828 0.189 84.429));
+  --lotus-warning-ink: color-mix(in oklab, var(--lotus-warning) 74%, var(--lotus-text-strong));
+  --lotus-warning-soft: color-mix(in oklab, var(--lotus-warning) 18%, var(--lotus-background));
+  --lotus-warning-contrast: var(--lotus-gray-950);
+  --lotus-danger: var(--lotus-color-red-400, oklch(0.704 0.191 22.216));
+  --lotus-danger-ink: color-mix(in oklab, var(--lotus-danger) 72%, var(--lotus-text-strong));
+  --lotus-danger-soft: color-mix(in oklab, var(--lotus-danger) 16%, var(--lotus-background));
+  --lotus-danger-contrast: var(--lotus-gray-950);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -300,6 +348,22 @@
     --lotus-accent: var(--lotus-accent-dark);
     --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
     --lotus-accent-contrast: var(--lotus-gray-950);
+    --lotus-info: var(--lotus-color-blue-400, oklch(0.707 0.165 254.624));
+    --lotus-info-ink: color-mix(in oklab, var(--lotus-info) 72%, var(--lotus-text-strong));
+    --lotus-info-soft: color-mix(in oklab, var(--lotus-info) 16%, var(--lotus-background));
+    --lotus-info-contrast: var(--lotus-gray-950);
+    --lotus-success: var(--lotus-color-emerald-400, oklch(0.765 0.177 163.223));
+    --lotus-success-ink: color-mix(in oklab, var(--lotus-success) 72%, var(--lotus-text-strong));
+    --lotus-success-soft: color-mix(in oklab, var(--lotus-success) 16%, var(--lotus-background));
+    --lotus-success-contrast: var(--lotus-gray-950);
+    --lotus-warning: var(--lotus-color-amber-400, oklch(0.828 0.189 84.429));
+    --lotus-warning-ink: color-mix(in oklab, var(--lotus-warning) 74%, var(--lotus-text-strong));
+    --lotus-warning-soft: color-mix(in oklab, var(--lotus-warning) 18%, var(--lotus-background));
+    --lotus-warning-contrast: var(--lotus-gray-950);
+    --lotus-danger: var(--lotus-color-red-400, oklch(0.704 0.191 22.216));
+    --lotus-danger-ink: color-mix(in oklab, var(--lotus-danger) 72%, var(--lotus-text-strong));
+    --lotus-danger-soft: color-mix(in oklab, var(--lotus-danger) 16%, var(--lotus-background));
+    --lotus-danger-contrast: var(--lotus-gray-950);
   }
 }
 
