@@ -113,14 +113,26 @@ rendered. See [Source](/docs/configuration/source/) for source path behavior.
 
 ## UI Translations
 
-Lotus includes template translations for English and Simplified Chinese. These
-strings cover shell UI such as search, theme mode controls, table of contents,
-page actions, edit links, mobile docs navigation, and the 404 page.
+Lotus includes template translations for common documentation site locales.
+These strings cover shell UI such as search, theme mode controls, table of
+contents, page actions, edit links, mobile docs navigation, and the 404 page.
 
-Built-in messages live in package JSON files:
+Built-in messages currently cover:
 
-- `@prosefly/astro-theme-lotus/src/messages/en.json`
-- `@prosefly/astro-theme-lotus/src/messages/zh-cn.json`
+| Locale | Language |
+| --- | --- |
+| `en` | English |
+| `zh-cn` | Simplified Chinese |
+| `zh-tw` | Traditional Chinese |
+| `ja` | Japanese |
+| `ko` | Korean |
+| `fr` | French |
+| `de` | German |
+| `es` | Spanish |
+| `pt-br` | Brazilian Portuguese |
+| `it` | Italian |
+| `ru` | Russian |
+| `ar` | Arabic |
 
 Use `ui` to override built-in strings for a locale. Keys can match either the
 locale key or the locale language code.

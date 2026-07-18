@@ -1,13 +1,33 @@
 import { getDefaultLocale, getLocales, type NormalizedLocale } from './i18n';
 import type { LotusThemeConfig } from './theme';
+import arabicMessages from '../messages/ar.json';
+import germanMessages from '../messages/de.json';
 import englishMessages from '../messages/en.json';
+import spanishMessages from '../messages/es.json';
+import frenchMessages from '../messages/fr.json';
+import italianMessages from '../messages/it.json';
+import japaneseMessages from '../messages/ja.json';
+import koreanMessages from '../messages/ko.json';
+import portugueseBrazilMessages from '../messages/pt-br.json';
+import russianMessages from '../messages/ru.json';
 import zhCnMessages from '../messages/zh-cn.json';
+import zhTwMessages from '../messages/zh-tw.json';
 
 const englishTranslations = englishMessages;
 
 const builtInTranslations: Record<string, Partial<UiTranslations>> = {
+  ar: arabicMessages,
+  de: germanMessages,
   en: englishMessages,
+  es: spanishMessages,
+  fr: frenchMessages,
+  it: italianMessages,
+  ja: japaneseMessages,
+  ko: koreanMessages,
+  'pt-br': portugueseBrazilMessages,
+  ru: russianMessages,
   'zh-cn': zhCnMessages,
+  'zh-tw': zhTwMessages,
 };
 
 export type BuiltInUiTranslationKey = keyof typeof englishTranslations;
