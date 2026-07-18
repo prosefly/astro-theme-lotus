@@ -97,7 +97,6 @@ export interface ContributorInfo {
 
 export interface ContributorsConfig {
   avatar?: 'github' | 'gravatar' | false;
-  contentRoot?: string;
   exclude?: string[];
   github?: string;
   branch?: string;
@@ -210,7 +209,6 @@ export type AssistantConfig =
 
 export interface ThemeSourceConfig {
   branch?: string;
-  contentRoot?: string;
   github?: string;
   gitlab?: string;
   codeberg?: string;
@@ -218,7 +216,6 @@ export interface ThemeSourceConfig {
 
 export interface EditLinkBaseConfig {
   branch?: string;
-  contentRoot?: string;
 }
 
 export interface EditLinkPatternConfig extends EditLinkBaseConfig {

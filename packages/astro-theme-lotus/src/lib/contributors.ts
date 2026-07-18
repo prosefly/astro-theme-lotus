@@ -65,7 +65,6 @@ function getContributorsConfig(config: LotusThemeConfig): ContributorsConfig {
   return {
     ...options,
     branch: options.branch ?? source.branch,
-    contentRoot: options.contentRoot ?? source.contentRoot,
     github: options.github ?? sourceGithub,
   };
 }

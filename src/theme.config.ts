@@ -47,7 +47,6 @@ export default defineLotusConfig({
   source: {
     github: 'prosefly/astro-theme-lotus',
     branch: 'main',
-    contentRoot: 'src/content',
   },
   editLink: true,
   locales: {

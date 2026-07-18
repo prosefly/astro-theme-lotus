@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import path from 'node:path';
 import type { CollectionEntry } from 'astro:content';
 import type { LotusThemeConfig, ThemeSourceConfig } from './theme';
 
@@ -135,13 +136,6 @@ export function resolveSourceConfig(config: LotusThemeConfig): ThemeSourceConfig
   };
 }
 
-export function getSourceContentRoot(
-  config: LotusThemeConfig,
-  override?: { contentRoot?: string },
-): string {
-  return override?.contentRoot ?? resolveSourceConfig(config).contentRoot ?? 'src/content';
-}
-
 export function getSourceBranch(
   config: LotusThemeConfig,
   override?: { branch?: string },
@@ -150,11 +144,23 @@ export function getSourceBranch(
 }
 
 export function getEntrySourcePath(
-  config: LotusThemeConfig,
+  _config: LotusThemeConfig,
   entry: DocsEntry,
-  override?: { contentRoot?: string },
+  _override?: ThemeSourceConfig,
 ): string {
-  return joinPath(getSourceContentRoot(config, override), `${entry.id}.mdx`);
+  if (!entry.filePath) {
+    return `${entry.id}.mdx`;
+  }
+
+  const sourcePath = path.isAbsolute(entry.filePath)
+    ? entry.filePath
+    : path.resolve(process.cwd(), entry.filePath);
+
+  return normalizePath(path.relative(process.cwd(), sourcePath));
+}
+
+function normalizePath(filePath: string): string {
+  return filePath.split(path.sep).join('/');
 }
 
 export function mergeSourceConfig(

@@ -13,12 +13,12 @@ as edit links and contributors.
 source: {
   github: 'prosefly/astro-theme-lotus',
   branch: 'main',
-  contentRoot: 'src/content',
 }
 ```
 
-`contentRoot` defaults to `src/content`, and `branch` defaults to `main`.
-Repository fields accept either repository shorthand or a full repository URL.
+Lotus reads the source file path from Astro's content entry metadata, so this
+configuration only needs repository information. Repository fields accept either
+repository shorthand or a full repository URL.
 
 ## Repository Providers
 
@@ -68,13 +68,13 @@ Set `editLink: true` to generate "Edit this page" links from `source`.
 source: {
   github: 'prosefly/astro-theme-lotus',
   branch: 'main',
-  contentRoot: 'src/content',
 },
 editLink: true
 ```
 
-Lotus joins `source.contentRoot` with the source entry ID and builds the edit
-URL for the configured repository provider.
+Lotus uses each entry's real `filePath` to build the edit URL for the
+configured repository provider. You do not need to repeat the `docsLoader({
+base })` directory in source configuration.
 
 For `src/content/docs/en/overview.mdx`, Lotus generates:
 
@@ -83,8 +83,7 @@ https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/over
 ```
 
 Use an object when edit links need a custom URL pattern. The object inherits
-`source.contentRoot` and `source.branch`, so only the pattern needs to be
-different.
+`source.branch`, so only the pattern needs to be different.
 
 ```ts
 editLink: {
@@ -93,13 +92,12 @@ editLink: {
 ```
 
 Patterns can use `{path}`, `{encodedPath}`, and `{branch}`. Object values can
-also override the shared source fields when a project has unusual repository
+also override the shared provider fields when a project has unusual repository
 layout.
 
 ```ts
 editLink: {
   pattern: 'https://example.com/edit/{branch}/{encodedPath}',
-  contentRoot: 'content',
 }
 ```
 
@@ -114,9 +112,8 @@ source is local `git log`, which works without network access.
 contributors: true
 ```
 
-When `source.contentRoot` is configured, contributors use that same source root.
-Set `contributors` to an object when you want to limit or filter the rendered
-list.
+Contributors use the same entry file path as edit links. Set `contributors` to
+an object when you want to limit or filter the rendered list.
 
 ```ts
 contributors: {
@@ -148,8 +145,8 @@ contributors: {
 }
 ```
 
-`contributors.github`, `contributors.branch`, and `contributors.contentRoot`
-can still override the shared `source` fields for unusual cases.
+`contributors.github` and `contributors.branch` can still override the shared
+`source` fields for unusual cases.
 
 Lotus uses `GITHUB_TOKEN` or `GH_TOKEN` automatically when either environment
 variable is present. If the GitHub request fails, Lotus falls back to local git
@@ -157,7 +154,7 @@ history so static builds can still finish.
 
 ## Localized Content
 
-Edit links and contributor paths use the actual source entry ID, not the
+Edit links and contributor paths use the actual source file path, not the
 localized route. If a localized page falls back to default-locale content, its
 edit link and contributor query point to the default-locale source file.
 
