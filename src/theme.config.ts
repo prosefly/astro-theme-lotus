@@ -95,6 +95,7 @@ export default defineLotusConfig({
               items: [{ autogenerate: { directory: 'configuration' } }],
             },
             'deployment',
+            'changelog',
             'troubleshooting',
           ],
         },
