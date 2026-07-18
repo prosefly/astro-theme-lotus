@@ -76,6 +76,10 @@
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
+.lotus-prose :where(h2, h3, h4) {
+  position: relative;
+}
+
 .lotus-prose
   :where(
     p,
@@ -154,6 +158,54 @@
   border-radius: var(--lotus-radius-sm);
   outline: 2px solid var(--lotus-accent);
   outline-offset: 0.15em;
+}
+
+.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a) {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration-color: color-mix(in oklab, currentColor 28%, transparent);
+}
+
+.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a:hover) {
+  text-decoration-color: currentColor;
+}
+
+.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+  position: absolute;
+  inset-block-start: 0.18em;
+  inset-inline-start: -1.45em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1em;
+  block-size: 1em;
+  border-radius: var(--lotus-radius-sm);
+  color: var(--lotus-text-muted);
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    color 150ms ease,
+    opacity 150ms ease;
+}
+
+.lotus-prose :where(h4) > :where(a.lotus-heading-anchor) {
+  inset-block-start: 0.1em;
+}
+
+.lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
+.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
+  color: var(--lotus-text);
+  opacity: 1;
+}
+
+.lotus-prose :where(a.lotus-heading-anchor:hover) {
+  color: var(--lotus-accent);
+  text-decoration: none;
+}
+
+.lotus-prose :where(a.lotus-heading-anchor) :where(svg) {
+  inline-size: 0.8em;
+  block-size: 0.8em;
 }
 
 .lotus-prose :where(strong) {
