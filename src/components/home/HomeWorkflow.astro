@@ -1,5 +1,6 @@
 ---
 import { Icon } from '@prosefly/astro-components';
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
 import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
 
 const contentFiles = [
@@ -13,6 +14,15 @@ const routes = [
   { label: '/docs/overview.md', href: '/docs/overview.md' },
   { label: '/docs/search.json', href: '/docs/search.json' },
 ];
+
+const themeConfigCode = `
+export default defineLotusConfig({
+  docsBase: '/docs',
+  appearance: {
+    accent: 'indigo',
+  },
+});
+`;
 ---
 
 <PageSection class="border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
@@ -33,12 +43,7 @@ const routes = [
         <span>Configure</span>
         <code>src/theme.config.ts</code>
       </header>
-      <pre><code><span class="syntax-keyword">export default</span> defineLotusConfig(&#123;
-  <span class="syntax-property">docsBase</span>: <span class="syntax-string">'/docs'</span>,
-  <span class="syntax-property">appearance</span>: &#123;
-    <span class="syntax-property">accent</span>: <span class="syntax-string">'indigo'</span>,
-  &#125;,
-&#125;);</code></pre>
+      <CodeBlock class="workflow-code" code={themeConfigCode} lang="ts" />
     </article>
 
     <div class="workflow-connector" aria-hidden="true">
@@ -132,25 +137,10 @@ const routes = [
     white-space: nowrap;
   }
 
-  .workflow-stage pre {
-    background: transparent;
-    border: 0;
-    color: var(--lotus-text);
-    font-family: var(--lotus-font-mono);
+  :global(.workflow-code) :global(.shiki) {
     font-size: 0.75rem;
     line-height: 1.75;
-    margin: 0;
-    overflow-x: auto;
-    padding: 0;
-  }
-
-  .syntax-keyword,
-  .syntax-property {
-    color: var(--lotus-accent);
-  }
-
-  .syntax-string {
-    color: var(--lotus-text-strong);
+    padding: 0.875rem 1rem;
   }
 
   .workflow-connector {

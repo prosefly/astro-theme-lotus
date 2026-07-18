@@ -1,6 +1,17 @@
 ---
 import { Icon } from '@prosefly/astro-components';
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
 import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
+
+const astroConfigCode = `
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+import themeConfig from './src/theme.config';
+
+export default defineConfig({
+  integrations: [lotus(themeConfig)],
+});
+`;
 ---
 
 <PageSection class="border-t border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
@@ -17,19 +28,7 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
       </a>
     </div>
 
-    <div class="code-window overflow-hidden border border-(--lotus-border-subtle) bg-(--lotus-background)">
-      <div class="flex items-center justify-between border-b border-(--lotus-border-subtle) bg-(--lotus-surface) px-4 py-3">
-        <span class="font-mono text-xs text-(--lotus-text-muted)">astro.config.ts</span>
-        <span class="flex items-center gap-1.5 text-xs text-(--lotus-text-subtle)"><span class="size-1.5 rounded-full bg-emerald-500"></span>Ready</span>
-      </div>
-      <pre class="m-0 overflow-x-auto border-0 bg-transparent p-5 text-sm leading-7 text-(--lotus-text)" aria-label="Astro configuration"><code><span class="syntax-keyword">import</span>{` { `}<span class="syntax-function">defineConfig</span>{` } `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'astro/config'</span>{`;
-`}<span class="syntax-keyword">import</span>{` `}<span class="syntax-function">lotus</span>{` `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'@prosefly/astro-theme-lotus'</span>{`;
-`}<span class="syntax-keyword">import</span>{` `}<span class="syntax-variable">themeConfig</span>{` `}<span class="syntax-keyword">from</span>{` `}<span class="syntax-string">'./src/theme.config'</span>{`;
-
-`}<span class="syntax-keyword">export default</span>{` `}<span class="syntax-function">defineConfig</span>{`({
-  `}<span class="syntax-property">integrations</span>{`: [`}<span class="syntax-function">lotus</span>{`(`}<span class="syntax-variable">themeConfig</span>{`)],
-});`}</code></pre>
-    </div>
+    <CodeBlock class="install-code" code={astroConfigCode} lang="ts" title="astro.config.ts" />
   </div>
 
   <dl class="setup-facts mt-12 grid border-y border-(--lotus-border-subtle) md:grid-cols-3">
@@ -75,55 +74,38 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
     line-height: 1.08;
   }
 
-  .code-window {
-    --install-syntax-keyword: #cf222e;
-    --install-syntax-function: #8250df;
-    --install-syntax-property: #0550ae;
-    --install-syntax-string: #0a3069;
-    border-radius: 0.55rem;
+  :global(.install-code) :global(.lotus-code-block__header) {
+    align-items: center;
+    background: var(--lotus-surface);
+    display: flex;
+    gap: 0.375rem;
+    justify-content: space-between;
   }
 
-  .code-window pre {
-    background: var(--lotus-code-background);
-    font-family: var(--lotus-font-mono);
+  :global(.install-code) :global(.lotus-code-block__header)::after {
+    color: var(--lotus-text-subtle);
+    content: 'Ready';
+    font-family: var(--lotus-font-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
   }
 
-  .code-window code {
-    color: inherit;
-    font: inherit;
+  :global(.install-code) :global(.lotus-code-block__header)::before {
+    background: oklch(0.69 0.17 149);
+    border-radius: 999px;
+    content: '';
+    height: 0.375rem;
+    margin-left: auto;
+    order: 1;
+    width: 0.375rem;
   }
 
-  .syntax-keyword {
-    color: var(--install-syntax-keyword);
+  :global(.install-code) :global(.lotus-code-block__header)::after {
+    order: 2;
   }
 
-  .syntax-function {
-    color: var(--install-syntax-function);
-  }
-
-  .syntax-property,
-  .syntax-variable {
-    color: var(--install-syntax-property);
-  }
-
-  .syntax-string {
-    color: var(--install-syntax-string);
-  }
-
-  :global(:root[data-theme="dark"]) .code-window {
-    --install-syntax-keyword: #ff7b72;
-    --install-syntax-function: #d2a8ff;
-    --install-syntax-property: #79c0ff;
-    --install-syntax-string: #a5d6ff;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :global(:root[data-theme="system"]) .code-window {
-      --install-syntax-keyword: #ff7b72;
-      --install-syntax-function: #d2a8ff;
-      --install-syntax-property: #79c0ff;
-      --install-syntax-string: #a5d6ff;
-    }
+  :global(.install-code) :global(.shiki) {
+    padding: 1.25rem;
   }
 
   .text-link {
