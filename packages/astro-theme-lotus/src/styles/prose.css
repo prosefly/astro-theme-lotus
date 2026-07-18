@@ -172,24 +172,26 @@
 
 .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
   position: absolute;
-  inset-block-start: 0.18em;
+  inset-block-start: 0.2em;
   inset-inline-start: -1.45em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: 1em;
-  block-size: 1em;
+  inline-size: 0.95em;
+  block-size: 0.95em;
+  border: 1px solid var(--lotus-border-subtle);
   border-radius: var(--lotus-radius-sm);
-  color: var(--lotus-text-muted);
+  color: var(--lotus-text-subtle);
   opacity: 0;
   text-decoration: none;
   transition:
+    border-color 150ms ease,
     color 150ms ease,
     opacity 150ms ease;
 }
 
 .lotus-prose :where(h4) > :where(a.lotus-heading-anchor) {
-  inset-block-start: 0.1em;
+  inset-block-start: 0.14em;
 }
 
 .lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
@@ -199,13 +201,26 @@
 }
 
 .lotus-prose :where(a.lotus-heading-anchor:hover) {
+  border-color: var(--lotus-border-hover);
   color: var(--lotus-accent);
   text-decoration: none;
 }
 
 .lotus-prose :where(a.lotus-heading-anchor) :where(svg) {
-  inline-size: 0.8em;
-  block-size: 0.8em;
+  inline-size: 0.58em;
+  block-size: 0.58em;
+}
+
+@media (max-width: 1000px) {
+  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+    inset-inline-start: -1em;
+    opacity: 0.42;
+  }
+
+  .lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
+  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
+    opacity: 1;
+  }
 }
 
 .lotus-prose :where(strong) {

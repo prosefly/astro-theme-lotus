@@ -15,6 +15,7 @@ import {
   type ThemeNavbarItem,
   type ThemeSocialLink,
 } from './theme';
+import { rehypeHeadingAnchors } from './heading-anchors';
 
 const virtualConfigModuleId = 'virtual:prosefly/lotus/config';
 const resolvedVirtualConfigModuleId = `\0${virtualConfigModuleId}`;
@@ -154,6 +155,7 @@ export function resolveMarkdownConfig(
   const rehypePlugins = [
     ...(unifiedOptions?.rehypePlugins ?? markdownConfig?.rehypePlugins ?? []),
     rehypeImageGallery,
+    rehypeHeadingAnchors,
   ];
 
   return {
