@@ -18,6 +18,16 @@ Use headings to create page structure and table-of-contents anchors.
 #### Detail title
 ```
 
+Add a custom heading ID when a translated or edited heading needs a stable URL
+hash.
+
+```md
+## Manual setup {#manual-setup}
+```
+
+Lotus removes the marker from the rendered heading, uses `manual-setup` for the
+heading `id`, and keeps table-of-contents links in sync.
+
 Do not add a top-level `# Heading` at the start of the MDX body. Lotus renders
 the page title from frontmatter in the layout.
 

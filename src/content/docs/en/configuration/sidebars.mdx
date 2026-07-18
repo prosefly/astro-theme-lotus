@@ -70,7 +70,8 @@ the sidebar still references it as `installation`.
 ## Link Items
 
 Use link items for internal or external links that are not generated from docs
-content.
+content. Link items support icons and badges for status labels, API methods, or
+other compact metadata.
 
 ```ts
 {
@@ -80,6 +81,50 @@ content.
   icon: 'simple-icons:github',
 }
 ```
+
+Use a trailing badge for status labels such as beta or new.
+
+```ts
+{
+  label: 'Webhooks',
+  link: 'references/webhooks',
+  badge: {
+    label: 'Beta',
+    color: 'warning',
+    variant: 'soft',
+  },
+}
+```
+
+Use a leading badge for API endpoints where the badge is part of the scanned
+label.
+
+```ts
+{
+  label: '/users',
+  link: 'api/users',
+  badge: {
+    label: 'GET',
+    position: 'leading',
+    color: 'success',
+    variant: 'soft',
+  },
+}
+```
+
+String badges render as trailing neutral badges.
+
+```ts
+{
+  label: 'Search',
+  link: 'configuration/search',
+  badge: 'New',
+}
+```
+
+Badges support `position: 'leading' | 'trailing'`, `variant: 'solid' | 'soft' |
+'subtle' | 'outline'`, and `color: 'neutral' | 'accent' | 'info' | 'success' |
+'warning' | 'danger'`.
 
 ## Groups
 

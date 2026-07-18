@@ -1,0 +1,180 @@
+---
+title: Accordion
+description: 使用 accessible disclosure controls 隐藏和展开相关文档内容。
+sidebar:
+  order: 7
+---
+
+import { AccordionItem, Accordions } from '@prosefly/astro-components';
+
+FAQ、可选解释和较长 reference pages 适合使用 accordions。它让读者在不离开当前阅读流的情况下，
+按需展开细节。
+
+## Import
+
+```mdx
+import { AccordionItem, Accordions } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+语法跟随 Fumadocs：将一个或多个 `AccordionItem` 包在 `Accordions` 中。
+
+<Accordions>
+  <AccordionItem title="What is Lotus?">
+    Lotus is an Astro documentation theme with a configurable docs shell,
+    routing integration, design tokens, and shared MDX components.
+  </AccordionItem>
+  <AccordionItem title="Can I use these components outside Lotus?">
+    Yes. The MDX components live in `@prosefly/astro-components` and use
+    Prosefly CSS tokens, so they can be reused by other Astro themes.
+  </AccordionItem>
+  <AccordionItem title="Does Accordion require a client framework?">
+    No. Items render as native `details` and `summary` elements with a small
+    script for grouped behavior.
+  </AccordionItem>
+</Accordions>
+
+```mdx
+<Accordions>
+  <AccordionItem title="What is Lotus?">
+    Lotus is an Astro documentation theme.
+  </AccordionItem>
+  <AccordionItem title="Can I use MDX inside?">
+    Yes. Accordion content can contain normal MDX.
+  </AccordionItem>
+</Accordions>
+```
+
+## Rich Content
+
+Accordion content 可以包含 paragraphs、lists、links、inline code 和 fenced code blocks。
+
+<Accordions>
+  <AccordionItem title="Which files configure Lotus?">
+    Most projects use a small set of configuration files.
+
+    - `astro.config.mjs` registers the integration.
+    - `src/theme.config.ts` configures the docs theme.
+    - `src/content.config.ts` defines content collections.
+  </AccordionItem>
+  <AccordionItem title="What does a minimal config look like?">
+    ```ts
+    import lotus from '@prosefly/astro-theme-lotus';
+
+    export default defineConfig({
+      integrations: [lotus()],
+    });
+    ```
+  </AccordionItem>
+</Accordions>
+
+## Multiple Items
+
+默认情况下，在同一个 group 中打开一个 item 会关闭其他 items。当读者需要同时保持多个答案打开时，
+添加 `multiple`。
+
+<Accordions multiple>
+  <AccordionItem title="Content" defaultOpen>
+    Write docs as MDX files in your configured docs collection.
+  </AccordionItem>
+  <AccordionItem title="Navigation" defaultOpen>
+    Use `sidebars` and `navbar` to define how readers move through the docs.
+  </AccordionItem>
+  <AccordionItem title="Appearance">
+    Use `appearance` to configure accent color, gray scale, radius, and default
+    color mode.
+  </AccordionItem>
+</Accordions>
+
+```mdx
+<Accordions multiple>
+  <AccordionItem title="Content" defaultOpen>
+    Content details
+  </AccordionItem>
+  <AccordionItem title="Navigation" defaultOpen>
+    Navigation details
+  </AccordionItem>
+</Accordions>
+```
+
+## Default Values
+
+当 open item 应由 parent 控制时，在 group 上使用 `defaultValue`。值会匹配每个 item 的
+`value`、`id` 或 `title`。
+
+<Accordions defaultValue="navigation-settings">
+  <AccordionItem title="Project settings" value="project-settings">
+    Configure the docs base path and route behavior.
+  </AccordionItem>
+  <AccordionItem title="Navigation settings" value="navigation-settings">
+    Configure navbar links, sidebar groups, and page actions.
+  </AccordionItem>
+</Accordions>
+
+启用 `multiple` 时，`defaultValue` 可以是数组。
+
+```mdx
+<Accordions multiple defaultValue={['content', 'navigation']}>
+  <AccordionItem title="Content" value="content">
+    Content details
+  </AccordionItem>
+  <AccordionItem title="Navigation" value="navigation">
+    Navigation details
+  </AccordionItem>
+</Accordions>
+```
+
+## Linkable Items
+
+添加 `id` 可以让 item 通过 URL hash 定位。当页面加载时 hash 匹配，item 会自动打开。
+
+<Accordions>
+  <AccordionItem title="Linkable answer" id="linkable-answer">
+    Navigate to `#linkable-answer` to open this item directly.
+  </AccordionItem>
+  <AccordionItem title="Another answer" id="another-answer">
+    An item's `value` defaults to its `id` when present, otherwise to its
+    `title`.
+  </AccordionItem>
+</Accordions>
+
+## Disabled Items
+
+使用 `disabled` 表示不可用或刻意锁定的内容。
+
+<Accordions>
+  <AccordionItem title="Available section">
+    This section can be opened.
+  </AccordionItem>
+  <AccordionItem title="Disabled section" disabled>
+    This content is rendered, but the trigger cannot open the item.
+  </AccordionItem>
+</Accordions>
+
+## Props
+
+### `Accordions`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `multiple` | `boolean` | `false` | 允许多个 item 同时保持打开。 |
+| `defaultValue` | `string \| string[]` | optional | 页面加载时打开匹配的 item values。 |
+
+### `AccordionItem`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | required | 显示在 accordion summary 中的 trigger text。 |
+| `id` | `string` | optional | 添加 hash target，并成为默认 `value`。 |
+| `value` | `string` | `id ?? title` | `Accordions defaultValue` 使用的稳定值。 |
+| `defaultOpen` | `boolean` | `false` | 在 group behavior 运行前，将 item 渲染为打开。 |
+| `open` | `boolean` | `defaultOpen` | 设置原生 `details` open state。 |
+| `disabled` | `boolean` | `false` | 禁止通过 trigger 打开或关闭 item。 |
+
+## Syntax Rules
+
+- `Accordions` 应包含直接的 `AccordionItem` children。
+- 每个 `AccordionItem` 都必须有 `title`。
+- 当可见 title 可能变化，但 stored defaults 应保持稳定时，使用 `value`。
+- 如果默认要打开多个 items，先使用 `multiple`。

@@ -1,0 +1,107 @@
+---
+title: 项目
+description: 配置站点身份、logo assets 和 favicon links。
+sidebar:
+  order: 1
+---
+
+`Project` 设置描述文档站点本身。这里主要放影响 metadata、品牌展示和浏览器 chrome
+的身份字段。
+
+```ts
+import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+
+export default defineLotusConfig({
+  name: 'Astro Theme Lotus',
+  description: 'A documentation theme for Astro.',
+  logo: {
+    light: '/logo-light.svg',
+    dark: '/logo-dark.svg',
+    href: '/',
+  },
+  favicon: '/favicon.svg',
+});
+```
+
+Routing、i18n、source links 和 contributors 是独立配置主题。见
+[内容路由](/docs/zh-cn/configuration/content-routing/)、[国际化](/docs/zh-cn/configuration/i18n/)
+和 [Source](/docs/zh-cn/configuration/source/)。
+
+## Name
+
+`name` 是公开的产品名或项目名。Lotus 会将它用于站点标题、header brand text、
+footer brand text 和 schema.org metadata。
+
+```ts
+name: 'Astro Theme Lotus'
+```
+
+页面标题由页面 frontmatter title 和这个 `name` 组合而成。
+
+## Description
+
+`description` 是默认站点描述。页面仍然可以通过 frontmatter 覆盖它。
+
+```ts
+description: 'A documentation theme for Astro.'
+```
+
+Lotus 会将这个值用于默认 `<meta name="description">` 和 structured data。
+
+## Logo
+
+`logo` 是可选的。省略时，Lotus 会渲染内置 Lotus mark。
+
+默认情况下，Lotus 会把 logo 当作 mark，并把它和 `name` 一起渲染。当同一个 mark
+asset 可以用于所有 theme mode 时，可以使用字符串。
+
+```ts
+logo: '/logo.svg'
+```
+
+light 和 dark mode 需要不同 mark assets 时，使用对象。
+
+```ts
+logo: {
+  light: '/logo-light.svg',
+  dark: '/logo-dark.svg',
+  href: '/',
+}
+```
+
+如果 logo asset 已经包含项目名，设置 `variant: 'lockup'`。Lotus 会只渲染图片，
+不再额外显示 `name` 文本。默认 `variant` 是 `mark`。
+
+```ts
+logo: {
+  light: '/logo-lockup-light.svg',
+  dark: '/logo-lockup-dark.svg',
+  variant: 'lockup',
+}
+```
+
+`href` 控制 brand link 的目标。省略时，brand 会链接到 `/`。对于 `public/` 中的
+本地 assets，Lotus 会在 Astro config setup 阶段读取图片尺寸，并自动渲染 `width`
+和 `height` attributes。只有远程 logo URL 或 Lotus 无法从 `public/` 读取的路径，
+才需要手动添加 `width` 和 `height`。
+
+## Favicon
+
+常见的单 favicon 场景使用字符串即可。
+
+```ts
+favicon: '/favicon.svg'
+```
+
+项目需要多个 favicon links 时，使用对象或数组。
+
+```ts
+favicon: [
+  { href: '/favicon.svg', type: 'image/svg+xml' },
+  { href: '/favicon.ico', sizes: '32x32' },
+  { href: '/apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' },
+]
+```
+
+每个对象都会渲染为 document head 中的 `<link>`。支持字段包括 `href`、`rel`、
+`type`、`sizes`、`media` 和 `color`。

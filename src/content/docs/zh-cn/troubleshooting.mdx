@@ -1,0 +1,41 @@
+---
+title: 故障排查
+description: 排查 Lotus 设置、路由、MDX、搜索、i18n 和组件覆盖中的常见问题。
+sidebar:
+  order: 5
+---
+
+先运行 `pnpm run check`。它会在生产构建前验证 content collections、MDX imports、
+Astro 组件和 TypeScript。
+
+## 文档页面没有出现在 sidebar 中
+
+确认页面在 docs collection 中，生产环境下没有设置 `draft: true`，并且被 sidebar
+字符串项或 `autogenerate.directory` 匹配。i18n 项目中，sidebar 值与 locale 无关，
+所以应使用 `configuration/project`，而不是 `en/configuration/project`。
+
+## 生成的路由不是预期 URL
+
+检查 `docsBase`、locale `directory` 和 frontmatter `slug`。`slug` 会改变公开 URL，
+但 sidebar 归属仍然跟随 content entry ID。
+
+## 搜索索引返回 404
+
+确认 `docsBase` 和当前 locale。默认 `docsBase: '/'` 时，根搜索索引是
+`/search.json`。设置 `docsBase: '/docs'` 时，索引是 `/docs/search.json`；
+本地化索引会包含 locale 前缀，例如 `/docs/zh-cn/search.json`。
+
+## 图标没有渲染
+
+使用完整 Iconify 名称，例如 `lucide:search`，或在支持的位置配置别名。如果图标名称
+是动态生成的，需要将它加入 `iconify.preload`，因为静态扫描无法检测动态名称。
+
+## 组件覆盖没有生效
+
+确认 key 与受支持的 override slot 完全一致，路径是相对于项目根目录的路径，并且在修改
+`src/theme.config.ts` 后重启了 dev server。
+
+## 翻译页面回退到了英文
+
+在 locale 目录下添加匹配文件。Fallback 页面会保留目标 locale route，但 edit links
+和 contributors 会指向实际渲染的默认 locale 源文件。

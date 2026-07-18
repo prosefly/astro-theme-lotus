@@ -1,0 +1,79 @@
+---
+title: Cards
+description: 使用 outline documentation cards 组织相关链接和摘要。
+sidebar:
+  order: 4
+---
+
+import { Card, CardGrid } from '@prosefly/astro-components';
+
+使用 `CardGrid` 和 `Card` 展示紧凑的下一步链接、功能摘要和相关资源。Cards 默认使用
+outline 样式；带 `href` 的 linked cards 会添加 soft hover background。
+
+## Import
+
+```mdx
+import { Card, CardGrid } from '@prosefly/astro-components';
+```
+
+## Example
+
+<CardGrid>
+  <Card icon="lucide:settings" title="Configuration" href="/docs/zh-cn/configuration/project/">
+    自定义主题前，先查看 theme settings、typography tokens 和 navigation structure。
+  </Card>
+  <Card icon="lucide:braces" title="Components" href="/docs/zh-cn/components/callout/">
+    使用 callouts、steps、tabs、file trees 和其他 shared MDX components 组合文档页面。
+  </Card>
+  <Card icon="simple-icons:github" title="GitHub" href="https://github.com/prosefly/astro-theme-lotus" external>
+    在新标签页打开 Lotus repository。
+  </Card>
+  <Card icon="lucide:info">
+    Card 不一定需要 title 或 link。可以用它在 grid 中放置简短上下文说明。
+  </Card>
+</CardGrid>
+
+```mdx
+<CardGrid>
+  <Card icon="lucide:settings" title="Configuration" href="/docs/zh-cn/configuration/project/">
+    Review theme settings and navigation structure.
+  </Card>
+  <Card icon="simple-icons:github" title="GitHub" href="https://github.com/prosefly/astro-theme-lotus" external>
+    Open the Lotus repository in a new tab.
+  </Card>
+</CardGrid>
+```
+
+## Outline Style
+
+Cards 默认透明。只有带 `href` 的 cards 会有 hover 样式。
+
+<CardGrid>
+  <Card title="Static summary">
+    这个 card 不可交互，所以 hover 时保持相同 outline 处理。
+  </Card>
+  <Card title="Linked summary" href="/docs/zh-cn/components/callout/">
+    这个 card 有目标地址，所以会有 soft hover background。
+  </Card>
+</CardGrid>
+
+## Props
+
+### `CardGrid`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| None | — | — | 创建移动端单列、medium screens 起双列的 grid。 |
+
+### `Card`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | optional | 渲染在 card 顶部的标题。 |
+| `href` | `string` | optional | 提供后，card 会渲染为 anchor。 |
+| `external` | `boolean` | `false` | 在新标签页打开 linked cards，并设置 `rel="noreferrer"`。 |
+| `icon` | `string` | optional | 显示在内容前的 Iconify icon name。 |
+
+## Notes
+
+Cards 故意保持轻量。内容应简短，每个 linked card 只指向一个目标。

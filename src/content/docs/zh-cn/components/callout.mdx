@@ -1,0 +1,93 @@
+---
+title: Callout
+description: 在文档中突出 notes、tips、warnings 和 destructive guidance。
+sidebar:
+  order: 3
+---
+
+import { Callout } from '@prosefly/astro-components';
+
+当一段内容需要比普通正文更醒目，但仍然属于阅读流的一部分时，使用 `Callout`。
+
+## Import
+
+```mdx
+import { Callout } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+省略 `title` 时，callout 会渲染为带图标和正文的紧凑内联提示。
+
+```mdx
+<Callout type="warning">
+  When using a hosted coding plan, follow the tutorial before configuring a
+  dedicated endpoint.
+</Callout>
+```
+
+<Callout type="warning">
+  When using a hosted coding plan, follow the tutorial before configuring a
+  dedicated endpoint.
+</Callout>
+
+## With Title
+
+当提示需要短标题时，添加 `title`。图标和标题位于第一行，正文显示在下方。
+
+```mdx
+<Callout type="note" title="Document the default behavior">
+  The note variant is a safe default for implementation details, caveats, and
+  editorial guidance.
+</Callout>
+```
+
+<Callout type="note" title="Document the default behavior">
+  The note variant is a safe default for implementation details, caveats, and
+  editorial guidance.
+</Callout>
+
+## Variants
+
+使用 `type` 匹配提示意图。
+
+<Callout type="note" title="Note">
+  Note 适合中性上下文、实现细节和不需要立即行动的 caveats。
+</Callout>
+
+<Callout type="tip" title="Tip">
+  Tip 适合推荐工作流、快捷方式，或帮助读者更顺利完成任务的模式。
+</Callout>
+
+<Callout type="warning" title="Warning">
+  Warning 适合可能导致困惑行为、损坏输出或额外设置工作的选择。
+</Callout>
+
+<Callout type="danger" title="Danger">
+  Danger 适合破坏性操作、安全敏感步骤或不可逆变更。
+</Callout>
+
+## Rich Content
+
+Callouts 接受正常 MDX 内容。
+
+<Callout type="tip" title="Keep examples actionable">
+  Include the smallest working command first:
+
+  ```sh
+  pnpm add @prosefly/astro-components
+  ```
+
+  Then explain optional configuration after the command.
+</Callout>
+
+## Props
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title` | `string` | none | 显示在正文上方的可选标题。 |
+| `type` | `'note' \| 'tip' \| 'warning' \| 'danger'` | `'note'` | 改变图标、颜色、边框和背景处理。 |
+
+## Behavior
+
+Callouts 是静态内容容器。它们不会折叠、dismiss，也不会添加客户端行为。

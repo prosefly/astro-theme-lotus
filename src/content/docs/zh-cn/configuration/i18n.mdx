@@ -1,0 +1,196 @@
+---
+title: 国际化
+description: 配置 locale 目录、本地化路由、fallback 和 UI translations。
+sidebar:
+  order: 3
+---
+
+import { Callout, FileTree } from '@prosefly/astro-components';
+
+Lotus 采用类似 Starlight 的 i18n 模型：每个 locale 都有 key、label、language tag、
+可选文本方向和 content directory。特殊的 `root` locale 会在没有 locale prefix 的路径下渲染。
+
+<Callout type="note" title="Root locale">
+  `root` locale 是默认无前缀 locale。它渲染在 `/docs/...`，而不是 `/docs/root/...`。
+</Callout>
+
+```ts
+defaultLocale: 'root',
+locales: {
+  root: {
+    label: 'English',
+    lang: 'en',
+    directory: 'en',
+  },
+  'zh-cn': {
+    label: '简体中文',
+    lang: 'zh-CN',
+    directory: 'zh-cn',
+  },
+}
+```
+
+使用默认 `docsLoader()` 时，这个配置会让英文文件位于 `src/content/docs/en/`，
+并渲染到 `/docs/overview/`。简体中文文件位于 `src/content/docs/zh-cn/`，
+并渲染到 `/docs/zh-cn/overview/`。
+
+<FileTree>
+
+- src
+  - content
+    - docs
+      - en
+        - index.mdx `/docs/`
+        - overview.mdx `/docs/overview/`
+      - zh-cn
+        - index.mdx `/docs/zh-cn/`
+        - overview.mdx `/docs/zh-cn/overview/`
+
+</FileTree>
+
+## Locale Keys And Prefixes
+
+Locale keys 控制 route prefixes。`root` 没有 prefix；其他 key 会作为 `docsBase`
+之后的第一个 path segment。
+
+| Locale key | Directory | Page URL |
+| --- | --- | --- |
+| `root` | `en` | `/docs/overview/` |
+| `zh-cn` | `zh-cn` | `/docs/zh-cn/overview/` |
+
+建议使用小写 locale keys，保证 URL 可预测。面向浏览器的 HTML language tag 需要大小写时，
+使用 `lang`，例如 `zh-CN`。
+
+Lotus 会根据每个 locale 设置页面 `<html dir>`。省略 `dir` 时，会根据 `lang` 或 locale
+key 推断常见 RTL 语言，例如 `ar`、`fa`、`he` 和 `ur`。需要覆盖默认推断时，显式设置 `dir`。
+
+## Directory Mapping
+
+`locales.*.directory` 会在 Lotus 匹配 sidebar string items 和
+`autogenerate.directory` values 前移除 locale 目录。
+
+例如，`src/content/docs/en/configuration/project.mdx` 和
+`src/content/docs/zh-cn/configuration/project.mdx` 在 `sidebars` 中都引用为
+`configuration/project`。
+
+<FileTree>
+
+- docs
+  - en
+    - configuration
+      - **project.mdx** referenced as `configuration/project`
+  - zh-cn
+    - configuration
+      - **project.mdx** referenced as `configuration/project`
+
+</FileTree>
+
+```ts
+sidebars: [
+  {
+    label: 'Guides',
+    items: [
+      {
+        label: 'Configuration',
+        items: [{ autogenerate: { directory: 'configuration' } }],
+      },
+    ],
+  },
+]
+```
+
+完整 route generation model 见 [内容路由](/docs/zh-cn/configuration/content-routing/)。
+
+## Fallbacks
+
+如果非默认 locale 没有某个页面，Lotus 可以回退到默认 locale entry。这样在翻译进行中，
+部分翻译站点仍然可以正常导航。
+
+Fallback 页面会保留目标 locale route，但 source-aware features，例如 edit links
+和 contributors，仍然指向实际渲染的源文件。Source path 行为见
+[Source](/docs/zh-cn/configuration/source/)。
+
+## UI Translations
+
+Lotus 为常见文档站点 locale 内置 template translations。这些字符串覆盖搜索、theme mode
+controls、table of contents、page actions、edit links、mobile docs navigation 和 404 页面等外壳 UI。
+
+当前内置 messages 覆盖：
+
+| Locale | Language |
+| --- | --- |
+| `en` | English |
+| `zh-cn` | Simplified Chinese |
+| `zh-tw` | Traditional Chinese |
+| `ja` | Japanese |
+| `ko` | Korean |
+| `fr` | French |
+| `de` | German |
+| `es` | Spanish |
+| `pt-br` | Brazilian Portuguese |
+| `it` | Italian |
+| `ru` | Russian |
+| `ar` | Arabic |
+
+使用 `ui` 覆盖某个 locale 的内置字符串。Key 可以匹配 locale key，也可以匹配 locale language code。
+
+```ts
+ui: {
+  'zh-cn': {
+    'page.editLink': '在 GitHub 上编辑',
+    'tableOfContents.onThisPage': '页面目录',
+    'search.placeholder': '搜索',
+  },
+}
+```
+
+自定义 locale 会先回退到默认 locale，再回退到英文。
+
+## Config Labels
+
+写在 `theme.config.ts` 中的 labels 属于项目内容，不属于内置 UI messages。当同一个配置项需要在不同
+locale 下显示不同文本时，在 label 旁边添加 `translations`。
+
+```ts
+sidebars: [
+  {
+    slug: 'guide',
+    label: 'Guides',
+    translations: {
+      'zh-cn': '指南',
+    },
+    items: [
+      {
+        label: 'Getting Started',
+        translations: {
+          'zh-cn': '入门',
+        },
+        items: ['overview', 'installation'],
+      },
+    ],
+  },
+]
+```
+
+navbar items、social links、sidebar sections、sidebar groups 和 sidebar link items
+都支持同样模式。从内容生成的页面链接会使用本地化页面 frontmatter。
+
+## Translator API
+
+Lotus 将解析后的 translator 作为 `Astro.locals.t` 提供给主题组件和本地 overrides。
+Translator 形状与 Starlight 类似。
+
+```astro
+---
+const t = Astro.locals.t;
+const locale = t.locale();
+---
+
+<a dir={t.dir()} hreflang={locale.lang} href="/docs/zh-cn/configuration/search/">
+  {t('search.label')}
+</a>
+```
+
+使用 `t(key, values)` 渲染字符串，`t.all()` 读取解析后的 UI dictionary，
+`t.exists(key)` 检查 key 是否存在，`t.dir()` 获取当前 locale 的文本方向，
+`t.locale()` 读取解析后的 Lotus locale object。

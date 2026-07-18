@@ -1,0 +1,166 @@
+---
+title: Source
+description: 配置源码仓库、edit links 和页面 contributors。
+sidebar:
+  order: 10
+---
+
+`source` 描述文档文件在版本控制中的位置。Lotus 会用它把渲染后的页面映射回源文件，
+用于 edit links 和 contributors 等功能。
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+Lotus 从 Astro content entry metadata 读取源文件路径，所以这里只需要提供仓库信息。
+Repository 字段既可以使用 shorthand，也可以使用完整 repository URL。
+
+## Repository Providers
+
+省略 `source` 时，Lotus 会尝试从 `git config --get remote.origin.url` 推断 repository
+provider 和 URL。这支持常见 GitHub、GitLab 和 Codeberg remotes，也支持
+`git@github.com:owner/repo.git` 这样的 SSH remote。
+
+Lotus 不会从 git 推断 branch。链接不指向 `main` 时，需要设置 `source.branch`。
+
+### GitHub
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+### GitLab
+
+```ts
+source: {
+  gitlab: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+### Codeberg
+
+```ts
+source: {
+  codeberg: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+}
+```
+
+当 shorthand 不够用时，repository fields 也可以使用完整 repository URLs。
+
+## Edit Links
+
+设置 `editLink: true`，从 `source` 生成 “Edit this page” 链接。
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+  branch: 'main',
+},
+editLink: true
+```
+
+Lotus 使用每个 entry 的真实 `filePath`，为配置的 repository provider 构建 edit URL。
+你不需要在 source 配置中重复 `docsLoader({ base })` 目录。
+
+对于 `src/content/docs/en/overview.mdx`，Lotus 会生成：
+
+```txt
+https://github.com/prosefly/astro-theme-lotus/edit/main/src/content/docs/en/overview.mdx
+```
+
+当 edit links 需要自定义 URL pattern 时，使用对象。对象会继承 `source.branch`，
+所以通常只需要提供不同的 pattern。
+
+```ts
+editLink: {
+  pattern: 'https://gitlab.com/prosefly/astro-theme-lotus/-/edit/{branch}/{path}',
+}
+```
+
+Patterns 可以使用 `{path}`、`{encodedPath}` 和 `{branch}`。如果项目有特殊 repository
+layout，对象值也可以覆盖共享 provider fields。
+
+```ts
+editLink: {
+  pattern: 'https://example.com/edit/{branch}/{encodedPath}',
+}
+```
+
+设置 `editLink: false` 或省略 `editLink`，即可隐藏生成的 edit links。
+
+## Contributors
+
+Lotus 可以在 previous/next links 上方显示页面 contributors。
+
+```ts
+contributors: true
+```
+
+Contributors 使用与 edit links 相同的 entry file path。Lotus 会先从本地 `git log`
+读取每页 contributors；当配置了 `source.github` 时，再用 GitHub avatars 和 profile links
+增强匹配到的用户。GitHub lookup 会按 repository 请求 contributors endpoint，而不是按页面请求。
+Lotus 还会为前 10 个未排除的 repository contributors 加载 GitHub user profiles，以便用
+public emails 和 full names 匹配本地 git author names。无法匹配到 GitHub 的 contributors
+会回退到本地 git email 的 Gravatar URL。
+
+需要限制或过滤显示列表时，将 `contributors` 设置为对象。
+
+```ts
+contributors: {
+  max: 6,
+  exclude: ['github-actions[bot]'],
+}
+```
+
+使用 `githubProfileLimit` 修改 Lotus 请求多少个 GitHub user profiles 来做 full-name matching。
+设置为 `0` 可跳过 full-name matching。
+
+```ts
+contributors: {
+  githubProfileLimit: 5,
+}
+```
+
+如果始终想使用本地 git history 和 Gravatar，并避免调用 GitHub API，设置 `avatar: 'gravatar'`。
+
+```ts
+contributors: {
+  avatar: 'gravatar',
+  max: 6,
+}
+```
+
+如果始终想查询 GitHub repository contributors，并使用 GitHub avatars 和 profile links，
+设置 `avatar: 'github'`。
+
+```ts
+source: {
+  github: 'prosefly/astro-theme-lotus',
+},
+contributors: {
+  avatar: 'github',
+  max: 6,
+}
+```
+
+特殊情况下，`contributors.github` 仍然可以覆盖共享的 `source.github` 字段。
+
+Lotus 会自动使用 `GITHUB_TOKEN` 或 `GH_TOKEN` 环境变量。GitHub request 失败时，
+Lotus 会回退到本地 git history，因此静态构建仍然可以完成。
+
+## Localized Content
+
+Edit links 和 contributor paths 使用实际源文件路径，而不是本地化 route。如果某个本地化页面
+回退到默认 locale 内容，它的 edit link 和 contributor query 会指向默认 locale 源文件。
+
+对于 `src/content/docs/en/overview.mdx`，即使 root English locale 渲染在
+`/docs/overview/`，Lotus 使用的 source path 仍然是
+`src/content/docs/en/overview.mdx`。

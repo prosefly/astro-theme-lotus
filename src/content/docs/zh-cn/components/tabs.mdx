@@ -1,0 +1,204 @@
+---
+title: Tabs
+description: 将平行示例展示为一组选项卡 panels。
+sidebar:
+  order: 6
+---
+
+import { TabItem, Tabs } from '@prosefly/astro-components';
+
+当读者需要在等价示例之间切换时，使用 `Tabs`。常见场景包括 package managers、
+frameworks、output formats，或 preview/code views。
+
+## Import
+
+```mdx
+import { TabItem, Tabs } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+语法与 Starlight 一致：将一个或多个 `TabItem` 直接放在 `Tabs` 内部。
+
+<Tabs>
+  <TabItem label="Preview">
+    Tabs 可以包含 prose、lists、links 和其他 MDX 内容。
+
+    - 每个 panel 应聚焦在同一个任务。
+    - 使用短 labels，保证 tab list 在移动端仍然紧凑。
+  </TabItem>
+  <TabItem label="Code">
+    ```astro
+    <Tabs>
+      <TabItem label="Preview">Preview content</TabItem>
+      <TabItem label="Code">Code content</TabItem>
+    </Tabs>
+    ```
+  </TabItem>
+</Tabs>
+
+```mdx
+<Tabs>
+  <TabItem label="Preview">
+    Preview content
+  </TabItem>
+  <TabItem label="Code">
+    Code content
+  </TabItem>
+</Tabs>
+```
+
+## With Icons
+
+给 `TabItem` 添加 `icon`，可使用任何 Iconify icon name。当一组 tabs 有 icons 时，
+active tab icon 会显示在 tab header 开头。
+
+<Tabs defaultValue="npm" syncKey="tabs-docs-package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn add @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="bun" icon="simple-icons:bun">
+    ```sh
+    bun add @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+
+````mdx
+<Tabs defaultValue="npm" syncKey="package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+````
+
+## Copy Code
+
+当每个 panel 都包含代码块，并且希望从 tab header 复制 active panel 的代码时，在 `Tabs`
+上设置 `copy`。
+
+<Tabs copy syncKey="tabs-docs-copy-package-manager">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm add @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm install @prosefly/astro-components
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn add @prosefly/astro-components
+    ```
+  </TabItem>
+</Tabs>
+
+Copy button 会读取 active panel 中的第一个 code block。
+
+## Synced Groups
+
+具有相同 `syncKey` 的 groups 会共享 selected label。这适合在同一页面中多次重复 package
+manager 示例。
+
+<Tabs syncKey="tabs-docs-sync-example">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm dev
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm run dev
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn dev
+    ```
+  </TabItem>
+</Tabs>
+
+<Tabs syncKey="tabs-docs-sync-example">
+  <TabItem label="pnpm" icon="simple-icons:pnpm">
+    ```sh
+    pnpm build
+    ```
+  </TabItem>
+  <TabItem label="npm" icon="simple-icons:npm">
+    ```sh
+    npm run build
+    ```
+  </TabItem>
+  <TabItem label="yarn" icon="simple-icons:yarn">
+    ```sh
+    yarn build
+    ```
+  </TabItem>
+</Tabs>
+
+在 synced groups 中使用匹配的 labels。`syncKey` 会将 selected label 存到
+`localStorage`，所以读者的选择可以跨导航保留。
+
+## Custom Values
+
+当 tab 需要一个不同于可见 label 的稳定内部值时，使用 `value`。`defaultValue` 可以匹配
+`label` 或 `value`。
+
+<Tabs defaultValue="typescript">
+  <TabItem label="TypeScript" value="typescript">
+    ```ts
+    export const defineTheme = () => ({ name: 'Lotus' });
+    ```
+  </TabItem>
+  <TabItem label="JavaScript" value="javascript">
+    ```js
+    export const defineTheme = () => ({ name: 'Lotus' });
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+### `Tabs`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `copy` | `boolean \| string` | `false` | 为 active panel 中的第一个 code block 显示 copy button。 |
+| `defaultValue` | `string` | first tab | 初始 active tab。匹配 `TabItem.label` 或 `TabItem.value`。 |
+| `syncKey` | `string` | optional | 在具有相同 key 的 tab groups 之间同步 active label。 |
+
+### `TabItem`
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `label` | `string` | required | 可见 tab label。省略 `value` 时也用于 syncing。 |
+| `value` | `string` | `label` | 用于 `defaultValue` 和内部 tab state 的稳定值。 |
+| `icon` | `string` | optional | 显示为 active panel icon 的 Iconify icon name。 |
+
+## Syntax Rules
+
+- `Tabs` 只能包含直接的 `TabItem` children。
+- 每个 `TabItem` 都必须有 `label`。
+- Markdown 内容应放在每个 `TabItem` 内部；不要在 tab items 之间放 loose Markdown。
+- 使用简短 labels，保证 tab list 在小屏幕上容易扫描。

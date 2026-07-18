@@ -1,0 +1,50 @@
+---
+title: 开始使用 Lotus
+description: 安装 Lotus、配置文档外壳，并开始编写 Astro 文档。
+template: splash
+tableOfContents: false
+hero:
+  title: 开始使用 Lotus
+  tagline: 选择适合当前项目的路径，然后配置文档外壳并开始编写内容。
+  actions:
+    - text: 使用 starter
+      link: /docs/zh-cn/installation/
+      variant: primary
+      icon: lucide:sparkles
+    - text: 阅读概览
+      link: /docs/zh-cn/overview/
+      variant: secondary
+sidebar:
+  hidden: true
+---
+
+import { Card, CardGrid } from '@prosefly/astro-components';
+
+## 选择路径
+
+<CardGrid>
+  <Card icon="lucide:sparkles" title="新文档站点" href="/docs/zh-cn/installation/#starter-template">
+    从 Lotus starter template 开始，快速得到一个已经接好主题的 Astro 文档站点。
+  </Card>
+  <Card icon="lucide:wrench" title="已有 Astro 项目" href="/docs/zh-cn/installation/#manual-setup">
+    手动安装 Lotus、注册 integration，并接入你的 docs content collection。
+  </Card>
+  <Card icon="lucide:settings-2" title="配置 Lotus" href="/docs/zh-cn/configuration/project/">
+    设置项目身份、docs routing、导航、sidebars、footer、搜索、源码链接和 page actions。
+  </Card>
+  <Card icon="lucide:file-text" title="编写文档内容" href="/docs/zh-cn/essentials/frontmatter/">
+    学习 Lotus 页面所需的 frontmatter、Markdown、图片、代码块和 MDX 写法。
+  </Card>
+  <Card icon="lucide:palette" title="自定义 UI" href="/docs/zh-cn/customization/css-styling/">
+    调整外观、CSS tokens、布局，以及配置不够用时的外壳组件覆盖。
+  </Card>
+  <Card icon="lucide:move-right" title="从 Starlight 迁移" href="/docs/zh-cn/migrations/starlight/">
+    将已有 Starlight 内容、sidebars、i18n 目录和 MDX 组件用法迁移到 Lotus。
+  </Card>
+</CardGrid>
+
+## 参考链接
+
+- 阅读 [概览](/docs/zh-cn/overview/) 了解高层模型。
+- 查看 [Recipes](/docs/zh-cn/recipes/) 了解任务导向的设置方式。
+- 升级 Lotus 前查看 [更新日志](/docs/zh-cn/changelog/)。

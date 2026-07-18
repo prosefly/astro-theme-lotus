@@ -1,0 +1,48 @@
+---
+title: 部署
+description: 将 Lotus 部署到任何支持 Astro static output 的静态托管平台。
+sidebar:
+  order: 4
+---
+
+import { Steps } from '@prosefly/astro-components';
+
+Lotus 构建为静态输出，因此可以部署到任何支持 Astro 静态站点的平台。
+
+## 部署前构建
+
+<Steps>
+
+1. **在本地运行生产构建。**
+
+   ```sh
+   npm run build
+   ```
+
+2. **检查生成结果。**
+
+   确认文档页面、MDX imports、搜索路由和本地化页面都能正常渲染。
+
+3. **发布 `dist/`。**
+
+   将生成的静态输出部署到托管平台。
+
+</Steps>
+
+## 常见静态托管平台
+
+### Vercel
+
+使用默认 Astro 静态构建设置。Vercel 发布生成的 `dist/` 目录。
+
+### Netlify
+
+将 build command 设置为 `npm run build`，publish directory 设置为 `dist/`。
+
+### Cloudflare Pages
+
+使用同样的静态输出流程：安装依赖、运行 `npm run build`，然后发布 `dist/`。
+
+### 其他静态托管
+
+只要托管平台能提供 `dist/` 中的文件，Lotus 就可以部署。当前不需要服务端运行时。

@@ -1,0 +1,138 @@
+---
+title: 安装
+description: 从 starter template 创建 Lotus 文档站点，或将 Lotus 加到现有 Astro 项目。
+sidebar:
+  order: 2
+---
+
+import { Card, CardGrid, Steps } from '@prosefly/astro-components';
+
+新建文档站点时，推荐从 Lotus starter template 开始。已有 Astro 项目时，可以手动安装 Lotus。
+
+<CardGrid>
+  <Card icon="lucide:sparkles" title="使用 Starter 模板" href="#starter-template">
+    快速创建一个已接入 Astro、content collections、theme config 和示例文档的 Lotus 站点。
+  </Card>
+  <Card icon="lucide:wrench" title="手动设置" href="#manual-setup">
+    将 Lotus 加到现有 Astro 项目，并保留对项目文件结构的完整控制。
+  </Card>
+</CardGrid>
+
+## 使用 Starter 模板 {#starter-template}
+
+如果你想最快得到一个可运行站点，使用 starter。
+
+```sh
+pnpm create astro@latest my-docs --template prosefly/astro-template-lotus-starter
+cd my-docs
+pnpm dev
+```
+
+模板源码在
+[prosefly/astro-template-lotus-starter](https://github.com/prosefly/astro-template-lotus-starter)。
+
+站点跑起来后，替换示例内容，并在 `src/theme.config.ts` 中更新项目名称、导航、
+sidebar 结构、外观、footer 和源码仓库。
+
+## 手动设置 {#manual-setup}
+
+当项目已经存在，或你想逐步接入 Lotus 时，使用手动设置。
+
+<Steps>
+
+1. **安装 Lotus。**
+
+   将主题包加到 Astro 项目。
+
+   ```sh
+   pnpm add @prosefly/astro-theme-lotus
+   ```
+
+   当你自己的 MDX 或 Astro 文件直接 import cards、steps、tabs、callouts、
+   badges、file trees 等 shared components 时，再直接安装
+   `@prosefly/astro-components`。
+
+   ```sh
+   pnpm add @prosefly/astro-components
+   ```
+
+2. **注册 integration。**
+
+   在 Astro 配置中接入 Lotus integration。
+
+   ```ts title="astro.config.ts"
+   import { defineConfig } from 'astro/config';
+   import lotus from '@prosefly/astro-theme-lotus';
+   import themeConfig from './src/theme.config';
+
+   export default defineConfig({
+     integrations: [lotus(themeConfig)],
+   });
+   ```
+
+3. **创建 theme config。**
+
+   先配置项目身份和最小 sidebar。
+
+   ```ts title="src/theme.config.ts"
+   import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+
+   export default defineLotusConfig({
+     name: 'My Docs',
+     description: 'Documentation for my project.',
+     navbar: [{ label: 'Docs', href: '/' }],
+     sidebars: [
+       {
+         label: 'Guides',
+         icon: 'lucide:rocket',
+         items: ['index'],
+       },
+     ],
+   });
+   ```
+
+   如果 Astro 项目已经有站点首页，并且文档应该放在 `/docs/` 下，设置
+   `docsBase: '/docs'`。
+
+4. **注册 docs collection。**
+
+   创建 `src/content.config.ts`，并使用 Lotus 提供的 loader 和 schema。
+
+   ```ts title="src/content.config.ts"
+   import { defineCollection } from 'astro:content';
+   import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
+
+   const docs = defineCollection({
+     loader: docsLoader(),
+     schema: docsSchema(),
+   });
+
+   export const collections = { docs };
+   ```
+
+5. **添加第一篇文档。**
+
+   Lotus 默认从 `src/content/docs` 读取文档。
+
+   ```mdx title="src/content/docs/index.mdx"
+   ---
+   title: Overview
+   description: Start here.
+   ---
+
+   Welcome to the docs.
+   ```
+
+6. **启动开发服务器。**
+
+   ```sh
+   pnpm dev
+   ```
+
+</Steps>
+
+## 下一步
+
+- 查看 [项目配置](/docs/zh-cn/configuration/project/)，设置站点身份、导航、sidebars、footer 和源码仓库。
+- 在移动文档路径或修改 docs loader base 前，先阅读 [内容路由](/docs/zh-cn/configuration/content-routing/)。
+- 发布前运行 `pnpm check`，验证 content collections、MDX imports、Astro 组件和 TypeScript。

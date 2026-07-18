@@ -1,0 +1,214 @@
+---
+title: File Tree
+description: 使用 collapsible folders 和 inline file metadata 展示目录结构。
+sidebar:
+  order: 8
+---
+
+import { FileTree } from '@prosefly/astro-components';
+
+当层级结构比长段正文更重要时，使用 `FileTree` 展示 project structure、package exports、
+documentation folders 或其他 directory layout。
+
+## Import
+
+```mdx
+import { FileTree } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+语法跟随 Starlight：在 `FileTree` 中包裹一个 unordered Markdown list。
+
+<FileTree>
+
+- astro.config.mjs
+- package.json
+- src
+  - content
+    - docs
+      - index.mdx
+      - components/
+  - theme.config.ts
+- public/
+
+</FileTree>
+
+```mdx
+<FileTree>
+
+- astro.config.mjs
+- package.json
+- src
+  - content
+    - docs
+      - index.mdx
+      - components/
+  - theme.config.ts
+- public/
+
+</FileTree>
+```
+
+## Directories
+
+当一个 item 有 nested children 时，它会成为 directory。你也可以添加结尾 `/` 来标记空目录。
+
+<FileTree>
+
+- src
+  - components
+    - Callout.astro
+    - Tabs.astro
+  - content/
+- public/
+
+</FileTree>
+
+Directories 渲染为原生 disclosure controls，所以读者可以 collapse 和 expand 树中的 section。
+
+## Comments
+
+在 file 或 directory name 后面写文本即可添加 comment。Comments 可以使用 inline Markdown。
+
+<FileTree>
+
+- astro.config.mjs registers the Lotus integration
+- src
+  - theme.config.ts the **main** theme configuration file
+  - content contains the docs collection
+    - docs generated from `themeConfig.sidebars`
+- packages
+  - astro-components shared MDX components
+  - astro-theme-lotus theme integration and layouts
+
+</FileTree>
+
+```mdx
+<FileTree>
+
+- astro.config.mjs registers the Lotus integration
+- src
+  - theme.config.ts the **main** theme configuration file
+  - content contains the docs collection
+
+</FileTree>
+```
+
+## Highlight Entries
+
+将 file 或 directory name 加粗，可以突出重要 entry。Highlight 会包含 file 或 directory
+icon 和 name；comments 保持在 highlighted area 外。
+
+<FileTree>
+
+- packages
+  - astro-components
+    - src
+      - mdx
+        - **FileTree.astro**
+        - rehype-file-tree.ts
+        - Tabs.astro
+  - astro-theme-lotus
+
+</FileTree>
+
+## Placeholders
+
+当 tree 有意省略文件时，使用 `...` 或 `…`。
+
+<FileTree>
+
+- src
+  - components
+    - Callout.astro
+    - Steps.astro
+    - …
+  - content
+    - docs
+      - overview.mdx
+      - …
+
+</FileTree>
+
+## Special Names
+
+当文件名包含空格、前导下划线，或 Markdown 可能当作格式语法的字符时，用反引号包裹文件名。
+
+<FileTree>
+
+- `__init__.py`
+- `README copy.md`
+- **`theme.config.ts`** highlighted with code formatting
+- docs
+  - `getting started.mdx`
+  - `faq?.mdx`
+
+</FileTree>
+
+## File Icons
+
+File icons 会根据文件名或扩展名选择。默认情况下，`FileTree` 使用简单的 Lucide file 和
+folder icons。
+
+<FileTree>
+
+- component.astro code file
+- config.yaml config file
+- tokens.css stylesheet
+- logo.svg image asset
+- notes.md text content
+- archive.zip generic file
+
+</FileTree>
+
+使用 `iconSet="vscode-icons"` 可显示更丰富的 file-type icons。
+
+<FileTree iconSet="vscode-icons">
+
+- astro.config.mjs
+- package.json
+- tsconfig.json
+- src
+  - components
+    - Header.astro
+    - SearchDialog.ts
+  - content
+    - docs
+      - overview.mdx
+      - images.md
+  - styles
+    - app.css
+- public
+  - logo.svg
+
+</FileTree>
+
+```mdx
+<FileTree iconSet="vscode-icons">
+
+- astro.config.mjs
+- package.json
+- tsconfig.json
+- src
+  - components
+    - Header.astro
+    - SearchDialog.ts
+
+</FileTree>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `iconSet` | `'lucide' \| 'vscode-icons'` | `'lucide'` |
+
+## Syntax Rules
+
+- `FileTree` 的直接内容必须是且只能是一个 unordered Markdown list。
+- 在 `<FileTree>` 后和 `</FileTree>` 前保留空行，让 MDX 将列表解析为 Markdown。
+- 使用 nested list items 表示 directory contents。
+- 使用 bold text 突出 entry name。
+- 将 comments 放在同一个 list item 中的 name 后面。
+- 使用 `...` 或 `…` 表示省略的文件。

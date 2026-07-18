@@ -1,0 +1,127 @@
+---
+title: Steps
+description: 使用 numbered markers 和 vertical guide 组织流程型内容。
+sidebar:
+  order: 5
+---
+
+import { Steps } from '@prosefly/astro-components';
+
+安装流程、迁移指南和设置任务适合使用 `Steps`。当每一步都需要作为连续流程被快速扫描时，
+它比普通列表更清晰。
+
+## Import
+
+```mdx
+import { Steps } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+`Steps` 使用与 Starlight 相同的语法：在组件内部包裹一个 ordered Markdown list。
+
+<Steps>
+
+1. **Install the package.**
+
+   Add Lotus and the shared MDX components to your Astro project.
+
+2. **Configure the integration.**
+
+   Register the Lotus integration in `astro.config.mjs` and point it at your
+   docs content.
+
+3. **Start writing docs.**
+
+   Create MDX pages, add frontmatter, and organize them with `sidebars`.
+
+</Steps>
+
+```mdx
+<Steps>
+
+1. **Install the package.**
+
+   Add Lotus and the shared MDX components to your Astro project.
+
+2. **Configure the integration.**
+
+   Register the Lotus integration in `astro.config.mjs` and point it at your
+   docs content.
+
+3. **Start writing docs.**
+
+   Create MDX pages, add frontmatter, and organize them with `sidebars`.
+
+</Steps>
+```
+
+## Rich Content
+
+每个 list item 都可以包含 paragraphs、nested lists、inline code 和 fenced code blocks。
+
+<Steps>
+
+1. **Create a docs page.**
+
+   Add an MDX file under your docs collection.
+
+   ```mdx
+   ---
+   title: Overview
+   description: Introduce the documentation site.
+   ---
+
+   Welcome to the docs.
+   ```
+
+2. **Add sidebar metadata.**
+
+   Use frontmatter when the page needs local ordering.
+
+   - `sidebar.order` controls position inside generated sidebar groups.
+   - `sidebar.label` can override the navigation label.
+
+3. **Verify the page.**
+
+   Run `pnpm check` to catch invalid MDX, missing imports, and type errors.
+
+</Steps>
+
+## Continue Numbering
+
+当某个流程从前面的序列继续时，使用标准 ordered-list start value。
+
+<Steps>
+
+4. **Review the generated route.**
+
+   Open the page in your browser and confirm the content, sidebar, and table of
+   contents all match the expected location.
+
+5. **Publish the docs.**
+
+   Build the site and deploy the generated Astro output.
+
+</Steps>
+
+```mdx
+<Steps>
+
+4. **Review the generated route.**
+5. **Publish the docs.**
+
+</Steps>
+```
+
+## Syntax Rules
+
+- `Steps` 的直接内容必须是且只能是一个 ordered Markdown list。
+- 在 `<Steps>` 后和 `</Steps>` 前保留空行，让 MDX 将列表解析为 Markdown。
+- 不要在 `Steps` 根列表旁边放 headings、paragraphs 或多个 lists。
+- Nested content 应缩进到对应 list item 内部。
+
+## Props
+
+`Steps` 不接受 component props。Numbering、spacing、marker colors 和 guide line
+由组件 CSS 和 Lotus design tokens 处理。

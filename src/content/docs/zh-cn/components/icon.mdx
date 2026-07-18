@@ -1,0 +1,109 @@
+---
+title: Icon
+description: 使用 prefix 和 icon name 渲染内联 Iconify SVG 图标。
+sidebar:
+  order: 1
+---
+
+import { Icon } from '@prosefly/astro-components';
+
+`Icon` 会从 Iconify 数据渲染一个内联 SVG。传入完整的 Iconify 名称，格式为
+`prefix:icon`，例如 `lucide:star` 或 `simple-icons:github`。
+
+## Import
+
+```mdx
+import { Icon } from '@prosefly/astro-components';
+```
+
+## Inline Usage
+
+Icons 默认是内联元素。省略 `size`、`width` 和 `height` 时，会继承周围文本大小。
+
+<Icon name="lucide:star" /> 收藏此页面
+
+GitHub <Icon name="simple-icons:github" /> links 常出现在 repository metadata、
+外部资源或 social links 旁边。
+
+```mdx
+<Icon name="lucide:star" /> Favorite this page
+
+GitHub <Icon name="simple-icons:github" /> links often appear next to repository
+metadata.
+```
+
+## Sizing
+
+使用 `size` 同时设置宽高。只有当图标需要非正方形盒子时，才分别使用 `width` 和 `height`。
+
+<div class="not-prose flex flex-wrap items-center gap-4">
+  <span class="inline-flex items-center gap-1">
+    <Icon name="lucide:search" />
+    1em
+  </span>
+  <span class="inline-flex items-center gap-1">
+    <Icon name="lucide:search" size="18" />
+    18px
+  </span>
+  <span class="inline-flex items-center gap-1 text-lg">
+    <Icon name="lucide:search" />
+    inherited
+  </span>
+</div>
+
+```mdx
+<Icon name="lucide:search" />
+<Icon name="lucide:search" size="18" />
+<Icon name="lucide:search" width="20" height="16" />
+```
+
+## Accessible Icons
+
+装饰性图标默认对 assistive technology 隐藏。当图标本身表达独立含义且旁边没有文字说明时，
+添加 `title`。
+
+<Icon name="lucide:circle-alert" title="Warning" /> 这个图标有 accessible title。
+
+```mdx
+<Icon name="lucide:circle-alert" title="Warning" /> This icon has an accessible
+title.
+```
+
+如果可见文本已经解释了图标含义，不要设置 `title`。
+
+## Icon Sources
+
+`Icon` 在 server rendering 或 static build 时从 Iconify API 加载数据。因此构建环境需要网络访问，
+除非你通过 `apiBase` 提供内部 Iconify-compatible API endpoint。
+
+```mdx
+<Icon name="lucide:sparkles" apiBase="https://api.iconify.design" />
+```
+
+安装 Lotus integration 后，它会预加载 Astro 和 MDX 文件中的静态 icon usage，并按 Iconify
+prefix 合并请求。例如，`lucide:star`、`lucide:search` 和 `lucide:copy` 可以通过一个
+`lucide` 请求获取。
+
+无法被静态检测到的 icons 仍会回退到单独的 API 请求。
+
+## Props
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `name` | `string` | required | Iconify name，例如 `lucide:star`。 |
+| `title` | `string` | optional | 添加 accessible SVG title 和 `role="img"`。 |
+| `size` | `string \| number` | `1em` | 同时设置 width 和 height。 |
+| `width` | `string \| number` | `size` | 覆盖 SVG width。 |
+| `height` | `string \| number` | `size` | 覆盖 SVG height。 |
+| `class` | `string` | optional | 给渲染出的 SVG 添加 classes。 |
+| `focusable` | `string` | `'false'` | 设置 SVG `focusable` attribute。 |
+| `apiBase` | `string` | `'https://api.iconify.design'` | Iconify-compatible API endpoint。 |
+
+未知 attributes 会传给渲染出的 SVG。
+
+## Syntax Rules
+
+- 使用完整的 `prefix:icon` Iconify name。
+- 除非外层组件负责布局，否则让 icons 与文本保持内联。
+- 只有当图标有独立含义时才添加 `title`。
+- 同一个 UI 区域内，优先使用一致的 icon family。

@@ -1,0 +1,90 @@
+---
+title: Badge
+description: 为 status、metadata 和 version hints 添加紧凑的内联标签。
+sidebar:
+  order: 2
+---
+
+import { Badge } from '@prosefly/astro-components';
+
+`Badge` 是内联标签。适合放在正文、标题、cards 和紧凑 UI 中，用来让短状态或 metadata
+靠近相关文本。
+
+## Import
+
+```mdx
+import { Badge } from '@prosefly/astro-components';
+```
+
+## Inline Usage
+
+Badges 设计为与文本保持在同一 baseline。它们不应该单独形成一个新的布局区域。
+
+Lotus components 发布自 `@prosefly/astro-components` <Badge color="accent">New</Badge>，
+也可以脱离 Lotus theme 独立使用 <Badge color="success">Stable</Badge>。
+
+```mdx
+Lotus components are published from `@prosefly/astro-components` <Badge color="accent">New</Badge>,
+and can be used independently from the Lotus theme <Badge color="success">Stable</Badge>.
+```
+
+## Common Patterns
+
+使用 badges 显示支持附近内容的短标签。
+
+### Status
+
+Search dialog <Badge color="success">Ready</Badge> 支持键盘导航，而 page actions
+<Badge color="warning">Experimental</Badge> 可能在首个稳定版本前变化。
+
+### Version Hints
+
+Lotus 支持 Astro <Badge variant="subtle" color="accent">v7</Badge> 和
+Tailwind CSS <Badge variant="subtle">v4</Badge>。
+
+### Heading Metadata
+
+### Package Exports <Badge color="neutral">Public API</Badge>
+
+Package 通过单一 entrypoint 从 `@prosefly/astro-components` 导出 components。
+
+## Variants
+
+使用 `variant` 改变 badge 的视觉权重。
+
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <Badge variant="solid" color="accent">Solid</Badge>
+  <Badge variant="soft" color="accent">Soft</Badge>
+  <Badge variant="subtle" color="accent">Subtle</Badge>
+  <Badge variant="outline" color="accent">Outline</Badge>
+</div>
+
+## Colors
+
+当 badge 传达状态时，使用 semantic colors。普通 metadata 使用 `neutral`。
+
+<div class="not-prose flex flex-wrap items-center gap-2">
+  <Badge color="neutral">Neutral</Badge>
+  <Badge color="accent">Accent</Badge>
+  <Badge color="success">Success</Badge>
+  <Badge color="warning">Warning</Badge>
+  <Badge color="danger">Danger</Badge>
+</div>
+
+## Props
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `variant` | `'solid' \| 'soft' \| 'subtle' \| 'outline'` | `'soft'` | 选择视觉样式。 |
+| `color` | `'neutral' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | `'neutral'` | 选择语义颜色。 |
+| `class` | `string` | optional | 给外层 `span` 添加 classes。 |
+
+`Badge` 也会将未知 attributes 传给外层 `span`，所以你可以按需添加 `title`、`aria-label`
+或 `data-*`。
+
+## Syntax Rules
+
+- Badge 文本应保持简短，通常一到三个词。
+- 将 badges 与相关文本保持内联，不要把它们当作独立块。
+- 不要把 badges 用作按钮或导航控件。
+- 文档内容中优先使用 `soft` 或 `subtle`；`solid` 留给高强调状态标签。

@@ -7,55 +7,83 @@ sidebar:
 
 import { Card, CardGrid, Steps } from '@prosefly/astro-components';
 
-Lotus 是一个面向 Astro v7、Tailwind CSS v4 和 MDX 的文档主题。它提供
-文档页面外壳、路由、导航模型、主题 tokens，以及常用的 MDX 组件，让项目
-可以更快搭建文档站点。
+Lotus 是一个面向 Astro v7、Tailwind CSS v4 和 MDX 的可安装文档主题。
+它提供页面外壳、文档路由、导航模型、主题 tokens，以及常用 MDX 组件，
+让项目不需要从零搭建文档站点的基础结构。
 
 ## Lotus 包含什么
 
 <CardGrid>
-  <Card icon="lucide:layout-template" title="文档外壳" href="/docs/configuration/project/">
-    通过主题配置渲染响应式 header、subnav、sidebar、文章布局、目录、
+  <Card icon="lucide:layout-template" title="文档外壳" href="/docs/zh-cn/configuration/project/">
+    通过主题配置渲染响应式 header、docs subnav、sidebar、文章布局、页面目录、
     页面元信息和 footer。
   </Card>
-  <Card icon="lucide:route" title="路由" href="/docs/configuration/content-routing/">
-    从 Astro content collection 生成文档页面、Markdown 源码路由、
-    搜索索引、本地化 URL 和可选首页。
+  <Card icon="lucide:route" title="路由" href="/docs/zh-cn/configuration/content-routing/">
+    从 Astro content collection 生成文档页面、Markdown 源码路由、搜索索引、
+    本地化 URL，以及带前缀的 docs 路由。
   </Card>
-  <Card icon="lucide:palette" title="设计 tokens" href="/docs/configuration/appearance/">
-    配置 accent、gray、radius、color mode、字体，以及更底层的 CSS
-    variables。
+  <Card icon="lucide:search" title="搜索" href="/docs/zh-cn/configuration/search/">
+    使用内置客户端搜索弹窗和生成的 JSON 索引，或通过组件覆盖替换搜索 UI。
   </Card>
-  <Card icon="lucide:blocks" title="MDX 组件" href="/docs/components/callout/">
-    使用 callout、cards、steps、tabs、accordion、file tree、badge 和
-    Iconify 图标组合内容。
+  <Card icon="lucide:palette" title="设计 tokens" href="/docs/zh-cn/configuration/appearance/">
+    配置 accent、gray、radius、color mode、字体，以及更底层的 CSS tokens。
+  </Card>
+  <Card icon="lucide:blocks" title="MDX 组件" href="/docs/zh-cn/components/callout/">
+    使用 callout、cards、steps、tabs、accordion、file tree、badge 和 Iconify
+    图标组合文档内容。
+  </Card>
+  <Card icon="lucide:replace" title="组件覆盖" href="/docs/zh-cn/customization/overriding-components/">
+    当配置不够用时，替换 search、navbar、page header、page actions、
+    contributors 和 previous/next navigation 等外壳组件。
   </Card>
 </CardGrid>
 
-## i18n 检查点
+## 文档树如何工作
 
-这是一篇中文本地化页面，用来验证 `zh-cn` locale 是否生效：
+Lotus 从 `docs` content collection 读取 MDX entry，然后在 `docsBase` 下
+注入页面路由、Markdown 源码路由和搜索路由。默认 `docsBase: '/'` 时，Lotus 会生成：
 
-- 当前页面应该渲染在 `/docs/zh-cn/overview/`。
-- 页面标题应该显示为“概览”，而不是英文的 “Overview”。
-- 指向 `/docs/...` 的内部链接应该根据当前 locale 本地化。
-- 其他没有中文版本的页面应该回退到英文内容。
+- `/` 和嵌套文档页面
+- `/*.md` Markdown 源码路由
+- `/search.json` 搜索索引数据
+
+`sidebars` 配置决定每个页面属于哪个 sidebar 和 subnav section。Locale 目录、
+route prefix 和 fallback 行为见 [国际化](/docs/zh-cn/configuration/i18n/)。Loader base、
+docsBase 和 slug 行为见 [内容路由](/docs/zh-cn/configuration/content-routing/)。
 
 ## 第一步
 
 <Steps>
 
-1. **检查路由。**
+1. **安装主题。**
 
-   打开 `/docs/zh-cn/overview/`，确认当前页面使用中文内容。
+   安装 Lotus，并在 `astro.config.ts` 中注册 integration。当你自己的内容直接 import
+   shared MDX components 时，再直接安装 `@prosefly/astro-components`。
 
-2. **检查链接。**
+   [安装 Lotus](/docs/zh-cn/installation/)
 
-   点击上方 cards 中的配置、路由、外观或组件链接，确认链接会进入
-   `/docs/zh-cn/...` 路径。
+2. **配置路由和 locale。**
 
-3. **检查回退。**
+   决定文档挂载在哪里，以及本地化内容目录如何映射到公开 URL。
 
-   打开一个还没有中文文档的页面，确认它仍然可以显示英文 fallback。
+   [查看内容路由](/docs/zh-cn/configuration/content-routing/)
+
+3. **搭建文档外壳。**
+
+   设置项目身份、外观、navbar、sidebars、footer、page actions 和搜索行为。
+
+   [配置项目](/docs/zh-cn/configuration/project/)
+
+4. **编写内容。**
+
+   添加 frontmatter、Markdown、图片、代码块和 shared MDX components。
+
+   [查看内容编写基础](/docs/zh-cn/essentials/frontmatter/)
+
+5. **在配置不够用时自定义。**
+
+   使用 CSS tokens 调整视觉，使用组件覆盖替换外壳 markup 或行为。
+
+   [自定义 Lotus](/docs/zh-cn/customization/css-styling/)
 
 </Steps>
