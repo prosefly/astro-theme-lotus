@@ -1,13 +1,100 @@
 ---
-import MainHeader from '../components/layout/MainHeader.astro';
+import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
+import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
+import LanguageSelect from '../components/theme/LanguageSelect.astro';
+import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
+import AssistantTrigger from '../components/theme/AssistantTrigger.astro';
+import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
+import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
+import Dropdown from '../components/ui/Dropdown.astro';
+import { Icon } from '@prosefly/astro-components';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
+  assistant?: boolean;
   currentPath?: string;
-  showMobileLanguage?: boolean;
+  search?: boolean;
+  showLanguage?: boolean;
+  showSocials?: boolean;
+  showThemeSwitch?: boolean;
   surface?: boolean;
 }
 
-const props = Astro.props as Props;
+const {
+  assistant = true,
+  currentPath,
+  search = true,
+  showLanguage = true,
+  showSocials = true,
+  showThemeSwitch = true,
+  surface = true,
+} = Astro.props as Props;
+const t = Astro.locals.t;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const searchEnabled = search && themeConfig.search !== false;
+const assistantEnabled = assistant && Boolean(themeConfig.assistant);
+const hasDesktopControls = showSocials || showLanguage || showThemeSwitch;
+const hasMobileControls = hasDesktopControls;
+const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
 ---
 
-<MainHeader {...props} />
+<header
+  class:list={[
+    'relative z-40 h-(--lotus-header-height)',
+    surface && 'lotus-border-subtle border-b bg-(--lotus-background)/95 backdrop-blur',
+  ]}
+  data-pagefind-ignore
+>
+  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
+    <SiteBrand fetchPriority="high" markIdPrefix="lotus-site-header-brand" />
+
+    {searchEnabled ? (
+      <SearchDialog />
+    ) : assistantEnabled ? (
+      <div class="ms-auto flex min-w-0 items-center gap-1 lg:ms-0">
+        <AssistantTrigger />
+      </div>
+    ) : null}
+
+    <div class="ms-auto hidden min-w-0 items-center gap-5 lg:flex">
+      <HeaderNavbar currentPath={currentPath} />
+
+      {hasDesktopControls && (
+        <div class="flex items-center gap-2">
+          <div class="lotus-border-subtle h-5 border-s"></div>
+          {showSocials && <HeaderSocialIcons />}
+          {showLanguage && <LanguageSelect />}
+          {showThemeSwitch && <ThemeSwitch />}
+        </div>
+      )}
+    </div>
+
+    {hasMobileMenu && (
+      <Dropdown
+        class="lg:hidden"
+        contentClass="lotus-border-muted absolute end-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-4 shadow-lg shadow-black/5"
+        triggerClass="lotus-focus-ring flex h-10 w-10 cursor-pointer items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+      >
+        <Fragment slot="trigger">
+          <Icon aria-hidden="true" class="h-5 w-5" name="lucide:ellipsis-vertical" />
+          <span class="sr-only">{t('menuButton.label')}</span>
+        </Fragment>
+
+        <nav aria-label={t('navbar.primary')} class="space-y-4">
+          <HeaderNavbar currentPath={currentPath} mobile />
+
+          {hasMobileControls && (
+            <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
+              <div class="flex items-center gap-1">
+                {showSocials && <HeaderSocialIcons mobile />}
+                {showLanguage && <LanguageSelect />}
+              </div>
+              {showThemeSwitch && <ThemeSwitch />}
+            </div>
+          )}
+        </nav>
+      </Dropdown>
+    )}
+  </div>
+</header>
