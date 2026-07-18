@@ -10,11 +10,11 @@ import {
   resolveLocalAssetConfig,
   resolveLotusConfig,
   resolveMarkdownConfig,
-  normalizeDocsBasePath,
   type LotusIntegrationOptions,
 } from './lib/config/index';
 import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
+import { getLotusInjectedRoutes } from './lib/routes';
 import { buildPagefindIndex } from './lib/search/pagefind';
 import { getIconPreloadNames } from './lib/preload-icons';
 import { lotusStylesPlugin } from './lib/styles';
@@ -22,23 +22,6 @@ import { lotusStylesPlugin } from './lib/styles';
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   let config = resolveLotusConfig(options);
   const expressiveCodeOptions = resolveExpressiveCodeOptions(options.expressiveCode);
-  const docsBasePath = normalizeDocsBasePath(config.docsBase);
-  const docsPattern =
-    docsBasePath === '/'
-      ? '/[...slug]'
-      : `${docsBasePath}/[...slug]`;
-  const markdownPattern =
-    docsBasePath === '/'
-      ? '/[...slug].md'
-      : `${docsBasePath}/[...slug].md`;
-  const searchPattern =
-    docsBasePath === '/'
-      ? '/search.json'
-      : `${docsBasePath}/search.json`;
-  const localizedSearchPattern =
-    docsBasePath === '/'
-      ? '/[locale]/search.json'
-      : `${docsBasePath}/[locale]/search.json`;
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -51,26 +34,10 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
       }) => {
         config = resolveLocalAssetConfig(config, astroConfig.publicDir);
 
-        injectRoute({
-          pattern: '/404',
-          entrypoint: new URL('./routes/404.astro', import.meta.url),
-        });
-        injectRoute({
-          pattern: docsPattern,
-          entrypoint: new URL('./routes/docs.astro', import.meta.url),
-        });
-        injectRoute({
-          pattern: markdownPattern,
-          entrypoint: new URL('./routes/docs.md.ts', import.meta.url),
-        });
-        injectRoute({
-          pattern: searchPattern,
-          entrypoint: new URL('./routes/search.json.ts', import.meta.url),
-        });
-        injectRoute({
-          pattern: localizedSearchPattern,
-          entrypoint: new URL('./routes/search.json.ts', import.meta.url),
-        });
+        for (const route of getLotusInjectedRoutes(config)) {
+          injectRoute(route);
+        }
+
         addMiddleware({
           order: 'pre',
           entrypoint: new URL('./middleware.ts', import.meta.url),
