@@ -6,11 +6,20 @@
   "license": "BSD-3-Clause",
   "keywords": [
     "astro",
+    "astrojs",
+    "astro-integration",
     "astro-theme",
+    "withastro",
     "documentation",
+    "documentation-theme",
+    "docs-theme",
     "docs",
     "mdx",
-    "tailwindcss"
+    "tailwindcss",
+    "pagefind",
+    "expressive-code",
+    "i18n",
+    "ui"
   ],
   "homepage": "https://astro-theme-lotus.prosefly.dev",
   "repository": {
@@ -40,6 +49,7 @@
     "@prosefly/astro-components": "^0.1.0",
     "@tailwindcss/vite": "latest",
     "astro-expressive-code": "^0.44.0",
+    "github-slugger": "^2.0.0",
     "pagefind": "^1.5.2",
     "vite": "^8.1.5"
   }

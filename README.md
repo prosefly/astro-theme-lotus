@@ -1,12 +1,31 @@
 # Astro Theme Lotus
 
-Lotus is a documentation theme for Astro. It gives you an installable docs
-integration with MDX, sidebars, table of contents, search, dark mode, i18n,
-theme tokens, and a small set of docs components.
+Lotus is an installable documentation theme for Astro v7, Tailwind CSS v4, and
+MDX. It gives your project generated docs routes, responsive navigation, table
+of contents, search, dark mode, i18n, theme tokens, and docs components without
+turning the whole site into a theme fork.
 
 ![Lotus documentation theme preview](.github/assets/lotus-docs-light-dark.png)
 
-## Install
+## Quick Start
+
+Start from the Lotus starter template when you want a working documentation site
+with Astro, content collections, theme config, and example docs already wired
+up.
+
+```sh
+pnpm create astro@latest my-docs --template prosefly/astro-template-lotus-starter
+cd my-docs
+pnpm dev
+```
+
+Template source:
+[prosefly/astro-template-lotus-starter](https://github.com/prosefly/astro-template-lotus-starter)
+
+## Add To An Existing Project
+
+Install Lotus manually when you already have an Astro project or want to add the
+docs shell one piece at a time.
 
 ```sh
 npm install @prosefly/astro-theme-lotus
@@ -88,6 +107,13 @@ export default defineLotusConfig({
 - Iconify-powered icons
 - Component overrides for shell pieces such as search, navigation, footer links,
   page metadata, and theme switch controls
+
+## Links
+
+- Documentation: <https://astro-theme-lotus.prosefly.dev/docs/overview/>
+- Starter template:
+  <https://github.com/prosefly/astro-template-lotus-starter>
+- npm package: <https://www.npmjs.com/package/@prosefly/astro-theme-lotus>
 
 ## License
 
