@@ -1,3 +1,5 @@
+let lotusDropdownContentId = 0;
+
 function initLotusDropdowns(): void {
   document.querySelectorAll('[data-lotus-dropdown]').forEach((details) => {
     if (!(details instanceof HTMLDetailsElement) || details.dataset.lotusDropdownReady) {
@@ -5,8 +7,27 @@ function initLotusDropdowns(): void {
     }
 
     details.dataset.lotusDropdownReady = 'true';
+    const summary = details.querySelector('summary');
+    const content = details.querySelector<HTMLElement>('[data-lotus-dropdown-content]');
+
+    if (summary && content) {
+      if (!content.id) {
+        lotusDropdownContentId += 1;
+        content.id = `lotus-dropdown-content-${lotusDropdownContentId}`;
+      }
+
+      summary.setAttribute('aria-controls', content.id);
+    }
+
+    const syncExpanded = () => {
+      summary?.setAttribute('aria-expanded', String(details.open));
+    };
+
+    syncExpanded();
 
     details.addEventListener('toggle', () => {
+      syncExpanded();
+
       if (!details.open) {
         return;
       }

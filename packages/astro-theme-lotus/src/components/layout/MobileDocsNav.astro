@@ -57,6 +57,8 @@ function getHeadingIndent(depth: number): string {
 <div class="lg:hidden">
   <div class="lotus-border-subtle flex h-(--lotus-subnav-height) items-center gap-3 border-t px-2 sm:px-4">
     <button
+      aria-controls="lotus-mobile-sidebar"
+      aria-expanded="false"
       aria-label={t('mobileDocs.openMenu')}
       class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-(--lotus-radius-md) text-left text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       data-lotus-mobile-sidebar-open
@@ -118,6 +120,7 @@ function getHeadingIndent(depth: number): string {
     class="lotus-mobile-sidebar fixed h-screen inset-0 z-50 lg:hidden"
     data-lotus-mobile-sidebar
     hidden
+    id="lotus-mobile-sidebar"
     inert
   >
     <button
@@ -128,7 +131,9 @@ function getHeadingIndent(depth: number): string {
     ></button>
     <aside
       aria-label={t('mobileDocs.menu')}
+      aria-modal="true"
       class="lotus-mobile-sidebar-panel relative flex h-full w-[min(23rem,calc(100vw-2rem))] flex-col bg-(--lotus-background) shadow-2xl"
+      role="dialog"
     >
       <div class="lotus-border-subtle flex h-(--lotus-header-height) shrink-0 items-center justify-between border-b px-4">
         <SiteBrand markIdPrefix="lotus-mobile-brand" textClass="truncate text-sm font-semibold" />

@@ -9,6 +9,7 @@ interface ResolvedPageAction {
   label: string;
   icon: string;
   href?: string;
+  hrefTemplate?: string;
   external: boolean;
   isCopy: boolean;
 }
@@ -84,6 +85,7 @@ function resolveAction(action: PageActionConfig): ResolvedPageAction | undefined
     label: action.label ?? meta?.label ?? t('pageActions.openLink'),
     icon: resolveIconName(action.icon ?? meta?.icon),
     href,
+    hrefTemplate: action.href,
     external: action.external ?? Boolean(href && /^[a-z][a-z\d+.-]*:/i.test(href)),
     isCopy,
   };
@@ -99,10 +101,13 @@ const primaryAction =
   <div
     class="relative inline-flex items-center rounded-(--lotus-radius-md) border lotus-border-muted bg-(--lotus-background) text-sm"
     data-lotus-page-actions
+    data-lotus-page-assistant-prompt={createAssistantPrompt('{url}')}
     data-lotus-page-copied-label={t('pageActions.copied')}
     data-lotus-page-copy-failed-label={t('pageActions.copyFailed')}
     data-lotus-page-copying-label={t('pageActions.copying')}
     data-lotus-page-markdown-url={markdownUrl}
+    data-lotus-page-title={title}
+    data-lotus-page-url={pageUrl}
   >
     {primaryAction.isCopy ? (
       <button
@@ -111,12 +116,14 @@ const primaryAction =
         type="button"
       >
         <Icon aria-hidden="true" class="h-3.5 w-3.5" name={primaryAction.icon} />
-        <span data-lotus-copy-label>{primaryAction.label}</span>
+        <span aria-live="polite" data-lotus-copy-label>{primaryAction.label}</span>
       </button>
     ) : (
       <a
         class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-l-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
         href={primaryAction.href}
+        data-lotus-page-action={primaryAction.type}
+        data-lotus-page-action-href-template={primaryAction.hrefTemplate}
         rel={primaryAction.external ? 'noreferrer' : undefined}
         target={primaryAction.external ? '_blank' : undefined}
       >
@@ -146,12 +153,14 @@ const primaryAction =
             type="button"
           >
             <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
-            <span data-lotus-copy-label>{action.label}</span>
+            <span aria-live="polite" data-lotus-copy-label>{action.label}</span>
           </button>
         ) : (
           <a
             class="lotus-focus-ring flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
             data-lotus-dropdown-close
+            data-lotus-page-action={action.type}
+            data-lotus-page-action-href-template={action.hrefTemplate}
             href={action.href}
             rel={action.external ? 'noreferrer' : undefined}
             target={action.external ? '_blank' : undefined}

@@ -21,21 +21,40 @@ function initMobileDocsNav(): void {
   let previousOverflow = '';
   let previousFocus: HTMLElement | null = null;
 
+  const getFocusableElements = () => Array.from(
+    drawer.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])',
+    ),
+  ).filter((element) => !element.hasAttribute('hidden') && !element.closest('[hidden]'));
+
+  const setOpenButtonState = (open: boolean) => {
+    openButtons.forEach((button) => {
+      button.setAttribute('aria-expanded', String(open));
+    });
+  };
+
   const openDrawer = () => {
     window.clearTimeout(closeTimer);
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     drawer.hidden = false;
     drawer.removeAttribute('inert');
+    setOpenButtonState(true);
     previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
     window.requestAnimationFrame(() => {
       drawer.setAttribute('data-open', '');
+      getFocusableElements()[0]?.focus({ preventScroll: true });
     });
   };
 
   const closeDrawer = () => {
+    if (drawer.hidden) {
+      return;
+    }
+
     drawer.removeAttribute('data-open');
     document.documentElement.style.overflow = previousOverflow;
+    setOpenButtonState(false);
     previousFocus?.focus({ preventScroll: true });
     drawer.setAttribute('inert', '');
     closeTimer = window.setTimeout(() => {
@@ -96,8 +115,37 @@ function initMobileDocsNav(): void {
   });
 
   window.addEventListener('keydown', (event) => {
+    if (drawer.hidden) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       closeDrawer();
+      return;
+    }
+
+    if (event.key !== 'Tab') {
+      return;
+    }
+
+    const focusableElements = getFocusableElements();
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+
+    if (!first || !last) {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+      return;
+    }
+
+    if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   });
 }

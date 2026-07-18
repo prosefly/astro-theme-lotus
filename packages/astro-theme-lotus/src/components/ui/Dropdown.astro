@@ -16,7 +16,9 @@ const {
 
 <details class:list={['group/dropdown relative open:z-50', className]} data-lotus-dropdown>
   <summary
+    aria-expanded="false"
     aria-label={triggerLabel}
+    aria-haspopup="true"
     class:list={[
       'list-none marker:hidden [&::-webkit-details-marker]:hidden',
       triggerClass,

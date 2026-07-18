@@ -61,8 +61,10 @@ const docsRootHref = getLocalizedHref(themeConfig, 'index', currentLocale.key);
 const currentPath = getLocalizedHref(themeConfig, currentSlug, currentLocale.key);
 const markdownHref = getLocalizedMarkdownHref(themeConfig, currentSlug, currentLocale.key);
 const baseUrl = Astro.site ?? Astro.url;
-const pageUrl = new URL(currentPath, baseUrl).toString();
-const markdownUrl = new URL(markdownHref, baseUrl).toString();
+const pageUrl = Astro.site ? new URL(currentPath, Astro.site).toString() : currentPath;
+const markdownUrl = Astro.site ? new URL(markdownHref, Astro.site).toString() : markdownHref;
+const schemaPageUrl = new URL(currentPath, baseUrl).toString();
+const schemaMarkdownUrl = new URL(markdownHref, baseUrl).toString();
 const pageActions = themeConfig.pageActions ?? [];
 const activeSection = subnav.find((section) => section.active);
 const breadcrumbs: { label: string; href: string }[] = [];
@@ -95,12 +97,12 @@ addBreadcrumb(title, currentPath);
 const jsonLd = createDocsJsonLd({
   themeConfig,
   baseUrl,
-  pageUrl,
+  pageUrl: schemaPageUrl,
   title,
   description,
   sectionTitle,
   breadcrumbs,
-  markdownUrl,
+  markdownUrl: schemaMarkdownUrl,
   lastUpdated,
 });
 ---

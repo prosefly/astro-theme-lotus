@@ -9,6 +9,8 @@ const { hasAssistant = false } = Astro.props;
 ---
 
 <button
+  aria-controls="lotus-search-dialog"
+  aria-haspopup="dialog"
   aria-label={t('search.label')}
   class="lotus-focus-ring inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) lg:h-9 lg:w-9 lg:border lg:border-(--lotus-border-muted) lg:hover:bg-transparent xl:hidden"
   data-lotus-search-trigger
@@ -21,6 +23,8 @@ const { hasAssistant = false } = Astro.props;
 </button>
 
 <button
+  aria-controls="lotus-search-dialog"
+  aria-haspopup="dialog"
   class:list={[
     'lotus-focus-ring lotus-border-muted hidden h-9 min-w-0 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-left text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) xl:flex',
     hasAssistant ? 'w-52 2xl:w-56' : 'w-64',

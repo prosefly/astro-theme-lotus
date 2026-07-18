@@ -80,6 +80,7 @@ function initSearchDialog(): void {
   const setMessage = (message: string) => {
     activeResults = [];
     selectedIndex = -1;
+    input.removeAttribute('aria-activedescendant');
     results.replaceChildren();
     const empty = document.createElement('div');
     empty.className = 'px-3 py-8 text-center text-sm text-(--lotus-text-muted)';
@@ -99,6 +100,14 @@ function initSearchDialog(): void {
         link.scrollIntoView({ block: 'nearest' });
       }
     });
+
+    const activeLink = links[selectedIndex];
+
+    if (activeLink?.id) {
+      input.setAttribute('aria-activedescendant', activeLink.id);
+    } else {
+      input.removeAttribute('aria-activedescendant');
+    }
   };
 
   const navigateToSelectedResult = () => {
@@ -232,6 +241,7 @@ function initSearchDialog(): void {
       dialog.setAttribute('open', '');
     }
 
+    input.setAttribute('aria-expanded', 'true');
     window.setTimeout(() => input.focus(), 0);
     if (!providerReady) {
       provider.load()
@@ -250,6 +260,9 @@ function initSearchDialog(): void {
     } else {
       dialog.removeAttribute('open');
     }
+
+    input.setAttribute('aria-expanded', 'false');
+    input.removeAttribute('aria-activedescendant');
   };
 
   triggers.forEach((trigger) => {
@@ -268,6 +281,11 @@ function initSearchDialog(): void {
     if (event.target === dialog) {
       closeDialog();
     }
+  });
+
+  dialog.addEventListener('close', () => {
+    input.setAttribute('aria-expanded', 'false');
+    input.removeAttribute('aria-activedescendant');
   });
 }
 

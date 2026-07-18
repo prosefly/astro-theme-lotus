@@ -41,6 +41,7 @@ const algoliaApiKey = algoliaConfig?.apiKey;
     data-lotus-search-provider={searchProvider}
     data-lotus-search-type-to-search={t('search.typeToSearch')}
     data-lotus-search-unavailable={t('search.unavailable')}
+    id="lotus-search-dialog"
   >
   <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
     <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
@@ -48,10 +49,15 @@ const algoliaApiKey = algoliaConfig?.apiKey;
       <path d="m20 20-3.5-3.5" />
     </svg>
     <input
+      aria-autocomplete="list"
+      aria-controls="lotus-search-results"
+      aria-expanded="false"
       aria-label={t('search.label')}
       class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
+      autocomplete="off"
       data-lotus-search-input
       placeholder={t('search.placeholder')}
+      role="combobox"
       type="search"
     />
     <button
@@ -70,6 +76,8 @@ const algoliaApiKey = algoliaConfig?.apiKey;
     class="lotus-scrollbar max-h-[min(30rem,calc(100dvh-10rem))] overflow-y-auto p-2"
     data-lotus-search-results
     id="lotus-search-results"
+    aria-label={t('search.label')}
+    aria-live="polite"
     role="listbox"
   >
     <div class="px-3 py-8 text-center text-sm text-(--lotus-text-muted)">
