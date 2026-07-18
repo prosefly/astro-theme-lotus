@@ -1,26 +1,67 @@
 ---
 title: Installation
-description: Install Lotus and register the integration in an Astro project.
+description: Start a Lotus documentation site from the starter template or add Lotus to an existing Astro project.
 sidebar:
   order: 2
 ---
 
-import { Steps } from '@prosefly/astro-components';
+import { Card, CardGrid, Steps } from '@prosefly/astro-components';
 
-Install the theme, register the integration, connect the content collection,
-and start the Astro development server.
+Start from the Lotus starter template for a new documentation site, or install
+Lotus manually when you already have an Astro project.
+
+<CardGrid>
+  <Card icon="lucide:sparkles" title="Use the starter template" href="#starter-template">
+    Scaffold a working Lotus site with Astro, content collections, theme config,
+    and example docs already connected.
+  </Card>
+  <Card icon="lucide:wrench" title="Set up manually" href="#manual-setup">
+    Add Lotus to an existing Astro project and keep full control over the file
+    structure.
+  </Card>
+</CardGrid>
+
+## Starter Template
+
+Use the starter when you want the fastest path to a working site.
+
+```sh
+pnpm create astro@latest my-docs --template prosefly/astro-template-lotus-starter
+cd my-docs
+pnpm dev
+```
+
+The template source is available at
+[prosefly/astro-template-lotus-starter](https://github.com/prosefly/astro-template-lotus-starter).
+
+After the site is running, replace the example content and update
+`src/theme.config.ts` with your project name, navigation, sidebar structure,
+appearance, footer, and source repository.
+
+## Manual Setup
+
+Use manual setup when your project already exists or when you want to introduce
+Lotus one piece at a time.
 
 <Steps>
 
-1. **Install the packages.**
+1. **Install Lotus.**
 
-   Add the theme and shared components package to an Astro project.
+   Add the theme package to your Astro project.
 
    ```sh
-   npm install @prosefly/astro-theme-lotus @prosefly/astro-components
+   pnpm add @prosefly/astro-theme-lotus
    ```
 
-2. **Add the integration.**
+   Install `@prosefly/astro-components` directly when your own MDX or Astro
+   files import shared components such as cards, steps, tabs, callouts, badges,
+   or file trees.
+
+   ```sh
+   pnpm add @prosefly/astro-components
+   ```
+
+2. **Register the integration.**
 
    Configure Astro with the Lotus integration.
 
@@ -36,7 +77,7 @@ and start the Astro development server.
 
 3. **Create the theme config.**
 
-   Add the project identity and initial sidebar structure.
+   Start with project identity and a minimal sidebar.
 
    ```ts title="src/theme.config.ts"
    import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
@@ -44,17 +85,21 @@ and start the Astro development server.
    export default defineLotusConfig({
      name: 'My Docs',
      description: 'Documentation for my project.',
-     navbar: [{ label: 'Docs', href: '/docs/' }],
+     navbar: [{ label: 'Docs', href: '/' }],
      sidebars: [
        {
          label: 'Guides',
+         icon: 'lucide:rocket',
          items: ['index'],
        },
      ],
    });
    ```
 
-4. **Register the content collection.**
+   Set `docsBase: '/docs'` when the Astro project already has a site home page
+   and docs should live under `/docs/`.
+
+4. **Register the docs collection.**
 
    Create `src/content.config.ts` and use the loader and schema from Lotus.
 
@@ -70,17 +115,32 @@ and start the Astro development server.
    export const collections = { docs };
    ```
 
-5. **Start development.**
+5. **Add the first docs page.**
 
-   Lotus reads from `src/content/docs` by default. The integration also injects
-   a Markdown source route for each page and a search index route under the same
-   `docsBase`.
+   Lotus reads from `src/content/docs` by default.
+
+   ```mdx title="src/content/docs/index.mdx"
+   ---
+   title: Overview
+   description: Start here.
+   ---
+
+   Welcome to the docs.
+   ```
+
+6. **Start development.**
 
    ```sh
-   npm run dev
+   pnpm dev
    ```
 
 </Steps>
 
-Use `npm run check` before shipping changes. It validates content collections,
-MDX imports, and TypeScript.
+## Next Steps
+
+- Review [Project Configuration](/docs/configuration/project/) to define the
+  site identity, navigation, sidebars, footer, and source repository.
+- Review [Content Routing](/docs/configuration/content-routing/) before moving
+  docs under a route prefix or changing the docs loader base.
+- Run `pnpm check` before shipping changes. It validates content collections,
+  MDX imports, Astro components, and TypeScript.
