@@ -11,7 +11,9 @@ export function applyAvatarProvider(
   contributor: ContributorInfo,
   options: ContributorsConfig,
 ): ContributorInfo {
-  if (contributor.avatarUrl || options.avatar !== 'gravatar' || !contributor.email) {
+  const shouldUseGravatar = options.avatar === undefined || options.avatar === 'gravatar';
+
+  if (contributor.avatarUrl || !shouldUseGravatar || !contributor.email) {
     return contributor;
   }
 

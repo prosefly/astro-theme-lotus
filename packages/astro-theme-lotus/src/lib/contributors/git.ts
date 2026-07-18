@@ -1,7 +1,6 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import type { ContributorInfo, ContributorsConfig } from '../theme';
-import { applyAvatarProvider } from './avatar';
 import { getExcludedContributors } from './config';
 import { isExcluded, mergeContributor, sortContributors } from './utils';
 
@@ -49,7 +48,7 @@ export async function loadGitContributors(
         continue;
       }
 
-      mergeContributor(contributors, applyAvatarProvider(contributor, options));
+      mergeContributor(contributors, contributor);
     }
 
     return sortContributors(contributors.values(), options.max);

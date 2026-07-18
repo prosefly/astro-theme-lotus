@@ -28,7 +28,9 @@ export function getContributorsConfig(config: LotusThemeConfig): ContributorsCon
   }
 
   const source = resolveSourceConfig(config);
-  const sourceGithub = options.avatar === 'github' ? source.github : undefined;
+  const sourceGithub = options.avatar === 'gravatar' || options.avatar === false
+    ? undefined
+    : source.github;
 
   return {
     ...options,

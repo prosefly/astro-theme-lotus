@@ -104,6 +104,7 @@ export interface ContributorsConfig {
   github?: string;
   branch?: string;
   max?: number;
+  githubProfileLimit?: number;
 }
 
 export type ContributorsOption = boolean | ContributorsConfig;

@@ -1,9 +1,13 @@
 import type { CollectionEntry } from 'astro:content';
 import type { ContributorInfo, ContributorsConfig, LotusThemeConfig } from '../theme';
+import { applyAvatarProvider } from './avatar';
 import { getEntrySourcePath as getSourceEntryPath } from '../source';
 import { getContributorsConfig, shouldShowContributors } from './config';
 import { loadGitContributors } from './git';
-import { loadGithubContributors } from './github';
+import {
+  applyGithubContributorProfile,
+  loadGithubRepoContributors,
+} from './github';
 
 type DocsEntry = CollectionEntry<'docs'>;
 
@@ -13,15 +17,26 @@ async function loadContributors(
   sourcePath: string,
   options: ContributorsConfig,
 ): Promise<ContributorInfo[]> {
-  const githubContributors = options.github
-    ? await loadGithubContributors(sourcePath, options)
-    : [];
+  const gitContributors = await loadGitContributors(sourcePath, options);
 
-  if (githubContributors.length > 0) {
-    return githubContributors;
+  if (options.avatar === false) {
+    return gitContributors;
   }
 
-  return loadGitContributors(sourcePath, options);
+  if (options.github && options.avatar !== 'gravatar') {
+    const githubContributors = await loadGithubRepoContributors(options);
+
+    if (githubContributors.size > 0) {
+      return gitContributors.map((contributor) => (
+        applyAvatarProvider(
+          applyGithubContributorProfile(contributor, githubContributors),
+          options,
+        )
+      ));
+    }
+  }
+
+  return gitContributors.map((contributor) => applyAvatarProvider(contributor, options));
 }
 
 export function getEntrySourcePath(config: LotusThemeConfig, entry: DocsEntry): string {
