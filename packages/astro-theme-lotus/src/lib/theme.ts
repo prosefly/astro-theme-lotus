@@ -49,6 +49,9 @@ export interface SidebarGroupItem {
 export interface SidebarAutogenerateItem {
   autogenerate: {
     directory: string;
+    depth?: number;
+    exclude?: string | string[];
+    structure?: 'flat' | 'tree';
   };
 }
 

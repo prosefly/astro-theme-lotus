@@ -29,7 +29,7 @@ function hasActiveChild(link: DocsSidebarItem): boolean {
 }
 
 const active = isItemActive(item);
-const expanded = active || hasActiveChild(item);
+const expanded = active || hasActiveChild(item) || item.collapsed === false;
 const iconName = item.icon ? resolveIconName(item.icon) : undefined;
 const childItems = item.items ?? [];
 const linkClass = [

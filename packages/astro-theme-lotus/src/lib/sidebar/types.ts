@@ -9,8 +9,10 @@ export interface DocsNavItem {
 export interface DocsSidebarItem {
   label: string;
   href?: string;
+  collapsed?: boolean;
   external?: boolean;
   icon?: string;
+  order?: number;
   slug?: string;
   items?: DocsSidebarItem[];
 }
