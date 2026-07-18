@@ -46,6 +46,8 @@ jobs:
         run: pnpm check
 
       - name: Build site
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: pnpm build
 
       - name: Upload site artifact

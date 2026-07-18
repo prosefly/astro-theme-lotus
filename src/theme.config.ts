@@ -36,7 +36,6 @@ export default defineLotusConfig({
     },
   ],
   contributors: {
-    avatar: 'gravatar',
     max: 6,
     exclude: ['github-actions[bot]'],
   },
