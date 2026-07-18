@@ -69,6 +69,18 @@ const pageActions = themeConfig.pageActions ?? [];
 const activeSection = subnav.find((section) => section.active);
 const breadcrumbs: { label: string; href: string }[] = [];
 const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
+const docsHead: HeadConfig = [
+  ...(head ?? []),
+  {
+    tag: 'link',
+    attrs: {
+      rel: 'alternate',
+      type: 'text/markdown',
+      href: markdownHref,
+      title: 'Markdown',
+    },
+  },
+];
 
 function addBreadcrumb(label: string | undefined, href: string | undefined) {
   if (!label || !href) {
@@ -107,7 +119,7 @@ const jsonLd = createDocsJsonLd({
 });
 ---
 
-<BaseLayout title={title} description={description} head={head} jsonLd={jsonLd} locale={currentLocale}>
+<BaseLayout title={title} description={description} head={docsHead} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
     headings={headings}
