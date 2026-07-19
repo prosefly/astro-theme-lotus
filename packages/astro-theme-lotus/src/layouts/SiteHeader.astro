@@ -38,6 +38,7 @@ const assistantEnabled = assistant && Boolean(themeConfig.assistant);
 const hasDesktopControls = showSocials || showLanguage || showThemeSwitch;
 const hasMobileControls = hasDesktopControls;
 const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
+const mobileMenuClass = searchEnabled || assistantEnabled ? 'lg:hidden' : 'ms-auto lg:hidden';
 const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
   ? { 'data-pagefind-ignore': true }
   : {};
@@ -76,7 +77,7 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
 
     {hasMobileMenu && (
       <Dropdown
-        class="lg:hidden"
+        class={mobileMenuClass}
         contentClass="lotus-border-muted absolute end-0 top-[calc(100%+0.75rem)] z-50 w-72 rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-4 shadow-lg shadow-black/5"
         triggerClass="lotus-focus-ring flex h-10 w-10 cursor-pointer items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
       >
