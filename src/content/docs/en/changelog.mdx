@@ -19,6 +19,18 @@ upgrade affects your documentation site.
   </Card>
 </CardGrid>
 
+## Unreleased
+
+### Added
+
+- Added `llms` config for disabling `/llms.txt` or generating
+  `/llms-full.txt`.
+
+### Changed
+
+- Pagefind indexing attributes are now emitted only when the Pagefind search
+  provider is enabled.
+
 ## [0.3.0](https://github.com/prosefly/astro-theme-lotus/releases/tag/0.3.0)
 
 <Badge variant="subtle" color="neutral">2026-07-19</Badge>
@@ -31,8 +43,6 @@ upgrade affects your documentation site.
 - Added Markdown alternate links to docs page metadata.
 - Added an automatically generated `/llms.txt` endpoint for AI-readable docs
   discovery.
-- Added `llms` config for disabling `/llms.txt` or generating
-  `/llms-full.txt`.
 - Added semantic status color tokens for `info`, `success`, `warning`, and
   `danger`.
 
@@ -40,8 +50,6 @@ upgrade affects your documentation site.
 
 - Updated `@prosefly/astro-components` to `0.2.1`.
 - Reworked `SiteHeader` into a standalone site header.
-- Pagefind indexing attributes are now emitted only when the Pagefind search
-  provider is enabled.
 
 ### Fixed
 
