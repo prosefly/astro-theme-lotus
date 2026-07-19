@@ -1,28 +1,28 @@
 ---
 const variants = [
   {
-    value: 'segmented',
+    value: 'segmented-control',
     label: 'Segmented',
     description: 'Show system, light, and dark as separate icon buttons.',
-    code: '<ThemeModeSegmentedControl />',
+    code: "themeModeControl: 'segmented-control'",
   },
   {
-    value: 'cycle',
+    value: 'button',
     label: 'Cycle button',
     description: 'Use one compact button that cycles through every mode.',
-    code: '<ThemeModeButton />',
+    code: "themeModeControl: 'button'",
   },
   {
     value: 'select',
     label: 'Select menu',
     description: 'Use labels instead of icon-only controls.',
-    code: '<ThemeModeSelect />',
+    code: "themeModeControl: 'select'",
   },
   {
     value: 'switch',
     label: 'Light/dark',
     description: 'Expose only light and dark as a two-state switch.',
-    code: '<ThemeModeSwitch />',
+    code: "themeModeControl: 'switch'",
   },
 ];
 ---
@@ -61,16 +61,16 @@ const variants = [
 
 <script>
   const variantCode = {
-    segmented: '<ThemeModeSegmentedControl />',
-    cycle: '<ThemeModeButton />',
-    select: '<ThemeModeSelect />',
-    switch: '<ThemeModeSwitch />',
+    'segmented-control': "themeModeControl: 'segmented-control'",
+    button: "themeModeControl: 'button'",
+    select: "themeModeControl: 'select'",
+    switch: "themeModeControl: 'switch'",
   } as const;
 
   type ThemeSwitchVariant = keyof typeof variantCode;
 
   function isThemeSwitchVariant(value: string | undefined): value is ThemeSwitchVariant {
-    return value === 'segmented' || value === 'cycle' || value === 'select' || value === 'switch';
+    return value === 'segmented-control' || value === 'button' || value === 'select' || value === 'switch';
   }
 
   function setThemeSwitchVariant(demo: HTMLElement, variant: ThemeSwitchVariant) {
@@ -98,7 +98,7 @@ const variants = [
       }
 
       demo.dataset.ready = 'true';
-      setThemeSwitchVariant(demo, 'segmented');
+      setThemeSwitchVariant(demo, 'segmented-control');
 
       demo.addEventListener('click', (event) => {
         const button = event.target instanceof Element

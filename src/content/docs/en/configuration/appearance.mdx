@@ -28,10 +28,19 @@ Supported values are `light`, `dark`, and `system`. The system mode follows
 
 <ThemeSwitchVariantDemo />
 
-The switch shape is a component override, not an `appearance` option. Use
-[Theme Switch Variants](/docs/recipes/theme-switch-variants/) to replace the
-default segmented control with a cycle button, select menu, or light/dark
-switch.
+Use `themeModeControl` to choose the built-in control shown in the header and
+mobile menu.
+
+```ts
+themeModeControl: 'segmented-control'
+```
+
+Supported values are `segmented-control`, `button`, `select`, `switch`, and
+`false`. Set it to `false` to hide the theme mode control while keeping
+`appearance.defaultMode` active.
+
+Override `ThemeSwitch` only when a project needs custom markup or placement
+beyond these built-in controls.
 
 ## Accent
 

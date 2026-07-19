@@ -7,11 +7,11 @@ import {
 } from '@prosefly/astro-theme-lotus/components';
 ---
 
-<div data-theme-switch-variant data-active="segmented">
-  <div class="hidden" data-type="segmented">
+<div data-theme-switch-variant data-active="segmented-control">
+  <div class="hidden" data-type="segmented-control">
     <ThemeModeSegmentedControl />
   </div>
-  <div class="hidden" data-type="cycle">
+  <div class="hidden" data-type="button">
     <ThemeModeButton />
   </div>
   <div class="hidden" data-type="select">
@@ -23,8 +23,8 @@ import {
 </div>
 
 <style>
-  [data-theme-switch-variant][data-active="segmented"] > [data-type="segmented"],
-  [data-theme-switch-variant][data-active="cycle"] > [data-type="cycle"],
+  [data-theme-switch-variant][data-active="segmented-control"] > [data-type="segmented-control"],
+  [data-theme-switch-variant][data-active="button"] > [data-type="button"],
   [data-theme-switch-variant][data-active="select"] > [data-type="select"],
   [data-theme-switch-variant][data-active="switch"] > [data-type="switch"] {
     display: block;

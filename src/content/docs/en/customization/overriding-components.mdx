@@ -59,7 +59,7 @@ Use a component override when the project needs to:
 - Move, hide, or restyle page actions beyond what `pageActions` supports.
 - Replace the page contributors block.
 - Replace previous and next page navigation.
-- Use a different theme mode control.
+- Use custom theme mode control markup beyond `themeModeControl`.
 - Change the navbar or social-link rendering while keeping the same config
   data.
 - Change footer link rendering while keeping `footer.sections` as the source
@@ -98,7 +98,7 @@ Common slot and export pairs:
 | `HeaderNavbar` | `NavbarLinks` |
 | `HeaderSocialIcons` | `SocialIcons` |
 | `FooterLinks` | `FooterLinks` |
-| `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` |
+| `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` for custom compositions |
 | `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
 | `PageActions` | `PageActions` |
 | `PageAside` | `PageAside`, `EditThisPage` |
@@ -129,6 +129,9 @@ import PageActions from 'virtual:prosefly/lotus/components/PageActions';
 ```
 
 ## Minimal Override
+
+Use `themeModeControl` before overriding `ThemeSwitch` if a project only needs
+one of the built-in controls.
 
 Create a local Astro component:
 
