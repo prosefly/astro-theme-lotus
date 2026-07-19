@@ -18,6 +18,7 @@ Astro.response.status = 404;
 <BaseLayout
   title={t('404.heading')}
   description={t('404.description', { site: themeConfig.name })}
+  head={[{ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' } }]}
   locale={currentLocale}
 >
   <MainHeader surface />
