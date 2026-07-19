@@ -10,9 +10,15 @@ interface Props {
   class?: string;
   currentPath?: string;
   showLanguage?: boolean;
+  showThemeSwitch?: boolean;
 }
 
-const { class: className, currentPath, showLanguage = true } = Astro.props;
+const {
+  class: className,
+  currentPath,
+  showLanguage = true,
+  showThemeSwitch = true,
+} = Astro.props;
 const t = Astro.locals.t;
 ---
 
@@ -34,7 +40,7 @@ const t = Astro.locals.t;
         <HeaderSocialIcons mobile />
         {showLanguage && <LanguageSelect />}
       </div>
-      <ThemeSwitch />
+      {showThemeSwitch && <ThemeSwitch />}
     </div>
   </nav>
 </Dropdown>

@@ -3,6 +3,7 @@ import type { LlmsOption } from './config';
 import type { UiTranslations } from './translations';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeModeControl = 'segmented-control' | 'button' | 'switch' | 'select' | false;
 
 export type RadiusScale = 'none' | 'small' | 'medium' | 'large' | 'full';
 
@@ -282,6 +283,7 @@ export interface LotusThemeConfig {
   };
   navbar: ThemeNavbarItem[];
   socials: ThemeSocialLink[];
+  themeModeControl: ThemeModeControl;
   sidebars: SidebarConfig[];
   search: SearchConfig;
   assistant: AssistantConfig;

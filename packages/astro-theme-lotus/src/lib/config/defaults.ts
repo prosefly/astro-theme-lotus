@@ -14,6 +14,7 @@ export const defaultConfig: LotusThemeConfig = {
   },
   navbar: [{ label: 'Docs', href: '/' }],
   socials: [],
+  themeModeControl: 'segmented-control',
   sidebars: [],
   search: { provider: 'local' },
   assistant: false,

@@ -24,6 +24,7 @@ export interface LotusIntegrationOptions {
   appearance?: Partial<LotusThemeConfig['appearance']>;
   navbar?: ThemeNavbarItem[];
   socials?: ThemeSocialLink[];
+  themeModeControl?: LotusThemeConfig['themeModeControl'];
   sidebars?: SidebarConfig[];
   search?: LotusThemeConfig['search'];
   assistant?: LotusThemeConfig['assistant'];

@@ -35,7 +35,8 @@ const t = Astro.locals.t;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const searchEnabled = search && themeConfig.search !== false;
 const assistantEnabled = assistant && Boolean(themeConfig.assistant);
-const hasDesktopControls = showSocials || showLanguage || showThemeSwitch;
+const showThemeControl = showThemeSwitch && themeConfig.themeModeControl !== false;
+const hasDesktopControls = showSocials || showLanguage || showThemeControl;
 const hasMobileControls = hasDesktopControls;
 const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
 const mobileMenuClass = searchEnabled || assistantEnabled ? 'lg:hidden' : 'ms-auto lg:hidden';
@@ -70,7 +71,7 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
           <div class="lotus-border-subtle h-5 border-s"></div>
           {showSocials && <HeaderSocialIcons />}
           {showLanguage && <LanguageSelect />}
-          {showThemeSwitch && <ThemeSwitch />}
+          {showThemeControl && <ThemeSwitch />}
         </div>
       )}
     </div>
@@ -95,7 +96,7 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
                 {showSocials && <HeaderSocialIcons mobile />}
                 {showLanguage && <LanguageSelect />}
               </div>
-              {showThemeSwitch && <ThemeSwitch />}
+              {showThemeControl && <ThemeSwitch />}
             </div>
           )}
         </nav>

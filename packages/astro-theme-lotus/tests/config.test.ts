@@ -44,6 +44,12 @@ describe('Lotus config', () => {
     expect(resolveLotusConfig({ pageActions: [] }).pageActions).toEqual([]);
   });
 
+  it('resolves the theme mode control option', () => {
+    expect(resolveLotusConfig({}).themeModeControl).toBe('segmented-control');
+    expect(resolveLotusConfig({ themeModeControl: false }).themeModeControl).toBe(false);
+    expect(resolveLotusConfig({ themeModeControl: 'button' }).themeModeControl).toBe('button');
+  });
+
   it('resolves boolean and full llms settings', () => {
     expect(resolveLlmsConfig(resolveLotusConfig({ llms: false }))).toEqual({
       enabled: false,

@@ -19,6 +19,7 @@ interface Props {
 const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConfig.assistant);
+const showThemeControl = themeConfig.themeModeControl !== false;
 const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
   ? { 'data-pagefind-ignore': true }
   : {};
@@ -44,7 +45,7 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
         <div class="lotus-border-subtle h-5 border-s"></div>
         <HeaderSocialIcons />
         <LanguageSelect />
-        <ThemeSwitch />
+        {showThemeControl && <ThemeSwitch />}
       </div>
     </div>
 
@@ -52,6 +53,7 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
       class={hasMobileHeaderActions ? undefined : 'ms-auto'}
       currentPath={currentPath}
       showLanguage={showMobileLanguage}
+      showThemeSwitch={showThemeControl}
     />
   </div>
 </header>

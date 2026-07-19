@@ -109,6 +109,7 @@ export type {
   ThemeLogoConfig,
   ThemeAccent,
   ThemeMode,
+  ThemeModeControl,
   ThemeNavbarColor,
   ThemeNavbarItem,
   ThemeNavbarVariant,

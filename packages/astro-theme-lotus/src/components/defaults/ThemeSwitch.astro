@@ -1,5 +1,24 @@
 ---
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import type { LotusThemeConfig } from '../../lib/theme';
+import ThemeModeButton from '../theme/ThemeModeButton.astro';
 import ThemeModeSegmentedControl from '../theme/ThemeModeSegmentedControl.astro';
+import ThemeModeSelect from '../theme/ThemeModeSelect.astro';
+import ThemeModeSwitch from '../theme/ThemeModeSwitch.astro';
+
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const themeModeControl = themeConfig.themeModeControl;
+let Control;
+
+if (themeModeControl === 'button') {
+  Control = ThemeModeButton;
+} else if (themeModeControl === 'switch') {
+  Control = ThemeModeSwitch;
+} else if (themeModeControl === 'select') {
+  Control = ThemeModeSelect;
+} else if (themeModeControl !== false) {
+  Control = ThemeModeSegmentedControl;
+}
 ---
 
-<ThemeModeSegmentedControl />
+{Control && <Control />}
