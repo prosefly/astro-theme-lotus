@@ -10,4 +10,4 @@ export {
 } from './resolve';
 export { lotusConfigPlugin } from './virtual';
 export type { LlmsConfig, LlmsOption, ResolvedLlmsConfig } from './llms';
-export type { LotusIntegrationOptions } from './options';
+export type { LotusIntegrationOptions, LotusMarkdownOptions } from './options';

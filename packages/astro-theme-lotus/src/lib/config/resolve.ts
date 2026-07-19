@@ -5,8 +5,7 @@ import type { LotusIntegrationOptions } from './options';
 
 export function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig {
   const {
-    expressiveCode: _expressiveCode,
-    packageManagerTabs: _packageManagerTabs,
+    markdown: _markdown,
     ...themeOptions
   } = options;
 

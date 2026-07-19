@@ -38,11 +38,13 @@ It preloads icons used by Lotus, icons used by Prosefly components, theme config
 icons, and static `<Icon name="...">` usage in Astro and MDX files.
 
 ```ts
-iconify: {
-  apiBase: 'https://api.iconify.design',
-  preload: ['lucide:sparkles'],
-  scan: true,
-}
+lotus({
+  iconify: {
+    apiBase: 'https://api.iconify.design',
+    preload: ['lucide:sparkles'],
+    scan: true,
+  },
+})
 ```
 
 Use `preload` for icons that cannot be detected statically.
@@ -54,11 +56,15 @@ Set `scan: false` when a project wants only explicit preload names.
 Expressive Code is enabled by default.
 
 ```ts
-expressiveCode: {
-  defaultProps: {
-    showLineNumbers: false,
+lotus({
+  markdown: {
+    expressiveCode: {
+      defaultProps: {
+        showLineNumbers: false,
+      },
+    },
   },
-}
+})
 ```
 
 Lotus configures light and dark Shiki themes, line numbers, copy button styling,
@@ -68,7 +74,11 @@ Disable Expressive Code when a project should use Astro's built-in Shiki
 renderer.
 
 ```ts
-expressiveCode: false
+lotus({
+  markdown: {
+    expressiveCode: false,
+  },
+})
 ```
 
 ## Package Manager Tabs
@@ -77,11 +87,15 @@ Lotus enables the Prosefly package-manager tabs remark plugin by default. It
 turns recognized install commands into tabbed command blocks.
 
 ```ts
-packageManagerTabs: false
+lotus({
+  markdown: {
+    packageManagerTabs: false,
+  },
+})
 ```
 
-Set `packageManagerTabs` to `false` to keep package-manager commands as normal
-code blocks.
+Set `markdown.packageManagerTabs` to `false` to keep package-manager commands
+as normal code blocks.
 
 ## Callout Directives
 
@@ -95,10 +109,15 @@ Lotus wires the callout component import automatically.
 :::
 ```
 
-Set `calloutDirectives` to `false` to keep Markdown directives untouched.
+Set `markdown.calloutDirectives` to `false` to keep Markdown directives
+untouched.
 
 ```ts
-calloutDirectives: false
+lotus({
+  markdown: {
+    calloutDirectives: false,
+  },
+})
 ```
 
 ## Image Galleries
@@ -107,6 +126,17 @@ Lotus also installs the Prosefly image gallery rehype plugin. Paragraphs that
 contain only Markdown images are transformed into responsive gallery figures.
 
 See [Images](/docs/essentials/images/) for authoring details.
+
+Disable the transform when a project wants image-only paragraphs to stay as
+normal Markdown output.
+
+```ts
+lotus({
+  markdown: {
+    imageGallery: false,
+  },
+})
+```
 
 ## Component Overrides
 

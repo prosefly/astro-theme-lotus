@@ -15,7 +15,9 @@ renderer instead.
 
 ```ts
 lotus({
-  expressiveCode: false,
+  markdown: {
+    expressiveCode: false,
+  },
 })
 ```
 
@@ -24,10 +26,12 @@ change the default themes or block behavior.
 
 ```ts
 lotus({
-  expressiveCode: {
-    themes: ['github-light', 'github-dark'],
-    defaultProps: {
-      wrap: true,
+  markdown: {
+    expressiveCode: {
+      themes: ['github-light', 'github-dark'],
+      defaultProps: {
+        wrap: true,
+      },
     },
   },
 })

@@ -14,7 +14,8 @@ export function resolveMarkdownConfig(
   options: LotusIntegrationOptions,
   markdownConfig: AstroConfig['markdown'],
 ) {
-  const expressiveCodeOptions = resolveExpressiveCodeOptions(options.expressiveCode);
+  const markdownOptions = options.markdown ?? {};
+  const expressiveCodeOptions = resolveExpressiveCodeOptions(markdownOptions.expressiveCode);
   const markdownProcessor = markdownConfig?.processor;
   const unifiedOptions =
     markdownProcessor && isUnifiedProcessor(markdownProcessor)
@@ -22,13 +23,13 @@ export function resolveMarkdownConfig(
       : undefined;
   const remarkPlugins = [
     remarkHeadingIds,
-    ...(options.calloutDirectives === false ? [] : [remarkCalloutDirectives]),
+    ...(markdownOptions.calloutDirectives === false ? [] : [remarkCalloutDirectives]),
     ...(unifiedOptions?.remarkPlugins ?? markdownConfig?.remarkPlugins ?? []),
-    ...(options.packageManagerTabs === false ? [] : [remarkPackageManagerTabs]),
+    ...(markdownOptions.packageManagerTabs === false ? [] : [remarkPackageManagerTabs]),
   ];
   const rehypePlugins = [
     ...(unifiedOptions?.rehypePlugins ?? markdownConfig?.rehypePlugins ?? []),
-    rehypeImageGallery,
+    ...(markdownOptions.imageGallery === false ? [] : [rehypeImageGallery]),
     rehypeHeadingAnchors,
   ];
 

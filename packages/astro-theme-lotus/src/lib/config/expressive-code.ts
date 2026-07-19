@@ -3,7 +3,7 @@ import {
   mergeEcConfigOptions,
   type AstroExpressiveCodeOptions,
 } from 'astro-expressive-code';
-import type { LotusIntegrationOptions } from './options';
+import type { LotusMarkdownOptions } from './options';
 
 function createInlineSvgUrl(svgContents: string[]): string {
   return `url("data:image/svg+xml,${encodeURIComponent(svgContents.join(''))}")`;
@@ -48,7 +48,7 @@ const defaultExpressiveCodeOptions: AstroExpressiveCodeOptions = {
 };
 
 export function resolveExpressiveCodeOptions(
-  options: LotusIntegrationOptions['expressiveCode'],
+  options: LotusMarkdownOptions['expressiveCode'],
 ): AstroExpressiveCodeOptions | false {
   if (options === false) {
     return false;

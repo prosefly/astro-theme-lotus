@@ -21,7 +21,7 @@ import { lotusStylesPlugin } from './lib/styles';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   let config = resolveLotusConfig(options);
-  const expressiveCodeOptions = resolveExpressiveCodeOptions(options.expressiveCode);
+  const expressiveCodeOptions = resolveExpressiveCodeOptions(options.markdown?.expressiveCode);
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -76,6 +76,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
 export { accentScales, defineLotusConfig, lotus };
 export type {
   LotusIntegrationOptions,
+  LotusMarkdownOptions,
 } from './lib/config/index';
 export type {
   AccentScale,

@@ -9,6 +9,13 @@ import type {
   ThemeSocialLink,
 } from '../theme';
 
+export interface LotusMarkdownOptions {
+  expressiveCode?: false | AstroExpressiveCodeOptions;
+  calloutDirectives?: false;
+  packageManagerTabs?: false;
+  imageGallery?: false;
+}
+
 export interface LotusIntegrationOptions {
   name?: LotusThemeConfig['name'];
   description?: LotusThemeConfig['description'];
@@ -32,9 +39,7 @@ export interface LotusIntegrationOptions {
   locales?: LotusThemeConfig['locales'];
   ui?: LotusThemeConfig['ui'];
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
-  expressiveCode?: false | AstroExpressiveCodeOptions;
-  calloutDirectives?: false;
-  packageManagerTabs?: false;
+  markdown?: LotusMarkdownOptions;
   footer?: {
     copyright?: string;
     sections?: FooterSection[];
