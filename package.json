@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/check": "latest",
@@ -21,5 +22,8 @@
     "astro": "^7.0.0",
     "tailwindcss": "latest",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }

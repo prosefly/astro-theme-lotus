@@ -45,6 +45,9 @@ jobs:
       - name: Check site
         run: pnpm check
 
+      - name: Test package
+        run: pnpm test
+
       - name: Build site
         env:
           GH_TOKEN: ${{ github.token }}
