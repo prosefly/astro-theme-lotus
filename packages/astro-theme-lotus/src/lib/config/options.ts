@@ -33,6 +33,7 @@ export interface LotusIntegrationOptions {
   ui?: LotusThemeConfig['ui'];
   iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   expressiveCode?: false | AstroExpressiveCodeOptions;
+  calloutDirectives?: false;
   packageManagerTabs?: false;
   footer?: {
     copyright?: string;

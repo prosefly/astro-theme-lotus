@@ -1,14 +1,14 @@
 ---
 title: Integrations
-description: Configure Iconify preloading, Expressive Code, and package manager tabs.
+description: Configure Iconify preloading, Expressive Code, callout directives, and package manager tabs.
 sidebar:
   order: 12
 ---
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
-Lotus includes integrations for icons, syntax highlighting, image galleries,
-and package-manager command tabs.
+Lotus includes integrations for icons, syntax highlighting, callout directives,
+image galleries, and package-manager command tabs.
 
 <CardGrid>
   <Card icon="lucide:sparkles" title="Iconify" href="#iconify">
@@ -22,6 +22,9 @@ and package-manager command tabs.
   <Card icon="lucide:terminal" title="Package Manager Tabs" href="#package-manager-tabs">
     Turn recognized npm and Python install commands into synchronized tabbed
     command blocks.
+  </Card>
+  <Card icon="lucide:message-square-warning" title="Callout Directives" href="#callout-directives">
+    Write admonitions with Markdown directive syntax such as `:::tip`.
   </Card>
   <Card icon="lucide:images" title="Image Galleries" href="#image-galleries">
     Transform Markdown image-only paragraphs into responsive gallery figures.
@@ -79,6 +82,24 @@ packageManagerTabs: false
 
 Set `packageManagerTabs` to `false` to keep package-manager commands as normal
 code blocks.
+
+## Callout Directives
+
+Lotus enables the Prosefly callout directive remark plugin by default. This adds
+Starlight-style admonition syntax for `note`, `tip`, `warning`, `caution`, and
+`danger`.
+
+```md
+:::tip[Use the theme defaults]
+Lotus wires the callout component import automatically.
+:::
+```
+
+Set `calloutDirectives` to `false` to keep Markdown directives untouched.
+
+```ts
+calloutDirectives: false
+```
 
 ## Image Galleries
 

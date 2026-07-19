@@ -1,6 +1,7 @@
 import { isUnifiedProcessor, unified } from '@astrojs/markdown-remark';
 import {
   rehypeImageGallery,
+  remarkCalloutDirectives,
   remarkPackageManagerTabs,
 } from '@prosefly/astro-components/markdown';
 import type { AstroConfig } from 'astro';
@@ -21,6 +22,7 @@ export function resolveMarkdownConfig(
       : undefined;
   const remarkPlugins = [
     remarkHeadingIds,
+    ...(options.calloutDirectives === false ? [] : [remarkCalloutDirectives]),
     ...(unifiedOptions?.remarkPlugins ?? markdownConfig?.remarkPlugins ?? []),
     ...(options.packageManagerTabs === false ? [] : [remarkPackageManagerTabs]),
   ];

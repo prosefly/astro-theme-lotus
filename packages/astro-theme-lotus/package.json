@@ -46,7 +46,7 @@
     "@astrojs/markdown-remark": "^7.2.1",
     "@astrojs/mdx": "latest",
     "@expressive-code/plugin-line-numbers": "^0.44.0",
-    "@prosefly/astro-components": "^0.2.1",
+    "@prosefly/astro-components": "^0.3.0",
     "@tailwindcss/vite": "latest",
     "astro-expressive-code": "^0.44.0",
     "github-slugger": "^2.0.0",
