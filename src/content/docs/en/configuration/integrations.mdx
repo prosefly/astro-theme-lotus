@@ -1,6 +1,6 @@
 ---
 title: Integrations
-description: Configure Iconify preloading, Expressive Code, callout directives, and package manager tabs.
+description: Configure Iconify preloading, Expressive Code, callout directives, CJK Markdown, and package manager tabs.
 sidebar:
   order: 12
 ---
@@ -8,7 +8,7 @@ sidebar:
 import { Card, CardGrid } from '@prosefly/astro-components';
 
 Lotus includes integrations for icons, syntax highlighting, callout directives,
-image galleries, and package-manager command tabs.
+CJK-friendly Markdown, image galleries, and package-manager command tabs.
 
 <CardGrid>
   <Card icon="lucide:sparkles" title="Iconify" href="#iconify">
@@ -25,6 +25,10 @@ image galleries, and package-manager command tabs.
   </Card>
   <Card icon="lucide:message-square-warning" title="Callout Directives" href="#callout-directives">
     Write admonitions with Markdown directive syntax such as `:::tip`.
+  </Card>
+  <Card icon="lucide:languages" title="CJK-Friendly Markdown" href="#cjk-friendly-markdown">
+    Make emphasis and GFM strikethrough work better in Chinese, Japanese, and
+    Korean text.
   </Card>
   <Card icon="lucide:images" title="Image Galleries" href="#image-galleries">
     Transform Markdown image-only paragraphs into responsive gallery figures.
@@ -114,6 +118,27 @@ lotus({
   },
 })
 ```
+
+## CJK-Friendly Markdown
+
+`markdown.cjkFriendly` controls CJK-friendly parsing for emphasis and GFM
+strikethrough. The default is `auto`: Lotus enables it when `locales` contains a
+Chinese, Japanese, or Korean locale key or `lang` value.
+
+```ts
+lotus({
+  locales: {
+    root: { label: 'English', directory: 'en' },
+    'zh-cn': { label: '简体中文', lang: 'zh-CN', directory: 'zh-cn' },
+  },
+  markdown: {
+    cjkFriendly: 'auto',
+  },
+})
+```
+
+Set it to `true` to force the parser support on, or `false` to keep plain
+CommonMark and GFM parsing.
 
 ## Image Galleries
 

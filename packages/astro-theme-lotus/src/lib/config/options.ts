@@ -12,6 +12,7 @@ import type {
 export interface LotusMarkdownOptions {
   expressiveCode?: false | AstroExpressiveCodeOptions;
   calloutDirectives?: false;
+  cjkFriendly?: boolean | 'auto';
   packageManagerTabs?: false;
   imageGallery?: false;
 }

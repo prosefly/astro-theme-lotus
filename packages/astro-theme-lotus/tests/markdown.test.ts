@@ -1,4 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import type { AstroConfig } from 'astro';
+import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
+import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
+import { resolveMarkdownConfig } from '../src/lib/config/markdown';
 import { remarkHeadingIds } from '../src/lib/markdown/heading-ids';
 
 interface TestNode {
@@ -37,7 +41,49 @@ function text(value: string): TestNode {
   };
 }
 
+function markdownConfig(config: Partial<AstroConfig['markdown']> = {}): AstroConfig['markdown'] {
+  return config as AstroConfig['markdown'];
+}
+
 describe('markdown transforms', () => {
+  it('enables CJK friendly parsing automatically for CJK locales', () => {
+    const config = resolveMarkdownConfig({
+      locales: {
+        root: { label: 'English', directory: 'en' },
+        'zh-cn': { label: '简体中文', lang: 'zh-CN', directory: 'zh-cn' },
+      },
+    }, markdownConfig());
+    const plugins = config.processor.options.remarkPlugins;
+
+    expect(plugins).toContain(remarkCjkFriendly);
+    expect(plugins).toContain(remarkCjkFriendlyGfmStrikethrough);
+  });
+
+  it('can disable CJK friendly parsing and respects disabled GFM', () => {
+    const disabled = resolveMarkdownConfig({
+      locales: {
+        ja: { label: 'Japanese', lang: 'ja', directory: 'ja' },
+      },
+      markdown: {
+        cjkFriendly: false,
+      },
+    }, markdownConfig());
+
+    expect(disabled.processor.options.remarkPlugins).not.toContain(remarkCjkFriendly);
+    expect(disabled.processor.options.remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
+
+    const withoutGfm = resolveMarkdownConfig({
+      markdown: {
+        cjkFriendly: true,
+      },
+    }, markdownConfig({
+      gfm: false,
+    }));
+
+    expect(withoutGfm.processor.options.remarkPlugins).toContain(remarkCjkFriendly);
+    expect(withoutGfm.processor.options.remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
+  });
+
   it('generates stable slugs for headings and duplicate headings', () => {
     const tree = runHeadingIds({
       type: 'root',
