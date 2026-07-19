@@ -164,8 +164,9 @@ pagefind: false
 ```
 
 The field name is kept for Starlight compatibility. In Lotus it controls the
-built-in `search.json` output and marks the rendered page as ignored for
-Pagefind.
+built-in `search.json` output. When the active provider is Pagefind, Lotus also
+uses this field to decide whether the rendered page receives Pagefind indexing
+attributes.
 
 Draft pages are also excluded from production search results because
 `draft: true` excludes them from production builds.
@@ -197,11 +198,11 @@ import {
 <SearchDialogContent />
 ```
 
-The built-in content component renders the active provider shell. For local and
-Pagefind search, it emits provider data attributes such as
-`data-lotus-search-provider`, `data-lotus-search-index`, and
-`data-lotus-pagefind-bundle`. For DocSearch, it emits a DocSearch container and
-loads the CDN assets on demand.
+The built-in content component renders the active provider shell. For local
+search it emits `data-lotus-search-provider` and `data-lotus-search-index`.
+For Pagefind search it also emits `data-lotus-pagefind-bundle`, and the page
+layout adds Pagefind indexing attributes. For DocSearch, it emits a DocSearch
+container and loads the CDN assets on demand.
 
 ## Limits
 

@@ -107,6 +107,32 @@ With `docsBase: '/docs'` and the default loader:
 
 The prefixed search index is `/docs/search.json`.
 
+## LLMs Files
+
+Lotus generates `/llms.txt` by default. It lists the default locale docs as
+Markdown links, grouped by sidebar section.
+
+Disable the route with:
+
+```ts
+export default defineLotusConfig({
+  llms: false,
+});
+```
+
+Generate a full-text companion at `/llms-full.txt` with:
+
+```ts
+export default defineLotusConfig({
+  llms: {
+    full: true,
+  },
+});
+```
+
+`/llms.txt` and `/llms-full.txt` are site-level discovery files, so they do not
+move under `docsBase`.
+
 ## Site Homepage
 
 The docs collection `index` entry always renders at the current `docsBase`.

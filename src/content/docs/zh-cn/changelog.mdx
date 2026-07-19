@@ -29,12 +29,14 @@ import { Badge, Card, CardGrid } from '@prosefly/astro-components';
 - 为自定义页面添加 `Prose` export。
 - 为 docs 页面 metadata 添加 Markdown alternate links。
 - 添加自动生成的 `/llms.txt` endpoint，用于 AI-readable docs discovery。
+- 添加 `llms` config，用于关闭 `/llms.txt` 或生成 `/llms-full.txt`。
 - 为 `info`、`success`、`warning` 和 `danger` 添加语义化 status color tokens。
 
 ### 变更
 
 - 将 `@prosefly/astro-components` 更新到 `0.2.1`。
 - 将 `SiteHeader` 重构为独立 site header。
+- 只有启用 Pagefind search provider 时才输出 Pagefind indexing attributes。
 
 ### 修复
 
