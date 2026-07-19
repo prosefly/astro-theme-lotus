@@ -26,18 +26,22 @@ defaultMode: 'system'
 Supported values are `light`, `dark`, and `system`. The system mode follows
 `prefers-color-scheme` until the visitor chooses a mode in the theme switch.
 
+## Theme Mode Control
+
+`themeModeControl` chooses the built-in control shown in the header and mobile
+menu.
+
 <ThemeSwitchVariantDemo />
 
-Use `themeModeControl` to choose the built-in control shown in the header and
-mobile menu.
+| Value | Behavior |
+| --- | --- |
+| `segmented-control` | Shows system, light, and dark as separate icon buttons. |
+| `button` | Shows one button that cycles through system, light, and dark. |
+| `select` | Shows a select or dropdown with text labels. |
+| `switch` | Shows a compact light/dark switch. |
+| `false` | Hides the control. |
 
-```ts
-themeModeControl: 'segmented-control'
-```
-
-Supported values are `segmented-control`, `button`, `select`, `switch`, and
-`false`. Set it to `false` to hide the theme mode control while keeping
-`appearance.defaultMode` active.
+`appearance.defaultMode` still applies when the control is hidden.
 
 Override `ThemeSwitch` only when a project needs custom markup or placement
 beyond these built-in controls.
