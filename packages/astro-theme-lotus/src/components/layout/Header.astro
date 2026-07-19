@@ -3,6 +3,9 @@ import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import MainHeader from './MainHeader.astro';
 import MobileDocsNav from './MobileDocsNav.astro';
 import SubNav from './SubNav.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { isPagefindSearchEnabled } from '../../lib/search';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Heading {
   depth: number;
@@ -29,9 +32,13 @@ const {
   sidebars = {},
   title = '',
 } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
+  ? { 'data-pagefind-ignore': true }
+  : {};
 ---
 
-<div class="lotus-border-subtle sticky top-0 z-40 border-b bg-(--lotus-background)/95 backdrop-blur" data-pagefind-ignore>
+<div class="lotus-border-subtle sticky top-0 z-40 border-b bg-(--lotus-background)/95 backdrop-blur" {...pagefindIgnoreAttrs}>
   <MainHeader currentPath={currentPath} showMobileLanguage={false} surface={false} />
   <div class="hidden lg:block">
     <SubNav sections={sections} />

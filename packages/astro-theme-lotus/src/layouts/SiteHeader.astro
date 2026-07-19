@@ -9,6 +9,7 @@ import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 import Dropdown from '../components/ui/Dropdown.astro';
 import { Icon } from '@prosefly/astro-components';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { isPagefindSearchEnabled } from '../lib/search';
 import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
@@ -37,6 +38,9 @@ const assistantEnabled = assistant && Boolean(themeConfig.assistant);
 const hasDesktopControls = showSocials || showLanguage || showThemeSwitch;
 const hasMobileControls = hasDesktopControls;
 const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
+const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
+  ? { 'data-pagefind-ignore': true }
+  : {};
 ---
 
 <header
@@ -44,7 +48,7 @@ const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls
     'relative z-40 h-(--lotus-header-height)',
     surface && 'lotus-border-subtle border-b bg-(--lotus-background)/95 backdrop-blur',
   ]}
-  data-pagefind-ignore
+  {...pagefindIgnoreAttrs}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
     <SiteBrand fetchPriority="high" markIdPrefix="lotus-site-header-brand" />

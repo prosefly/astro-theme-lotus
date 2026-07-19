@@ -4,8 +4,11 @@ import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
 import Button from '../components/ui/Button.astro';
 import { resolveIconName } from '../lib/icons';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { HeadConfig } from '../lib/page/head';
 import type { NormalizedLocale } from '../lib/i18n';
+import { isPagefindSearchEnabled } from '../lib/search';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface HeroAction {
   text: string;
@@ -38,10 +41,16 @@ interface Props {
 }
 
 const { title, description, head, hero, locale, pagefind = true } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
 const heroTitle = hero?.title ?? title;
 const heroTagline = hero?.tagline ?? description;
 const actions = hero?.actions ?? [];
-const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
+const pagefindEnabled = isPagefindSearchEnabled(themeConfig);
+const pagefindAttrs = pagefindEnabled
+  ? pagefind
+    ? { 'data-pagefind-body': true }
+    : { 'data-pagefind-ignore': true }
+  : {};
 
 function getButtonVariant(action: HeroAction): 'soft' | 'outline' | 'solid' | 'ghost' {
   if (action.variant === 'primary') {

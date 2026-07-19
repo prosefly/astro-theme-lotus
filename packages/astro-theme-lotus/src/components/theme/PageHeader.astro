@@ -1,6 +1,9 @@
 ---
 import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { isPagefindSearchEnabled } from '../../lib/search';
 import type { PageActionConfig } from '../../lib/theme';
+import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
   title: string;
@@ -19,6 +22,10 @@ const {
   pageUrl,
   markdownUrl,
 } = Astro.props;
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
+  ? { 'data-pagefind-ignore': true }
+  : {};
 ---
 
 <header class="lotus-border-subtle border-b pb-8">
@@ -37,7 +44,7 @@ const {
       )}
     </div>
     {pageActions.length > 0 && (
-      <div class="shrink-0 sm:pt-1" data-pagefind-ignore>
+      <div class="shrink-0 sm:pt-1" {...pagefindIgnoreAttrs}>
         <PageActions
           actions={pageActions}
           markdownUrl={markdownUrl}

@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as pagefind from 'pagefind';
 import type { LotusThemeConfig } from '../theme';
-import { getPagefindOutputSubdir } from './index';
+import { getPagefindOutputSubdir, getPagefindSearchConfig } from './index';
 
 interface PagefindLogger {
   info(message: string): void;
@@ -21,11 +21,12 @@ export async function buildPagefindIndex(
   dir: URL,
   logger: PagefindLogger,
 ): Promise<void> {
-  if (config.search === false || config.search.provider !== 'pagefind') {
+  const searchConfig = getPagefindSearchConfig(config);
+
+  if (!searchConfig) {
     return;
   }
 
-  const searchConfig = config.search;
   const siteDir = fileURLToPath(dir);
   const outputSubdir = getPagefindOutputSubdir(searchConfig);
   const outputPath = join(siteDir, outputSubdir);

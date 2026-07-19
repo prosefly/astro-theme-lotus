@@ -7,6 +7,7 @@ import SearchDialog from 'virtual:prosefly/lotus/components/SearchDialog';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { isPagefindSearchEnabled } from '../../lib/search';
 import type { LotusThemeConfig } from '../../lib/theme';
 
 interface Props {
@@ -18,6 +19,9 @@ interface Props {
 const { currentPath, showMobileLanguage = true, surface = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConfig.assistant);
+const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
+  ? { 'data-pagefind-ignore': true }
+  : {};
 ---
 
 <header
@@ -26,7 +30,7 @@ const hasMobileHeaderActions = themeConfig.search !== false || Boolean(themeConf
     'h-(--lotus-header-height)',
     surface && 'lotus-border-subtle border-b bg-(--lotus-background)/95 backdrop-blur',
   ]}
-  data-pagefind-ignore
+  {...pagefindIgnoreAttrs}
 >
   <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
     <SiteBrand fetchPriority="high" markIdPrefix="lotus-header-brand" />

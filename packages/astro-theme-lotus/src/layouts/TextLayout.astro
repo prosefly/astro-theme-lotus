@@ -2,8 +2,11 @@
 import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import MainHeader from '../components/layout/MainHeader.astro';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { HeadConfig } from '../lib/page/head';
 import type { NormalizedLocale } from '../lib/i18n';
+import { isPagefindSearchEnabled } from '../lib/search';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface Props {
   title: string;
@@ -14,7 +17,13 @@ interface Props {
 }
 
 const { title, description, head, locale, pagefind = true } = Astro.props;
-const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const pagefindEnabled = isPagefindSearchEnabled(themeConfig);
+const pagefindAttrs = pagefindEnabled
+  ? pagefind
+    ? { 'data-pagefind-body': true }
+    : { 'data-pagefind-ignore': true }
+  : {};
 ---
 
 <BaseLayout title={title} description={description} head={head} locale={locale}>

@@ -13,6 +13,7 @@ import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } fro
 import type { HeadConfig } from '../lib/page/head';
 import { createDocsJsonLd } from '../lib/page/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import { isPagefindSearchEnabled } from '../lib/search';
 import type { ContributorInfo, LotusThemeConfig } from '../lib/theme';
 
 interface Heading {
@@ -68,7 +69,13 @@ const schemaMarkdownUrl = new URL(markdownHref, baseUrl).toString();
 const pageActions = themeConfig.pageActions ?? [];
 const activeSection = subnav.find((section) => section.active);
 const breadcrumbs: { label: string; href: string }[] = [];
-const pagefindAttrs = pagefind ? { 'data-pagefind-body': true } : { 'data-pagefind-ignore': true };
+const pagefindEnabled = isPagefindSearchEnabled(themeConfig);
+const pagefindAttrs = pagefindEnabled
+  ? pagefind
+    ? { 'data-pagefind-body': true }
+    : { 'data-pagefind-ignore': true }
+  : {};
+const pagefindIgnoreAttrs = pagefindEnabled ? { 'data-pagefind-ignore': true } : {};
 const docsHead: HeadConfig = [
   ...(head ?? []),
   {
@@ -155,7 +162,7 @@ const jsonLd = createDocsJsonLd({
             <slot />
           </div>
         </div>
-        <div class="xl:hidden" data-pagefind-ignore>
+        <div class="xl:hidden" {...pagefindIgnoreAttrs}>
           <PageAside
             currentSlug={currentSlug}
             editUrl={editUrl}
@@ -166,7 +173,7 @@ const jsonLd = createDocsJsonLd({
             title={title}
           />
         </div>
-        <div data-pagefind-ignore>
+        <div {...pagefindIgnoreAttrs}>
           <PageMeta
             contributors={contributors}
             lastUpdated={lastUpdated}
@@ -176,7 +183,7 @@ const jsonLd = createDocsJsonLd({
         </div>
       </article>
 
-      <aside class="hidden xl:block" data-pagefind-ignore>
+      <aside class="hidden xl:block" {...pagefindIgnoreAttrs}>
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
           <PageAside
             currentSlug={currentSlug}
