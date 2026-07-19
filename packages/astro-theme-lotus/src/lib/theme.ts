@@ -1,4 +1,5 @@
 import type { ThemeAccent } from './colors';
+import type { LlmsOption } from './config';
 import type { UiTranslations } from './translations';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
@@ -284,6 +285,7 @@ export interface LotusThemeConfig {
   sidebars: SidebarConfig[];
   search: SearchConfig;
   assistant: AssistantConfig;
+  llms: LlmsOption;
   pageActions: PageActionConfig[];
   contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;

@@ -8,6 +8,8 @@ import {
   getDefaultLocale,
   getLocalizedMarkdownHref,
 } from '../lib/i18n';
+import { resolveLlmsConfig } from '../lib/config';
+import { createPageMarkdown } from '../lib/page/actions';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 
@@ -24,7 +26,48 @@ function formatLink(title: string, href: string, description?: string): string {
   return summary ? `${link}: ${summary}` : link;
 }
 
+function appendEntryLink(
+  lines: string[],
+  entry: Awaited<ReturnType<typeof getDocsContext>>['entries'][number],
+  href: string,
+  linkedSlugs?: Set<string>,
+) {
+  linkedSlugs?.add(getEntrySlug(entry));
+  lines.push(formatLink(entry.data.title, href, entry.data.description));
+}
+
+function appendFullEntry(
+  lines: string[],
+  entry: Awaited<ReturnType<typeof getDocsContext>>['entries'][number],
+  href: string,
+) {
+  lines.push(
+    '---',
+    '',
+    createPageMarkdown({
+      title: entry.data.title,
+      description: entry.data.description,
+      body: entry.body,
+    }).trim(),
+    '',
+    `Source: ${href}`,
+    '',
+  );
+}
+
 export const GET: APIRoute = async ({ site, request }) => {
+  const llmsConfig = resolveLlmsConfig(themeConfig);
+  const isFull = new URL(request.url).pathname.endsWith('/llms-full.txt');
+
+  if (!llmsConfig.enabled || (isFull && !llmsConfig.full)) {
+    return new Response('Not found\n', {
+      status: 404,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+      },
+    });
+  }
+
   const defaultLocale = getDefaultLocale(themeConfig);
   const docsContext = await getDocsContext(undefined, defaultLocale.key);
   const entriesBySlug = new Map(
@@ -51,11 +94,9 @@ export const GET: APIRoute = async ({ site, request }) => {
     lines.push(`## ${section.label}`, '');
 
     for (const entry of sectionEntries) {
-      const slug = getEntrySlug(entry);
-      linkedSlugs.add(slug);
-      const markdownHref = getLocalizedMarkdownHref(themeConfig, slug, defaultLocale.key);
+      const markdownHref = getLocalizedMarkdownHref(themeConfig, getEntrySlug(entry), defaultLocale.key);
       const href = new URL(markdownHref, baseUrl).toString();
-      lines.push(formatLink(entry.data.title, href, entry.data.description));
+      appendEntryLink(lines, entry, href, linkedSlugs);
     }
 
     lines.push('');
@@ -71,13 +112,22 @@ export const GET: APIRoute = async ({ site, request }) => {
     lines.push('## Other', '');
 
     for (const entry of unlistedEntries) {
-      const slug = getEntrySlug(entry);
-      const markdownHref = getLocalizedMarkdownHref(themeConfig, slug, defaultLocale.key);
+      const markdownHref = getLocalizedMarkdownHref(themeConfig, getEntrySlug(entry), defaultLocale.key);
       const href = new URL(markdownHref, baseUrl).toString();
-      lines.push(formatLink(entry.data.title, href, entry.data.description));
+      appendEntryLink(lines, entry, href);
     }
 
     lines.push('');
+  }
+
+  if (isFull) {
+    lines.push('## Full Documentation', '');
+
+    for (const entry of docsContext.entries) {
+      const markdownHref = getLocalizedMarkdownHref(themeConfig, getEntrySlug(entry), defaultLocale.key);
+      const href = new URL(markdownHref, baseUrl).toString();
+      appendFullEntry(lines, entry, href);
+    }
   }
 
   return new Response(`${lines.join('\n').trim()}\n`, {

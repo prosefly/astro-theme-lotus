@@ -17,6 +17,7 @@ export const defaultConfig: LotusThemeConfig = {
   sidebars: [],
   search: { provider: 'local' },
   assistant: false,
+  llms: true,
   pageActions: [
     { type: 'copy-page', icon: 'lucide:copy' },
     { type: 'view-markdown', icon: 'lucide:file-text' },

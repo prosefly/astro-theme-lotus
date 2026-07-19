@@ -20,6 +20,7 @@ export interface LotusIntegrationOptions {
   sidebars?: SidebarConfig[];
   search?: LotusThemeConfig['search'];
   assistant?: LotusThemeConfig['assistant'];
+  llms?: LotusThemeConfig['llms'];
   pageActions?: PageActionConfig[];
   contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;

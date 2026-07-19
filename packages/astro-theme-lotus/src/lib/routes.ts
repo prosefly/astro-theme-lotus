@@ -1,4 +1,4 @@
-import { normalizeDocsBasePath } from './config/resolve';
+import { normalizeDocsBasePath, resolveLlmsConfig } from './config';
 import { getLocales } from './i18n';
 import type { LotusThemeConfig } from './theme';
 
@@ -27,14 +27,11 @@ function hasLocalizedRoutes(config: LotusThemeConfig): boolean {
 
 export function getLotusInjectedRoutes(config: LotusThemeConfig): LotusInjectedRoute[] {
   const docsBasePath = normalizeDocsBasePath(config.docsBase);
+  const llmsConfig = resolveLlmsConfig(config);
   const routes: LotusInjectedRoute[] = [
     {
       pattern: '/404',
       entrypoint: new URL('../routes/404.astro', import.meta.url),
-    },
-    {
-      pattern: '/llms.txt',
-      entrypoint: new URL('../routes/llms.txt.ts', import.meta.url),
     },
     {
       pattern: getDocsRoutePattern(docsBasePath, '/[...slug]'),
@@ -45,6 +42,20 @@ export function getLotusInjectedRoutes(config: LotusThemeConfig): LotusInjectedR
       entrypoint: new URL('../routes/docs.md.ts', import.meta.url),
     },
   ];
+
+  if (llmsConfig.enabled) {
+    routes.push({
+      pattern: '/llms.txt',
+      entrypoint: new URL('../routes/llms.txt.ts', import.meta.url),
+    });
+
+    if (llmsConfig.full) {
+      routes.push({
+        pattern: '/llms-full.txt',
+        entrypoint: new URL('../routes/llms.txt.ts', import.meta.url),
+      });
+    }
+  }
 
   if (isLocalSearchEnabled(config)) {
     routes.push({
