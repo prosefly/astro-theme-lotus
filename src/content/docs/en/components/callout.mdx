@@ -10,6 +10,9 @@ import { Callout } from '@prosefly/astro-components';
 Use `Callout` when a paragraph needs more attention than normal prose but
 should still stay inside the reading flow.
 
+For Markdown directive syntax such as `:::tip`, see
+[Admonitions](/docs/essentials/admonitions/).
+
 ## Import
 
 ```mdx
@@ -49,22 +52,6 @@ first row, while the content appears below.
   The note variant is a safe default for implementation details, caveats, and
   editorial guidance.
 </Callout>
-
-## Directive Syntax
-
-Lotus enables Prosefly callout directives by default. Use `note`, `tip`,
-`warning`, `caution`, or `danger`; `caution` renders as a warning for Starlight
-compatibility.
-
-```md
-:::tip[Directive syntax]
-Use directives when migrating Markdown from another documentation framework.
-:::
-```
-
-:::tip[Directive syntax]
-Use directives when migrating Markdown from another documentation framework.
-:::
 
 ## Variants
 

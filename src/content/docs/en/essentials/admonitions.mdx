@@ -1,0 +1,72 @@
+---
+title: Admonitions
+description: Author notes, tips, warnings, and danger messages with Markdown directives.
+sidebar:
+  order: 3
+---
+
+Use admonitions when a short block of content needs to stand out from normal
+prose without switching to component syntax.
+
+Lotus supports Markdown directives for `note`, `tip`, `warning`, `caution`, and
+`danger`. The directives render through the same callout system used by the
+`Callout` component.
+
+## Basic Syntax
+
+Use three colons, the admonition type, an optional title in brackets, then close
+the block with another three colons.
+
+```md
+:::tip[Use the starter template]
+Start with the starter when you want the fastest path to a working docs site.
+:::
+```
+
+:::tip[Use the starter template]
+Start with the starter when you want the fastest path to a working docs site.
+:::
+
+## Types
+
+Choose the type that matches the intent of the message.
+
+:::note[Note]
+Use notes for neutral context, implementation details, and caveats.
+:::
+
+:::tip[Tip]
+Use tips for recommended workflows, shortcuts, and smoother paths through a
+task.
+:::
+
+:::warning[Warning]
+Use warnings when a choice can cause confusing behavior, broken output, or extra
+setup work.
+:::
+
+:::danger[Danger]
+Use danger messages for destructive actions, security-sensitive steps, and
+irreversible changes.
+:::
+
+## Starlight Compatibility
+
+Lotus also accepts `caution` for Starlight compatibility. It renders as a
+warning-style admonition.
+
+```md
+:::caution[Check before deploying]
+Review environment variables before publishing the site.
+:::
+```
+
+:::caution[Check before deploying]
+Review environment variables before publishing the site.
+:::
+
+## When To Use Components
+
+Use directives for normal documentation prose. Use the
+[`Callout` component](/docs/components/callout/) when a page already uses MDX
+components or when you need component props directly.

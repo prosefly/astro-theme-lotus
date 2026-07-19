@@ -1,0 +1,64 @@
+---
+title: 提示块
+description: 使用 Markdown directives 编写 notes、tips、warnings 和 danger messages。
+sidebar:
+  order: 3
+---
+
+当一段短内容需要从普通正文中突出，但又不想切换到组件语法时，使用提示块。
+
+Lotus 支持 `note`、`tip`、`warning`、`caution` 和 `danger` 这些 Markdown
+directives。它们会通过与 `Callout` 组件相同的提示系统渲染。
+
+## 基本语法
+
+使用三个冒号、提示类型、可选的方括号标题，然后用另一组三个冒号结束。
+
+```md
+:::tip[使用 starter template]
+当你想最快得到一个可运行文档站点时，从 starter 开始。
+:::
+```
+
+:::tip[使用 starter template]
+当你想最快得到一个可运行文档站点时，从 starter 开始。
+:::
+
+## 类型
+
+根据提示内容的意图选择类型。
+
+:::note[Note]
+Note 适合中性上下文、实现细节和 caveats。
+:::
+
+:::tip[Tip]
+Tip 适合推荐工作流、快捷方式，或帮助读者更顺利完成任务的路径。
+:::
+
+:::warning[Warning]
+Warning 适合可能导致困惑行为、损坏输出或额外设置工作的选择。
+:::
+
+:::danger[Danger]
+Danger 适合破坏性操作、安全敏感步骤和不可逆变更。
+:::
+
+## Starlight 兼容
+
+Lotus 也接受 `caution`，用于兼容 Starlight。它会渲染为 warning 风格的提示块。
+
+```md
+:::caution[部署前检查]
+发布站点前检查环境变量。
+:::
+```
+
+:::caution[部署前检查]
+发布站点前检查环境变量。
+:::
+
+## 何时使用组件
+
+普通文档正文优先使用 directives。当页面已经在使用 MDX 组件，或你需要直接控制组件
+props 时，使用 [`Callout` 组件](/docs/zh-cn/components/callout/)。
