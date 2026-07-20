@@ -24,6 +24,7 @@
   --pf-radius-md: var(--lotus-radius-md);
   --pf-radius-lg: var(--lotus-radius-lg);
   --pf-radius-full: var(--lotus-radius-full);
+  --pf-badge-radius: var(--lotus-radius-md);
 }
 
 :root[data-radius="none"] {
