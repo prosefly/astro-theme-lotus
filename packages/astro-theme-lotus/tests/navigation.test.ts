@@ -132,7 +132,7 @@ describe('sidebar navigation', () => {
     ]);
   });
 
-  it('resolves strings, links, groups, autogenerate items, badges, and translated labels', () => {
+  it('resolves strings, links, groups, autogenerate items, badges, and translated labels', async () => {
     const config = resolveLotusConfig({
       ...localizedConfig,
       sidebars: [
@@ -169,7 +169,7 @@ describe('sidebar navigation', () => {
       ],
     });
 
-    const resolved = resolveSidebars(config, sidebarEntries, 'zh-cn');
+    const resolved = await resolveSidebars(config, sidebarEntries, 'zh-cn');
 
     expect(resolved.issues).toEqual([]);
     expect(resolved.sidebars.guide.links[0]).toMatchObject({
@@ -203,7 +203,34 @@ describe('sidebar navigation', () => {
     ]);
   });
 
-  it('reports duplicate sections, missing entries, and empty autogenerate groups', () => {
+  it('supports promise sidebar items', async () => {
+    const config = resolveLotusConfig({
+      sidebars: [
+        {
+          label: 'API',
+          items: Promise.resolve([
+            { label: 'List pets', link: '/api/endpoints/pets/listpets/' },
+          ]),
+        },
+      ],
+    });
+
+    const resolved = await resolveSidebars(config, sidebarEntries, 'root');
+
+    expect(resolved.issues).toEqual([]);
+    expect(resolved.sidebars.api.links).toEqual([
+      {
+        label: 'List pets',
+        href: '/api/endpoints/pets/listpets/',
+        external: false,
+        icon: undefined,
+        badge: undefined,
+        slug: undefined,
+      },
+    ]);
+  });
+
+  it('reports duplicate sections, missing entries, and empty autogenerate groups', async () => {
     const config = resolveLotusConfig({
       sidebars: [
         { label: 'Guides', items: ['missing'] },
@@ -211,7 +238,7 @@ describe('sidebar navigation', () => {
       ],
     });
 
-    const resolved = resolveSidebars(config, sidebarEntries, 'root');
+    const resolved = await resolveSidebars(config, sidebarEntries, 'root');
 
     expect(resolved.issues).toEqual([
       { type: 'duplicate-section', sectionSlug: 'guides', labels: ['Guides', 'Guides'] },

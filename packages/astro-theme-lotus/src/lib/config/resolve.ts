@@ -1,5 +1,9 @@
 import { readPublicImageDimensions } from '../image-size';
-import type { LotusThemeConfig } from '../theme';
+import type {
+  LotusThemeConfig,
+  SidebarGroupItem,
+  SidebarItemConfig,
+} from '../theme';
 import { defaultConfig, DEFAULT_DOCS_BASE_PATH } from './defaults';
 import type { LotusIntegrationOptions } from './options';
 
@@ -58,6 +62,16 @@ export function resolveLocalAssetConfig(
   };
 }
 
+export async function resolveAsyncLotusConfig(config: LotusThemeConfig): Promise<LotusThemeConfig> {
+  return {
+    ...config,
+    sidebars: await Promise.all(config.sidebars.map(async (sidebar) => ({
+      ...sidebar,
+      items: await resolveAsyncSidebarItems(await sidebar.items),
+    }))),
+  };
+}
+
 export function normalizeDocsBasePath(
   basePath?: string,
   fallback = DEFAULT_DOCS_BASE_PATH,
@@ -66,4 +80,17 @@ export function normalizeDocsBasePath(
   const normalized = `/${input}`.replace(/\/+/g, '/').replace(/\/$/, '');
 
   return normalized || '/';
+}
+
+async function resolveAsyncSidebarItems(items: SidebarItemConfig[]): Promise<SidebarItemConfig[]> {
+  return Promise.all(items.map(async (item): Promise<SidebarItemConfig> => {
+    if (!item || typeof item !== 'object' || !('items' in item)) {
+      return item;
+    }
+
+    return {
+      ...item,
+      items: await resolveAsyncSidebarItems(await item.items),
+    } satisfies SidebarGroupItem;
+  }));
 }

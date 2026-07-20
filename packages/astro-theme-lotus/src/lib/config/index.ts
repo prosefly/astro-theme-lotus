@@ -5,6 +5,7 @@ export { resolveMarkdownConfig } from './markdown';
 export { defineLotusConfig } from './options';
 export {
   normalizeDocsBasePath,
+  resolveAsyncLotusConfig,
   resolveLocalAssetConfig,
   resolveLotusConfig,
 } from './resolve';

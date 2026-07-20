@@ -118,7 +118,7 @@ export async function getDocsContext(
 ): Promise<DocsNavigationContext> {
   const locale = getLocale(localeKey);
   const entries = await getDocsEntries(locale.key);
-  const resolved = resolveSidebars(
+  const resolved = await resolveSidebars(
     themeConfig,
     entriesToSidebarContentEntries(entries),
     locale.key,
@@ -136,12 +136,12 @@ export async function getDocsContext(
   };
 }
 
-export function getEntrySection(
+export async function getEntrySection(
   entry: DocsEntry,
   entries: DocsEntry[],
   localeKey = getEntryLocale(entry).key,
-): string | undefined {
-  const resolved = resolveSidebars(
+): Promise<string | undefined> {
+  const resolved = await resolveSidebars(
     themeConfig,
     entriesToSidebarContentEntries(entries),
     localeKey,

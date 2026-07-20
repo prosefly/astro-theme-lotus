@@ -134,7 +134,11 @@ function linkToSidebarItem(
   };
 }
 
-function normalizeSidebarItems(
+async function resolveSidebarItems(items: SidebarConfig['items']): Promise<SidebarItemConfig[]> {
+  return await items;
+}
+
+async function normalizeSidebarItems(
   config: LotusThemeConfig,
   items: SidebarItemConfig[],
   entries: SidebarContentEntry[],
@@ -142,8 +146,8 @@ function normalizeSidebarItems(
   localeKey: string,
   sectionSlug: string,
   issues: SidebarIssue[],
-): DocsSidebarItem[] {
-  return items.flatMap((item) => {
+): Promise<DocsSidebarItem[]> {
+  const resolvedItems = await Promise.all(items.map(async (item): Promise<DocsSidebarItem[]> => {
     if (typeof item === 'string') {
       return [slugToSidebarItem(config, entriesBySlug, item, localeKey, sectionSlug, issues)];
     }
@@ -168,9 +172,9 @@ function normalizeSidebarItems(
           collapsed: item.collapsed,
           label: translateLabel(item.label, item.translations, localeKey),
           icon: item.icon,
-          items: normalizeSidebarItems(
+          items: await normalizeSidebarItems(
             config,
-            item.items,
+            await resolveSidebarItems(item.items),
             entries,
             entriesBySlug,
             localeKey,
@@ -186,28 +190,30 @@ function normalizeSidebarItems(
     }
 
     return [];
-  });
+  }));
+
+  return resolvedItems.flat();
 }
 
-function resolveSidebar(
+async function resolveSidebar(
   config: LotusThemeConfig,
   sidebar: SidebarConfig,
   entries: SidebarContentEntry[],
   localeKey: string,
   issues: SidebarIssue[],
-): DocsSidebarNav {
+): Promise<DocsSidebarNav> {
   const entriesBySlug = getEntryMap(entries);
   const sectionSlug = getSidebarSectionSlug(sidebar);
   const links: DocsSidebarItem[] = [];
   const groups: DocsSidebarGroupNav[] = [];
 
-  for (const item of sidebar.items) {
+  for (const item of await resolveSidebarItems(sidebar.items)) {
     if (isGroupItem(item)) {
       groups.push({
         title: translateLabel(item.label, item.translations, localeKey),
-        items: normalizeSidebarItems(
+        items: await normalizeSidebarItems(
           config,
-          item.items,
+          await resolveSidebarItems(item.items),
           entries,
           entriesBySlug,
           localeKey,
@@ -216,7 +222,7 @@ function resolveSidebar(
         ),
       });
     } else {
-      links.push(...normalizeSidebarItems(
+      links.push(...await normalizeSidebarItems(
         config,
         [item],
         entries,
@@ -251,19 +257,19 @@ function getDuplicateSectionIssues(sidebars: SidebarConfig[]): SidebarIssue[] {
     }));
 }
 
-export function resolveSidebars(
+export async function resolveSidebars(
   config: LotusThemeConfig,
   entries: SidebarContentEntry[],
   localeKey: string,
-): ResolvedSidebars {
+): Promise<ResolvedSidebars> {
   const issues = getDuplicateSectionIssues(config.sidebars);
-  const sidebars = Object.fromEntries(
-    config.sidebars.map((sidebar) => {
+  const sidebars = Object.fromEntries(await Promise.all(
+    config.sidebars.map(async (sidebar) => {
       const sectionSlug = getSidebarSectionSlug(sidebar);
 
-      return [sectionSlug, resolveSidebar(config, sidebar, entries, localeKey, issues)];
+      return [sectionSlug, await resolveSidebar(config, sidebar, entries, localeKey, issues)];
     }),
-  );
+  ));
 
   return { sidebars, issues };
 }

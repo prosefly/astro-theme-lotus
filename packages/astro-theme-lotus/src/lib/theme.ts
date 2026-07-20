@@ -53,6 +53,8 @@ export type SidebarBadge =
       color?: SidebarBadgeColor;
     };
 
+export type MaybePromise<T> = T | Promise<T>;
+
 export interface SidebarLinkItem {
   label: string;
   link: string;
@@ -68,7 +70,7 @@ export interface SidebarGroupItem {
   icon?: string;
   collapsed?: boolean;
   translations?: Record<string, string>;
-  items: SidebarItemConfig[];
+  items: MaybePromise<SidebarItemConfig[]>;
 }
 
 export interface SidebarAutogenerateItem {
@@ -91,7 +93,7 @@ export interface SidebarConfig {
   label: string;
   icon?: string;
   translations?: Record<string, string>;
-  items: SidebarItemConfig[];
+  items: MaybePromise<SidebarItemConfig[]>;
 }
 
 export interface FooterSection {

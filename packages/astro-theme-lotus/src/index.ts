@@ -6,6 +6,7 @@ import type { AstroIntegration } from 'astro';
 import {
   defineLotusConfig,
   lotusConfigPlugin,
+  resolveAsyncLotusConfig,
   resolveExpressiveCodeOptions,
   resolveLocalAssetConfig,
   resolveLotusConfig,
@@ -26,13 +27,14 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
   return {
     name: '@prosefly/astro-theme-lotus',
     hooks: {
-      'astro:config:setup': ({
+      'astro:config:setup': async ({
         addMiddleware,
         config: astroConfig,
         injectRoute,
         updateConfig,
       }) => {
         config = resolveLocalAssetConfig(config, astroConfig.publicDir);
+        config = await resolveAsyncLotusConfig(config);
 
         for (const route of getLotusInjectedRoutes(config)) {
           injectRoute(route);
@@ -89,6 +91,7 @@ export type {
   FooterSection,
   LocaleConfig,
   LotusThemeConfig,
+  MaybePromise,
   OverrideComponentName,
   OverrideComponentsConfig,
   PageActionConfig,

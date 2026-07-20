@@ -46,7 +46,7 @@ export function getIconPreloadNames(config: LotusThemeConfig): string[] {
 
       addIcon(item.icon);
 
-      if ('items' in item) {
+      if ('items' in item && Array.isArray(item.items)) {
         addSidebarItems(item.items);
       }
     }
@@ -75,7 +75,9 @@ export function getIconPreloadNames(config: LotusThemeConfig): string[] {
 
   for (const sidebar of config.sidebars) {
     addIcon(sidebar.icon);
-    addSidebarItems(sidebar.items);
+    if (Array.isArray(sidebar.items)) {
+      addSidebarItems(sidebar.items);
+    }
   }
 
   return [...iconNames].sort();
