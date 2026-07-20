@@ -1,8 +1,7 @@
+minimumReleaseAge: 0
+
 packages:
   - packages/*
-
-minimumReleaseAgeExclude:
-  - '@prosefly/astro-components'
 
 allowBuilds:
   esbuild: true
