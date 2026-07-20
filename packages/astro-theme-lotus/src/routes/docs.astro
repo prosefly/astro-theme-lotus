@@ -2,7 +2,7 @@
 import type { MarkdownHeading } from 'astro';
 import { render } from 'astro:content';
 import '@prosefly/astro-components/markdown/image-gallery.css';
-import DocsLayout from '../layouts/DocsLayout.astro';
+import DocsContextLayout from '../layouts/DocsContextLayout.astro';
 import SplashLayout from '../layouts/SplashLayout.astro';
 import TextLayout from '../layouts/TextLayout.astro';
 import PageAside from 'virtual:prosefly/lotus/components/PageAside';
@@ -17,11 +17,16 @@ import {
   getSidebarPagination,
   getSidebarSectionTitle,
 } from '../lib/docs';
-import { resolveEditUrl } from '../lib/page/edit-link';
-import { getLocalizedHref, getLocalizedMarkdownHref, getLocales, getRouteSlugForLocalizedSlug } from '../lib/i18n';
+import {
+  getLocalizedHref,
+  getLocalizedMarkdownHref,
+  getLocales,
+  getRouteSlugForLocalizedSlug,
+} from '../lib/i18n';
 import { getEntryLastUpdated } from '../lib/page/last-updated';
 import type { HeadConfig } from '../lib/page/head';
 import { createDocsJsonLd } from '../lib/page/schema';
+import { resolveEditUrl } from '../lib/page/edit-link';
 import { isPagefindSearchEnabled } from '../lib/search';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
@@ -157,6 +162,7 @@ const jsonLd = createDocsJsonLd({
   markdownUrl: schemaMarkdownUrl,
   lastUpdated,
 });
+
 ---
 
 {isSplashTemplate ? (
@@ -168,18 +174,16 @@ const jsonLd = createDocsJsonLd({
     <Content />
   </TextLayout>
 ) : (
-  <DocsLayout
+  <DocsContextLayout
     title={entry.data.title}
     description={entry.data.description}
     head={docsHead}
     jsonLd={jsonLd}
-    sectionTitle={sectionTitle}
     locale={currentLocale}
     currentPath={currentPath}
+    currentSection={currentSection}
+    currentSlug={entrySlug}
     pagefind={entry.data.pagefind}
-    subnav={subnav}
-    sidebar={sidebar}
-    sidebars={sidebars}
     headings={tocHeadings}
   >
     <div>
@@ -232,5 +236,5 @@ const jsonLd = createDocsJsonLd({
     <script>
       import '@prosefly/astro-components/markdown/image-gallery.js';
     </script>
-  </DocsLayout>
+  </DocsContextLayout>
 )}

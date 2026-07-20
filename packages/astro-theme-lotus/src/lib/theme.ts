@@ -56,6 +56,7 @@ export type SidebarBadge =
 export interface SidebarLinkItem {
   label: string;
   link: string;
+  slug?: string;
   external?: boolean;
   icon?: string;
   badge?: SidebarBadge;

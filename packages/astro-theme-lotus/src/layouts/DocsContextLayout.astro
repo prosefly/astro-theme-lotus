@@ -1,0 +1,53 @@
+---
+import { getDocsContext, getSidebarSectionTitle } from '../lib/docs';
+import type { NormalizedLocale } from '../lib/i18n';
+import type { HeadConfig } from '../lib/page/head';
+import type { JsonLdNode } from '../lib/page/schema';
+import DocsLayout from './DocsLayout.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  head?: HeadConfig;
+  jsonLd?: JsonLdNode | JsonLdNode[];
+  locale?: NormalizedLocale;
+  currentPath?: string;
+  currentSection?: string;
+  currentSlug?: string;
+  headings?: Heading[];
+  pagefind?: boolean;
+}
+
+const props = Astro.props;
+const docsContext = await getDocsContext(props.currentSection, props.locale?.key);
+const sidebars = docsContext.sidebars;
+const sidebar = props.currentSection ? sidebars[props.currentSection] ?? { links: [], groups: [] } : { links: [], groups: [] };
+const sectionTitle = props.currentSlug ? getSidebarSectionTitle(sidebar, props.currentSlug) : undefined;
+---
+
+<DocsLayout
+  title={props.title}
+  description={props.description}
+  head={props.head}
+  jsonLd={props.jsonLd}
+  locale={props.locale}
+  currentPath={props.currentPath}
+  sectionTitle={sectionTitle}
+  headings={props.headings}
+  pagefind={props.pagefind}
+  subnav={docsContext.sections}
+  sidebar={sidebar}
+  sidebars={sidebars}
+>
+  <slot />
+
+  <Fragment slot="aside">
+    <slot name="aside" />
+  </Fragment>
+</DocsLayout>

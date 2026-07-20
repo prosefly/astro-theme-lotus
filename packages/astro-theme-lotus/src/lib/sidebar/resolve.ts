@@ -130,6 +130,7 @@ function linkToSidebarItem(
     external,
     icon: item.icon,
     badge: item.badge,
+    slug: item.slug,
   };
 }
 

@@ -1,4 +1,5 @@
 export { default as BaseLayout } from './layouts/BaseLayout.astro';
+export { default as DocsContextLayout } from './layouts/DocsContextLayout.astro';
 export { default as DocsLayout } from './layouts/DocsLayout.astro';
 export { default as PageContainer } from './layouts/PageContainer.astro';
 export { default as PageSection } from './layouts/PageSection.astro';

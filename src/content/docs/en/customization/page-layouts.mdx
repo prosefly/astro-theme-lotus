@@ -17,6 +17,7 @@ should share the same theme shell without using the docs sidebar layout.
 | Export | Purpose |
 | --- | --- |
 | `BaseLayout` | Document shell with Lotus styles, appearance attributes, metadata, favicon, JSON-LD, and assistant widget support. |
+| `DocsContextLayout` | Thin wrapper around `DocsLayout` that resolves docs navigation from `currentSection`. |
 | `DocsLayout` | Documentation chrome with the sticky docs header, left sidebar, main content slot, right aside slot, and footer. |
 | `SiteHeader` | Site header with brand, search, navbar, socials, language selector, theme switch, and mobile menu. |
 | `SiteFooter` | Footer shell using the configured brand, copyright, credits, and footer links. |
@@ -30,11 +31,21 @@ as API reference pages. It owns the docs header, left sidebar, responsive mobile
 docs navigation, and footer. You provide the main content and optional right
 aside with slots.
 
+`DocsLayout` does not calculate navigation. Pass resolved `subnav`, `sidebar`,
+and `sidebars` data to keep the layout reusable across docs, API reference
+pages, and other custom collections. Lotus docs routes can use helpers from
+`@prosefly/astro-theme-lotus/navigation`; custom collections can create the
+same data shape directly.
+
 ```astro
 ---
 import { DocsLayout } from '@prosefly/astro-theme-lotus/layouts';
+import type {
+  DocsSectionNav,
+  DocsSidebarNav,
+} from '@prosefly/astro-theme-lotus/navigation';
 
-const sidebar = {
+const sidebar: DocsSidebarNav = {
   links: [{ label: 'Overview', href: '/api/' }],
   groups: [
     {
@@ -46,7 +57,7 @@ const sidebar = {
   ],
 };
 
-const subnav = [
+const subnav: DocsSectionNav[] = [
   {
     slug: 'api',
     label: 'API',
