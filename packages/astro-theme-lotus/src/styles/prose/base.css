@@ -3,7 +3,7 @@
   --lotus-prose-font-heading: var(--lotus-font-sans);
   --lotus-prose-font-mono: var(--lotus-font-mono);
   --lotus-prose-surface-radius: min(var(--lotus-radius-lg), 1rem);
-  --lotus-prose-size: 1rem;
+  --lotus-prose-size: 1em;
   --lotus-prose-leading: 1.75;
   --lotus-prose-flow: 1.25em;
   --lotus-prose-heading-leading: 1.25;
@@ -15,6 +15,27 @@
   font-family: var(--lotus-prose-font-body);
   font-size: var(--lotus-prose-size);
   line-height: var(--lotus-prose-leading);
+}
+
+.lotus-prose-sm,
+.lotus-prose.text-sm {
+  --lotus-prose-size: 0.875rem;
+  --lotus-prose-leading: 1.7142857;
+  --lotus-prose-flow: 1.1428571em;
+}
+
+.lotus-prose-base,
+.lotus-prose.text-base {
+  --lotus-prose-size: 1rem;
+  --lotus-prose-leading: 1.75;
+  --lotus-prose-flow: 1.25em;
+}
+
+.lotus-prose-lg,
+.lotus-prose.text-lg {
+  --lotus-prose-size: 1.125rem;
+  --lotus-prose-leading: 1.7777778;
+  --lotus-prose-flow: 1.3333333em;
 }
 
 .lotus-prose :where(*):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
