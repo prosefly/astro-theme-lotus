@@ -20,10 +20,10 @@
   --lotus-radius-lg: 0.75rem;
   --lotus-radius-full: 999px;
 
-  --pl-radius-sm: var(--lotus-radius-sm);
-  --pl-radius-md: var(--lotus-radius-md);
-  --pl-radius-lg: var(--lotus-radius-lg);
-  --pl-radius-full: var(--lotus-radius-full);
+  --pf-radius-sm: var(--lotus-radius-sm);
+  --pf-radius-md: var(--lotus-radius-md);
+  --pf-radius-lg: var(--lotus-radius-lg);
+  --pf-radius-full: var(--lotus-radius-full);
 }
 
 :root[data-radius="none"] {

@@ -307,24 +307,24 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
   }
 
   .docs-preview__cards {
-    --pl-card-body-gap: 0.15rem;
-    --pl-card-content-line-height: 1.4;
-    --pl-card-content-size: 0.55rem;
-    --pl-card-icon-glyph-size: 0.75rem;
-    --pl-card-icon-size: 1.45rem;
-    --pl-card-layout-gap: 0.35rem;
-    --pl-card-padding: 0.65rem;
-    --pl-card-title-line-height: 0.85rem;
-    --pl-card-title-size: 0.625rem;
+    --pf-card-body-gap: 0.15rem;
+    --pf-card-content-line-height: 1.4;
+    --pf-card-content-size: 0.55rem;
+    --pf-card-icon-glyph-size: 0.75rem;
+    --pf-card-icon-size: 1.45rem;
+    --pf-card-layout-gap: 0.35rem;
+    --pf-card-padding: 0.65rem;
+    --pf-card-title-line-height: 0.85rem;
+    --pf-card-title-size: 0.625rem;
   }
 
-  .docs-preview__cards :global(.pl-card-grid) {
+  .docs-preview__cards :global(.pf-card-grid) {
     gap: 0.65rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-block: 0;
   }
 
-  .docs-preview__cards :global(.pl-card) {
+  .docs-preview__cards :global(.pf-card) {
     min-width: 0;
   }
 
@@ -370,7 +370,7 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
     font-weight: 600;
   }
 
-  .docs-preview :global(.pl-icon) {
+  .docs-preview :global(.pf-icon) {
     height: 0.8rem;
     width: 0.8rem;
   }
@@ -416,11 +416,11 @@ const sidebarItems = ['Overview', 'Installation', 'Configuration', 'Deployment']
       padding-inline: 0.8rem;
     }
 
-    .docs-preview__cards :global(.pl-card-grid) {
+    .docs-preview__cards :global(.pf-card-grid) {
       grid-template-columns: 1fr;
     }
 
-    .docs-preview__cards :global(.pl-card:last-child) {
+    .docs-preview__cards :global(.pf-card:last-child) {
       display: none;
     }
   }

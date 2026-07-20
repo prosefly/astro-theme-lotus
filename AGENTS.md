@@ -63,7 +63,7 @@ Important tokens include:
 - `--lotus-accent-contrast`
 - `--lotus-radius-*`
 
-Astro Components use `--pl-*` tokens. Do not couple those components to
+Astro Components use `--pf-*` tokens. Do not couple those components to
 `--lotus-*` tokens directly.
 
 Respect `data-accent`, `data-gray`, `data-radius`, and `data-theme`.

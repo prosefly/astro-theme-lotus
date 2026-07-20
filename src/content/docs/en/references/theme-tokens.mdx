@@ -171,42 +171,42 @@ config and prose CSS.
 
 ## Prosefly Bridge
 
-Shared MDX components from `@prosefly/astro-components` read `--pl-*` tokens.
+Shared MDX components from `@prosefly/astro-components` read `--pf-*` tokens.
 Lotus maps those tokens to its semantic layer.
 
 | Prosefly token | Lotus mapping |
 | --- | --- |
-| `--pl-background` | `--lotus-background` |
-| `--pl-surface` | `--lotus-surface` |
-| `--pl-text-strong` | `--lotus-text-strong` |
-| `--pl-text` | `--lotus-text` |
-| `--pl-text-muted` | `--lotus-text-muted` |
-| `--pl-border-muted` | `--lotus-border-muted` |
-| `--pl-border-subtle` | `--lotus-border-subtle` |
-| `--pl-border-hover` | `--lotus-border-hover` |
-| `--pl-accent` | `--lotus-accent` |
-| `--pl-accent-soft` | `--lotus-accent-soft` |
-| `--pl-accent-contrast` | `--lotus-accent-contrast` |
-| `--pl-info` | `--lotus-info` |
-| `--pl-info-ink` | `--lotus-info-ink` |
-| `--pl-info-soft` | `--lotus-info-soft` |
-| `--pl-info-contrast` | `--lotus-info-contrast` |
-| `--pl-success` | `--lotus-success` |
-| `--pl-success-ink` | `--lotus-success-ink` |
-| `--pl-success-soft` | `--lotus-success-soft` |
-| `--pl-success-contrast` | `--lotus-success-contrast` |
-| `--pl-warning` | `--lotus-warning` |
-| `--pl-warning-ink` | `--lotus-warning-ink` |
-| `--pl-warning-soft` | `--lotus-warning-soft` |
-| `--pl-warning-contrast` | `--lotus-warning-contrast` |
-| `--pl-danger` | `--lotus-danger` |
-| `--pl-danger-ink` | `--lotus-danger-ink` |
-| `--pl-danger-soft` | `--lotus-danger-soft` |
-| `--pl-danger-contrast` | `--lotus-danger-contrast` |
-| `--pl-radius-sm` | `--lotus-radius-sm` |
-| `--pl-radius-md` | `--lotus-radius-md` |
-| `--pl-radius-lg` | `--lotus-radius-lg` |
-| `--pl-radius-full` | `--lotus-radius-full` |
+| `--pf-background` | `--lotus-background` |
+| `--pf-surface` | `--lotus-surface` |
+| `--pf-text-strong` | `--lotus-text-strong` |
+| `--pf-text` | `--lotus-text` |
+| `--pf-text-muted` | `--lotus-text-muted` |
+| `--pf-border-muted` | `--lotus-border-muted` |
+| `--pf-border-subtle` | `--lotus-border-subtle` |
+| `--pf-border-hover` | `--lotus-border-hover` |
+| `--pf-accent` | `--lotus-accent` |
+| `--pf-accent-soft` | `--lotus-accent-soft` |
+| `--pf-accent-contrast` | `--lotus-accent-contrast` |
+| `--pf-info` | `--lotus-info` |
+| `--pf-info-ink` | `--lotus-info-ink` |
+| `--pf-info-soft` | `--lotus-info-soft` |
+| `--pf-info-contrast` | `--lotus-info-contrast` |
+| `--pf-success` | `--lotus-success` |
+| `--pf-success-ink` | `--lotus-success-ink` |
+| `--pf-success-soft` | `--lotus-success-soft` |
+| `--pf-success-contrast` | `--lotus-success-contrast` |
+| `--pf-warning` | `--lotus-warning` |
+| `--pf-warning-ink` | `--lotus-warning-ink` |
+| `--pf-warning-soft` | `--lotus-warning-soft` |
+| `--pf-warning-contrast` | `--lotus-warning-contrast` |
+| `--pf-danger` | `--lotus-danger` |
+| `--pf-danger-ink` | `--lotus-danger-ink` |
+| `--pf-danger-soft` | `--lotus-danger-soft` |
+| `--pf-danger-contrast` | `--lotus-danger-contrast` |
+| `--pf-radius-sm` | `--lotus-radius-sm` |
+| `--pf-radius-md` | `--lotus-radius-md` |
+| `--pf-radius-lg` | `--lotus-radius-lg` |
+| `--pf-radius-full` | `--lotus-radius-full` |
 
 ## Component-Local Tokens
 
@@ -214,14 +214,14 @@ Some MDX components define local tokens for their internal layout.
 
 | Token | Owner | Purpose |
 | --- | --- | --- |
-| `--pl-steps-start` | `Steps` | Counter start offset. |
-| `--pl-steps-bullet-size` | `Steps` | Marker size. |
-| `--pl-steps-bullet-margin` | `Steps` | Gap below each marker before the connector line. |
-| `--pl-steps-line` | `Steps` | Connector line color. |
-| `--pl-steps-marker-background` | `Steps` | Marker background. |
-| `--pl-steps-marker-foreground` | `Steps` | Marker text color. |
-| `--pl-file-tree-border` | `FileTree` | File tree outer border color. |
-| `--pl-file-tree-line` | `FileTree` | Nested guide line color. |
+| `--pf-steps-start` | `Steps` | Counter start offset. |
+| `--pf-steps-bullet-size` | `Steps` | Marker size. |
+| `--pf-steps-bullet-margin` | `Steps` | Gap below each marker before the connector line. |
+| `--pf-steps-line` | `Steps` | Connector line color. |
+| `--pf-steps-marker-background` | `Steps` | Marker background. |
+| `--pf-steps-marker-foreground` | `Steps` | Marker text color. |
+| `--pf-file-tree-border` | `FileTree` | File tree outer border color. |
+| `--pf-file-tree-line` | `FileTree` | Nested guide line color. |
 
 Component-local tokens are implementation details. Prefer the semantic tokens
 above unless a component explicitly documents an override.

@@ -7,7 +7,7 @@ sidebar:
 
 Lotus styles are built on Tailwind utilities and semantic CSS variables. The
 theme exposes `--lotus-*` tokens for layout and shell styling, while shared MDX
-components consume portable `--pl-*` variables.
+components consume portable `--pf-*` variables.
 
 ## Theme tokens
 
@@ -36,11 +36,11 @@ surfaces, text, or component geometry.
 Lotus maps component package variables to theme variables:
 
 ```css
---pl-text-strong: var(--lotus-text-strong);
---pl-text: var(--lotus-text);
---pl-text-muted: var(--lotus-text-muted);
---pl-background: var(--lotus-background);
---pl-accent: var(--lotus-accent);
+--pf-text-strong: var(--lotus-text-strong);
+--pf-text: var(--lotus-text);
+--pf-text-muted: var(--lotus-text-muted);
+--pf-background: var(--lotus-background);
+--pf-accent: var(--lotus-accent);
 ```
 
 This keeps `@prosefly/astro-components` portable while letting Lotus own the

@@ -94,7 +94,7 @@
     iframe,
     figure,
     .astro-code,
-    .pl-image-gallery,
+    .pf-image-gallery,
     .expressive-code
   ):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: var(--lotus-prose-flow);
@@ -128,7 +128,7 @@
     figure,
     iframe,
     .astro-code,
-    .pl-image-gallery,
+    .pf-image-gallery,
     .expressive-code
   ):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0;
