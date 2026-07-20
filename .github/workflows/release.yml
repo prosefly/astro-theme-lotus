@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - '*.*.*'
+      - "*.*.*"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,10 +23,11 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      packages: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -34,7 +35,7 @@ jobs:
           version: 11.9.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -48,39 +49,54 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./packages/astro-theme-lotus/package.json').version")
           TAG_VERSION="$GITHUB_REF_NAME"
-          [[ "$TAG_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]
           test "$PACKAGE_VERSION" = "$TAG_VERSION"
 
-      - name: Check site
+      - name: Check package
         run: pnpm check
 
       - name: Test package
         run: pnpm test
 
-      - name: Build site
+      - name: Build package
         run: pnpm build
 
-      - name: Dry run publish
+      - name: Dry run publish to npm
         if: github.event_name == 'workflow_dispatch' && inputs.dry_run
         working-directory: packages/astro-theme-lotus
-        run: npm publish --access public --dry-run
+        run: npx npm@latest publish --access public --dry-run
 
-      - name: Publish package
+      - name: Publish package to npm
         if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
         working-directory: packages/astro-theme-lotus
-        run: npm publish --access public
+        run: npx npm@latest publish --access public
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://npm.pkg.github.com
+          scope: "@prosefly"
+
+      - name: Dry run publish to GitHub Packages
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        working-directory: packages/astro-theme-lotus
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+        run: npx npm@latest publish --dry-run --registry https://npm.pkg.github.com
+
+      - name: Publish package to GitHub Packages
+        if: github.event_name != 'workflow_dispatch' || !inputs.dry_run
+        working-directory: packages/astro-theme-lotus
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+        run: npx npm@latest publish --registry https://npm.pkg.github.com
 
       - name: Create GitHub release
         if: github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            echo "GitHub release already exists for $GITHUB_REF_NAME."
-            exit 0
-          fi
-
           gh release create "$GITHUB_REF_NAME" \
-            --title "$GITHUB_REF_NAME" \
             --generate-notes \
+            --title "$GITHUB_REF_NAME" \
             --verify-tag
