@@ -17,6 +17,7 @@ should share the same theme shell without using the docs sidebar layout.
 | Export | Purpose |
 | --- | --- |
 | `BaseLayout` | Document shell with Lotus styles, appearance attributes, metadata, favicon, JSON-LD, and assistant widget support. |
+| `DocsLayout` | Documentation chrome with the sticky docs header, left sidebar, main content slot, right aside slot, and footer. |
 | `SiteHeader` | Site header with brand, search, navbar, socials, language selector, theme switch, and mobile menu. |
 | `SiteFooter` | Footer shell using the configured brand, copyright, credits, and footer links. |
 | `PageContainer` | Responsive max-width container with Lotus horizontal page padding. |
@@ -24,8 +25,53 @@ should share the same theme shell without using the docs sidebar layout.
 | `SplashLayout` | Complete splash page layout with site header, hero area, content section, and footer. |
 | `TextLayout` | Complete centered prose layout for terms, privacy, and other plain text pages. |
 
-`DocsLayout` is intentionally not exported. It depends on generated docs
-context, sidebar navigation, table of contents, contributors, and pagination.
+Use `DocsLayout` when a custom collection should feel like documentation, such
+as API reference pages. It owns the docs header, left sidebar, responsive mobile
+docs navigation, and footer. You provide the main content and optional right
+aside with slots.
+
+```astro
+---
+import { DocsLayout } from '@prosefly/astro-theme-lotus/layouts';
+
+const sidebar = {
+  links: [{ label: 'Overview', href: '/api/' }],
+  groups: [
+    {
+      title: 'Pets',
+      items: [
+        { label: 'List pets', href: '/api/list-pets/' },
+      ],
+    },
+  ],
+};
+
+const subnav = [
+  {
+    slug: 'api',
+    label: 'API',
+    href: '/api/',
+    active: true,
+    items: [],
+  },
+];
+---
+
+<DocsLayout
+  title="List pets"
+  currentPath="/api/list-pets/"
+  subnav={subnav}
+  sidebar={sidebar}
+  headings={[]}
+>
+  <h1>List pets</h1>
+  <p>Render your custom page content here.</p>
+
+  <aside slot="aside">
+    <p class="text-sm text-(--lotus-text-muted)">Endpoint metadata</p>
+  </aside>
+</DocsLayout>
+```
 
 ## Header Controls
 

@@ -1,20 +1,15 @@
 ---
-import type { DocsPaginationNav, DocsSectionNav, DocsSidebarNav } from '../lib/docs';
+import type { DocsSectionNav, DocsSidebarNav } from '../lib/docs';
 import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
-import Sidebar from '../components/layout/Sidebar.astro';
-import '@prosefly/astro-components/markdown/image-gallery.css';
-import PageAside from 'virtual:prosefly/lotus/components/PageAside';
-import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
-import PageMeta from 'virtual:prosefly/lotus/components/PageMeta';
-import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
-import { getLocalizedHref, getLocalizedMarkdownHref, type NormalizedLocale } from '../lib/i18n';
+import Sidebar from '../components/theme/Sidebar.astro';
+import { getDefaultLocale, type NormalizedLocale } from '../lib/i18n';
 import type { HeadConfig } from '../lib/page/head';
-import { createDocsJsonLd } from '../lib/page/schema';
+import type { JsonLdNode } from '../lib/page/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import { isPagefindSearchEnabled } from '../lib/search';
-import type { ContributorInfo, LotusThemeConfig } from '../lib/theme';
+import type { LotusThemeConfig } from '../lib/theme';
 
 interface Heading {
   depth: number;
@@ -26,49 +21,33 @@ interface Props {
   title: string;
   description?: string;
   head?: HeadConfig;
+  jsonLd?: JsonLdNode | JsonLdNode[];
+  locale?: NormalizedLocale;
+  currentPath?: string;
   sectionTitle?: string;
-  currentLocale: NormalizedLocale;
-  currentSlug?: string;
-  contributors?: ContributorInfo[];
-  editUrl?: string | boolean;
-  pageNavigation?: DocsPaginationNav;
-  lastUpdated?: Date | boolean;
+  headings?: Heading[];
   pagefind?: boolean;
   subnav: DocsSectionNav[];
   sidebar: DocsSidebarNav;
   sidebars?: Record<string, DocsSidebarNav>;
-  headings: Heading[];
 }
 
 const {
   title,
   description,
   head,
+  jsonLd,
+  locale,
+  currentPath = Astro.url.pathname,
   sectionTitle,
-  currentLocale,
-  currentSlug,
-  contributors = [],
-  editUrl,
-  pageNavigation = {},
-  lastUpdated,
+  headings = [],
   pagefind = true,
   subnav,
   sidebar,
   sidebars = {},
-  headings,
 } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const docsRootHref = getLocalizedHref(themeConfig, 'index', currentLocale.key);
-const currentPath = getLocalizedHref(themeConfig, currentSlug, currentLocale.key);
-const markdownHref = getLocalizedMarkdownHref(themeConfig, currentSlug, currentLocale.key);
-const baseUrl = Astro.site ?? Astro.url;
-const pageUrl = Astro.site ? new URL(currentPath, Astro.site).toString() : currentPath;
-const markdownUrl = Astro.site ? new URL(markdownHref, Astro.site).toString() : markdownHref;
-const schemaPageUrl = new URL(currentPath, baseUrl).toString();
-const schemaMarkdownUrl = new URL(markdownHref, baseUrl).toString();
-const pageActions = themeConfig.pageActions ?? [];
-const activeSection = subnav.find((section) => section.active);
-const breadcrumbs: { label: string; href: string }[] = [];
+const currentLocale = locale ?? getDefaultLocale(themeConfig);
 const pagefindEnabled = isPagefindSearchEnabled(themeConfig);
 const pagefindAttrs = pagefindEnabled
   ? pagefind
@@ -76,57 +55,9 @@ const pagefindAttrs = pagefindEnabled
     : { 'data-pagefind-ignore': true }
   : {};
 const pagefindIgnoreAttrs = pagefindEnabled ? { 'data-pagefind-ignore': true } : {};
-const docsHead: HeadConfig = [
-  ...(head ?? []),
-  {
-    tag: 'link',
-    attrs: {
-      rel: 'alternate',
-      type: 'text/markdown',
-      href: markdownHref,
-      title: 'Markdown',
-    },
-  },
-];
-
-function addBreadcrumb(label: string | undefined, href: string | undefined) {
-  if (!label || !href) {
-    return;
-  }
-
-  const previous = breadcrumbs.at(-1);
-
-  if (previous?.href === href) {
-    breadcrumbs[breadcrumbs.length - 1] = { label, href };
-    return;
-  }
-
-  breadcrumbs.push({ label, href });
-}
-
-addBreadcrumb(themeConfig.name, '/');
-
-if (themeConfig.docsBase !== '/') {
-  addBreadcrumb('Docs', docsRootHref);
-}
-
-addBreadcrumb(activeSection?.label, activeSection?.href);
-addBreadcrumb(title, currentPath);
-
-const jsonLd = createDocsJsonLd({
-  themeConfig,
-  baseUrl,
-  pageUrl: schemaPageUrl,
-  title,
-  description,
-  sectionTitle,
-  breadcrumbs,
-  markdownUrl: schemaMarkdownUrl,
-  lastUpdated,
-});
 ---
 
-<BaseLayout title={title} description={description} head={docsHead} jsonLd={jsonLd} locale={currentLocale}>
+<BaseLayout title={title} description={description} head={head} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
     headings={headings}
@@ -147,60 +78,17 @@ const jsonLd = createDocsJsonLd({
         </div>
       </aside>
 
-      <article class="mx-auto w-full max-w-4xl min-w-0 pt-6 pb-10">
-        <div {...pagefindAttrs}>
-          <PageHeader
-            description={description}
-            markdownUrl={markdownUrl}
-            pageActions={pageActions}
-            pageUrl={pageUrl}
-            sectionTitle={sectionTitle}
-            title={title}
-          />
-
-          <div class="lotus-prose py-8">
-            <slot />
-          </div>
-        </div>
-        <div class="xl:hidden" {...pagefindIgnoreAttrs}>
-          <PageAside
-            currentSlug={currentSlug}
-            editUrl={editUrl}
-            headings={headings}
-            markdownUrl={markdownUrl}
-            pageUrl={pageUrl}
-            tableOfContents={false}
-            title={title}
-          />
-        </div>
-        <div {...pagefindIgnoreAttrs}>
-          <PageMeta
-            contributors={contributors}
-            lastUpdated={lastUpdated}
-            title={title}
-          />
-          <PageNavigation navigation={pageNavigation} />
-        </div>
+      <article class="mx-auto w-full max-w-4xl min-w-0 pt-6 pb-10" {...pagefindAttrs}>
+        <slot />
       </article>
 
       <aside class="hidden xl:block" {...pagefindIgnoreAttrs}>
         <div class="sticky top-(--lotus-docs-chrome-height) pt-6 pb-8">
-          <PageAside
-            currentSlug={currentSlug}
-            editUrl={editUrl}
-            headings={headings}
-            markdownUrl={markdownUrl}
-            pageUrl={pageUrl}
-            title={title}
-          />
+          <slot name="aside" />
         </div>
       </aside>
     </div>
   </main>
 
   <Footer />
-
-  <script>
-    import '@prosefly/astro-components/markdown/image-gallery.js';
-  </script>
 </BaseLayout>

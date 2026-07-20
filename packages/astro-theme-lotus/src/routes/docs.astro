@@ -1,9 +1,14 @@
 ---
 import type { MarkdownHeading } from 'astro';
 import { render } from 'astro:content';
+import '@prosefly/astro-components/markdown/image-gallery.css';
 import DocsLayout from '../layouts/DocsLayout.astro';
 import SplashLayout from '../layouts/SplashLayout.astro';
 import TextLayout from '../layouts/TextLayout.astro';
+import PageAside from 'virtual:prosefly/lotus/components/PageAside';
+import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
+import PageMeta from 'virtual:prosefly/lotus/components/PageMeta';
+import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getEntryContributors } from '../lib/contributors';
 import {
   getDocsContext,
@@ -13,8 +18,11 @@ import {
   getSidebarSectionTitle,
 } from '../lib/docs';
 import { resolveEditUrl } from '../lib/page/edit-link';
-import { getLocales, getRouteSlugForLocalizedSlug } from '../lib/i18n';
+import { getLocalizedHref, getLocalizedMarkdownHref, getLocales, getRouteSlugForLocalizedSlug } from '../lib/i18n';
 import { getEntryLastUpdated } from '../lib/page/last-updated';
+import type { HeadConfig } from '../lib/page/head';
+import { createDocsJsonLd } from '../lib/page/schema';
+import { isPagefindSearchEnabled } from '../lib/search';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
 
@@ -87,6 +95,68 @@ const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
   previous: entry.data.prev,
   next: entry.data.next,
 });
+const docsRootHref = getLocalizedHref(themeConfig, 'index', currentLocale.key);
+const currentPath = getLocalizedHref(themeConfig, entrySlug, currentLocale.key);
+const markdownHref = getLocalizedMarkdownHref(themeConfig, entrySlug, currentLocale.key);
+const baseUrl = Astro.site ?? Astro.url;
+const pageUrl = Astro.site ? new URL(currentPath, Astro.site).toString() : currentPath;
+const markdownUrl = Astro.site ? new URL(markdownHref, Astro.site).toString() : markdownHref;
+const schemaPageUrl = new URL(currentPath, baseUrl).toString();
+const schemaMarkdownUrl = new URL(markdownHref, baseUrl).toString();
+const pageActions = themeConfig.pageActions ?? [];
+const activeSection = subnav.find((section) => section.active);
+const breadcrumbs: { label: string; href: string }[] = [];
+const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
+  ? { 'data-pagefind-ignore': true }
+  : {};
+const docsHead: HeadConfig = [
+  ...(entry.data.head ?? []),
+  {
+    tag: 'link',
+    attrs: {
+      rel: 'alternate',
+      type: 'text/markdown',
+      href: markdownHref,
+      title: 'Markdown',
+    },
+  },
+];
+
+function addBreadcrumb(label: string | undefined, href: string | undefined) {
+  if (!label || !href) {
+    return;
+  }
+
+  const previous = breadcrumbs.at(-1);
+
+  if (previous?.href === href) {
+    breadcrumbs[breadcrumbs.length - 1] = { label, href };
+    return;
+  }
+
+  breadcrumbs.push({ label, href });
+}
+
+addBreadcrumb(themeConfig.name, '/');
+
+if (themeConfig.docsBase !== '/') {
+  addBreadcrumb('Docs', docsRootHref);
+}
+
+addBreadcrumb(activeSection?.label, activeSection?.href);
+addBreadcrumb(entry.data.title, currentPath);
+
+const jsonLd = createDocsJsonLd({
+  themeConfig,
+  baseUrl,
+  pageUrl: schemaPageUrl,
+  title: entry.data.title,
+  description: entry.data.description,
+  sectionTitle,
+  breadcrumbs,
+  markdownUrl: schemaMarkdownUrl,
+  lastUpdated,
+});
 ---
 
 {isSplashTemplate ? (
@@ -101,20 +171,66 @@ const pageNavigation = getSidebarPagination(sidebar, entrySlug, {
   <DocsLayout
     title={entry.data.title}
     description={entry.data.description}
-    head={entry.data.head}
+    head={docsHead}
+    jsonLd={jsonLd}
     sectionTitle={sectionTitle}
-    currentLocale={currentLocale}
-    currentSlug={entrySlug}
-    contributors={contributors}
-    editUrl={editUrl}
-    lastUpdated={lastUpdated}
+    locale={currentLocale}
+    currentPath={currentPath}
     pagefind={entry.data.pagefind}
-    pageNavigation={pageNavigation}
     subnav={subnav}
     sidebar={sidebar}
     sidebars={sidebars}
     headings={tocHeadings}
   >
-    <Content />
+    <div>
+      <PageHeader
+        description={entry.data.description}
+        markdownUrl={markdownUrl}
+        pageActions={pageActions}
+        pageUrl={pageUrl}
+        sectionTitle={sectionTitle}
+        title={entry.data.title}
+      />
+
+      <div class="lotus-prose py-8">
+        <Content />
+      </div>
+    </div>
+
+    <div class="xl:hidden" {...pagefindIgnoreAttrs}>
+      <PageAside
+        currentSlug={entrySlug}
+        editUrl={editUrl}
+        headings={tocHeadings}
+        markdownUrl={markdownUrl}
+        pageUrl={pageUrl}
+        tableOfContents={false}
+        title={entry.data.title}
+      />
+    </div>
+
+    <div {...pagefindIgnoreAttrs}>
+      <PageMeta
+        contributors={contributors}
+        lastUpdated={lastUpdated}
+        title={entry.data.title}
+      />
+      <PageNavigation navigation={pageNavigation} />
+    </div>
+
+    <Fragment slot="aside">
+      <PageAside
+        currentSlug={entrySlug}
+        editUrl={editUrl}
+        headings={tocHeadings}
+        markdownUrl={markdownUrl}
+        pageUrl={pageUrl}
+        title={entry.data.title}
+      />
+    </Fragment>
+
+    <script>
+      import '@prosefly/astro-components/markdown/image-gallery.js';
+    </script>
   </DocsLayout>
 )}
