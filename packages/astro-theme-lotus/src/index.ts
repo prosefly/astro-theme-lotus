@@ -13,7 +13,6 @@ import {
   resolveMarkdownConfig,
   type LotusIntegrationOptions,
 } from './lib/config/index';
-import { accentScales } from './lib/colors';
 import { componentOverridePlugin } from './lib/overriding';
 import { getLotusInjectedRoutes } from './lib/routes';
 import { buildPagefindIndex } from './lib/search/pagefind';
@@ -75,56 +74,30 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
   };
 }
 
-export { accentScales, defineLotusConfig, lotus };
+export { defineLotusConfig, lotus };
 export type {
   LotusIntegrationOptions,
   LotusMarkdownOptions,
 } from './lib/config/index';
 export type {
-  AccentScale,
-  EditLinkBaseConfig,
-  EditLinkCodebergConfig,
-  EditLinkConfig,
-  EditLinkGithubConfig,
-  EditLinkGitlabConfig,
-  EditLinkPatternConfig,
   FooterSection,
   LocaleConfig,
   LotusThemeConfig,
-  MaybePromise,
   OverrideComponentName,
   OverrideComponentsConfig,
   PageActionConfig,
-  PageActionType,
   RadiusScale,
   SearchConfig,
-  SidebarAutogenerateItem,
-  SidebarBadge,
-  SidebarBadgeColor,
-  SidebarBadgePosition,
-  SidebarBadgeVariant,
   SidebarConfig,
-  SidebarGroupItem,
   SidebarItemConfig,
-  SidebarLinkItem,
-  ThemeLink,
+  ThemeAccent,
   ThemeLogo,
   ThemeLogoConfig,
-  ThemeAccent,
   ThemeMode,
   ThemeModeControl,
-  ThemeNavbarColor,
   ThemeNavbarItem,
-  ThemeNavbarVariant,
   ThemeSocialLink,
 } from './lib/theme';
 export type {
-  LocalizedSlug,
   NormalizedLocale,
 } from './lib/i18n';
-export type {
-  LotusTranslate,
-  TranslationValues,
-  UiTranslationKey,
-  UiTranslations,
-} from './lib/translations';
