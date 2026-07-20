@@ -1,52 +1,20 @@
 ---
 import type { DocsSidebarNav } from '../../lib/docs';
-import SidebarItem from '../ui/SidebarItem.astro';
+import Sidebar from '../theme/Sidebar.astro';
 
 interface Props {
   sidebar: DocsSidebarNav;
   currentPath?: string;
+  label?: string;
   maxHeight?: string;
 }
 
 const {
   sidebar,
   currentPath,
+  label,
   maxHeight = 'calc(100vh - var(--lotus-docs-chrome-height))',
 } = Astro.props;
-const t = Astro.locals.t;
 ---
 
-<div
-  class="lotus-sidebar-scroll relative h-full min-h-0 flex-1 max-h-(--lotus-sidebar-max-height) overflow-hidden"
-  data-lotus-sidebar-scroll
-  style={`--lotus-sidebar-max-height: ${maxHeight}`}
->
-  <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
-  <nav aria-label={t('sidebar.accessibleLabel')} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto overscroll-contain pt-4 pb-2 pe-2" data-lotus-sidebar-scroll-area>
-    {sidebar.links.length > 0 && (
-      <div class="space-y-1">
-        {sidebar.links.map((item) => (
-          <SidebarItem item={item} currentPath={currentPath} />
-        ))}
-      </div>
-    )}
-
-    {sidebar.groups.map((group, index) => (
-      <section class:list={[index > 0 && 'lotus-border-subtle border-t pt-6']}>
-        <h2 class="mb-2 px-3 text-sm font-semibold leading-6 text-(--lotus-text-strong)">
-          {group.title}
-        </h2>
-        <div class="space-y-0.5">
-          {group.items.map((item) => (
-            <SidebarItem item={item} currentPath={currentPath} />
-          ))}
-        </div>
-      </section>
-    ))}
-  </nav>
-  <div class="lotus-sidebar-fade lotus-sidebar-fade-bottom" data-lotus-sidebar-fade-bottom></div>
-</div>
-
-<script>
-  import '../../client/sidebar';
-</script>
+<Sidebar currentPath={currentPath} label={label} maxHeight={maxHeight} sidebar={sidebar} />
