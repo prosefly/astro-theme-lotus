@@ -97,14 +97,14 @@
   --lotus-accent-dark: oklch(0.68 0.18 264);
 
   --lotus-background: oklch(1 0 0);
-  --lotus-text-strong: var(--lotus-gray-950);
+  --lotus-text-strong: var(--lotus-gray-900);
   --lotus-text: var(--lotus-gray-700);
   --lotus-text-muted: var(--lotus-gray-600);
   --lotus-text-subtle: var(--lotus-gray-500);
   --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-400) 32%, transparent);
   --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-400) 20%, transparent);
   --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-400) 54%, transparent);
-  --lotus-surface: var(--lotus-gray-100);
+  --lotus-surface: var(--lotus-gray-50);
   --lotus-code-background: var(--lotus-gray-50);
   --lotus-code-border: color-mix(in oklab, var(--lotus-gray-400) 24%, transparent);
   --lotus-accent: var(--lotus-accent-light);
@@ -307,7 +307,7 @@
   --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-500) 32%, transparent);
   --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
   --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
-  --lotus-surface: var(--lotus-gray-900);
+  --lotus-surface: color-mix(in oklab, var(--lotus-gray-900) 65%, var(--lotus-background));
   --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
   --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
   --lotus-accent: var(--lotus-accent-dark);
@@ -342,7 +342,7 @@
     --lotus-border-muted: color-mix(in oklab, var(--lotus-gray-500) 32%, transparent);
     --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
     --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
-    --lotus-surface: var(--lotus-gray-900);
+    --lotus-surface: color-mix(in oklab, var(--lotus-gray-900) 65%, var(--lotus-background));
     --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
     --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
     --lotus-accent: var(--lotus-accent-dark);
