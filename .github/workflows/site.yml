@@ -46,7 +46,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ github.token }}
         run: |
-          pnpm install --frozen-lockfile
+          pnpm install --no-lockfile
           pnpm install @prosefly/astro-openapi
 
       - name: Test package
