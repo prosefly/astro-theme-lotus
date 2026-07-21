@@ -4,9 +4,9 @@ import {
   translateLabel,
 } from '../i18n';
 import {
+  type DocsNavConfig,
   type LotusThemeConfig,
   type SidebarAutogenerateItem,
-  type SidebarConfig,
   type SidebarGroupItem,
   type SidebarItemConfig,
   type SidebarLinkItem,
@@ -42,7 +42,7 @@ export function slugifyLabel(label: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function getSidebarSectionSlug(sidebar: SidebarConfig): string {
+export function getSidebarSectionSlug(sidebar: DocsNavConfig): string {
   return sidebar.slug ?? slugifyLabel(sidebar.label);
 }
 
@@ -134,7 +134,7 @@ function linkToSidebarItem(
   };
 }
 
-async function resolveSidebarItems(items: SidebarConfig['items']): Promise<SidebarItemConfig[]> {
+async function resolveSidebarItems(items: DocsNavConfig['items']): Promise<SidebarItemConfig[]> {
   return await items;
 }
 
@@ -197,7 +197,7 @@ async function normalizeSidebarItems(
 
 async function resolveSidebar(
   config: LotusThemeConfig,
-  sidebar: SidebarConfig,
+  sidebar: DocsNavConfig,
   entries: SidebarContentEntry[],
   localeKey: string,
   issues: SidebarIssue[],
@@ -237,7 +237,7 @@ async function resolveSidebar(
   return { links, groups };
 }
 
-function getDuplicateSectionIssues(sidebars: SidebarConfig[]): SidebarIssue[] {
+function getDuplicateSectionIssues(sidebars: DocsNavConfig[]): SidebarIssue[] {
   const labelsBySlug = new Map<string, string[]>();
 
   for (const sidebar of sidebars) {
@@ -262,9 +262,9 @@ export async function resolveSidebars(
   entries: SidebarContentEntry[],
   localeKey: string,
 ): Promise<ResolvedSidebars> {
-  const issues = getDuplicateSectionIssues(config.sidebars);
+  const issues = getDuplicateSectionIssues(config.docsNav);
   const sidebars = Object.fromEntries(await Promise.all(
-    config.sidebars.map(async (sidebar) => {
+    config.docsNav.map(async (sidebar) => {
       const sectionSlug = getSidebarSectionSlug(sidebar);
 
       return [sectionSlug, await resolveSidebar(config, sidebar, entries, localeKey, issues)];

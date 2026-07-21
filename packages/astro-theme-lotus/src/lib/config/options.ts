@@ -4,8 +4,8 @@ import type {
   LotusThemeConfig,
   OverrideComponentsConfig,
   PageActionConfig,
-  SidebarConfig,
-  ThemeNavbarItem,
+  DocsNavConfig,
+  SiteNavItem,
   ThemeSocialLink,
 } from '../theme';
 
@@ -23,10 +23,14 @@ export interface LotusIntegrationOptions {
   logo?: LotusThemeConfig['logo'];
   favicon?: LotusThemeConfig['favicon'];
   appearance?: Partial<LotusThemeConfig['appearance']>;
-  navbar?: ThemeNavbarItem[];
+  siteNav?: SiteNavItem[];
+  /** @deprecated Use `siteNav` instead. */
+  navbar?: SiteNavItem[];
   socials?: ThemeSocialLink[];
   themeModeControl?: LotusThemeConfig['themeModeControl'];
-  sidebars?: SidebarConfig[];
+  docsNav?: DocsNavConfig[];
+  /** @deprecated Use `docsNav` instead. */
+  sidebars?: DocsNavConfig[];
   search?: LotusThemeConfig['search'];
   assistant?: LotusThemeConfig['assistant'];
   llms?: LotusThemeConfig['llms'];

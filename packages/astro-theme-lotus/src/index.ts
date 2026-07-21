@@ -8,6 +8,7 @@ import {
   loadLotusConfigFile,
   lotusConfigPlugin,
   mergeLotusConfigOptions,
+  normalizeLegacyLotusConfigOptions,
   resolveAsyncLotusConfig,
   resolveExpressiveCodeOptions,
   resolveLocalAssetConfig,
@@ -22,7 +23,7 @@ import { getIconPreloadNames } from './lib/preload-icons';
 import { lotusStylesPlugin } from './lib/styles';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
-  let config = resolveLotusConfig(options);
+  let config = resolveLotusConfig(normalizeLegacyLotusConfigOptions(options));
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -31,10 +32,14 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         addMiddleware,
         config: astroConfig,
         injectRoute,
+        logger,
         updateConfig,
       }) => {
         const fileOptions = loadLotusConfigFile(astroConfig.root);
-        const mergedOptions = mergeLotusConfigOptions(fileOptions, options);
+        const mergedOptions = normalizeLegacyLotusConfigOptions(
+          mergeLotusConfigOptions(fileOptions, options),
+          (message) => logger.warn(message),
+        );
         const expressiveCodeOptions = resolveExpressiveCodeOptions(
           mergedOptions.markdown?.expressiveCode,
         );
@@ -88,6 +93,7 @@ export type {
   LotusMarkdownOptions,
 } from './lib/config/index';
 export type {
+  DocsNavConfig,
   FooterSection,
   LocaleConfig,
   LotusThemeConfig,
@@ -96,14 +102,13 @@ export type {
   PageActionConfig,
   RadiusScale,
   SearchConfig,
-  SidebarConfig,
   SidebarItemConfig,
+  SiteNavItem,
   ThemeAccent,
   ThemeLogo,
   ThemeLogoConfig,
   ThemeMode,
   ThemeModeControl,
-  ThemeNavbarItem,
   ThemeSocialLink,
 } from './lib/theme';
 export type {

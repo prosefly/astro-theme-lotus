@@ -8,15 +8,15 @@ import { Callout } from '@prosefly/astro-components';
 
 The header is built from two config arrays:
 
-- `navbar` renders text links and action-style links.
-- `socials` renders compact icon-only links after the navbar.
+- `siteNav` renders text links and action-style links.
+- `socials` renders compact icon-only links after the site nav.
 
-Use `navbar` for primary destinations such as Docs, Blog, Pricing, or an app
+Use `siteNav` for primary destinations such as Docs, Blog, Pricing, or an app
 link. Use `socials` for external community and repository links.
 
 ```ts title="src/theme.config.ts"
 export default defineLotusConfig({
-  navbar: [
+  siteNav: [
     { label: 'Docs', href: '/docs/' },
     {
       label: 'Dashboard',
@@ -44,12 +44,12 @@ export default defineLotusConfig({
 });
 ```
 
-## Navbar Items
+## Site Nav Items
 
-Every navbar item needs a `label` and `href`.
+Every site nav item needs a `label` and `href`.
 
 ```ts
-navbar: [
+siteNav: [
   { label: 'Docs', href: '/docs/' },
   { label: 'Blog', href: '/blog/' },
 ]
@@ -71,7 +71,7 @@ Add `external: true` for links that should open in a new tab.
 
 ## Action Links
 
-Set `variant` when a navbar item should read as a call to action instead of a
+Set `variant` when a site nav item should read as a call to action instead of a
 plain text link.
 
 ```ts
@@ -113,14 +113,14 @@ Use full Iconify names such as `lucide:chevron-right`, or supported Lotus
 aliases such as `external`.
 
 <Callout type="note" title="Leading icons">
-  The public navbar config is optimized for text links and trailing action
+  The public site nav config is optimized for text links and trailing action
   icons. If a project needs leading icons, badges, or custom layout, override
-  `HeaderNavbar` and reuse the configured `navbar` data.
+  `HeaderNavbar` and reuse the configured `siteNav` data.
 </Callout>
 
 ## Social Links
 
-`socials` renders compact icon links next to the navbar on desktop and inside
+`socials` renders compact icon links next to the site nav on desktop and inside
 the mobile menu on small screens.
 
 ```ts
@@ -148,7 +148,7 @@ aliases such as `github`, `x`, `discord`, and `external`.
 Use `translations` when the same link should have locale-specific labels.
 
 ```ts
-navbar: [
+siteNav: [
   {
     label: 'Docs',
     href: '/docs/',
@@ -163,14 +163,15 @@ The fallback label is `label`. Translation keys match Lotus locale keys.
 
 ## Mobile Behavior
 
-On desktop, the header renders navbar links, social links, search, language
+On desktop, the header renders site nav links, social links, search, language
 select, and the theme switch inline.
 
 On mobile:
 
 - Search stays in the compact header.
-- Navbar links, action links, socials, language select, and the theme switch
-  move into the mobile menu.
+- Site nav links, action links, socials, and the theme switch move into the
+  mobile menu.
+- The language selector stays in the compact header next to the site brand.
 - Action links render full width so they remain easy to tap.
 
 ## Custom Rendering

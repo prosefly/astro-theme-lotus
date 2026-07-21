@@ -68,8 +68,8 @@ sidebar 结构、外观、footer 和源码仓库。
      "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
      "name": "My Docs",
      "description": "Documentation for my project.",
-     "navbar": [{ "label": "Docs", "href": "/" }],
-     "sidebars": [
+     "siteNav": [{ "label": "Docs", "href": "/" }],
+     "docsNav": [
        {
          "label": "Guides",
          "icon": "lucide:rocket",
@@ -125,6 +125,6 @@ sidebar 结构、外观、footer 和源码仓库。
 
 ## 下一步
 
-- 查看 [项目配置](/docs/zh-cn/configuration/project/)，设置站点身份、导航、sidebars、footer 和源码仓库。
+- 查看 [项目配置](/docs/zh-cn/configuration/project/)，设置站点身份、导航、docs navigation、footer 和源码仓库。
 - 在移动文档路径或修改 docs loader base 前，先阅读 [内容路由](/docs/zh-cn/configuration/content-routing/)。
 - 发布前运行 `pnpm check`，验证 content collections、MDX imports、Astro 组件和 TypeScript。

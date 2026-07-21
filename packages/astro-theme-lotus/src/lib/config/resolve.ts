@@ -15,6 +15,11 @@ type LotusConfigFileOptions = LotusIntegrationOptions & {
   $schema?: string;
 };
 
+type LegacyLotusIntegrationOptions = Omit<LotusIntegrationOptions, 'navbar' | 'sidebars'> & {
+  navbar?: LotusIntegrationOptions['siteNav'];
+  sidebars?: LotusIntegrationOptions['docsNav'];
+};
+
 const mergeableOptionKeys = new Set<keyof LotusIntegrationOptions>([
   'appearance',
   'components',
@@ -27,10 +32,11 @@ const mergeableOptionKeys = new Set<keyof LotusIntegrationOptions>([
 ]);
 
 export function resolveLotusConfig(options: LotusIntegrationOptions): LotusThemeConfig {
+  const normalizedOptions = normalizeLegacyLotusConfigOptions(options);
   const {
     markdown: _markdown,
     ...themeOptions
-  } = options;
+  } = normalizedOptions;
 
   return {
     ...defaultConfig,
@@ -86,6 +92,28 @@ export function mergeLotusConfigOptions(
   return merged;
 }
 
+export function normalizeLegacyLotusConfigOptions(
+  options: LotusIntegrationOptions,
+  warn: (message: string) => void = () => {},
+): LotusIntegrationOptions {
+  const legacyOptions = options as LegacyLotusIntegrationOptions;
+  const normalized: LegacyLotusIntegrationOptions = { ...legacyOptions };
+
+  if (legacyOptions.navbar !== undefined) {
+    warn('Lotus config `navbar` is deprecated. Use `siteNav` instead.');
+    normalized.siteNav ??= legacyOptions.navbar;
+    delete normalized.navbar;
+  }
+
+  if (legacyOptions.sidebars !== undefined) {
+    warn('Lotus config `sidebars` is deprecated. Use `docsNav` instead.');
+    normalized.docsNav ??= legacyOptions.sidebars;
+    delete normalized.sidebars;
+  }
+
+  return normalized;
+}
+
 export function resolveLocalAssetConfig(
   config: LotusThemeConfig,
   publicDir: URL,
@@ -118,7 +146,7 @@ export function resolveLocalAssetConfig(
 export async function resolveAsyncLotusConfig(config: LotusThemeConfig): Promise<LotusThemeConfig> {
   return {
     ...config,
-    sidebars: await Promise.all(config.sidebars.map(async (sidebar) => ({
+    docsNav: await Promise.all(config.docsNav.map(async (sidebar) => ({
       ...sidebar,
       items: await resolveAsyncSidebarItems(await sidebar.items),
     }))),

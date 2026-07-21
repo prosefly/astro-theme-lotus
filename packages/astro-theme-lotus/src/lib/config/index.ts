@@ -7,6 +7,7 @@ export {
   loadLotusConfigFile,
   LOTUS_CONFIG_FILE,
   mergeLotusConfigOptions,
+  normalizeLegacyLotusConfigOptions,
   normalizeDocsBasePath,
   resolveAsyncLotusConfig,
   resolveLocalAssetConfig,

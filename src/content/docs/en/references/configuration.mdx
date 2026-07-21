@@ -37,8 +37,8 @@ export default defineConfig({
 
 Values passed to `lotus({...})` override `theme.config.json`. Object options
 such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
-`source`, and `ui` are shallow-merged; arrays such as `navbar`, `socials`, and
-`sidebars` replace the JSON value when provided.
+`source`, and `ui` are shallow-merged; arrays such as `siteNav`, `socials`, and
+`docsNav` replace the JSON value when provided.
 
 ## Options
 
@@ -53,10 +53,10 @@ such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
 | `defaultLocale` | first configured locale | [Internationalization](/docs/configuration/i18n/) |
 | `locales` | none | [Internationalization](/docs/configuration/i18n/) |
 | `ui` | built-in English messages | [Internationalization](/docs/configuration/i18n/#ui-translations) |
-| `navbar` | one Docs link | [Navbar](/docs/configuration/navbar/) |
+| `siteNav` | one Docs link | [Navbar](/docs/configuration/navbar/) |
 | `socials` | `[]` | [Navbar](/docs/configuration/navbar/#social-links) |
 | `themeModeControl` | `'segmented-control'` | [Appearance](/docs/configuration/appearance/#default-mode) |
-| `sidebars` | `[]` | [Sidebars](/docs/configuration/sidebars/) |
+| `docsNav` | `[]` | [Docs Navigation](/docs/configuration/sidebars/) |
 | `footer` | empty copyright and sections | [Footer](/docs/configuration/footer/) |
 | `search` | `{ provider: 'local' }` | [Search](/docs/configuration/search/) |
 | `assistant` | `false` | [Assistant](/docs/configuration/assistant/) |

@@ -26,9 +26,9 @@ replacing Starlight-specific component imports.
    Fields such as `title`, `description`, `slug`, `sidebar`, `tableOfContents`,
    `prev`, `next`, `pagefind`, and `draft` are accepted.
 
-3. **Rebuild sidebars in `theme.config.ts`.**
+3. **Rebuild docs navigation in `theme.config.ts`.**
 
-   Lotus owns sidebar structure from `themeConfig.sidebars`. Use string items,
+   Lotus owns sidebar structure from `themeConfig.docsNav`. Use string items,
    groups, links, and `autogenerate.directory` entries.
 
 4. **Replace Starlight-only components.**
@@ -44,7 +44,7 @@ replacing Starlight-specific component imports.
 </Steps>
 
 See [Frontmatter](/docs/essentials/frontmatter/) for accepted page fields and
-[Sidebars](/docs/configuration/sidebars/) for navigation structure.
+[Docs Navigation](/docs/configuration/sidebars/) for navigation structure.
 
 ## AI-assisted Migration Prompt
 
@@ -64,7 +64,7 @@ You are migrating an existing Astro Starlight documentation site to
 
 Goal:
 Move the project from Starlight to Lotus while preserving existing documentation
-content, routes, frontmatter intent, sidebars, i18n structure, search behavior,
+content, routes, frontmatter intent, docs navigation, i18n structure, search behavior,
 and MDX authoring patterns wherever Lotus supports them.
 
 Before editing:
@@ -87,7 +87,7 @@ Migration tasks:
 6. Convert Starlight-only MDX component imports to @prosefly/astro-components.
    Prefer Lotus-compatible components for Callout, Steps, FileTree, Tabs, cards,
    accordions, badges, and icons.
-7. Convert Starlight sidebar autogeneration to Lotus sidebars[].items entries
+7. Convert Starlight sidebar autogeneration to Lotus docsNav[].items entries
    using string slugs, groups, links, and autogenerate.directory.
 8. Convert Starlight locales into Lotus locales and defaultLocale. Keep root
    locale unprefixed when the existing site uses unprefixed default docs.
@@ -113,5 +113,5 @@ Output:
 After the AI finishes, compare its changes with the Lotus pages for
 [Content Routing](/docs/configuration/content-routing/),
 [Internationalization](/docs/configuration/i18n/),
-[Sidebars](/docs/configuration/sidebars/), and
+[Docs Navigation](/docs/configuration/sidebars/), and
 [Overriding Components](/docs/customization/overriding-components/).

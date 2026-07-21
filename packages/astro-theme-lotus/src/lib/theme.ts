@@ -17,15 +17,15 @@ export interface ThemeLink {
   translations?: Record<string, string>;
 }
 
-export type ThemeNavbarVariant = 'text' | 'soft' | 'outline' | 'solid';
+export type SiteNavVariant = 'text' | 'soft' | 'outline' | 'solid';
 
-export type ThemeNavbarColor = 'neutral' | 'accent';
+export type SiteNavColor = 'neutral' | 'accent';
 
-export interface ThemeNavbarItem extends ThemeLink {
+export interface SiteNavItem extends ThemeLink {
   icon?: string;
   trailingIcon?: string;
-  variant?: ThemeNavbarVariant;
-  color?: ThemeNavbarColor;
+  variant?: SiteNavVariant;
+  color?: SiteNavColor;
 }
 
 export interface ThemeSocialLink extends ThemeLink {
@@ -88,7 +88,7 @@ export type SidebarItemConfig =
   | SidebarGroupItem
   | SidebarAutogenerateItem;
 
-export interface SidebarConfig {
+export interface DocsNavConfig {
   slug?: string;
   label: string;
   icon?: string;
@@ -284,10 +284,10 @@ export interface LotusThemeConfig {
     defaultMode: ThemeMode;
     radius: RadiusScale;
   };
-  navbar: ThemeNavbarItem[];
+  siteNav: SiteNavItem[];
   socials: ThemeSocialLink[];
   themeModeControl: ThemeModeControl;
-  sidebars: SidebarConfig[];
+  docsNav: DocsNavConfig[];
   search: SearchConfig;
   assistant: AssistantConfig;
   llms: LlmsOption;

@@ -165,7 +165,7 @@ export function getSectionNavigation(
   currentSection: string | undefined,
   localeKey: string,
 ): DocsSectionNav[] {
-  return config.sidebars.map((sidebar) => {
+  return config.docsNav.map((sidebar) => {
     const sectionSlug = getSidebarSectionSlug(sidebar);
     const sidebarNav = sidebars[sectionSlug] ?? { links: [], groups: [] };
     const items: DocsNavItem[] = getSidebarNavContentItems(sidebarNav).map((item, index) => ({

@@ -1,5 +1,5 @@
 import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-import sidebars from './theme.sidebar.json';
+import docsNav from './theme.docs-nav.json';
 
 export default defineLotusConfig({
   name: 'Lotus',
@@ -11,7 +11,7 @@ export default defineLotusConfig({
     dark: '/lotus-dark.svg',
   },
   docsBase: '/docs',
-  navbar: [
+  siteNav: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Pricing', href: '/pricing/' },
     { label: 'Sponsors', href: '/sponsors/' },
@@ -61,7 +61,7 @@ export default defineLotusConfig({
       directory: 'zh-cn',
     },
   },
-  sidebars,
+  docsNav,
   footer: {
     copyright: 'Copyright © 2026 Prosefly.',
     sections: [

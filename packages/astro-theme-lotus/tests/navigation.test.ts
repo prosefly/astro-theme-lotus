@@ -135,7 +135,7 @@ describe('sidebar navigation', () => {
   it('resolves strings, links, groups, autogenerate items, badges, and translated labels', async () => {
     const config = resolveLotusConfig({
       ...localizedConfig,
-      sidebars: [
+      docsNav: [
         {
           slug: 'guide',
           label: 'Guides',
@@ -205,7 +205,7 @@ describe('sidebar navigation', () => {
 
   it('supports promise sidebar items', async () => {
     const config = resolveLotusConfig({
-      sidebars: [
+      docsNav: [
         {
           label: 'API',
           items: Promise.resolve([
@@ -232,7 +232,7 @@ describe('sidebar navigation', () => {
 
   it('reports duplicate sections, missing entries, and empty autogenerate groups', async () => {
     const config = resolveLotusConfig({
-      sidebars: [
+      docsNav: [
         { label: 'Guides', items: ['missing'] },
         { label: 'Guides', items: [{ autogenerate: { directory: 'empty' } }] },
       ],

@@ -38,7 +38,7 @@ const assistantEnabled = assistant && Boolean(themeConfig.assistant);
 const showThemeControl = showThemeSwitch && themeConfig.themeModeControl !== false;
 const hasDesktopControls = showSocials || showThemeControl;
 const hasMobileControls = showSocials || showThemeControl;
-const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
+const hasMobileMenu = (themeConfig.siteNav?.length ?? 0) > 0 || hasMobileControls;
 const mobileMenuClass = searchEnabled || assistantEnabled ? 'lg:hidden' : 'ms-auto lg:hidden';
 const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
   ? { 'data-pagefind-ignore': true }

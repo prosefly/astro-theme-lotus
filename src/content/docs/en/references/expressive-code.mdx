@@ -45,7 +45,7 @@ neutral highlight.
 ```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
 export default defineLotusConfig({
   navigation: [{ label: 'Docs', href: '/docs/' }],
-  navbar: [
+  siteNav: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Dashboard', href: '/app/', variant: 'soft' },
   ],
@@ -57,7 +57,7 @@ export default defineLotusConfig({
 ```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
 export default defineLotusConfig({
   navigation: [{ label: 'Docs', href: '/docs/' }],
-  navbar: [
+  siteNav: [
     { label: 'Docs', href: '/docs/' },
     { label: 'Dashboard', href: '/app/', variant: 'soft' },
   ],
@@ -90,7 +90,7 @@ Regular expressions are useful when the exact value changes across examples.
 
 ````md
 ```ts /variant: '[^']+'/ title="src/theme.config.ts"
-export const navbar = [
+export const siteNav = [
   { label: 'Dashboard', href: '/app/', variant: 'soft' },
   { label: 'Login', href: '/login/', variant: 'outline' },
 ]
@@ -98,7 +98,7 @@ export const navbar = [
 ````
 
 ```ts /variant: '[^']+'/ title="src/theme.config.ts"
-export const navbar = [
+export const siteNav = [
   { label: 'Dashboard', href: '/app/', variant: 'soft' },
   { label: 'Login', href: '/login/', variant: 'outline' },
 ]
@@ -111,13 +111,13 @@ Use the `diff` language for compact before-and-after examples.
 ````md
 ```diff
 - navigation: [{ label: 'Docs', href: '/docs/' }]
-+ navbar: [{ label: 'Docs', href: '/docs/' }]
++ siteNav: [{ label: 'Docs', href: '/docs/' }]
 ```
 ````
 
 ```diff
 - navigation: [{ label: 'Docs', href: '/docs/' }]
-+ navbar: [{ label: 'Docs', href: '/docs/' }]
++ siteNav: [{ label: 'Docs', href: '/docs/' }]
 ```
 
 Use `lang="..."` when you want diff markers and syntax highlighting for the
@@ -127,7 +127,7 @@ underlying language.
 ```diff lang="ts" title="src/theme.config.ts"
  export default defineLotusConfig({
 -  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  navbar: [{ label: 'Docs', href: '/docs/' }],
++  siteNav: [{ label: 'Docs', href: '/docs/' }],
  })
 ```
 ````
@@ -135,7 +135,7 @@ underlying language.
 ```diff lang="ts" title="src/theme.config.ts"
  export default defineLotusConfig({
 -  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  navbar: [{ label: 'Docs', href: '/docs/' }],
++  siteNav: [{ label: 'Docs', href: '/docs/' }],
  })
 ```
 

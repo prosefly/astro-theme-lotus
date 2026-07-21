@@ -8,6 +8,7 @@ import { resolveLlmsConfig } from '../src/lib/config/llms';
 import {
   loadLotusConfigFile,
   mergeLotusConfigOptions,
+  normalizeLegacyLotusConfigOptions,
   normalizeDocsBasePath,
   resolveLotusConfig,
 } from '../src/lib/config/resolve';
@@ -93,7 +94,7 @@ describe('Lotus config', () => {
           copyright: 'JSON',
           sections: [{ title: 'JSON', links: [] }],
         },
-        navbar: [{ label: 'JSON', href: '/json' }],
+        siteNav: [{ label: 'JSON', href: '/json' }],
       },
       {
         name: 'TS Docs',
@@ -103,7 +104,7 @@ describe('Lotus config', () => {
         footer: {
           copyright: 'TS',
         },
-        navbar: [{ label: 'TS', href: '/ts' }],
+        siteNav: [{ label: 'TS', href: '/ts' }],
       },
     );
 
@@ -118,8 +119,52 @@ describe('Lotus config', () => {
         copyright: 'TS',
         sections: [{ title: 'JSON', links: [] }],
       },
-      navbar: [{ label: 'TS', href: '/ts' }],
+      siteNav: [{ label: 'TS', href: '/ts' }],
     });
+  });
+
+  it('maps deprecated navbar and sidebars options to siteNav and docsNav', () => {
+    const warnings: string[] = [];
+    const options = normalizeLegacyLotusConfigOptions(
+      {
+        navbar: [{ label: 'Docs', href: '/docs' }],
+        sidebars: [{ label: 'Guides', items: ['overview'] }],
+      },
+      (message) => warnings.push(message),
+    );
+
+    expect(options).toEqual({
+      siteNav: [{ label: 'Docs', href: '/docs' }],
+      docsNav: [{ label: 'Guides', items: ['overview'] }],
+    });
+    expect(warnings).toEqual([
+      'Lotus config `navbar` is deprecated. Use `siteNav` instead.',
+      'Lotus config `sidebars` is deprecated. Use `docsNav` instead.',
+    ]);
+
+    const config = resolveLotusConfig({
+      navbar: [{ label: 'Docs', href: '/docs' }],
+      sidebars: [{ label: 'Guides', items: ['overview'] }],
+    });
+
+    expect(config.siteNav).toEqual([{ label: 'Docs', href: '/docs' }]);
+    expect(config.docsNav).toEqual([{ label: 'Guides', items: ['overview'] }]);
+    expect('navbar' in config).toBe(false);
+    expect('sidebars' in config).toBe(false);
+  });
+
+  it('keeps siteNav and docsNav when deprecated options are also present', () => {
+    const options = normalizeLegacyLotusConfigOptions({
+      siteNav: [{ label: 'New', href: '/new' }],
+      navbar: [{ label: 'Old', href: '/old' }],
+      docsNav: [{ label: 'New Docs', items: ['new'] }],
+      sidebars: [{ label: 'Old Docs', items: ['old'] }],
+    });
+
+    expect(options.siteNav).toEqual([{ label: 'New', href: '/new' }]);
+    expect(options.docsNav).toEqual([{ label: 'New Docs', items: ['new'] }]);
+    expect('navbar' in options).toBe(false);
+    expect('sidebars' in options).toBe(false);
   });
 
   it('resolves the theme mode control option', () => {

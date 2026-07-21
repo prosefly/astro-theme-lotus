@@ -74,7 +74,7 @@ string items and `autogenerate.directory` values.
 
 For example, `src/content/docs/en/configuration/project.mdx` and
 `src/content/docs/zh-cn/configuration/project.mdx` are both referenced as
-`configuration/project` in `sidebars`.
+`configuration/project` in `docsNav`.
 
 <FileTree>
 
@@ -89,7 +89,7 @@ For example, `src/content/docs/en/configuration/project.mdx` and
 </FileTree>
 
 ```ts
-sidebars: [
+docsNav: [
   {
     label: 'Guides',
     items: [
@@ -160,7 +160,7 @@ messages. Add `translations` next to the label when the same config item should
 render differently per locale.
 
 ```ts
-sidebars: [
+docsNav: [
   {
     slug: 'guide',
     label: 'Guides',
@@ -180,7 +180,7 @@ sidebars: [
 ]
 ```
 
-The same pattern is supported by navbar items, social links, sidebar sections,
+The same pattern is supported by site nav items, social links, docs nav sections,
 sidebar groups, and sidebar link items. Page links generated from content use
 the localized page frontmatter instead.
 
