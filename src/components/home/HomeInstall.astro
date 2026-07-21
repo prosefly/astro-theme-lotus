@@ -6,10 +6,9 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
 const astroConfigCode = `
 import { defineConfig } from 'astro/config';
 import lotus from '@prosefly/astro-theme-lotus';
-import themeConfig from './src/theme.config';
 
 export default defineConfig({
-  integrations: [lotus(themeConfig)],
+  integrations: [lotus()],
 });
 `;
 ---
@@ -20,8 +19,8 @@ export default defineConfig({
       <p class="section-label">Installation</p>
       <h2 class="heading mt-3">Add Lotus to an existing Astro project.</h2>
       <p class="mt-5 max-w-xl text-base leading-7 text-(--lotus-text-muted)">
-        Install the theme package, pass the theme config directly to the
-        integration, and register the docs content collection.
+        Install the theme package, add theme.config.json, and register the docs
+        content collection.
       </p>
       <a class="text-link lotus-focus-ring mt-7" href="/docs/installation/">
         Read the installation guide <Icon name="lucide:arrow-right" />

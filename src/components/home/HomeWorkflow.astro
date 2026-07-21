@@ -16,12 +16,13 @@ const routes = [
 ];
 
 const themeConfigCode = `
-export default defineLotusConfig({
-  docsBase: '/docs',
-  appearance: {
-    accent: 'indigo',
-  },
-});
+{
+  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "docsBase": "/docs",
+  "appearance": {
+    "accent": "indigo"
+  }
+}
 `;
 ---
 
@@ -41,9 +42,9 @@ export default defineLotusConfig({
     <article class="workflow-stage">
       <header>
         <span>Configure</span>
-        <code>src/theme.config.ts</code>
+        <code>theme.config.json</code>
       </header>
-      <CodeBlock class="workflow-code" code={themeConfigCode} lang="ts" />
+      <CodeBlock class="workflow-code" code={themeConfigCode} lang="json" />
     </article>
 
     <div class="workflow-connector" aria-hidden="true">

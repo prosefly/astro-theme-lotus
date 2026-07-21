@@ -32,11 +32,24 @@ import shared components such as cards, steps, tabs, or callouts.
 // astro.config.ts
 import { defineConfig } from 'astro/config';
 import lotus from '@prosefly/astro-theme-lotus';
-import themeConfig from './src/theme.config';
 
 export default defineConfig({
-  integrations: [lotus(themeConfig)],
+  integrations: [lotus()],
 });
+```
+
+```json
+{
+  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "name": "My Docs",
+  "description": "Documentation for my project.",
+  "docsNav": [
+    {
+      "label": "Guides",
+      "items": ["index"]
+    }
+  ]
+}
 ```
 
 ```ts
@@ -55,13 +68,13 @@ export const collections = { docs };
 Add MDX pages in `src/content/docs/`. By default, Lotus renders those pages
 from the site root, similar to Starlight: `src/content/docs/index.mdx` renders
 at `/`, and nested files render as matching URL segments. Set
-`themeConfig.docsBase` when you want docs under a prefix such as `/docs`.
+`docsBase` when you want docs under a prefix such as `/docs`.
 
 Lotus renders the bundled docs layout, navigation, search, table of contents,
 and footer. The integration also injects a Markdown source route at `*.md` and a
 search index route at `search.json`.
 
-Common integration options include `docsBase`, `sidebars`, `pageActions`,
+Common integration options include `docsBase`, `docsNav`, `pageActions`,
 `footer`, `iconify`, `expressiveCode`, `packageManagerTabs`, and `components`
 overrides.
 

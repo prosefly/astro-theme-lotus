@@ -6,9 +6,13 @@
   "packageManager": "pnpm@11.9.0",
   "license": "BSD-3-Clause",
   "scripts": {
+    "sync:schema": "node tools/sync-schema.mjs",
+    "predev": "node tools/sync-schema.mjs",
     "dev": "astro dev",
+    "prebuild": "node tools/sync-schema.mjs",
     "build": "astro build",
     "preview": "astro preview",
+    "precheck": "node tools/sync-schema.mjs",
     "check": "astro check",
     "test": "vitest run"
   },

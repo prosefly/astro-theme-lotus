@@ -18,9 +18,9 @@ route.
 <FileTree>
 
 - astro.config.ts registers the Lotus integration
+- theme.config.json stores Lotus theme config
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts stores Lotus theme config
   - content
     - docs
       - index.mdx docs homepage
@@ -43,9 +43,9 @@ need an explicit `docsBase`.
 <FileTree>
 
 - astro.config.ts registers the Lotus integration
+- theme.config.json uses the default `docsBase: '/'`
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts uses the default `docsBase: '/'`
   - content
     - docs
       - index.mdx homepage at `/`
@@ -68,9 +68,9 @@ and documentation under `/docs`.
 <FileTree>
 
 - astro.config.ts registers the Lotus integration
+- theme.config.json sets `docsBase: '/docs'`
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts sets `docsBase: '/docs'`
   - pages
     - index.astro site homepage at `/`
   - content
@@ -96,7 +96,6 @@ Use this when each locale has its own content directory.
 
 - src
   - content.config.ts registers the docs collection
-  - theme.config.ts maps locale directories
   - content
     - docs
       - en
@@ -109,6 +108,7 @@ Use this when each locale has its own content directory.
         - overview.mdx
         - configuration
           - project.mdx
+- theme.config.json maps locale directories
 
 </FileTree>
 
@@ -124,7 +124,6 @@ Lotus theme.
 
 - src
   - content.config.ts
-  - theme.config.ts references local override paths
   - content
     - docs
       - index.mdx
@@ -136,6 +135,7 @@ Lotus theme.
       - SearchDialog.astro
   - styles
     - lotus.css optional custom CSS tokens
+- theme.config.json references local override paths
 - public
   - logo.svg
   - favicon.svg
@@ -160,7 +160,7 @@ route-focused.
 
 3. **Keep content, theme config, and overrides separate.**
 
-   Put content in `src/content`, site configuration in `src/theme.config.ts`,
+   Put content in `src/content`, site configuration in `theme.config.json`,
    and local shell overrides in `src/components`.
 
 </Steps>
