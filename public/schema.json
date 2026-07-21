@@ -122,24 +122,6 @@
         { "$ref": "#/$defs/contributors" }
       ]
     },
-    "components": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Assistant": { "type": "string" },
-        "FooterLinks": { "type": "string" },
-        "HeaderNavbar": { "type": "string" },
-        "HeaderSocialIcons": { "type": "string" },
-        "PageActions": { "type": "string" },
-        "PageAside": { "type": "string" },
-        "PageHeader": { "type": "string" },
-        "PageMeta": { "type": "string" },
-        "PageNavigation": { "type": "string" },
-        "SearchDialog": { "type": "string" },
-        "SiteBrand": { "type": "string" },
-        "ThemeSwitch": { "type": "string" }
-      }
-    },
     "credits": {
       "type": "boolean"
     },

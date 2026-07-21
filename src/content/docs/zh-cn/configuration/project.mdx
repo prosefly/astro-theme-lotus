@@ -7,19 +7,17 @@ description: 配置站点身份、logo assets 和 favicon links。
 `Project` 设置描述文档站点本身。这里主要放影响 metadata、品牌展示和浏览器 chrome
 的身份字段。
 
-```ts
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-
-export default defineLotusConfig({
-  name: 'Astro Theme Lotus',
-  description: 'A documentation theme for Astro.',
-  logo: {
-    light: '/logo-light.svg',
-    dark: '/logo-dark.svg',
-    href: '/',
+```json title="theme.config.json"
+{
+  "name": "Astro Theme Lotus",
+  "description": "A documentation theme for Astro.",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg",
+    "href": "/"
   },
-  favicon: '/favicon.svg',
-});
+  "favicon": "/favicon.svg"
+}
 ```
 
 Routing、i18n、source links 和 contributors 是独立配置主题。见
@@ -31,8 +29,8 @@ Routing、i18n、source links 和 contributors 是独立配置主题。见
 `name` 是公开的产品名或项目名。Lotus 会将它用于站点标题、header brand text、
 footer brand text 和 schema.org metadata。
 
-```ts
-name: 'Astro Theme Lotus'
+```json
+"name": "Astro Theme Lotus"
 ```
 
 页面标题由页面 frontmatter title 和这个 `name` 组合而成。
@@ -41,8 +39,8 @@ name: 'Astro Theme Lotus'
 
 `description` 是默认站点描述。页面仍然可以通过 frontmatter 覆盖它。
 
-```ts
-description: 'A documentation theme for Astro.'
+```json
+"description": "A documentation theme for Astro."
 ```
 
 Lotus 会将这个值用于默认 `<meta name="description">` 和 structured data。
@@ -54,28 +52,28 @@ Lotus 会将这个值用于默认 `<meta name="description">` 和 structured dat
 默认情况下，Lotus 会把 logo 当作 mark，并把它和 `name` 一起渲染。当同一个 mark
 asset 可以用于所有 theme mode 时，可以使用字符串。
 
-```ts
-logo: '/logo.svg'
+```json
+"logo": "/logo.svg"
 ```
 
 light 和 dark mode 需要不同 mark assets 时，使用对象。
 
-```ts
-logo: {
-  light: '/logo-light.svg',
-  dark: '/logo-dark.svg',
-  href: '/',
+```json
+"logo": {
+  "light": "/logo-light.svg",
+  "dark": "/logo-dark.svg",
+  "href": "/"
 }
 ```
 
 如果 logo asset 已经包含项目名，设置 `variant: 'lockup'`。Lotus 会只渲染图片，
 不再额外显示 `name` 文本。默认 `variant` 是 `mark`。
 
-```ts
-logo: {
-  light: '/logo-lockup-light.svg',
-  dark: '/logo-lockup-dark.svg',
-  variant: 'lockup',
+```json
+"logo": {
+  "light": "/logo-lockup-light.svg",
+  "dark": "/logo-lockup-dark.svg",
+  "variant": "lockup"
 }
 ```
 
@@ -88,17 +86,17 @@ logo: {
 
 常见的单 favicon 场景使用字符串即可。
 
-```ts
-favicon: '/favicon.svg'
+```json
+"favicon": "/favicon.svg"
 ```
 
 项目需要多个 favicon links 时，使用对象或数组。
 
-```ts
-favicon: [
-  { href: '/favicon.svg', type: 'image/svg+xml' },
-  { href: '/favicon.ico', sizes: '32x32' },
-  { href: '/apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' },
+```json
+"favicon": [
+  { "href": "/favicon.svg", "type": "image/svg+xml" },
+  { "href": "/favicon.ico", "sizes": "32x32" },
+  { "href": "/apple-touch-icon.png", "rel": "apple-touch-icon", "sizes": "180x180" }
 ]
 ```
 

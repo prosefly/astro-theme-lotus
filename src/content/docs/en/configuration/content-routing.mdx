@@ -90,10 +90,10 @@ available at `/search.json`.
 Set `docsBase` when the project also has a marketing site, app routes, or other
 pages outside the documentation.
 
-```ts
-export default defineLotusConfig({
-  docsBase: '/docs',
-});
+```json title="theme.config.json"
+{
+  "docsBase": "/docs"
+}
 ```
 
 With `docsBase: '/docs'` and the default loader:
@@ -113,20 +113,20 @@ Markdown links, grouped by sidebar section.
 
 Disable the route with:
 
-```ts
-export default defineLotusConfig({
-  llms: false,
-});
+```json title="theme.config.json"
+{
+  "llms": false
+}
 ```
 
 Generate a full-text companion at `/llms-full.txt` with:
 
-```ts
-export default defineLotusConfig({
-  llms: {
-    full: true,
-  },
-});
+```json title="theme.config.json"
+{
+  "llms": {
+    "full": true
+  }
+}
 ```
 
 `/llms.txt` and `/llms-full.txt` are site-level discovery files, so they do not

@@ -82,9 +82,8 @@ sidebar 结构、外观、footer 和源码仓库。
    如果 Astro 项目已经有站点首页，并且文档应该放在 `/docs/` 下，设置
    `docsBase: '/docs'`。
 
-   当你需要 TypeScript、imports 或动态值时，可以继续使用
-   `src/theme.config.ts` 并传给 `lotus(themeConfig)`。传给 `lotus({...})`
-   的选项会覆盖 `theme.config.json` 中的值。
+   当你需要 TypeScript、imports 或动态值时，可以直接在 `astro.config.ts`
+   里传入 `lotus({...})`。这些选项会覆盖 `theme.config.json` 中的值。
 
 4. **注册 docs collection。**
 

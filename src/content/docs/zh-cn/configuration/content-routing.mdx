@@ -85,10 +85,10 @@ const docs = defineCollection({
 
 当项目还有 marketing site、app routes 或其他非文档页面时，设置 `docsBase`。
 
-```ts
-export default defineLotusConfig({
-  docsBase: '/docs',
-});
+```json title="theme.config.json"
+{
+  "docsBase": "/docs"
+}
 ```
 
 设置 `docsBase: '/docs'` 且使用默认 loader 时：

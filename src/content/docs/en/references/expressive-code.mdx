@@ -42,27 +42,29 @@ Use `ins={...}` and `del={...}` for changed lines. Plain `{...}` remains a
 neutral highlight.
 
 ````md
-```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
-export default defineLotusConfig({
-  navigation: [{ label: 'Docs', href: '/docs/' }],
-  siteNav: [
-    { label: 'Docs', href: '/docs/' },
-    { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  ],
-  pageActions: [],
-})
+```json del={4} ins={5} {7} title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "appearance": {
+    "accent": "blue",
+    "accent": "emerald",
+    "gray": "neutral"
+  },
+  "pageActions": []
+}
 ```
 ````
 
-```ts del={2} ins={3-6} {8} title="src/theme.config.ts"
-export default defineLotusConfig({
-  navigation: [{ label: 'Docs', href: '/docs/' }],
-  siteNav: [
-    { label: 'Docs', href: '/docs/' },
-    { label: 'Dashboard', href: '/app/', variant: 'soft' },
-  ],
-  pageActions: [],
-})
+```json del={4} ins={5} {7} title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "appearance": {
+    "accent": "blue",
+    "accent": "emerald",
+    "gray": "neutral"
+  },
+  "pageActions": []
+}
 ```
 
 ## Inline Markers
@@ -71,25 +73,25 @@ Mark text inside a line with quoted strings or regular expressions. Prefix the
 marker with `ins=`, `del=`, or `mark=` to choose the marker type.
 
 ````md
-```ts "docsBase" ins="'/docs'" del="'/documentation'" title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  previousBase: '/documentation',
-})
+```json "docsBase" ins='"/docs"' del='"/documentation"' title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "previousBase": "/documentation"
+}
 ```
 ````
 
-```ts "docsBase" ins="'/docs'" del="'/documentation'" title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  previousBase: '/documentation',
-})
+```json "docsBase" ins='"/docs"' del='"/documentation"' title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "previousBase": "/documentation"
+}
 ```
 
 Regular expressions are useful when the exact value changes across examples.
 
 ````md
-```ts /variant: '[^']+'/ title="src/theme.config.ts"
+```ts /variant: '[^']+'/ title="src/site-nav.ts"
 export const siteNav = [
   { label: 'Dashboard', href: '/app/', variant: 'soft' },
   { label: 'Login', href: '/login/', variant: 'outline' },
@@ -97,7 +99,7 @@ export const siteNav = [
 ```
 ````
 
-```ts /variant: '[^']+'/ title="src/theme.config.ts"
+```ts /variant: '[^']+'/ title="src/site-nav.ts"
 export const siteNav = [
   { label: 'Dashboard', href: '/app/', variant: 'soft' },
   { label: 'Login', href: '/login/', variant: 'outline' },
@@ -110,33 +112,33 @@ Use the `diff` language for compact before-and-after examples.
 
 ````md
 ```diff
-- navigation: [{ label: 'Docs', href: '/docs/' }]
-+ siteNav: [{ label: 'Docs', href: '/docs/' }]
+- "accent": "blue"
++ "accent": "emerald"
 ```
 ````
 
 ```diff
-- navigation: [{ label: 'Docs', href: '/docs/' }]
-+ siteNav: [{ label: 'Docs', href: '/docs/' }]
+- "accent": "blue"
++ "accent": "emerald"
 ```
 
 Use `lang="..."` when you want diff markers and syntax highlighting for the
 underlying language.
 
 ````md
-```diff lang="ts" title="src/theme.config.ts"
- export default defineLotusConfig({
--  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  siteNav: [{ label: 'Docs', href: '/docs/' }],
- })
+```diff lang="json" title="theme.config.json"
+ {
+-  "accent": "blue"
++  "accent": "emerald"
+ }
 ```
 ````
 
-```diff lang="ts" title="src/theme.config.ts"
- export default defineLotusConfig({
--  navigation: [{ label: 'Docs', href: '/docs/' }],
-+  siteNav: [{ label: 'Docs', href: '/docs/' }],
- })
+```diff lang="json" title="theme.config.json"
+ {
+-  "accent": "blue"
++  "accent": "emerald"
+ }
 ```
 
 ## Line Numbers
@@ -171,20 +173,20 @@ export const collections = { docs };
 Use `startLineNumber` for snippets taken from the middle of a file.
 
 ````md
-```ts showLineNumbers startLineNumber=24 {27} title="src/theme.config.ts"
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
+```json showLineNumbers startLineNumber=24 {27} title="theme.config.json"
+  "appearance": {
+    "accent": "indigo",
+    "gray": "neutral",
+    "radius": "medium"
   },
 ```
 ````
 
-```ts showLineNumbers startLineNumber=24 {4} title="src/theme.config.ts"
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
+```json showLineNumbers startLineNumber=24 {4} title="theme.config.json"
+  "appearance": {
+    "accent": "indigo",
+    "gray": "neutral",
+    "radius": "medium"
   },
 ```
 

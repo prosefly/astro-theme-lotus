@@ -7,19 +7,17 @@ description: Configure site identity, logo assets, and favicon links.
 `Project` settings describe the documentation site itself. Keep this page for
 identity fields that affect metadata, branding, and browser chrome.
 
-```ts
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-
-export default defineLotusConfig({
-  name: 'Astro Theme Lotus',
-  description: 'A documentation theme for Astro.',
-  logo: {
-    light: '/logo-light.svg',
-    dark: '/logo-dark.svg',
-    href: '/',
+```json title="theme.config.json"
+{
+  "name": "Astro Theme Lotus",
+  "description": "A documentation theme for Astro.",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg",
+    "href": "/"
   },
-  favicon: '/favicon.svg',
-});
+  "favicon": "/favicon.svg"
+}
 ```
 
 Routing, i18n, source links, and contributors are separate configuration
@@ -32,8 +30,8 @@ topics. See [Content Routing](/docs/configuration/content-routing/),
 `name` is the public product or project name. Lotus uses it for the site title,
 header brand text, footer brand text, and schema.org metadata.
 
-```ts
-name: 'Astro Theme Lotus'
+```json
+"name": "Astro Theme Lotus"
 ```
 
 Page titles are composed from the page frontmatter title and this name.
@@ -43,8 +41,8 @@ Page titles are composed from the page frontmatter title and this name.
 `description` is the default site description. Pages can still override it with
 frontmatter.
 
-```ts
-description: 'A documentation theme for Astro.'
+```json
+"description": "A documentation theme for Astro."
 ```
 
 Lotus uses this value for the default `<meta name="description">` and
@@ -57,17 +55,17 @@ structured data.
 By default, Lotus treats the logo as a mark and renders it next to `name`.
 Use a string when one mark asset works in every theme mode.
 
-```ts
-logo: '/logo.svg'
+```json
+"logo": "/logo.svg"
 ```
 
 Use an object when light and dark mode need different mark assets.
 
-```ts
-logo: {
-  light: '/logo-light.svg',
-  dark: '/logo-dark.svg',
-  href: '/',
+```json
+"logo": {
+  "light": "/logo-light.svg",
+  "dark": "/logo-dark.svg",
+  "href": "/"
 }
 ```
 
@@ -75,11 +73,11 @@ If your logo asset already includes the project name, set `variant: 'lockup'`.
 Lotus will render the image by itself and skip the extra `name` text. The
 default `variant` is `mark`.
 
-```ts
-logo: {
-  light: '/logo-lockup-light.svg',
-  dark: '/logo-lockup-dark.svg',
-  variant: 'lockup',
+```json
+"logo": {
+  "light": "/logo-lockup-light.svg",
+  "dark": "/logo-lockup-dark.svg",
+  "variant": "lockup"
 }
 ```
 
@@ -93,17 +91,17 @@ paths Lotus cannot read from `public/`.
 
 Use a string for the common single favicon case.
 
-```ts
-favicon: '/favicon.svg'
+```json
+"favicon": "/favicon.svg"
 ```
 
 Use an object or array when a project needs multiple favicon links.
 
-```ts
-favicon: [
-  { href: '/favicon.svg', type: 'image/svg+xml' },
-  { href: '/favicon.ico', sizes: '32x32' },
-  { href: '/apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' },
+```json
+"favicon": [
+  { "href": "/favicon.svg", "type": "image/svg+xml" },
+  { "href": "/favicon.ico", "sizes": "32x32" },
+  { "href": "/apple-touch-icon.png", "rel": "apple-touch-icon", "sizes": "180x180" }
 ]
 ```
 

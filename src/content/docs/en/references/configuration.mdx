@@ -36,9 +36,12 @@ export default defineConfig({
 ```
 
 Values passed to `lotus({...})` override `theme.config.json`. Object options
-such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
-`source`, and `ui` are shallow-merged; arrays such as `siteNav`, `socials`, and
-`docsNav` replace the JSON value when provided.
+such as `appearance`, `footer`, `iconify`, `locales`, `markdown`, `source`, and
+`ui` are shallow-merged; arrays such as `siteNav`, `socials`, and `docsNav`
+replace the JSON value when provided.
+
+Component overrides are integration-only. Configure `components` in
+`astro.config.ts`, not in `theme.config.json`.
 
 ## Options
 
@@ -56,7 +59,7 @@ such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
 | `siteNav` | one Docs link | [Navbar](/docs/configuration/navbar/) |
 | `socials` | `[]` | [Navbar](/docs/configuration/navbar/#social-links) |
 | `themeModeControl` | `'segmented-control'` | [Appearance](/docs/configuration/appearance/#default-mode) |
-| `docsNav` | `[]` | [Docs Navigation](/docs/configuration/sidebars/) |
+| `docsNav` | `[]` | [Docs Navigation](/docs/configuration/docs-nav/) |
 | `footer` | empty copyright and sections | [Footer](/docs/configuration/footer/) |
 | `search` | `{ provider: 'local' }` | [Search](/docs/configuration/search/) |
 | `assistant` | `false` | [Assistant](/docs/configuration/assistant/) |
@@ -65,20 +68,28 @@ such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
 | `source` | inferred when possible | [Source](/docs/configuration/source/) |
 | `editLink` | hidden | [Source](/docs/configuration/source/#edit-links) |
 | `contributors` | `false` | [Source](/docs/configuration/source/#contributors) |
-| `components` | `{}` | [Overriding Components](/docs/customization/overriding-components/) |
+| `components` | `{}` in `lotus({...})` only | [Overriding Components](/docs/customization/overriding-components/) |
 | `credits` | `true` | [Footer](/docs/configuration/footer/#credits) |
 | `iconify` | default Iconify API, scan enabled | [Integrations](/docs/configuration/integrations/#iconify) |
 | `markdown` | all transforms enabled, Expressive Code defaults | [Integrations](/docs/configuration/integrations/) |
 
-## Helper
+## TypeScript Options
 
-Use `defineLotusConfig()` for TypeScript type inference:
+Use `defineLotusConfig()` inside `astro.config.ts` when configuration needs
+TypeScript, imports, or computed values:
 
-```ts title="src/theme.config.ts"
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import lotus, { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
-export default defineLotusConfig({
+const lotusConfig = defineLotusConfig({
   name: 'My Docs',
   description: 'Documentation for my project.',
 });
+
+export default defineConfig({
+  integrations: [lotus(lotusConfig)],
+});
 ```
+
+Values passed to `lotus({...})` override `theme.config.json`.

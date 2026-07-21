@@ -101,7 +101,7 @@
                 "configuration/i18n",
                 "configuration/appearance",
                 "configuration/navbar",
-                "configuration/sidebars",
+                "configuration/docs-nav",
                 "configuration/footer",
                 "configuration/page-actions",
                 "configuration/search",

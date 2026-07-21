@@ -32,7 +32,8 @@ Astro 组件和 TypeScript。
 ## 组件覆盖没有生效
 
 确认 key 与受支持的 override slot 完全一致，路径是相对于项目根目录的路径，并且在修改
-`src/theme.config.ts` 后重启了 dev server。
+`theme.config.json` 或 `astro.config.ts` 里的 `lotus({...})` 选项后重启了
+dev server。
 
 ## 翻译页面回退到了英文
 

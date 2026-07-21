@@ -103,15 +103,15 @@ assistant: {
 
 Then override `Assistant`:
 
-```ts
-export default defineLotusConfig({
+```ts title="astro.config.ts"
+lotus({
   assistant: {
     provider: 'custom',
   },
   components: {
     Assistant: './src/components/Assistant.astro',
   },
-});
+})
 ```
 
 The default custom provider renders nothing. This keeps Lotus out of API keys,

@@ -8,52 +8,46 @@ description: Configure docs sections, subnav items, sidebar groups, and generate
 docs nav section becomes a docs subnav item, and its `items` define the sidebar shown for
 that section.
 
-```ts
-import docsNav from './theme.docs-nav.json';
-
-export default defineLotusConfig({
-  docsNav,
-});
-```
-
 Keep intentional documentation sites explicit: list the pages in the order they
 should appear. Use `autogenerate` only when a section should follow the file
 tree automatically.
 
-```json title="src/theme.docs-nav.json"
-[
-  {
-    "slug": "guide",
-    "label": "Guides",
-    "icon": "lucide:rocket",
-    "items": [
-      "overview",
-      "installation",
-      {
-        "label": "Configuration",
-        "items": [
-          "configuration/project",
-          "configuration/content-routing",
-          "configuration/i18n",
-          "configuration/appearance"
-        ]
-      },
-      "deployment"
-    ]
-  },
-  {
-    "label": "Components",
-    "icon": "lucide:blocks",
-    "items": [
-      "components/icon",
-      "components/badge",
-      "components/callout"
-    ]
-  }
-]
+```json title="theme.config.json"
+{
+  "docsNav": [
+    {
+      "slug": "guide",
+      "label": "Guides",
+      "icon": "lucide:rocket",
+      "items": [
+        "overview",
+        "installation",
+        {
+          "label": "Configuration",
+          "items": [
+            "configuration/project",
+            "configuration/content-routing",
+            "configuration/i18n",
+            "configuration/appearance"
+          ]
+        },
+        "deployment"
+      ]
+    },
+    {
+      "label": "Components",
+      "icon": "lucide:blocks",
+      "items": [
+        "components/icon",
+        "components/badge",
+        "components/callout"
+      ]
+    }
+  ]
+}
 ```
 
-You can also keep the same structure inline in `theme.config.ts`:
+You can also pass the same structure to `lotus({...})` in `astro.config.ts`:
 
 ```ts
 docsNav: [

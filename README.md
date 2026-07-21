@@ -40,10 +40,9 @@ Add the integration:
 // astro.config.ts
 import { defineConfig } from 'astro/config';
 import lotus from '@prosefly/astro-theme-lotus';
-import themeConfig from './src/theme.config';
 
 export default defineConfig({
-  integrations: [lotus(themeConfig)],
+  integrations: [lotus()],
 });
 ```
 
@@ -68,30 +67,34 @@ site root: `src/content/docs/index.mdx` renders at `/`, and
 
 ## Configure
 
-```ts
-// src/theme.config.ts
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+Create `theme.config.json` in the project root. Options passed to
+`lotus({...})` in `astro.config.ts` override values from this JSON file.
 
-export default defineLotusConfig({
-  name: 'Acme Docs',
-  description: 'Documentation for Acme.',
-  logo: '/logo.svg',
-  navbar: [
-    { label: 'Docs', href: '/' },
-    { label: 'GitHub', href: 'https://github.com/acme/acme', external: true },
+```json
+{
+  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "name": "Acme Docs",
+  "description": "Documentation for Acme.",
+  "logo": "/logo.svg",
+  "siteNav": [
+    { "label": "Docs", "href": "/" },
+    { "label": "GitHub", "href": "https://github.com/acme/acme", "external": true }
   ],
-  sidebars: [
+  "docsNav": [
     {
-      label: 'Guides',
-      icon: 'lucide:rocket',
-      items: [
-        'overview',
-        'installation',
-        { label: 'Configuration', items: [{ autogenerate: { directory: 'configuration' } }] },
-      ],
-    },
-  ],
-});
+      "label": "Guides",
+      "icon": "lucide:rocket",
+      "items": [
+        "overview",
+        "installation",
+        {
+          "label": "Configuration",
+          "items": [{ "autogenerate": { "directory": "configuration" } }]
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ## Features

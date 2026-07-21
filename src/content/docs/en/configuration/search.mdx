@@ -175,12 +175,12 @@ Draft pages are also excluded from production search results because
 Override `SearchDialog` when the default trigger or dialog needs project
 specific behavior:
 
-```ts
-export default defineLotusConfig({
+```ts title="astro.config.ts"
+lotus({
   components: {
     SearchDialog: './src/components/lotus/SearchDialog.astro',
   },
-});
+})
 ```
 
 The theme package also exports smaller building blocks:

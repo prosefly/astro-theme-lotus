@@ -9,16 +9,21 @@ first. For example, use `pageActions`, `footer.sections`, `themeModeControl`,
 accent colors, gray scale, radius, and CSS variables before replacing a
 component.
 
-Overrides are configured in `src/theme.config.ts` through the `components`
-object. Paths are resolved from the project root.
+Overrides are configured in `astro.config.ts` through the `components` object
+passed to `lotus({...})`. Paths are resolved from the project root.
 
-```ts title="src/theme.config.ts"
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
 
-export default defineLotusConfig({
-  components: {
-    SearchDialog: './src/components/lotus/SearchDialog.astro',
-  },
+export default defineConfig({
+  integrations: [
+    lotus({
+      components: {
+        PageAside: './src/components/lotus/PageAside.astro',
+      },
+    }),
+  ],
 });
 ```
 
@@ -32,14 +37,15 @@ and many defaults delegate to public theme components exported from
 layout -> override slot -> default implementation -> public theme component
 ```
 
-Use `themeConfig.components` with override slot names such as `SearchDialog` or
+Use `lotus({ components })` with override slot names such as `PageAside` or
 `PageActions`. Import public theme components only when your local override
 wants to reuse package behavior. See [Theme Components](/docs/customization/theme-components/)
 for the public export list.
 
 ## Override Points
 
-Only these names are valid keys in `themeConfig.components`.
+Only these names are valid keys in the `components` object passed to
+`lotus({...})`.
 
 | Name | Where It Renders | Props |
 | --- | --- | --- |
@@ -61,31 +67,40 @@ key must be one of the slot names above.
 
 ## Minimal Override
 
-Create a local Astro component for the slot:
+Create a local Astro component for the slot. This example keeps the default
+right sidebar and adds an EthicalAds placement below it:
 
-```astro title="src/components/lotus/SearchDialog.astro"
+```astro title="src/components/lotus/PageAside.astro"
 ---
+import { PageAside } from '@prosefly/astro-theme-lotus/components';
 ---
 
-<a
-  class="lotus-focus-ring rounded-(--lotus-radius-md) px-3 py-2 text-sm text-(--lotus-text-muted)"
-  href="/search/"
->
-  Search
-</a>
+<PageAside {...Astro.props} />
+
+<aside class="mt-6 border-t border-(--lotus-border-subtle) pt-5">
+  <script
+    async
+    src="https://media.ethicalads.io/media/client/ethicalads.min.js"
+  ></script>
+  <div
+    class="flat"
+    data-ea-publisher="your-publisher-id"
+    data-ea-type="text"
+  ></div>
+</aside>
 ```
 
 Register it:
 
-```ts title="src/theme.config.ts"
-export default defineLotusConfig({
+```ts title="astro.config.ts"
+lotus({
   components: {
-    SearchDialog: './src/components/lotus/SearchDialog.astro',
+    PageAside: './src/components/lotus/PageAside.astro',
   },
-});
+})
 ```
 
-Lotus now renders this file anywhere the shell asks for `SearchDialog`.
+Lotus now renders this file anywhere the shell asks for `PageAside`.
 
 ## Reusing Existing Behavior
 
@@ -127,6 +142,6 @@ If an override does not appear:
 
 - Confirm the key matches one of the supported override point names exactly.
 - Confirm the file path is relative to the project root.
-- Restart the dev server after changing `src/theme.config.ts`.
+- Restart the dev server after changing `astro.config.ts`.
 - Check that the override file has a default Astro component export.
 - Forward `Astro.props` when reusing a public theme component.

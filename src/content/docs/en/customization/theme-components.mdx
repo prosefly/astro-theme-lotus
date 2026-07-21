@@ -173,13 +173,13 @@ the document `data-theme` attribute.
 
 Use the `components` configuration to replace shell-owned slots:
 
-```ts
-export default defineLotusConfig({
+```ts title="astro.config.ts"
+lotus({
   components: {
     PageActions: './src/components/lotus/PageActions.astro',
     SearchDialog: './src/components/lotus/SearchDialog.astro',
   },
-});
+})
 ```
 
 Slot names are configured with names like `HeaderNavbar` and

@@ -43,6 +43,10 @@ export default defineConfig({
   "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
   "name": "My Docs",
   "description": "Documentation for my project.",
+  "siteNav": [
+    { "label": "Docs", "href": "/" },
+    { "label": "GitHub", "href": "https://github.com/acme/acme", "external": true }
+  ],
   "docsNav": [
     {
       "label": "Guides",
@@ -74,9 +78,9 @@ Lotus renders the bundled docs layout, navigation, search, table of contents,
 and footer. The integration also injects a Markdown source route at `*.md` and a
 search index route at `search.json`.
 
-Common integration options include `docsBase`, `docsNav`, `pageActions`,
-`footer`, `iconify`, `expressiveCode`, `packageManagerTabs`, and `components`
-overrides.
+Common integration options include `docsBase`, `siteNav`, `docsNav`,
+`pageActions`, `footer`, `iconify`, `markdown`, `themeModeControl`, and
+`components` overrides.
 
 ## Links
 

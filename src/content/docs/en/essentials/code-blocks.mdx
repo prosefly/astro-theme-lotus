@@ -31,17 +31,17 @@ Common language names include `ts`, `tsx`, `js`, `astro`, `css`, `html`, `json`,
 Add `title` to show a file name in an editor-style frame.
 
 ````md
-```ts title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-})
+```json title="theme.config.json"
+{
+  "docsBase": "/docs"
+}
 ```
 ````
 
-```ts title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-})
+```json title="theme.config.json"
+{
+  "docsBase": "/docs"
+}
 ```
 
 Shell languages render as terminal frames automatically. You can still add a
@@ -75,27 +75,27 @@ Use `{line}` or `{start-end}` to mark important lines. Multiple selectors can be
 combined with commas.
 
 ````md
-```ts {2,5-7} title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
-  },
-})
+```json {2,5-7} title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "appearance": {
+    "accent": "indigo",
+    "gray": "neutral",
+    "radius": "medium"
+  }
+}
 ```
 ````
 
-```ts {2,5-7} title="src/theme.config.ts"
-export default defineLotusConfig({
-  docsBase: '/docs',
-  appearance: {
-    accent: 'indigo',
-    gray: 'neutral',
-    radius: 'medium',
-  },
-})
+```json {2,5-7} title="theme.config.json"
+{
+  "docsBase": "/docs",
+  "appearance": {
+    "accent": "indigo",
+    "gray": "neutral",
+    "radius": "medium"
+  }
+}
 ```
 
 ## Package Manager Tabs

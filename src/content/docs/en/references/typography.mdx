@@ -79,7 +79,7 @@ main paragraph flow.[^theme-note]
 
 ## Inline Code
 
-Inline code like `docsBase`, `themeConfig.docsNav`, `src/theme.config.ts`, and
+Inline code like `docsBase`, `themeConfig.docsNav`, `theme.config.json`, and
 `--lotus-text-muted` should sit comfortably inside a line of prose without
 changing the paragraph rhythm.
 
@@ -132,10 +132,9 @@ Fenced code blocks render with Expressive Code by default.
 ```ts title="astro.config.ts"
 import { defineConfig } from 'astro/config';
 import lotus from '@prosefly/astro-theme-lotus';
-import themeConfig from './src/theme.config';
 
 export default defineConfig({
-  integrations: [lotus(themeConfig)],
+  integrations: [lotus()],
 });
 ```
 

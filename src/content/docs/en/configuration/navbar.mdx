@@ -14,34 +14,34 @@ The header is built from two config arrays:
 Use `siteNav` for primary destinations such as Docs, Blog, Pricing, or an app
 link. Use `socials` for external community and repository links.
 
-```ts title="src/theme.config.ts"
-export default defineLotusConfig({
-  siteNav: [
-    { label: 'Docs', href: '/docs/' },
+```json title="theme.config.json"
+{
+  "siteNav": [
+    { "label": "Docs", "href": "/docs/" },
     {
-      label: 'Dashboard',
-      href: 'https://app.example.com/',
-      external: true,
-      variant: 'solid',
-      color: 'accent',
-      trailingIcon: 'lucide:chevron-right',
-    },
+      "label": "Dashboard",
+      "href": "https://app.example.com/",
+      "external": true,
+      "variant": "solid",
+      "color": "accent",
+      "trailingIcon": "lucide:chevron-right"
+    }
   ],
-  socials: [
+  "socials": [
     {
-      label: 'GitHub',
-      href: 'https://github.com/prosefly/astro-theme-lotus',
-      external: true,
-      icon: 'github',
+      "label": "GitHub",
+      "href": "https://github.com/prosefly/astro-theme-lotus",
+      "external": true,
+      "icon": "github"
     },
     {
-      label: 'X',
-      href: 'https://x.com/prosefly',
-      external: true,
-      icon: 'x',
-    },
-  ],
-});
+      "label": "X",
+      "href": "https://x.com/prosefly",
+      "external": true,
+      "icon": "x"
+    }
+  ]
+}
 ```
 
 ## Site Nav Items

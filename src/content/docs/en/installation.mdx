@@ -85,9 +85,9 @@ Lotus one piece at a time.
    Set `docsBase: '/docs'` when the Astro project already has a site home page
    and docs should live under `/docs/`.
 
-   Use `src/theme.config.ts` and pass it to `lotus(themeConfig)` when you need
-   TypeScript, imports, or dynamic values. Options passed to `lotus({...})`
-   override values from `theme.config.json`.
+   Pass options directly to `lotus({...})` in `astro.config.ts` when you need
+   TypeScript, imports, or dynamic values. Those options override values from
+   `theme.config.json`.
 
 4. **Register the docs collection.**
 

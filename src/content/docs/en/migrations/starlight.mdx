@@ -26,7 +26,7 @@ replacing Starlight-specific component imports.
    Fields such as `title`, `description`, `slug`, `sidebar`, `tableOfContents`,
    `prev`, `next`, `pagefind`, and `draft` are accepted.
 
-3. **Rebuild docs navigation in `theme.config.ts`.**
+3. **Rebuild docs navigation in `theme.config.json`.**
 
    Lotus owns sidebar structure from `themeConfig.docsNav`. Use string items,
    groups, links, and `autogenerate.directory` entries.
@@ -44,7 +44,7 @@ replacing Starlight-specific component imports.
 </Steps>
 
 See [Frontmatter](/docs/essentials/frontmatter/) for accepted page fields and
-[Docs Navigation](/docs/configuration/sidebars/) for navigation structure.
+[Docs Navigation](/docs/configuration/docs-nav/) for navigation structure.
 
 ## AI-assisted Migration Prompt
 
@@ -81,7 +81,8 @@ Migration tasks:
 2. Update Astro integration setup to use Lotus.
 3. Register docsLoader() and docsSchema() in src/content.config.ts.
 4. Move Starlight site, sidebar, social, edit link, i18n, search, and appearance
-   settings into src/theme.config.ts using defineLotusConfig().
+   settings into theme.config.json. Put component overrides or dynamic values in
+   the lotus({...}) options in astro.config.ts.
 5. Preserve compatible frontmatter fields including title, description, slug,
    sidebar, tableOfContents, prev, next, pagefind, and draft.
 6. Convert Starlight-only MDX component imports to @prosefly/astro-components.
@@ -113,5 +114,5 @@ Output:
 After the AI finishes, compare its changes with the Lotus pages for
 [Content Routing](/docs/configuration/content-routing/),
 [Internationalization](/docs/configuration/i18n/),
-[Docs Navigation](/docs/configuration/sidebars/), and
+[Docs Navigation](/docs/configuration/docs-nav/), and
 [Overriding Components](/docs/customization/overriding-components/).
