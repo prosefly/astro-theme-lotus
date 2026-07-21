@@ -67,15 +67,9 @@
   block-size: 0.58em;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1023px) {
   .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
-    inset-inline-start: -1em;
-    opacity: 0.42;
-  }
-
-  .lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
-  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
-    opacity: 1;
+    display: none;
   }
 }
 
