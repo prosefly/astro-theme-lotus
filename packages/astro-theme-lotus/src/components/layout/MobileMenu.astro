@@ -3,20 +3,17 @@ import { Icon } from '@prosefly/astro-components';
 import Dropdown from '../ui/Dropdown.astro';
 import HeaderNavbar from 'virtual:prosefly/lotus/components/HeaderNavbar';
 import HeaderSocialIcons from 'virtual:prosefly/lotus/components/HeaderSocialIcons';
-import LanguageSelect from '../theme/LanguageSelect.astro';
 import ThemeSwitch from 'virtual:prosefly/lotus/components/ThemeSwitch';
 
 interface Props {
   class?: string;
   currentPath?: string;
-  showLanguage?: boolean;
   showThemeSwitch?: boolean;
 }
 
 const {
   class: className,
   currentPath,
-  showLanguage = true,
   showThemeSwitch = true,
 } = Astro.props;
 const t = Astro.locals.t;
@@ -38,7 +35,6 @@ const t = Astro.locals.t;
     <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
       <div class="flex items-center gap-1">
         <HeaderSocialIcons mobile />
-        {showLanguage && <LanguageSelect />}
       </div>
       {showThemeSwitch && <ThemeSwitch />}
     </div>

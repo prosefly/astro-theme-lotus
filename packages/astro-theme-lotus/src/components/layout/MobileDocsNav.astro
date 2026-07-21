@@ -3,7 +3,6 @@ import { Icon } from '@prosefly/astro-components';
 import SiteBrand from 'virtual:prosefly/lotus/components/SiteBrand';
 import type { DocsSectionNav, DocsSidebarNav } from '../../lib/docs';
 import { resolveIconName } from '../../lib/icons';
-import LanguageSelect from '../theme/LanguageSelect.astro';
 import Dropdown from '../ui/Dropdown.astro';
 import Sidebar from './Sidebar.astro';
 
@@ -138,7 +137,6 @@ function getHeadingIndent(depth: number): string {
       <div class="lotus-border-subtle flex h-(--lotus-header-height) shrink-0 items-center justify-between border-b px-4">
         <SiteBrand markIdPrefix="lotus-mobile-brand" textClass="truncate text-sm font-semibold" />
         <div class="flex items-center gap-1">
-          <LanguageSelect />
           <button
             aria-label={t('mobileDocs.closeMenu')}
             class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"

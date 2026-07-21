@@ -36,8 +36,8 @@ const themeConfig = rawThemeConfig as LotusThemeConfig;
 const searchEnabled = search && themeConfig.search !== false;
 const assistantEnabled = assistant && Boolean(themeConfig.assistant);
 const showThemeControl = showThemeSwitch && themeConfig.themeModeControl !== false;
-const hasDesktopControls = showSocials || showLanguage || showThemeControl;
-const hasMobileControls = hasDesktopControls;
+const hasDesktopControls = showSocials || showThemeControl;
+const hasMobileControls = showSocials || showThemeControl;
 const hasMobileMenu = (themeConfig.navbar?.length ?? 0) > 0 || hasMobileControls;
 const mobileMenuClass = searchEnabled || assistantEnabled ? 'lg:hidden' : 'ms-auto lg:hidden';
 const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
@@ -52,8 +52,10 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
   ]}
   {...pagefindIgnoreAttrs}
 >
-  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-4 px-4 sm:px-6">
+  <div class="mx-auto flex h-full max-w-screen-2xl items-center gap-2 px-4 sm:gap-4 sm:px-6">
     <SiteBrand fetchPriority="high" markIdPrefix="lotus-site-header-brand" />
+
+    {showLanguage && <LanguageSelect />}
 
     {searchEnabled ? (
       <SearchDialog />
@@ -70,7 +72,6 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
         <div class="flex items-center gap-2">
           <div class="lotus-border-subtle h-5 border-s"></div>
           {showSocials && <HeaderSocialIcons />}
-          {showLanguage && <LanguageSelect />}
           {showThemeControl && <ThemeSwitch />}
         </div>
       )}
@@ -94,7 +95,6 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
             <div class="lotus-border-subtle flex items-center justify-between gap-3 border-t pt-4">
               <div class="flex items-center gap-1">
                 {showSocials && <HeaderSocialIcons mobile />}
-                {showLanguage && <LanguageSelect />}
               </div>
               {showThemeControl && <ThemeSwitch />}
             </div>
