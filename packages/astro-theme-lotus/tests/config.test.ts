@@ -1,7 +1,16 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { defaultConfig } from '../src/lib/config/defaults';
 import { resolveLlmsConfig } from '../src/lib/config/llms';
-import { normalizeDocsBasePath, resolveLotusConfig } from '../src/lib/config/resolve';
+import {
+  loadLotusConfigFile,
+  mergeLotusConfigOptions,
+  normalizeDocsBasePath,
+  resolveLotusConfig,
+} from '../src/lib/config/resolve';
 import { getLotusInjectedRoutes } from '../src/lib/routes';
 
 function getRoutePatterns(options: Parameters<typeof resolveLotusConfig>[0]) {
@@ -42,6 +51,75 @@ describe('Lotus config', () => {
 
   it('keeps explicit empty page actions instead of falling back to defaults', () => {
     expect(resolveLotusConfig({ pageActions: [] }).pageActions).toEqual([]);
+  });
+
+  it('loads theme.config.json and strips schema metadata', () => {
+    const root = mkdtempSync(join(tmpdir(), 'lotus-config-'));
+
+    try {
+      writeFileSync(join(root, 'theme.config.json'), JSON.stringify({
+        $schema: 'https://astro-theme-lotus.prosefly.dev/schema.json',
+        name: 'JSON Docs',
+        docsBase: 'docs',
+        appearance: {
+          accent: 'emerald',
+        },
+      }));
+
+      const fileOptions = loadLotusConfigFile(pathToFileURL(`${root}/`));
+
+      expect(fileOptions).toEqual({
+        name: 'JSON Docs',
+        docsBase: 'docs',
+        appearance: {
+          accent: 'emerald',
+        },
+      });
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('lets lotus options override theme.config.json options', () => {
+    const mergedOptions = mergeLotusConfigOptions(
+      {
+        name: 'JSON Docs',
+        docsBase: '/docs',
+        appearance: {
+          accent: 'emerald',
+          radius: 'large',
+        },
+        footer: {
+          copyright: 'JSON',
+          sections: [{ title: 'JSON', links: [] }],
+        },
+        navbar: [{ label: 'JSON', href: '/json' }],
+      },
+      {
+        name: 'TS Docs',
+        appearance: {
+          radius: 'small',
+        },
+        footer: {
+          copyright: 'TS',
+        },
+        navbar: [{ label: 'TS', href: '/ts' }],
+      },
+    );
+
+    expect(mergedOptions).toEqual({
+      name: 'TS Docs',
+      docsBase: '/docs',
+      appearance: {
+        accent: 'emerald',
+        radius: 'small',
+      },
+      footer: {
+        copyright: 'TS',
+        sections: [{ title: 'JSON', links: [] }],
+      },
+      navbar: [{ label: 'TS', href: '/ts' }],
+    });
   });
 
   it('resolves the theme mode control option', () => {

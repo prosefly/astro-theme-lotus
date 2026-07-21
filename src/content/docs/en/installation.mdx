@@ -22,9 +22,9 @@ pnpm dev
 The template source is available at
 [prosefly/astro-template-lotus-starter](https://github.com/prosefly/astro-template-lotus-starter).
 
-After the site is running, replace the example content and update
-`src/theme.config.ts` with your project name, navigation, sidebar structure,
-appearance, footer, and source repository.
+After the site is running, replace the example content and update the Lotus
+theme config with your project name, navigation, sidebar structure, appearance,
+footer, and source repository.
 
 ## Manual Setup
 
@@ -56,10 +56,9 @@ Lotus one piece at a time.
    ```ts title="astro.config.ts"
    import { defineConfig } from 'astro/config';
    import lotus from '@prosefly/astro-theme-lotus';
-   import themeConfig from './src/theme.config';
 
    export default defineConfig({
-     integrations: [lotus(themeConfig)],
+     integrations: [lotus()],
    });
    ```
 
@@ -67,25 +66,28 @@ Lotus one piece at a time.
 
    Start with project identity and a minimal sidebar.
 
-   ```ts title="src/theme.config.ts"
-   import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-
-   export default defineLotusConfig({
-     name: 'My Docs',
-     description: 'Documentation for my project.',
-     navbar: [{ label: 'Docs', href: '/' }],
-     sidebars: [
+   ```json title="theme.config.json"
+   {
+     "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+     "name": "My Docs",
+     "description": "Documentation for my project.",
+     "navbar": [{ "label": "Docs", "href": "/" }],
+     "sidebars": [
        {
-         label: 'Guides',
-         icon: 'lucide:rocket',
-         items: ['index'],
-       },
-     ],
-   });
+         "label": "Guides",
+         "icon": "lucide:rocket",
+         "items": ["index"]
+       }
+     ]
+   }
    ```
 
    Set `docsBase: '/docs'` when the Astro project already has a site home page
    and docs should live under `/docs/`.
+
+   Use `src/theme.config.ts` and pass it to `lotus(themeConfig)` when you need
+   TypeScript, imports, or dynamic values. Options passed to `lotus({...})`
+   override values from `theme.config.json`.
 
 4. **Register the docs collection.**
 

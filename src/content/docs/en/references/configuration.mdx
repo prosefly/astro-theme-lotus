@@ -4,8 +4,41 @@ description: Reference Lotus theme configuration fields, defaults, and related d
 
 ---
 
-This reference lists top-level `defineLotusConfig()` fields. Use the linked
-configuration pages for examples and behavior details.
+This reference lists top-level Lotus theme fields. Use the linked configuration
+pages for examples and behavior details.
+
+## Config Files
+
+Lotus automatically reads `theme.config.json` from the Astro project root. Use
+JSON when your theme configuration is plain data and you want editor completion
+from the schema.
+
+```json title="theme.config.json"
+{
+  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "name": "My Docs",
+  "description": "Documentation for my project.",
+  "appearance": {
+    "accent": "emerald"
+  }
+}
+```
+
+Register Lotus without arguments when all configuration lives in JSON:
+
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+
+export default defineConfig({
+  integrations: [lotus()],
+});
+```
+
+Values passed to `lotus({...})` override `theme.config.json`. Object options
+such as `appearance`, `footer`, `components`, `iconify`, `locales`, `markdown`,
+`source`, and `ui` are shallow-merged; arrays such as `navbar`, `socials`, and
+`sidebars` replace the JSON value when provided.
 
 ## Options
 
@@ -39,7 +72,7 @@ configuration pages for examples and behavior details.
 
 ## Helper
 
-Use `defineLotusConfig()` for type inference:
+Use `defineLotusConfig()` for TypeScript type inference:
 
 ```ts title="src/theme.config.ts"
 import { defineLotusConfig } from '@prosefly/astro-theme-lotus';

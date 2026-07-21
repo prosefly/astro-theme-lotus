@@ -4,6 +4,9 @@ export { resolveLlmsConfig } from './llms';
 export { resolveMarkdownConfig } from './markdown';
 export { defineLotusConfig } from './options';
 export {
+  loadLotusConfigFile,
+  LOTUS_CONFIG_FILE,
+  mergeLotusConfigOptions,
   normalizeDocsBasePath,
   resolveAsyncLotusConfig,
   resolveLocalAssetConfig,

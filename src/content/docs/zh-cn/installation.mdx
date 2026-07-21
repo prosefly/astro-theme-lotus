@@ -21,7 +21,7 @@ pnpm dev
 模板源码在
 [prosefly/astro-template-lotus-starter](https://github.com/prosefly/astro-template-lotus-starter)。
 
-站点跑起来后，替换示例内容，并在 `src/theme.config.ts` 中更新项目名称、导航、
+站点跑起来后，替换示例内容，并在 Lotus theme config 中更新项目名称、导航、
 sidebar 结构、外观、footer 和源码仓库。
 
 ## 手动设置 {#manual-setup}
@@ -53,10 +53,9 @@ sidebar 结构、外观、footer 和源码仓库。
    ```ts title="astro.config.ts"
    import { defineConfig } from 'astro/config';
    import lotus from '@prosefly/astro-theme-lotus';
-   import themeConfig from './src/theme.config';
 
    export default defineConfig({
-     integrations: [lotus(themeConfig)],
+     integrations: [lotus()],
    });
    ```
 
@@ -64,25 +63,28 @@ sidebar 结构、外观、footer 和源码仓库。
 
    先配置项目身份和最小 sidebar。
 
-   ```ts title="src/theme.config.ts"
-   import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-
-   export default defineLotusConfig({
-     name: 'My Docs',
-     description: 'Documentation for my project.',
-     navbar: [{ label: 'Docs', href: '/' }],
-     sidebars: [
+   ```json title="theme.config.json"
+   {
+     "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+     "name": "My Docs",
+     "description": "Documentation for my project.",
+     "navbar": [{ "label": "Docs", "href": "/" }],
+     "sidebars": [
        {
-         label: 'Guides',
-         icon: 'lucide:rocket',
-         items: ['index'],
-       },
-     ],
-   });
+         "label": "Guides",
+         "icon": "lucide:rocket",
+         "items": ["index"]
+       }
+     ]
+   }
    ```
 
    如果 Astro 项目已经有站点首页，并且文档应该放在 `/docs/` 下，设置
    `docsBase: '/docs'`。
+
+   当你需要 TypeScript、imports 或动态值时，可以继续使用
+   `src/theme.config.ts` 并传给 `lotus(themeConfig)`。传给 `lotus({...})`
+   的选项会覆盖 `theme.config.json` 中的值。
 
 4. **注册 docs collection。**
 

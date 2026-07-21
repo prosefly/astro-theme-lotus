@@ -35,7 +35,8 @@
     "./components": "./src/components.ts",
     "./content": "./src/content.ts",
     "./layouts": "./src/layouts.ts",
-    "./navigation": "./src/navigation.ts"
+    "./navigation": "./src/navigation.ts",
+    "./schema.json": "./src/schema.json"
   },
   "files": [
     "src"

@@ -5,7 +5,9 @@ import astroExpressiveCode from 'astro-expressive-code';
 import type { AstroIntegration } from 'astro';
 import {
   defineLotusConfig,
+  loadLotusConfigFile,
   lotusConfigPlugin,
+  mergeLotusConfigOptions,
   resolveAsyncLotusConfig,
   resolveExpressiveCodeOptions,
   resolveLocalAssetConfig,
@@ -21,7 +23,6 @@ import { lotusStylesPlugin } from './lib/styles';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   let config = resolveLotusConfig(options);
-  const expressiveCodeOptions = resolveExpressiveCodeOptions(options.markdown?.expressiveCode);
 
   return {
     name: '@prosefly/astro-theme-lotus',
@@ -32,6 +33,13 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         injectRoute,
         updateConfig,
       }) => {
+        const fileOptions = loadLotusConfigFile(astroConfig.root);
+        const mergedOptions = mergeLotusConfigOptions(fileOptions, options);
+        const expressiveCodeOptions = resolveExpressiveCodeOptions(
+          mergedOptions.markdown?.expressiveCode,
+        );
+
+        config = resolveLotusConfig(mergedOptions);
         config = resolveLocalAssetConfig(config, astroConfig.publicDir);
         config = await resolveAsyncLotusConfig(config);
 
@@ -45,7 +53,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         });
 
         updateConfig({
-          markdown: resolveMarkdownConfig(options, astroConfig.markdown),
+          markdown: resolveMarkdownConfig(mergedOptions, astroConfig.markdown),
           integrations: [
             ...(expressiveCodeOptions === false
               ? []
