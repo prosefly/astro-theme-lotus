@@ -72,6 +72,7 @@ jobs:
         run: |
           mv pro/src/pages/api src/pages/
           cp pro/src/openapi/cafe.yaml src/openapi.yaml
+          rm -fr pro
           cp tools/pro/astro.config.ts ./
           cp tools/pro/content.config.ts ./src/
 
