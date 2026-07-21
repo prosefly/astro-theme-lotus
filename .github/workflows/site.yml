@@ -23,30 +23,50 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 11.9.0
+          version: 11
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: "@prosefly"
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Check site
-        run: pnpm check
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm install @prosefly/astro-openapi
 
       - name: Test package
         run: pnpm test
+
+      - name: Clone pro template
+        uses: actions/checkout@v7
+        with:
+          repository: prosefly/astro-template-lotus-pro
+          path: pro
+          token: ${{ github.token }}
+
+      - name: Prepare pro feature
+        run: |
+          mv pro/src/pages/api src/pages/
+          cp pro/src/openapi/cafe.yaml src/openapi.yaml
+          cp tools/pro/astro.config.ts ./
+          cp tools/pro/content.config.ts ./src/
+
+      - name: Check site
+        run: pnpm check
 
       - name: Build site
         env:
