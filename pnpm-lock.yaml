@@ -14,9 +14,6 @@ importers:
       '@astrojs/mdx':
         specifier: latest
         version: 7.0.3(@astrojs/markdown-satteri@0.3.4)(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
-      '@prosefly/astro-components':
-        specifier: ^0.4.1
-        version: 0.4.1(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       '@prosefly/astro-theme-lotus':
         specifier: workspace:*
         version: link:packages/astro-theme-lotus
@@ -36,6 +33,9 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
     devDependencies:
+      '@prosefly/astro-components':
+        specifier: ^0.4.1
+        version: 0.4.1(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       vitest:
         specifier: ^4.1.10
         version: 4.1.10(@types/node@26.1.1)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))

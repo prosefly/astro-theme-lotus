@@ -19,7 +19,6 @@
   "dependencies": {
     "@astrojs/check": "latest",
     "@astrojs/mdx": "latest",
-    "@prosefly/astro-components": "^0.4.1",
     "@prosefly/astro-theme-lotus": "workspace:*",
     "@tailwindcss/vite": "latest",
     "@types/node": "latest",
@@ -28,6 +27,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@prosefly/astro-components": "^0.4.1",
     "vitest": "^4.1.10"
   }
 }
