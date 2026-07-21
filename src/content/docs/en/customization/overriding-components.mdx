@@ -1,18 +1,18 @@
 ---
 title: Overriding Components
-description: Replace Lotus shell components when a project needs custom behavior.
-sidebar:
-  order: 3
+description: Replace Lotus shell components when configuration is not enough.
 ---
 
-Component overrides replace specific pieces of the Lotus documentation shell.
-Use them when configuration and CSS tokens are not enough because the rendered
-markup, placement, or behavior needs to change.
+Use component overrides when a project needs to replace part of the Lotus shell:
+markup, placement, or behavior. Prefer normal theme configuration and CSS tokens
+first. For example, use `pageActions`, `footer.sections`, `themeModeControl`,
+accent colors, gray scale, radius, and CSS variables before replacing a
+component.
 
 Overrides are configured in `src/theme.config.ts` through the `components`
-object:
+object. Paths are resolved from the project root.
 
-```ts
+```ts title="src/theme.config.ts"
 import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
 
 export default defineLotusConfig({
@@ -22,55 +22,26 @@ export default defineLotusConfig({
 });
 ```
 
-Paths are resolved from the project root. They can be relative paths like
-`./src/components/lotus/SearchDialog.astro` or absolute file-system paths.
+## How It Works
 
-## How Overrides Work
-
-Lotus separates shell structure from reusable components:
-
-| Layer | Role | Public API |
-| --- | --- | --- |
-| `components/layout` | Internal page chrome such as header, footer, sidebars, and TOC. | No |
-| `components/defaults` | Default implementations for override slots. | No |
-| `components/theme` | Reusable theme components used by defaults and local overrides. | Yes |
-| `components/ui` | Low-level internal controls. | No |
-
-The shell renders override slots through virtual modules. A default slot usually
-delegates to a public theme component:
+The shell renders named override slots. Each slot has a default implementation,
+and many defaults delegate to public theme components exported from
+`@prosefly/astro-theme-lotus/components`.
 
 ```txt
-layout -> virtual override slot -> defaults -> theme
+layout -> override slot -> default implementation -> public theme component
 ```
 
-For example, the main header renders the `HeaderNavbar` slot. The default
-`HeaderNavbar` implementation delegates to the public `NavbarLinks` component.
-
-## When To Override
-
-Start with normal theme configuration for content, labels, links, actions,
-sidebars, footer sections, color mode, accent color, gray scale, and radius.
-Use CSS tokens for fonts and visual tuning.
-
-Use a component override when the project needs to:
-
-- Replace the search UI with another search provider.
-- Change the header brand markup.
-- Move, hide, or restyle page actions beyond what `pageActions` supports.
-- Replace the page contributors block.
-- Replace previous and next page navigation.
-- Use custom theme mode control markup beyond `themeModeControl`.
-- Change the navbar or social-link rendering while keeping the same config
-  data.
-- Change footer link rendering while keeping `footer.sections` as the source
-  data.
+Use `themeConfig.components` with override slot names such as `SearchDialog` or
+`PageActions`. Import public theme components only when your local override
+wants to reuse package behavior. See [Theme Components](/docs/customization/theme-components/)
+for the public export list.
 
 ## Override Points
 
-Override point names are slot names, not always public component export names.
-Use these names in `themeConfig.components`.
+Only these names are valid keys in `themeConfig.components`.
 
-| Name | Where It Renders | Props Passed By Lotus |
+| Name | Where It Renders | Props |
 | --- | --- | --- |
 | `Assistant` | Global assistant widget area near the end of `<body>`. | none |
 | `SiteBrand` | Main header brand link. | none |
@@ -82,58 +53,15 @@ Use these names in `themeConfig.components`.
 | `PageHeader` | Docs article title area. | `title`, `description?`, `sectionTitle?`, `pageActions`, `pageUrl`, `markdownUrl`, `currentLocale` |
 | `PageActions` | Action control inside `PageHeader`. | `actions`, `title`, `pageUrl`, `markdownUrl`, `currentLocale?` |
 | `PageAside` | Right sidebar content and mobile page tools. | `headings`, `editUrl`, `title`, `pageUrl`, `markdownUrl`, `currentSlug`, `currentLocale`, `tableOfContents?` |
-| `PageMeta` | Last updated and contributors between docs content and previous/next navigation. | `contributors`, `lastUpdated`, `title`, `currentLocale` |
+| `PageMeta` | Last updated and contributors below docs content. | `contributors`, `lastUpdated`, `title`, `currentLocale` |
 | `PageNavigation` | Previous and next links below docs content. | `navigation`, `currentLocale?` |
 
-Only these names are supported by the `components` config. Other components can
-still be imported from `@prosefly/astro-theme-lotus/components`, but importing a
-component does not make it an override point.
-
-## Slot And Export Names
-
-Common slot and export pairs:
-
-| Override Slot | Public Component To Reuse |
-| --- | --- |
-| `HeaderNavbar` | `NavbarLinks` |
-| `HeaderSocialIcons` | `SocialIcons` |
-| `FooterLinks` | `FooterLinks` |
-| `ThemeSwitch` | `ThemeModeButton`, `ThemeModeSegmentedControl`, `ThemeModeSelect`, or `ThemeModeSwitch` for custom compositions |
-| `SearchDialog` | `SearchDialog`, `SearchDialogTrigger`, `SearchDialogContent` |
-| `PageActions` | `PageActions` |
-| `PageAside` | `PageAside`, `EditThisPage` |
-| `PageHeader` | `PageHeader` |
-| `PageMeta` | `PageMeta`, `Contributors` |
-| `PageNavigation` | `PageNavigation` |
-| `SiteBrand` | `SiteBrand` |
-
-Use a public component import when you want the package implementation:
-
-```astro
----
-import { PageActions } from '@prosefly/astro-theme-lotus/components';
----
-
-<PageActions {...Astro.props} />
-```
-
-Use a virtual module only when one override needs to call another override slot
-and preserve the user's configured replacement:
-
-```astro
----
-import PageActions from 'virtual:prosefly/lotus/components/PageActions';
----
-
-<PageActions {...Astro.props} />
-```
+Importing a public component does not make it an override point. The configured
+key must be one of the slot names above.
 
 ## Minimal Override
 
-Use `themeModeControl` before overriding `ThemeSwitch` if a project only needs
-one of the built-in controls.
-
-Create a local Astro component:
+Create a local Astro component for the slot:
 
 ```astro title="src/components/lotus/SearchDialog.astro"
 ---
@@ -149,10 +77,7 @@ Create a local Astro component:
 
 Register it:
 
-```ts
-// src/theme.config.ts
-import { defineLotusConfig } from '@prosefly/astro-theme-lotus';
-
+```ts title="src/theme.config.ts"
 export default defineLotusConfig({
   components: {
     SearchDialog: './src/components/lotus/SearchDialog.astro',
@@ -162,21 +87,39 @@ export default defineLotusConfig({
 
 Lotus now renders this file anywhere the shell asks for `SearchDialog`.
 
-## Props And Translations
+## Reusing Existing Behavior
 
-`Astro.props` contains the props Lotus passes to that override point. Forward
-those props when reusing a public theme component so built-in behavior keeps
-working.
+An override can still reuse Lotus behavior. Import from
+`@prosefly/astro-theme-lotus/components` when you want the package
+implementation, and forward `Astro.props` if the component receives props.
 
-Lotus also provides the resolved UI translator on `Astro.locals.t`. Use it when
+Use a virtual module when one override needs to call another configured override
+slot. This preserves the user's replacement instead of forcing the package
+implementation.
+
+```astro title="src/components/lotus/PageHeader.astro"
+---
+import PageActions from 'virtual:prosefly/lotus/components/PageActions';
+---
+
+<header>
+  <h1>{Astro.props.title}</h1>
+  <PageActions
+    actions={Astro.props.pageActions}
+    currentLocale={Astro.props.currentLocale}
+    markdownUrl={Astro.props.markdownUrl}
+    pageUrl={Astro.props.pageUrl}
+    title={Astro.props.title}
+  />
+</header>
+```
+
+## Translations
+
+Lotus provides the resolved UI translator on `Astro.locals.t`. Use it when
 visible shell text should follow the current locale. See
 [Internationalization](/docs/configuration/i18n/#translator-api) for the
 translator API.
-
-## Recipes
-
-For complete examples, see
-[Override Shell Components](/docs/recipes/override-shell-components/).
 
 ## Debugging
 
@@ -185,6 +128,5 @@ If an override does not appear:
 - Confirm the key matches one of the supported override point names exactly.
 - Confirm the file path is relative to the project root.
 - Restart the dev server after changing `src/theme.config.ts`.
-- Check that the override file has a default Astro component export, which is
-  what `.astro` files provide by default.
+- Check that the override file has a default Astro component export.
 - Forward `Astro.props` when reusing a public theme component.

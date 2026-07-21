@@ -1,0 +1,121 @@
+[
+  {
+    "slug": "guide",
+    "label": "Guides",
+    "translations": {
+      "zh-cn": "指南"
+    },
+    "icon": "lucide:rocket",
+    "items": [
+      {
+        "label": "Discussion",
+        "translations": {
+          "zh-cn": "讨论"
+        },
+        "link": "https://github.com/prosefly/astro-theme-lotus/discussions",
+        "external": true,
+        "icon": "lucide:messages-square"
+      },
+      {
+        "label": "Getting Started",
+        "translations": {
+          "zh-cn": "入门"
+        },
+        "items": [
+          "overview",
+          "installation",
+          {
+            "label": "Configuration",
+            "translations": {
+              "zh-cn": "配置"
+            },
+            "items": [
+              "configuration/project",
+              "configuration/content-routing",
+              "configuration/i18n",
+              "configuration/appearance",
+              "configuration/navbar",
+              "configuration/sidebars",
+              "configuration/footer",
+              "configuration/page-actions",
+              "configuration/search",
+              "configuration/source",
+              "configuration/assistant",
+              "configuration/integrations"
+            ]
+          },
+          "deployment",
+          "changelog",
+          "troubleshooting"
+        ]
+      },
+      {
+        "label": "Essentials",
+        "translations": {
+          "zh-cn": "基础"
+        },
+        "items": [
+          "essentials/project-structure",
+          "essentials/frontmatter",
+          "essentials/markdown-syntax",
+          "essentials/admonitions",
+          "essentials/images",
+          "essentials/code-blocks"
+        ]
+      },
+      {
+        "label": "Customization",
+        "translations": {
+          "zh-cn": "自定义"
+        },
+        "items": [
+          "customization/css-styling",
+          "customization/theme-components",
+          "customization/overriding-components",
+          "customization/page-layouts"
+        ]
+      },
+      {
+        "label": "Migrations",
+        "translations": {
+          "zh-cn": "迁移"
+        },
+        "items": [
+          "migrations",
+          "migrations/starlight"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Components",
+    "translations": {
+      "zh-cn": "组件"
+    },
+    "icon": "lucide:blocks",
+    "items": [
+      "components/icon",
+      "components/badge",
+      "components/callout",
+      "components/cards",
+      "components/steps",
+      "components/tabs",
+      "components/accordion",
+      "components/file-tree"
+    ]
+  },
+  {
+    "label": "References",
+    "translations": {
+      "zh-cn": "参考"
+    },
+    "icon": "lucide:book-open",
+    "items": [
+      "references/configuration",
+      "references/design-system",
+      "references/theme-tokens",
+      "references/typography",
+      "references/expressive-code"
+    ]
+  }
+]
