@@ -4,10 +4,15 @@ import { PageSection } from '@prosefly/astro-theme-lotus/layouts';
 
 interface Props {
   currentMaintainerSponsorCount: number;
+  oneTimeMaintainerSponsorCount: number;
   pastMaintainerSponsorCount: number;
 }
 
-const { currentMaintainerSponsorCount, pastMaintainerSponsorCount } = Astro.props as Props;
+const {
+  currentMaintainerSponsorCount,
+  oneTimeMaintainerSponsorCount,
+  pastMaintainerSponsorCount,
+} = Astro.props as Props;
 ---
 
 <PageSection class="border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
@@ -48,6 +53,10 @@ const { currentMaintainerSponsorCount, pastMaintainerSponsorCount } = Astro.prop
         <div>
           <dt>Current maintainer sponsors</dt>
           <dd>{currentMaintainerSponsorCount}</dd>
+        </div>
+        <div>
+          <dt>One-time sponsors</dt>
+          <dd>{oneTimeMaintainerSponsorCount}</dd>
         </div>
         <div>
           <dt>Past maintainer sponsors</dt>

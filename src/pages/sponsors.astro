@@ -9,6 +9,7 @@ import ProseflySponsors from '../components/sponsors/ProseflySponsors.astro';
 import SponsorsHero from '../components/sponsors/SponsorsHero.astro';
 import {
   getMaintainerSponsors,
+  getOneTimeSponsors,
   getPastSponsors,
   groupCurrentSponsors,
 } from '../lib/sponsors';
@@ -16,6 +17,7 @@ import {
 const maintainerSponsors = await getMaintainerSponsors();
 const currentMaintainerSponsorGroups = groupCurrentSponsors(maintainerSponsors);
 const currentMaintainerSponsors = currentMaintainerSponsorGroups.flatMap((group) => group.sponsors);
+const oneTimeMaintainerSponsors = getOneTimeSponsors(maintainerSponsors);
 const pastMaintainerSponsors = getPastSponsors(maintainerSponsors);
 ---
 
@@ -27,11 +29,13 @@ const pastMaintainerSponsors = getPastSponsors(maintainerSponsors);
   <main>
     <SponsorsHero
       currentMaintainerSponsorCount={currentMaintainerSponsors.length}
+      oneTimeMaintainerSponsorCount={oneTimeMaintainerSponsors.length}
       pastMaintainerSponsorCount={pastMaintainerSponsors.length}
     />
     <ProseflySponsors />
     <MaintainerSponsors
       currentSponsorGroups={currentMaintainerSponsorGroups}
+      oneTimeSponsors={oneTimeMaintainerSponsors}
       pastSponsors={pastMaintainerSponsors}
     />
   </main>

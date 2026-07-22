@@ -3,6 +3,7 @@ export interface Sponsor {
   login: string;
   avatar: string;
   amount: number;
+  isOneTime?: boolean;
   link: string;
   org: boolean;
 }
@@ -18,7 +19,7 @@ export interface SponsorGroup {
   sponsors: Sponsor[];
 }
 
-const SPONSORS_URL = 'https://cdn.jsdelivr.net/gh/lepture/lepture/sponsors.json';
+const SPONSORS_URL = 'https://cdn.jsdelivr.net/gh/lepture/lepture@main/sponsors.json';
 
 const sponsorTiers: Omit<SponsorGroup, 'sponsors'>[] = [
   { label: 'Gold Sponsors', minAmount: 100, size: '2xl', showName: true },
@@ -80,12 +81,19 @@ export function groupCurrentSponsors(sponsors: Sponsor[]): SponsorGroup[] {
       sponsors: sponsors
         .filter(
           (sponsor) =>
+            !sponsor.isOneTime &&
             sponsor.amount >= tier.minAmount &&
             (tier.maxAmount === undefined || sponsor.amount < tier.maxAmount),
         )
         .sort(sortByName),
     }))
     .filter((group) => group.sponsors.length > 0);
+}
+
+export function getOneTimeSponsors(sponsors: Sponsor[]): Sponsor[] {
+  return sponsors
+    .filter((sponsor) => sponsor.isOneTime && sponsor.amount > 0)
+    .sort(sortByAmountThenName);
 }
 
 export function getPastSponsors(sponsors: Sponsor[]): Sponsor[] {

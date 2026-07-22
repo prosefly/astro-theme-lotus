@@ -1,0 +1,321 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import type { Sponsor, SponsorGroup } from '../../lib/sponsors';
+
+interface Props {
+  currentSponsorGroups: SponsorGroup[];
+  oneTimeSponsors?: Sponsor[];
+  pastSponsors?: Sponsor[];
+}
+
+const {
+  currentSponsorGroups,
+  oneTimeSponsors = [],
+  pastSponsors = [],
+} = Astro.props as Props;
+
+const displayName = (sponsor: Sponsor) => sponsor.name || sponsor.login;
+---
+
+{currentSponsorGroups.length > 0 && (
+  <div class="sponsor-tiers">
+    {currentSponsorGroups.map((group) => (
+      <section class="sponsor-tier">
+        <h3>{group.label}</h3>
+        <div class:list={['sponsor-grid', !group.showName && 'sponsor-grid--logos']} data-size={group.size}>
+          {group.sponsors.map((sponsor) => (
+            <a
+              class:list={['sponsor-card lotus-focus-ring', !group.showName && 'sponsor-card--logo']}
+              href={sponsor.link}
+              rel="noreferrer"
+              target="_blank"
+              aria-label={displayName(sponsor)}
+              title={displayName(sponsor)}
+            >
+              <img src={sponsor.avatar} alt={`${displayName(sponsor)} avatar`} loading="lazy" />
+              {group.showName && (
+                <span>
+                  <strong>{displayName(sponsor)}</strong>
+                  <small>{sponsor.org ? 'Organization' : `@${sponsor.login}`}</small>
+                </span>
+              )}
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+)}
+
+{oneTimeSponsors.length > 0 && (
+  <section class="one-time-sponsors mt-12">
+    <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="section-label">One-time sponsors</p>
+        <h3>A special thank you for one-time support.</h3>
+      </div>
+      <span>{oneTimeSponsors.length} {oneTimeSponsors.length === 1 ? 'sponsor' : 'sponsors'}</span>
+    </div>
+    <div class="sponsor-grid" data-size="md">
+      {oneTimeSponsors.map((sponsor) => (
+        <a
+          class="sponsor-card lotus-focus-ring"
+          href={sponsor.link}
+          rel="noreferrer"
+          target="_blank"
+          aria-label={`${displayName(sponsor)}, one-time sponsor`}
+          title={displayName(sponsor)}
+        >
+          <img src={sponsor.avatar} alt={`${displayName(sponsor)} avatar`} loading="lazy" />
+          <span>
+            <strong>{displayName(sponsor)}</strong>
+            <small>One-time sponsor</small>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+{pastSponsors.length > 0 && (
+  <section class="past-sponsors mt-12">
+    <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="section-label">Past sponsors</p>
+        <h3>Previously supported maintainer work.</h3>
+      </div>
+      <span>{pastSponsors.length} {pastSponsors.length === 1 ? 'sponsor' : 'sponsors'}</span>
+    </div>
+    <div class="sponsor-grid sponsor-grid--logos sponsor-grid--past" data-size="xs">
+      {pastSponsors.map((sponsor) => (
+        <a
+          class="sponsor-card sponsor-card--logo sponsor-card--past lotus-focus-ring"
+          href={sponsor.link}
+          rel="noreferrer"
+          target="_blank"
+          aria-label={displayName(sponsor)}
+          title={displayName(sponsor)}
+        >
+          <img src={sponsor.avatar} alt={`${displayName(sponsor)} avatar`} loading="lazy" />
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+{currentSponsorGroups.length === 0 && oneTimeSponsors.length === 0 && pastSponsors.length === 0 && (
+  <div class="empty-state border-y border-(--lotus-border-subtle)">
+    <Icon name="lucide:cloud-off" />
+    <div>
+      <h3>No current maintainer sponsors are listed.</h3>
+      <p>The page could not load current sponsor tiers from the public JSON feed.</p>
+    </div>
+    <a
+      class="text-link lotus-focus-ring"
+      href="https://github.com/sponsors/lepture"
+      rel="noreferrer"
+      target="_blank"
+    >
+      Open GitHub Sponsors <Icon name="lucide:arrow-up-right" />
+    </a>
+  </div>
+)}
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .empty-state {
+    align-items: center;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: 1.5rem;
+  }
+
+  .empty-state > :global(.pf-icon) {
+    color: var(--lotus-accent);
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .empty-state h3,
+  .sponsor-tier h3,
+  .one-time-sponsors h3,
+  .past-sponsors h3 {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .empty-state p {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    margin: 0.3rem 0 0;
+  }
+
+  .text-link {
+    align-items: center;
+    border-radius: var(--lotus-radius-sm);
+    color: var(--lotus-accent);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .text-link :global(.pf-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .sponsor-tiers {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .one-time-sponsors > div > span,
+  .past-sponsors > div > span {
+    color: var(--lotus-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .sponsor-grid {
+    border-left: 1px solid var(--lotus-border-subtle);
+    border-top: 1px solid var(--lotus-border-subtle);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sponsor-grid--logos {
+    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .sponsor-card {
+    align-items: center;
+    border-bottom: 1px solid var(--lotus-border-subtle);
+    border-right: 1px solid var(--lotus-border-subtle);
+    color: inherit;
+    display: flex;
+    gap: 0.9rem;
+    min-width: 0;
+    padding: 1rem;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+
+  .sponsor-card--logo {
+    justify-content: center;
+    padding: 0.85rem;
+  }
+
+  .sponsor-card:hover {
+    background: var(--lotus-background);
+  }
+
+  .sponsor-card--past {
+    background: color-mix(in oklab, var(--lotus-surface) 55%, transparent);
+  }
+
+  .sponsor-card img {
+    background: var(--lotus-gray-soft);
+    border-radius: 999px;
+    flex: 0 0 auto;
+    height: var(--sponsor-avatar-size, 2.25rem);
+    width: var(--sponsor-avatar-size, 2.25rem);
+  }
+
+  .sponsor-grid[data-size='2xl'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    --sponsor-avatar-size: 4.5rem;
+  }
+
+  .sponsor-grid[data-size='xl'] {
+    --sponsor-avatar-size: 3.75rem;
+  }
+
+  .sponsor-grid[data-size='md'] {
+    --sponsor-avatar-size: 3rem;
+  }
+
+  .sponsor-grid[data-size='sm'] {
+    --sponsor-avatar-size: 2.5rem;
+  }
+
+  .sponsor-grid[data-size='xs'] {
+    --sponsor-avatar-size: 2rem;
+  }
+
+  .sponsor-grid--logos .sponsor-card {
+    flex: 0 0 auto;
+  }
+
+  .sponsor-card span {
+    display: block;
+    min-width: 0;
+  }
+
+  .sponsor-card strong,
+  .sponsor-card small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sponsor-card strong {
+    color: var(--lotus-text-strong);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .sponsor-card small {
+    color: var(--lotus-text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 1023px) {
+    .sponsor-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sponsor-grid[data-size='2xl'] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .sponsor-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639px) {
+    .empty-state {
+      align-items: start;
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .empty-state .text-link {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .sponsor-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sponsor-grid[data-size='2xl'] {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
