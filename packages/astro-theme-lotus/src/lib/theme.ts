@@ -1,6 +1,7 @@
 import type { ThemeAccent } from './colors';
 import type { LlmsOption } from './config';
 import type { UiTranslations } from './translations';
+import type { HeadConfig } from './page/head';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type ThemeModeControl = 'segmented-control' | 'button' | 'switch' | 'select' | false;
@@ -294,6 +295,7 @@ export interface LotusThemeConfig {
   pageActions: PageActionConfig[];
   contributors?: ContributorsOption;
   components?: OverrideComponentsConfig;
+  head: HeadConfig;
   credits: boolean;
   docsBase: string;
   source?: ThemeSourceConfig;

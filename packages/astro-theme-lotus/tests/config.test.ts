@@ -54,12 +54,24 @@ describe('Lotus config', () => {
     expect(resolveLotusConfig({ pageActions: [] }).pageActions).toEqual([]);
   });
 
+  it('keeps global head entries for rendering and style injection', () => {
+    expect(resolveLotusConfig({
+      head: [
+        { tag: 'meta', attrs: { property: 'og:image', content: 'https://example.com/og.png' } },
+        { tag: 'style', src: './src/styles/lotus.css' },
+      ],
+    }).head).toEqual([
+      { tag: 'meta', attrs: { property: 'og:image', content: 'https://example.com/og.png' } },
+      { tag: 'style', src: './src/styles/lotus.css' },
+    ]);
+  });
+
   it('loads theme.config.json and strips schema metadata', () => {
     const root = mkdtempSync(join(tmpdir(), 'lotus-config-'));
 
     try {
       writeFileSync(join(root, 'theme.config.json'), JSON.stringify({
-        $schema: 'https://astro-theme-lotus.prosefly.dev/schema.json',
+        $schema: 'https://prosefly.dev/schema/lotus.json',
         name: 'JSON Docs',
         docsBase: 'docs',
         appearance: {

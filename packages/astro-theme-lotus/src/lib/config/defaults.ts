@@ -27,6 +27,7 @@ export const defaultConfig: LotusThemeConfig = {
   ],
   contributors: false,
   components: {},
+  head: [],
   credits: true,
   docsBase: DEFAULT_DOCS_BASE_PATH,
   source: undefined,

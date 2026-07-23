@@ -2,6 +2,7 @@ export interface HeadConfigEntry {
   tag: string;
   attrs?: Record<string, string | number | boolean | undefined>;
   content?: string;
+  src?: string;
 }
 
 export type HeadConfig = HeadConfigEntry[];
@@ -97,4 +98,8 @@ export function createHead(defaults: HeadConfig, ...heads: Array<HeadConfig | un
   }
 
   return sortHead(head);
+}
+
+export function isHeadStyleSource(entry: HeadConfigEntry): entry is HeadConfigEntry & { src: string } {
+  return entry.tag === 'style' && Boolean(entry.src);
 }

@@ -37,6 +37,7 @@ export interface LotusIntegrationOptions {
   pageActions?: PageActionConfig[];
   contributors?: LotusThemeConfig['contributors'];
   components?: OverrideComponentsConfig;
+  head?: LotusThemeConfig['head'];
   credits?: LotusThemeConfig['credits'];
   docsBase?: string;
   source?: LotusThemeConfig['source'];

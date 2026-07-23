@@ -79,8 +79,8 @@ and footer. The integration also injects a Markdown source route at `*.md` and a
 search index route at `search.json`.
 
 Common integration options include `docsBase`, `siteNav`, `docsNav`,
-`pageActions`, `footer`, `iconify`, `markdown`, `themeModeControl`, and
-`components` overrides.
+`pageActions`, `footer`, `iconify`, `markdown`, `themeModeControl`,
+`head`, and `components` overrides.
 
 ## Links
 

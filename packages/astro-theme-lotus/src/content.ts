@@ -28,6 +28,7 @@ const headConfigSchema = z.object({
   tag: z.string(),
   attrs: z.record(z.string(), z.string().or(z.number()).or(z.boolean()).optional()).optional(),
   content: z.string().optional(),
+  src: z.string().optional(),
 });
 
 const badgeSchema = z.union([

@@ -122,6 +122,11 @@
         { "$ref": "#/$defs/contributors" }
       ]
     },
+    "head": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/headEntry" },
+      "description": "Global head entries appended to every page. `style.src` loads a project CSS file after Lotus styles."
+    },
     "credits": {
       "type": "boolean"
     },
@@ -219,6 +224,32 @@
         "pink",
         "rose"
       ]
+    },
+    "headEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag"],
+      "properties": {
+        "tag": {
+          "type": "string",
+          "enum": ["title", "meta", "link", "script", "style"]
+        },
+        "attrs": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        },
+        "content": { "type": "string" },
+        "src": {
+          "type": "string",
+          "description": "For `style`, a project CSS file path resolved from the project root. For `script`, shorthand for `attrs.src`."
+        }
+      }
     },
     "link": {
       "type": "object",

@@ -1,7 +1,8 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, sep } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
+import { isHeadStyleSource, type HeadConfig } from './page/head';
 
 const virtualStylesModuleId = 'virtual:prosefly/lotus/styles.css';
 const styleFileUrls = [
@@ -31,26 +32,44 @@ html {
 }
 `;
 
-export function lotusStylesPlugin(root: URL, srcDir: URL): Plugin {
+export function lotusStylesPlugin(
+  root: URL,
+  srcDir: URL,
+  head: HeadConfig = [],
+): Plugin {
   const rootPath = fileURLToPath(root);
   const generatedStylesDir = join(rootPath, '.astro', 'lotus');
   const resolvedVirtualStylesModuleId = join(generatedStylesDir, 'styles.css');
   const projectSourceRoot = fileURLToPath(srcDir);
   const projectSourcePath = toCssSourcePath(relative(generatedStylesDir, projectSourceRoot));
   const lotusSourcePath = toCssSourcePath(relative(generatedStylesDir, lotusSourceRoot));
+  const customStyleFiles = resolveHeadStyleFiles(rootPath, head);
 
   return {
     name: '@prosefly/astro-theme-lotus/styles',
     buildStart() {
-      writeLotusStylesFile(resolvedVirtualStylesModuleId, projectSourcePath, lotusSourcePath);
+      writeLotusStylesFile(
+        resolvedVirtualStylesModuleId,
+        projectSourcePath,
+        lotusSourcePath,
+        customStyleFiles,
+      );
 
-      for (const url of styleFileUrls) {
-        this.addWatchFile(fileURLToPath(url));
+      for (const file of [
+        ...styleFileUrls.map((url) => fileURLToPath(url)),
+        ...customStyleFiles,
+      ]) {
+        this.addWatchFile(file);
       }
     },
     resolveId(id) {
       if (id === virtualStylesModuleId) {
-        writeLotusStylesFile(resolvedVirtualStylesModuleId, projectSourcePath, lotusSourcePath);
+        writeLotusStylesFile(
+          resolvedVirtualStylesModuleId,
+          projectSourcePath,
+          lotusSourcePath,
+          customStyleFiles,
+        );
         return resolvedVirtualStylesModuleId;
       }
     },
@@ -61,6 +80,7 @@ function writeLotusStylesFile(
   file: string,
   projectSourcePath: string,
   lotusSourcePath: string,
+  customStyleFiles: string[],
 ) {
   mkdirSync(dirname(file), { recursive: true });
 
@@ -71,8 +91,22 @@ function writeLotusStylesFile(
       `@source "${lotusSourcePath}";`,
       ...styleFileUrls.map((url) => readFileSync(fileURLToPath(url), 'utf8')),
       baseCss,
+      ...customStyleFiles.map((styleFile) => readFileSync(styleFile, 'utf8')),
     ].join('\n\n'),
   );
+}
+
+function resolveHeadStyleFiles(rootPath: string, head: HeadConfig): string[] {
+  return head.filter(isHeadStyleSource).map((entry) => {
+    const { src } = entry;
+    const file = isAbsolute(src) ? src : join(rootPath, src);
+
+    if (!existsSync(file)) {
+      throw new Error(`Lotus head style file not found: ${src}`);
+    }
+
+    return file;
+  });
 }
 
 function toCssSourcePath(path: string): string {

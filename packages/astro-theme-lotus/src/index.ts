@@ -64,17 +64,17 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               ? []
               : [astroExpressiveCode(expressiveCodeOptions)]),
             mdx(),
-            proseflyIcon({
-              apiBase: config.iconify?.apiBase,
-              preload: getIconPreloadNames(config),
-              scan: config.iconify?.scan,
-            }),
+              proseflyIcon({
+                apiBase: config.iconify?.apiBase,
+                preload: getIconPreloadNames(config),
+                scan: config.iconify?.scan,
+              }),
           ],
           vite: {
             plugins: [
               lotusConfigPlugin(config),
               componentOverridePlugin(config.components ?? {}, astroConfig.root),
-              lotusStylesPlugin(astroConfig.root, astroConfig.srcDir),
+              lotusStylesPlugin(astroConfig.root, astroConfig.srcDir, config.head),
               tailwindcss(),
             ],
           },
@@ -114,3 +114,7 @@ export type {
 export type {
   NormalizedLocale,
 } from './lib/i18n';
+export type {
+  HeadConfig,
+  HeadConfigEntry,
+} from './lib/page/head';

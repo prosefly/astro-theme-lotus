@@ -104,6 +104,7 @@ Create `theme.config.json` in the project root. Options passed to
 - Responsive header, subnav, sidebar, main content, TOC, and footer
 - Light, dark, and system theme modes
 - Configurable accent color, gray palette, and radius
+- Global head entries for custom CSS, social cards, and verification tags
 - Local search, Pagefind, and DocSearch providers
 - i18n-aware routes, labels, and sidebar ownership
 - Expressive Code support

@@ -1,7 +1,12 @@
 ---
 import 'virtual:prosefly/lotus/styles.css';
 import { getThemeAttributes } from '../lib/appearance';
-import { createHead, type HeadConfig } from '../lib/page/head';
+import {
+  createHead,
+  isHeadStyleSource,
+  type HeadConfig,
+  type HeadConfigEntry,
+} from '../lib/page/head';
 import { stringifyJsonLd, type JsonLdNode } from '../lib/page/schema';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Assistant from 'virtual:prosefly/lotus/components/Assistant';
@@ -38,8 +43,9 @@ const headEntries = createHead(
       ? [{ tag: 'script', attrs: { type: 'application/ld+json' }, content: jsonLdContent }]
       : []),
   ],
+  themeConfig.head,
   head,
-);
+).filter((entry) => !isHeadStyleSource(entry));
 const themeInitScript = `
 (() => {
   try {
@@ -76,12 +82,21 @@ function normalizeFaviconLinks(favicon: LotusThemeConfig['favicon']) {
     };
   });
 }
+
+function getHeadAttrs(entry: HeadConfigEntry) {
+  return entry.src && entry.tag !== 'style'
+    ? { ...entry.attrs, src: entry.src }
+    : entry.attrs;
+}
 ---
 
 <html dir={locale.dir} lang={locale.lang} {...themeAttrs}>
   <head>
     <script is:inline set:html={themeInitScript}></script>
-    {headEntries.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+    {headEntries.map((entry) => {
+      const Tag = entry.tag;
+      return <Tag {...getHeadAttrs(entry)} set:html={entry.content} />;
+    })}
   </head>
   <body class="min-h-screen bg-(--lotus-background) text-(--lotus-text)">
     <slot />
