@@ -40,7 +40,7 @@ export default defineConfig({
 
 ```json
 {
-  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "$schema": "https://prosefly.dev/schema/lotus.json",
   "name": "My Docs",
   "description": "Documentation for my project.",
   "siteNav": [

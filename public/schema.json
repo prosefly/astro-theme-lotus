@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "$id": "https://prosefly.dev/schema/lotus.json",
   "title": "Lotus Theme Config",
   "description": "Configuration for @prosefly/astro-theme-lotus.",
   "type": "object",

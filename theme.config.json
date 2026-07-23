@@ -1,5 +1,5 @@
 {
-  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "$schema": "https://prosefly.dev/schema/lotus.json",
   "name": "Lotus",
   "description": "A documentation theme for Astro.",
   "favicon": "/favicon.svg",

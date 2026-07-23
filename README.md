@@ -72,7 +72,7 @@ Create `theme.config.json` in the project root. Options passed to
 
 ```json
 {
-  "$schema": "https://astro-theme-lotus.prosefly.dev/schema.json",
+  "$schema": "https://prosefly.dev/schema/lotus.json",
   "name": "Acme Docs",
   "description": "Documentation for Acme.",
   "logo": "/logo.svg",
