@@ -5,7 +5,7 @@ MDX. It gives your project generated docs routes, responsive navigation, table
 of contents, search, dark mode, i18n, theme tokens, and docs components without
 turning the whole site into a theme fork.
 
-![Lotus documentation theme preview](.github/assets/lotus-docs-light-dark.png)
+![Lotus documentation theme preview](.github/assets/light-dark.png)
 
 ## Quick Start
 
