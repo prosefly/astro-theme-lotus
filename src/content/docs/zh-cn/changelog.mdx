@@ -19,6 +19,27 @@ import { Badge, Card, CardGrid } from '@prosefly/astro-components';
 
 ## 未发布
 
+## [0.6.1](https://github.com/prosefly/astro-theme-lotus/releases/tag/0.6.1)
+
+<Badge variant="subtle" color="neutral">2026-07-23</Badge>
+
+- 添加全局 `head` 配置，可用于 metadata、social cards、verification tags、
+  scripts 和项目 CSS。
+- 添加 `head` style source 支持，会在 Lotus 默认样式之后追加项目 CSS，并在
+  开发时监听这些文件。
+- 添加 `--lotus-header-background` 和 `--lotus-footer-background` token，用于
+  让页面头部和底部使用不同于页面背景的颜色。
+- 将 `data-accent`、`data-gray`、`data-radius` 和 `data-theme` token selector
+  改为支持局部预览区域，而不必修改整个文档。
+- 将发布的 JSON Schema URL 更新为
+  `https://prosefly.dev/schema/lotus.json`。
+- 将 `ThemeModeButton` 改为只显示图标，避免导航栏宽度变化。
+- 将 footer credit 链接更新为 `https://prosefly.dev/themes/lotus/`。
+- 优化 Expressive Code frame header，让有标题和无标题的 frame 使用相同高度，
+  并使用 Lotus 页面背景。
+- 修复 prose code 样式，让 `not-prose` 内容可以跳出 inline code 和 code block
+  规则。
+
 ## [0.6.0](https://github.com/prosefly/astro-theme-lotus/releases/tag/0.6.0)
 
 <Badge variant="subtle" color="neutral">2026-07-21</Badge>

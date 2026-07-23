@@ -1,6 +1,6 @@
 {
   "name": "@prosefly/astro-theme-lotus",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "An installable documentation theme for Astro.",
   "type": "module",
   "license": "BSD-3-Clause",
