@@ -201,7 +201,7 @@
         "links": [
           {
             "label": "Astro Components",
-            "href": "https://astro-components.prosefly.dev",
+            "href": "https://prosefly.dev/docs/astro-components/",
             "external": true
           }
         ]
