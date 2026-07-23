@@ -1,7 +1,4 @@
-:root,
-:root[data-accent],
-:root[data-gray],
-:root[data-accent][data-gray] {
+:root {
   --lotus-background: oklch(98.5% 0.018 85);
   --lotus-surface: oklch(96.2% 0.025 82);
   --lotus-text-strong: oklch(24% 0.035 58);
@@ -30,10 +27,7 @@
   padding-inline-end: 1rem;
 }
 
-:root[data-theme="dark"],
-:root[data-theme="dark"][data-accent],
-:root[data-theme="dark"][data-gray],
-:root[data-theme="dark"][data-accent][data-gray] {
+[data-theme="dark"] {
   --lotus-background: oklch(20% 0.02 58);
   --lotus-surface: oklch(24% 0.022 58);
   --lotus-text-strong: oklch(94% 0.018 86);
@@ -51,10 +45,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="system"],
-  :root[data-theme="system"][data-accent],
-  :root[data-theme="system"][data-gray],
-  :root[data-theme="system"][data-accent][data-gray] {
+  [data-theme="system"] {
     --lotus-background: oklch(20% 0.02 58);
     --lotus-surface: oklch(24% 0.022 58);
     --lotus-text-strong: oklch(94% 0.018 86);

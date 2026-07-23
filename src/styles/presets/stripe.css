@@ -1,7 +1,4 @@
-:root,
-:root[data-accent],
-:root[data-gray],
-:root[data-accent][data-gray] {
+:root {
   --lotus-background: oklch(99% 0.006 255);
   --lotus-surface: oklch(97% 0.012 255);
   --lotus-text-strong: oklch(24% 0.045 270);
@@ -26,10 +23,7 @@
   border-inline-start-color: color-mix(in oklab, var(--lotus-accent) 42%, transparent);
 }
 
-:root[data-theme="dark"],
-:root[data-theme="dark"][data-accent],
-:root[data-theme="dark"][data-gray],
-:root[data-theme="dark"][data-accent][data-gray] {
+[data-theme="dark"] {
   --lotus-background: oklch(18% 0.04 270);
   --lotus-surface: oklch(23% 0.045 270);
   --lotus-text-strong: oklch(96% 0.012 255);
@@ -47,10 +41,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="system"],
-  :root[data-theme="system"][data-accent],
-  :root[data-theme="system"][data-gray],
-  :root[data-theme="system"][data-accent][data-gray] {
+  [data-theme="system"] {
     --lotus-background: oklch(18% 0.04 270);
     --lotus-surface: oklch(23% 0.045 270);
     --lotus-text-strong: oklch(96% 0.012 255);

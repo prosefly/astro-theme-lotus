@@ -1,7 +1,4 @@
-:root,
-:root[data-accent],
-:root[data-gray],
-:root[data-accent][data-gray] {
+:root {
   --lotus-background: oklch(99.2% 0 0);
   --lotus-surface: oklch(96.8% 0 0);
   --lotus-text-strong: oklch(20% 0 0);
@@ -22,10 +19,7 @@
   --lotus-prose-leading: 1.72;
 }
 
-:root[data-theme="dark"],
-:root[data-theme="dark"][data-accent],
-:root[data-theme="dark"][data-gray],
-:root[data-theme="dark"][data-accent][data-gray] {
+[data-theme="dark"] {
   --lotus-background: oklch(16% 0 0);
   --lotus-surface: oklch(21% 0 0);
   --lotus-text-strong: oklch(96% 0 0);
@@ -43,10 +37,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="system"],
-  :root[data-theme="system"][data-accent],
-  :root[data-theme="system"][data-gray],
-  :root[data-theme="system"][data-accent][data-gray] {
+  [data-theme="system"] {
     --lotus-background: oklch(16% 0 0);
     --lotus-surface: oklch(21% 0 0);
     --lotus-text-strong: oklch(96% 0 0);
