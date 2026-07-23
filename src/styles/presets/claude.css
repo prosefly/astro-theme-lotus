@@ -1,4 +1,5 @@
 :root {
+  --lotus-serif: Georgia, Cambria, "Times New Roman", Times, serif;
   --lotus-background: oklch(98.5% 0.018 85);
   --lotus-surface: oklch(96.2% 0.025 82);
   --lotus-text-strong: oklch(24% 0.035 58);
@@ -16,7 +17,13 @@
 }
 
 .lotus-prose {
+  --lotus-prose-font-heading: var(--lotus-serif);
   --lotus-prose-leading: 1.78;
+}
+
+.lotus-prose :where(h1, h2, h3, h4) {
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .lotus-prose :where(blockquote) {

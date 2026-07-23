@@ -132,18 +132,18 @@ const defaultPreset = presetsWithCss[0];
           </button>
         </div>
 
-        <div class="mt-5 grid gap-3 sm:grid-cols-3">
+        <div class="lotus-prose mt-5 grid gap-3 sm:grid-cols-3">
           <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) bg-(--lotus-background) p-3">
-            <span class="text-xs font-medium text-(--lotus-text-muted)">Background</span>
-            <strong class="mt-2 block text-sm text-(--lotus-text-strong)">Page shell</strong>
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Heading</span>
+            <strong class="style-presets__heading mt-2 block text-xl leading-tight text-(--lotus-text-strong)">Readable docs</strong>
           </div>
           <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) bg-(--lotus-code-background) p-3">
-            <span class="text-xs font-medium text-(--lotus-text-muted)">Code</span>
-            <code class="mt-2 block text-sm text-(--lotus-text-strong)">const theme = 'lotus'</code>
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Body</span>
+            <p class="mt-2 text-sm leading-6 text-(--lotus-text)">A compact paragraph shows the prose rhythm.</p>
           </div>
           <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-accent) bg-(--lotus-accent-soft) p-3">
-            <span class="text-xs font-medium text-(--lotus-text-muted)">Accent</span>
-            <strong class="mt-2 block text-sm text-(--lotus-accent)">Active state</strong>
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Code</span>
+            <code class="style-presets__code mt-2 block text-sm text-(--lotus-accent)">const theme = 'lotus'</code>
           </div>
         </div>
       </div>
@@ -233,3 +233,13 @@ const defaultPreset = presetsWithCss[0];
   initStylePresets();
   document.addEventListener('astro:page-load', initStylePresets);
 </script>
+
+<style>
+  .style-presets__heading {
+    font-family: var(--lotus-prose-font-heading);
+  }
+
+  .style-presets__code {
+    font-family: var(--lotus-prose-font-mono);
+  }
+</style>
