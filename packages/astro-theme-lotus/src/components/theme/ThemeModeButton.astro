@@ -13,20 +13,20 @@ const t = Astro.locals.t;
 >
   <button
     aria-label={t('themeSelect.cycle')}
-    class="lotus-focus-ring lotus-border-muted inline-flex h-9 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-sm font-medium text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
+    class="lotus-focus-ring lotus-border-muted inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) border text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
     data-theme-cycle
+    title={t('themeSelect.cycle')}
     type="button"
   >
     <span data-theme-mode-icon="system">
-      <Icon aria-hidden="true" class="block h-3.5 w-3.5" name="lucide:monitor" />
+      <Icon aria-hidden="true" class="block h-4 w-4" name="lucide:monitor" />
     </span>
     <span data-theme-mode-icon="light" hidden>
-      <Icon aria-hidden="true" class="block h-3.5 w-3.5" name="lucide:sun" />
+      <Icon aria-hidden="true" class="block h-4 w-4" name="lucide:sun" />
     </span>
     <span data-theme-mode-icon="dark" hidden>
-      <Icon aria-hidden="true" class="block h-3.5 w-3.5" name="lucide:moon" />
+      <Icon aria-hidden="true" class="block h-4 w-4" name="lucide:moon" />
     </span>
-    <span class="hidden sm:inline" data-theme-current>{t('themeSelect.auto')}</span>
   </button>
 </div>
 
