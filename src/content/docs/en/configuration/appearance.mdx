@@ -6,7 +6,7 @@ description: Configure color, theme mode, radius, and font tokens.
 
 import AppearanceConfigDemo from '@/components/AppearanceConfigDemo.astro';
 import AccentColors from '@/components/AccentColors.astro';
-import BackgroundTextColors from '@/components/BackgroundTextColors.astro';
+import StylePresets from '@/components/StylePresets.astro';
 import ThemeSwitchVariantDemo from '@/components/ThemeSwitchVariantDemo.astro';
 
 `appearance` controls the document attributes and design tokens used by Lotus
@@ -78,20 +78,29 @@ Lotus renders this as a document attribute such as `data-gray="neutral"` and
 maps semantic tokens like `--lotus-text`, `--lotus-text-muted`,
 `--lotus-background`, and `--lotus-surface` from that scale.
 
-## Background and Text
+## Style Presets
 
 Background and text colors are not separate `appearance` fields. Lotus derives
 them from the selected `gray` scale and color mode, then exposes the result as
 CSS variables.
 
-Use CSS variable overrides when a project needs brand-level background or text
-colors. The preset chooser below applies the generated variables to the current
-`<body>` while you preview a combination, but it does not store the selection:
+Use CSS variable overrides when a project needs a stronger brand direction. The
+preset chooser below applies copyable example CSS to the current page while you
+preview the result:
 
-<BackgroundTextColors />
+<StylePresets />
 
-Preset names are descriptive examples, not Lotus API values. Copy the generated
-CSS variables instead of depending on the preset labels.
+Preset names are descriptive examples, not Lotus API values. Copy a preset from
+`src/styles/presets/` into your project, adjust it, and load it with
+`head`:
+
+```json title="theme.config.json"
+{
+  "head": [
+    { "tag": "style", "src": "./src/styles/presets/claude.css" }
+  ]
+}
+```
 
 The most important variables are:
 

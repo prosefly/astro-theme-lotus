@@ -1,4 +1,4 @@
-.lotus-prose :where(:not(pre) > code) {
+.lotus-prose :where(:not(pre) > code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-code-background);
   border-radius: var(--lotus-radius-sm);
   color: var(--lotus-text-strong);
@@ -8,7 +8,7 @@
   padding: 0.15em 0.35em;
 }
 
-.lotus-prose :where(pre) {
+.lotus-prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-code-background);
   border: 1px solid var(--lotus-code-border);
   border-radius: var(--lotus-prose-surface-radius);
@@ -21,7 +21,7 @@
   padding: 0.8571429em 1.1428571em;
 }
 
-.lotus-prose :where(pre code) {
+.lotus-prose :where(pre code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: transparent;
   border-radius: 0;
   color: inherit;

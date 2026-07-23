@@ -107,7 +107,7 @@
   vertical-align: 0.05em;
 }
 
-.lotus-prose :where(code, kbd, pre, samp) {
+.lotus-prose :where(code, kbd, pre, samp):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   direction: ltr;
   text-align: left;
   unicode-bidi: isolate;

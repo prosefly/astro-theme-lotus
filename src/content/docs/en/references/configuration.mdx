@@ -43,6 +43,26 @@ replace the JSON value when provided.
 Component overrides are integration-only. Configure `components` in
 `astro.config.ts`, not in `theme.config.json`.
 
+## Head Entries
+
+Use `head` for global tags that should appear on every page, such as Open Graph
+defaults, Twitter cards, verification tags, external assets, scripts, or project
+CSS overrides:
+
+```json title="theme.config.json"
+{
+  "head": [
+    { "tag": "meta", "attrs": { "property": "og:site_name", "content": "My Docs" } },
+    { "tag": "meta", "attrs": { "property": "og:image", "content": "https://example.com/og.png" } },
+    { "tag": "meta", "attrs": { "name": "twitter:card", "content": "summary_large_image" } },
+    { "tag": "style", "src": "./src/styles/lotus.css" }
+  ]
+}
+```
+
+`style.src` entries are resolved from the project root and loaded after Lotus
+styles. Page frontmatter `head` entries are merged after global entries.
+
 ## Options
 
 | Field | Default | See |
@@ -69,6 +89,7 @@ Component overrides are integration-only. Configure `components` in
 | `editLink` | hidden | [Source](/docs/configuration/source/#edit-links) |
 | `contributors` | `false` | [Source](/docs/configuration/source/#contributors) |
 | `components` | `{}` in `lotus({...})` only | [Overriding Components](/docs/customization/overriding-components/) |
+| `head` | `[]` | [CSS & Styling](/docs/customization/css-styling/) |
 | `credits` | `true` | [Footer](/docs/configuration/footer/#credits) |
 | `iconify` | default Iconify API, scan enabled | [Integrations](/docs/configuration/integrations/#iconify) |
 | `markdown` | all transforms enabled, Expressive Code defaults | [Integrations](/docs/configuration/integrations/) |

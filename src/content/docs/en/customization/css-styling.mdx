@@ -23,12 +23,57 @@ appearance: {
 Use semantic tokens only when a project needs lower-level CSS overrides for
 surfaces, text, or component geometry.
 
+Create a project CSS file:
+
+```css title="src/styles/lotus.css"
+:root {
+  --lotus-background: oklch(99% 0.01 82);
+  --lotus-surface: oklch(96% 0.02 82);
+  --lotus-text-strong: oklch(24% 0.03 58);
+  --lotus-text: oklch(35% 0.03 58);
+  --lotus-text-muted: oklch(49% 0.026 58);
+  --lotus-accent: oklch(50% 0.115 52);
+  --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 11%, var(--lotus-background));
+}
+```
+
+Load it through `theme.config.json`:
+
+```json title="theme.config.json"
+{
+  "head": [
+    { "tag": "style", "src": "./src/styles/lotus.css" }
+  ]
+}
+```
+
+`head` entries with `tag: "style"` and `src` load CSS files after Lotus default
+styles. Relative paths are resolved from the project root.
+
 ```css
 :root {
   --lotus-surface: color-mix(in oklab, var(--lotus-gray-100) 70%, white);
   --lotus-radius-md: 0.5rem;
 }
 ```
+
+## Copyable presets
+
+The Lotus repository includes copyable CSS examples outside the published
+package:
+
+```txt
+src/styles/presets/
+  claude.css
+  github.css
+  linear.css
+  neutral.css
+  stripe.css
+  vercel.css
+```
+
+Copy one into your project, adjust the tokens, and load it with a `head`
+`style.src` entry. These presets are examples, not package exports.
 
 ## Component bridge
 

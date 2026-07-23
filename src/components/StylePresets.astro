@@ -1,0 +1,235 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface StylePreset {
+  name: string;
+  file: string;
+  description: string;
+  tone: string;
+}
+
+const presets: StylePreset[] = [
+  {
+    name: 'Claude',
+    file: 'claude.css',
+    description: 'Warm editorial surface with amber-brown accent and soft prose.',
+    tone: 'Warm',
+  },
+  {
+    name: 'Linear',
+    file: 'linear.css',
+    description: 'Cool gray interface with compact radius and a precise purple accent.',
+    tone: 'Minimal',
+  },
+  {
+    name: 'GitHub',
+    file: 'github.css',
+    description: 'Familiar open-source documentation palette with blue links.',
+    tone: 'Open source',
+  },
+  {
+    name: 'Vercel',
+    file: 'vercel.css',
+    description: 'High-contrast black and white with tighter geometry.',
+    tone: 'Monochrome',
+  },
+  {
+    name: 'Stripe',
+    file: 'stripe.css',
+    description: 'Bright product-docs palette with a vivid purple accent.',
+    tone: 'Product',
+  },
+  {
+    name: 'Neutral',
+    file: 'neutral.css',
+    description: 'Quiet grayscale baseline for projects that want almost no brand color.',
+    tone: 'Neutral',
+  },
+];
+
+function extractCssVariable(css: string, name: string) {
+  const match = css.match(new RegExp(`${name}:\\s*([^;]+);`));
+  return match?.[1]?.trim();
+}
+
+const presetsWithCss = presets.map((preset) => ({
+  ...preset,
+  css: readFileSync(
+    join(process.cwd(), 'src', 'styles', 'presets', preset.file),
+    'utf8',
+  ).trim(),
+})).map((preset) => ({
+  ...preset,
+  swatches: [
+    extractCssVariable(preset.css, '--lotus-background'),
+    extractCssVariable(preset.css, '--lotus-accent'),
+    extractCssVariable(preset.css, '--lotus-text-strong'),
+  ].filter((color): color is string => Boolean(color)),
+}));
+
+const defaultPreset = presetsWithCss[0];
+---
+
+<div
+  class="style-presets not-prose my-6 overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-muted) bg-(--lotus-background)"
+  data-style-presets
+>
+  <div class="grid min-w-0 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+    <div class="min-w-0 border-b border-(--lotus-border-subtle) p-4 lg:border-b-0 lg:border-r">
+      <p class="text-xs font-medium uppercase tracking-wide text-(--lotus-text-muted)">Style presets</p>
+      <h3 class="mt-2 text-lg font-semibold text-(--lotus-text-strong)">Preview a custom CSS preset</h3>
+      <p class="mt-2 text-sm leading-6 text-(--lotus-text-muted)">
+        These presets are copyable examples from <code>src/styles/presets</code>.
+        Selecting one temporarily applies its CSS to this page.
+      </p>
+
+      <div class="mt-5 grid min-w-0 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        {presetsWithCss.map((preset) => (
+          <button
+            class="lotus-focus-ring group min-w-0 rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) p-3 text-left transition hover:border-(--lotus-border-hover) data-active:border-(--lotus-accent)"
+            data-preset-button
+            data-preset-css={preset.css}
+            data-preset-file={preset.file}
+            data-preset-name={preset.name}
+            type="button"
+          >
+            <span class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+              <span class="min-w-0 text-sm font-semibold text-(--lotus-text-strong)">{preset.name}</span>
+              <span class="shrink-0 rounded-[min(var(--lotus-radius-sm),0.375rem)] bg-(--lotus-surface) px-1.5 py-0.5 text-xs font-medium text-(--lotus-text-muted)">
+                {preset.tone}
+              </span>
+            </span>
+            <span class="mt-2 block text-xs leading-5 text-(--lotus-text-muted)">{preset.description}</span>
+            <span class="mt-3 flex gap-1.5" aria-hidden="true">
+              {preset.swatches.map((swatch) => (
+                <span
+                  class="h-4 w-4 rounded-full border border-(--lotus-border-subtle)"
+                  style={`background: ${swatch};`}
+                />
+              ))}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="min-w-0 p-4">
+      <div class="rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-subtle) bg-(--lotus-surface) p-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-wide text-(--lotus-text-muted)">Current preset</p>
+            <h3 class="mt-1 text-xl font-semibold text-(--lotus-text-strong)" data-style-preset-title>
+              Select a preset
+            </h3>
+          </div>
+          <button
+            class="lotus-focus-ring rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-muted) px-3 py-2 text-sm font-medium text-(--lotus-text-strong) transition hover:border-(--lotus-border-hover)"
+            data-style-preset-reset
+            type="button"
+          >
+            Reset page
+          </button>
+        </div>
+
+        <div class="mt-5 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) bg-(--lotus-background) p-3">
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Background</span>
+            <strong class="mt-2 block text-sm text-(--lotus-text-strong)">Page shell</strong>
+          </div>
+          <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) bg-(--lotus-code-background) p-3">
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Code</span>
+            <code class="mt-2 block text-sm text-(--lotus-text-strong)">const theme = 'lotus'</code>
+          </div>
+          <div class="rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-accent) bg-(--lotus-accent-soft) p-3">
+            <span class="text-xs font-medium text-(--lotus-text-muted)">Accent</span>
+            <strong class="mt-2 block text-sm text-(--lotus-accent)">Active state</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-subtle) bg-(--lotus-background)">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-(--lotus-border-subtle) px-4 py-3">
+          <p class="text-sm font-medium text-(--lotus-text-strong)">Copy into your project</p>
+          <code class="text-xs text-(--lotus-text-muted)" data-style-preset-file>{defaultPreset.file}</code>
+        </div>
+        <pre class="m-0 max-h-96 overflow-auto rounded-none border-0 bg-(--lotus-code-background) p-4 font-mono text-xs leading-6 text-(--lotus-text)"><code class="m-0 block whitespace-pre bg-transparent p-0 font-inherit text-inherit" data-style-preset-code>{defaultPreset.css}</code></pre>
+      </div>
+
+      <pre class="mt-4 m-0 overflow-x-auto rounded-[min(var(--lotus-radius-md),0.625rem)] border border-(--lotus-border-subtle) bg-(--lotus-code-background) p-3 font-mono text-xs leading-6 text-(--lotus-text)"><code class="m-0 block whitespace-pre bg-transparent p-0 font-inherit text-inherit" data-style-preset-config>{`{
+  "head": [
+    { "tag": "style", "src": "./src/styles/presets/${defaultPreset.file}" }
+  ]
+}`}</code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  const styleElementId = 'lotus-style-preset-preview';
+
+  function setPresetCss(css: string) {
+    let style = document.getElementById(styleElementId);
+
+    if (!style) {
+      style = document.createElement('style');
+      style.id = styleElementId;
+      document.head.append(style);
+    }
+
+    style.textContent = css;
+  }
+
+  function resetPresetCss() {
+    document.getElementById(styleElementId)?.remove();
+  }
+
+  function initStylePresets() {
+    document.querySelectorAll<HTMLElement>('[data-style-presets]').forEach((demo) => {
+      if (demo.dataset.ready === 'true') {
+        return;
+      }
+
+      demo.dataset.ready = 'true';
+      const title = demo.querySelector<HTMLElement>('[data-style-preset-title]');
+      const fileLabel = demo.querySelector<HTMLElement>('[data-style-preset-file]');
+      const code = demo.querySelector<HTMLElement>('[data-style-preset-code]');
+      const config = demo.querySelector<HTMLElement>('[data-style-preset-config]');
+
+      demo.querySelectorAll<HTMLButtonElement>('[data-preset-button]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const css = button.dataset.presetCss ?? '';
+          const name = button.dataset.presetName ?? 'Preset';
+          const file = button.dataset.presetFile ?? 'lotus.css';
+
+          setPresetCss(css);
+          demo.querySelectorAll('[data-preset-button]').forEach((item) => {
+            item.toggleAttribute('data-active', item === button);
+          });
+
+          if (title) title.textContent = name;
+          if (fileLabel) fileLabel.textContent = file;
+          if (code) code.textContent = css;
+          if (config) {
+            config.textContent = `{
+  "head": [
+    { "tag": "style", "src": "./src/styles/presets/${file}" }
+  ]
+}`;
+          }
+        });
+      });
+
+      demo.querySelector<HTMLButtonElement>('[data-style-preset-reset]')?.addEventListener('click', () => {
+        resetPresetCss();
+        demo.querySelectorAll('[data-preset-button]').forEach((item) => {
+          item.toggleAttribute('data-active', false);
+        });
+        if (title) title.textContent = 'Select a preset';
+      });
+    });
+  }
+
+  initStylePresets();
+  document.addEventListener('astro:page-load', initStylePresets);
+</script>

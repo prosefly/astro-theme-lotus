@@ -1,0 +1,65 @@
+:root,
+:root[data-accent],
+:root[data-gray],
+:root[data-accent][data-gray] {
+  --lotus-background: oklch(99.2% 0 0);
+  --lotus-surface: oklch(96.8% 0 0);
+  --lotus-text-strong: oklch(20% 0 0);
+  --lotus-text: oklch(36% 0 0);
+  --lotus-text-muted: oklch(50% 0 0);
+  --lotus-text-subtle: oklch(64% 0 0);
+  --lotus-border-muted: color-mix(in oklab, oklch(68% 0 0) 38%, transparent);
+  --lotus-border-subtle: color-mix(in oklab, oklch(74% 0 0) 24%, transparent);
+  --lotus-border-hover: color-mix(in oklab, oklch(60% 0 0) 54%, transparent);
+  --lotus-code-background: oklch(97.2% 0 0);
+  --lotus-code-border: color-mix(in oklab, oklch(68% 0 0) 28%, transparent);
+  --lotus-accent: oklch(44% 0 0);
+  --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 8%, var(--lotus-background));
+  --lotus-accent-contrast: white;
+}
+
+.lotus-prose {
+  --lotus-prose-leading: 1.72;
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"][data-accent],
+:root[data-theme="dark"][data-gray],
+:root[data-theme="dark"][data-accent][data-gray] {
+  --lotus-background: oklch(16% 0 0);
+  --lotus-surface: oklch(21% 0 0);
+  --lotus-text-strong: oklch(96% 0 0);
+  --lotus-text: oklch(84% 0 0);
+  --lotus-text-muted: oklch(66% 0 0);
+  --lotus-text-subtle: oklch(52% 0 0);
+  --lotus-border-muted: color-mix(in oklab, oklch(62% 0 0) 30%, transparent);
+  --lotus-border-subtle: color-mix(in oklab, oklch(62% 0 0) 18%, transparent);
+  --lotus-border-hover: color-mix(in oklab, oklch(70% 0 0) 44%, transparent);
+  --lotus-code-background: oklch(13% 0 0);
+  --lotus-code-border: color-mix(in oklab, oklch(62% 0 0) 26%, transparent);
+  --lotus-accent: oklch(86% 0 0);
+  --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background));
+  --lotus-accent-contrast: oklch(14% 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"],
+  :root[data-theme="system"][data-accent],
+  :root[data-theme="system"][data-gray],
+  :root[data-theme="system"][data-accent][data-gray] {
+    --lotus-background: oklch(16% 0 0);
+    --lotus-surface: oklch(21% 0 0);
+    --lotus-text-strong: oklch(96% 0 0);
+    --lotus-text: oklch(84% 0 0);
+    --lotus-text-muted: oklch(66% 0 0);
+    --lotus-text-subtle: oklch(52% 0 0);
+    --lotus-border-muted: color-mix(in oklab, oklch(62% 0 0) 30%, transparent);
+    --lotus-border-subtle: color-mix(in oklab, oklch(62% 0 0) 18%, transparent);
+    --lotus-border-hover: color-mix(in oklab, oklch(70% 0 0) 44%, transparent);
+    --lotus-code-background: oklch(13% 0 0);
+    --lotus-code-border: color-mix(in oklab, oklch(62% 0 0) 26%, transparent);
+    --lotus-accent: oklch(86% 0 0);
+    --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background));
+    --lotus-accent-contrast: oklch(14% 0 0);
+  }
+}

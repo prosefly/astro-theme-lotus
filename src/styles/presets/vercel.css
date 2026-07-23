@@ -1,0 +1,75 @@
+:root,
+:root[data-accent],
+:root[data-gray],
+:root[data-accent][data-gray] {
+  --lotus-background: #ffffff;
+  --lotus-surface: #fafafa;
+  --lotus-text-strong: #000000;
+  --lotus-text: #333333;
+  --lotus-text-muted: #666666;
+  --lotus-text-subtle: #888888;
+  --lotus-border-muted: #d9d9d9;
+  --lotus-border-subtle: #eaeaea;
+  --lotus-border-hover: #999999;
+  --lotus-code-background: #fafafa;
+  --lotus-code-border: #eaeaea;
+  --lotus-accent: #000000;
+  --lotus-accent-soft: #f2f2f2;
+  --lotus-accent-contrast: #ffffff;
+}
+
+:root[data-radius] {
+  --lotus-radius-sm: 0.125rem;
+  --lotus-radius-md: 0.25rem;
+  --lotus-radius-lg: 0.5rem;
+}
+
+.lotus-prose :where(h1, h2, h3, h4) {
+  font-weight: 700;
+}
+
+.lotus-prose :where(a) {
+  text-decoration-color: currentColor;
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"][data-accent],
+:root[data-theme="dark"][data-gray],
+:root[data-theme="dark"][data-accent][data-gray] {
+  --lotus-background: #000000;
+  --lotus-surface: #111111;
+  --lotus-text-strong: #ffffff;
+  --lotus-text: #ededed;
+  --lotus-text-muted: #a1a1a1;
+  --lotus-text-subtle: #737373;
+  --lotus-border-muted: #333333;
+  --lotus-border-subtle: #1f1f1f;
+  --lotus-border-hover: #555555;
+  --lotus-code-background: #0a0a0a;
+  --lotus-code-border: #262626;
+  --lotus-accent: #ffffff;
+  --lotus-accent-soft: #1a1a1a;
+  --lotus-accent-contrast: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"],
+  :root[data-theme="system"][data-accent],
+  :root[data-theme="system"][data-gray],
+  :root[data-theme="system"][data-accent][data-gray] {
+    --lotus-background: #000000;
+    --lotus-surface: #111111;
+    --lotus-text-strong: #ffffff;
+    --lotus-text: #ededed;
+    --lotus-text-muted: #a1a1a1;
+    --lotus-text-subtle: #737373;
+    --lotus-border-muted: #333333;
+    --lotus-border-subtle: #1f1f1f;
+    --lotus-border-hover: #555555;
+    --lotus-code-background: #0a0a0a;
+    --lotus-code-border: #262626;
+    --lotus-accent: #ffffff;
+    --lotus-accent-soft: #1a1a1a;
+    --lotus-accent-contrast: #000000;
+  }
+}

@@ -1,0 +1,69 @@
+:root,
+:root[data-accent],
+:root[data-gray],
+:root[data-accent][data-gray] {
+  --lotus-background: #ffffff;
+  --lotus-surface: #f6f8fa;
+  --lotus-text-strong: #1f2328;
+  --lotus-text: #3d444d;
+  --lotus-text-muted: #59636e;
+  --lotus-text-subtle: #818b98;
+  --lotus-border-muted: #d1d9e0;
+  --lotus-border-subtle: #d8dee4;
+  --lotus-border-hover: #b6c2cf;
+  --lotus-code-background: #f6f8fa;
+  --lotus-code-border: #d8dee4;
+  --lotus-accent: #0969da;
+  --lotus-accent-soft: #ddf4ff;
+  --lotus-accent-contrast: #ffffff;
+}
+
+.lotus-prose :where(a) {
+  text-decoration-thickness: 1px;
+}
+
+.lotus-prose :where(:not(pre) > code) {
+  font-weight: 500;
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"][data-accent],
+:root[data-theme="dark"][data-gray],
+:root[data-theme="dark"][data-accent][data-gray] {
+  --lotus-background: #0d1117;
+  --lotus-surface: #161b22;
+  --lotus-text-strong: #f0f6fc;
+  --lotus-text: #c9d1d9;
+  --lotus-text-muted: #8b949e;
+  --lotus-text-subtle: #6e7681;
+  --lotus-border-muted: #30363d;
+  --lotus-border-subtle: #21262d;
+  --lotus-border-hover: #484f58;
+  --lotus-code-background: #161b22;
+  --lotus-code-border: #30363d;
+  --lotus-accent: #58a6ff;
+  --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
+  --lotus-accent-contrast: #0d1117;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"],
+  :root[data-theme="system"][data-accent],
+  :root[data-theme="system"][data-gray],
+  :root[data-theme="system"][data-accent][data-gray] {
+    --lotus-background: #0d1117;
+    --lotus-surface: #161b22;
+    --lotus-text-strong: #f0f6fc;
+    --lotus-text: #c9d1d9;
+    --lotus-text-muted: #8b949e;
+    --lotus-text-subtle: #6e7681;
+    --lotus-border-muted: #30363d;
+    --lotus-border-subtle: #21262d;
+    --lotus-border-hover: #484f58;
+    --lotus-code-background: #161b22;
+    --lotus-code-border: #30363d;
+    --lotus-accent: #58a6ff;
+    --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
+    --lotus-accent-contrast: #0d1117;
+  }
+}
