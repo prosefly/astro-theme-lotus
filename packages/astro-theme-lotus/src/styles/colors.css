@@ -97,6 +97,8 @@
   --lotus-accent-dark: oklch(0.68 0.18 264);
 
   --lotus-background: oklch(1 0 0);
+  --lotus-header-background: var(--lotus-background);
+  --lotus-footer-background: var(--lotus-background);
   --lotus-text-strong: var(--lotus-gray-900);
   --lotus-text: var(--lotus-gray-700);
   --lotus-text-muted: var(--lotus-gray-600);

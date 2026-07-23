@@ -37,6 +37,7 @@
   --ec-frm-inlBtnBg: var(--lotus-surface);
   --ec-frm-inlBtnBrd: var(--lotus-border-muted);
   --ec-frm-inlBtnFg: var(--lotus-text-muted);
+  --lotus-code-header-height: 2.25rem;
 }
 
 .lotus-prose .expressive-code .frame {
@@ -49,7 +50,44 @@
 }
 
 .lotus-prose .expressive-code .frame .header {
+  background: var(--lotus-background);
   border-radius: var(--lotus-prose-surface-radius) var(--lotus-prose-surface-radius) 0 0;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header {
+  align-items: center;
+  display: flex;
+  min-height: var(--lotus-code-header-height);
+  padding-block: 0;
+  padding-inline-start: var(--ec-uiPadInl);
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header::before {
+  border: var(--ec-brdWd) solid var(--lotus-code-border);
+  border-bottom: none;
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header::after {
+  background: var(--lotus-border-subtle);
+  block-size: var(--ec-brdWd);
+  content: "";
+  inset-block-end: 0;
+  inset-inline: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) pre,
+.lotus-prose .expressive-code .frame:not(.is-terminal) code {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
@@ -57,12 +95,7 @@
   --button-spacing: 0.125rem;
 }
 
-.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) {
-  --lotus-code-header-padding-block: 0.5rem;
-}
-
 .lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .header {
-  padding-block: var(--lotus-code-header-padding-block);
   padding-inline-start: var(--ec-uiPadInl);
   padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
 }
