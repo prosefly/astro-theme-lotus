@@ -1,0 +1,165 @@
+.lotus-prose .expressive-code {
+  --ec-brdRad: var(--lotus-prose-surface-radius);
+  --ec-frm-edActTabBg: var(--lotus-background);
+  --ec-frm-edActTabIndBtmCol: var(--lotus-background);
+  --ec-frm-edTabBrdRad: var(--lotus-prose-surface-radius);
+  --ec-frm-edTabBarBg: var(--lotus-background);
+  --ec-frm-edTabBarBrdBtmCol: var(--lotus-border-subtle);
+  --ec-frm-frameBoxShdCssVal: none;
+  --ec-frm-inlBtnBg: var(--lotus-surface);
+  --ec-frm-inlBtnBrd: var(--lotus-border-muted);
+  --ec-frm-inlBtnFg: var(--lotus-text-muted);
+  --ec-frm-trmTtbBg: var(--lotus-background);
+  --ec-frm-trmTtbBrdBtmCol: var(--lotus-border-subtle);
+}
+
+.lotus-prose .expressive-code .frame {
+  --button-spacing: calc((var(--lotus-code-header-height) - 2rem) / 2);
+
+  border-radius: var(--lotus-prose-surface-radius);
+  box-shadow: none;
+}
+
+.lotus-prose .expressive-code pre {
+  border-radius: var(--lotus-prose-surface-radius);
+}
+
+.lotus-prose .expressive-code .frame .header {
+  align-items: center;
+  background: var(--lotus-background);
+  block-size: var(--lotus-code-header-height);
+  border-radius: var(--lotus-prose-surface-radius) var(--lotus-prose-surface-radius) 0 0;
+  box-sizing: border-box;
+  display: flex;
+  min-block-size: var(--lotus-code-header-height);
+  padding-block: 0;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header,
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .header {
+  background: var(--lotus-background);
+  padding-inline-start: var(--ec-uiPadInl);
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header::before {
+  border: var(--ec-brdWd) solid var(--lotus-code-border);
+  border-bottom: none;
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) .header::after {
+  background: var(--lotus-border-subtle);
+  block-size: var(--ec-brdWd);
+  content: "";
+  inset-block-end: 0;
+  inset-inline: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.lotus-prose .expressive-code .frame:not(.is-terminal) pre,
+.lotus-prose .expressive-code .frame:not(.is-terminal) code {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
+.lotus-prose .expressive-code .frame.is-terminal {
+  --button-spacing: calc((var(--lotus-code-header-height) - 2rem) / 2);
+}
+
+.lotus-prose .expressive-code .frame .pf-code-header-language,
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--lotus-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+  content: none;
+}
+
+.lotus-prose .expressive-code .frame.is-terminal .header {
+  background: var(--lotus-background);
+  padding-block: 0;
+  padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
+}
+
+.lotus-prose .expressive-code .copy {
+  inset-block-start: calc(var(--ec-brdWd) + (var(--lotus-code-header-height) - 2rem) / 2);
+}
+
+.lotus-prose .expressive-code .copy button {
+  background: transparent;
+  border-radius: var(--lotus-radius-md);
+  height: 2rem;
+  width: 2rem;
+}
+
+.lotus-prose .expressive-code .copy button div {
+  background: var(--lotus-surface);
+  opacity: 0;
+}
+
+.lotus-prose .expressive-code .copy button::before {
+  border-color: transparent;
+  opacity: 0;
+}
+
+.lotus-prose .expressive-code .copy button::after {
+  background-color: var(--lotus-text-muted);
+  margin: 0.5rem;
+}
+
+.lotus-prose .expressive-code .copy button:hover,
+.lotus-prose .expressive-code .copy button:focus-visible {
+  opacity: 1;
+}
+
+.lotus-prose .expressive-code .copy button:hover div,
+.lotus-prose .expressive-code .copy button:focus-visible div {
+  opacity: 1;
+}
+
+.lotus-prose .expressive-code .copy button:hover::after,
+.lotus-prose .expressive-code .copy button:focus-visible::after {
+  background-color: var(--lotus-text-strong);
+}
+
+.lotus-prose .expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--lotus-accent);
+  outline-offset: 2px;
+}
+
+.lotus-prose .expressive-code .copy .feedback {
+  --tooltip-bg: var(--lotus-text-strong);
+
+  background-color: var(--lotus-text-strong);
+  border-radius: var(--lotus-radius-md);
+  color: var(--lotus-background);
+}
+
+@media (hover: hover) {
+  .lotus-prose .expressive-code .copy button {
+    opacity: 0;
+  }
+
+  .lotus-prose .expressive-code .frame:hover .copy button:not(:hover),
+  .lotus-prose .expressive-code .frame:focus-within .copy button,
+  .lotus-prose .expressive-code .frame .copy .feedback.show ~ button:not(:hover) {
+    opacity: 1;
+  }
+}

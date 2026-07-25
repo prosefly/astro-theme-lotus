@@ -14,6 +14,7 @@ const styleFileUrls = [
   new URL('../styles/prose/footnotes.css', import.meta.url),
   new URL('../styles/prose/blocks.css', import.meta.url),
   new URL('../styles/prose/code.css', import.meta.url),
+  new URL('../styles/prose/expressive-code.css', import.meta.url),
   new URL('../styles/prose/media.css', import.meta.url),
   new URL('../styles/components.css', import.meta.url),
 ];

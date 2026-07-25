@@ -62,18 +62,31 @@ const html = await highlightCode(highlightedCode, lang);
   }
 
   .lotus-code-block__header {
+    align-items: center;
+    background: var(--lotus-background);
     border-block-end: 1px solid var(--lotus-code-border);
+    block-size: var(--lotus-code-header-height);
+    box-sizing: border-box;
     color: var(--lotus-text-muted);
+    display: flex;
     font-family: var(--lotus-font-sans);
     font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.25rem;
-    padding: 0.5rem 1rem;
+    min-block-size: var(--lotus-code-header-height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 1rem;
   }
 
   .lotus-code-block__body {
     max-width: 100%;
     overflow-x: auto;
+  }
+
+  .lotus-code-block__body > pre {
+    border: none;
+    border-radius: 0;
   }
 
   .lotus-code-block .shiki {

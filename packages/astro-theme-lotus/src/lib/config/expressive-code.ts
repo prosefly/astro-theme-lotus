@@ -1,4 +1,5 @@
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
+import { expressiveCodeHeaderIcons } from '@prosefly/astro-components/expressive-code';
 import {
   mergeEcConfigOptions,
   type AstroExpressiveCodeOptions,
@@ -18,7 +19,7 @@ const lucideCopyIcon = createInlineSvgUrl([
 
 const defaultExpressiveCodeOptions: AstroExpressiveCodeOptions = {
   themes: ['github-light', 'github-dark'],
-  plugins: [pluginLineNumbers()],
+  plugins: [pluginLineNumbers(), expressiveCodeHeaderIcons()],
   defaultProps: {
     showLineNumbers: false,
   },
