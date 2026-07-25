@@ -34,8 +34,8 @@ importers:
         version: 6.0.3
     devDependencies:
       '@prosefly/astro-components':
-        specifier: ^0.4.1
-        version: 0.4.1(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
+        specifier: ^0.5.0
+        version: 0.5.0(@expressive-code/core@0.44.0)(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       vitest:
         specifier: ^4.1.10
         version: 4.1.10(@types/node@26.1.1)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
@@ -52,8 +52,8 @@ importers:
         specifier: ^0.44.0
         version: 0.44.0
       '@prosefly/astro-components':
-        specifier: ^0.4.1
-        version: 0.4.1(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
+        specifier: ^0.5.0
+        version: 0.5.0(@expressive-code/core@0.44.0)(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       '@tailwindcss/vite':
         specifier: latest
         version: 4.3.3(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
@@ -729,10 +729,14 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@prosefly/astro-components@0.4.1':
-    resolution: {integrity: sha512-kmC0D5J+y8X/dj+W3tbJuUeavee6XYxCasFwE8093PbrhEmYKND1Tokhql9ms+XL130RpIjxostGexKY+vesew==}
+  '@prosefly/astro-components@0.5.0':
+    resolution: {integrity: sha512-cN49+eMmyfVfK+VpBzF4SsybJWUKZ2g4FDAY/yuxvxGXRf4HL9Qh9dasF1yvdGQGd4ssFs3Ut4n0oalLYUo5rw==}
     peerDependencies:
+      '@expressive-code/core': ^0.44.0
       astro: ^7.0.0
+    peerDependenciesMeta:
+      '@expressive-code/core':
+        optional: true
 
   '@rolldown/binding-android-arm64@1.1.5':
     resolution: {integrity: sha512-lZg8fqIv2v7FF237bwMgzGZEJvGL79/s5knJ/i6FmsGF4XXlzccZ4jb+TrFIxtSSxFtIpdsgrPZeMk1I9AFcyQ==}
@@ -3319,7 +3323,7 @@ snapshots:
   '@pagefind/windows-x64@1.5.2':
     optional: true
 
-  '@prosefly/astro-components@0.4.1(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))':
+  '@prosefly/astro-components@0.5.0(@expressive-code/core@0.44.0)(astro@7.1.2(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@astrojs/markdown-remark': 7.2.1
       '@iconify/utils': 3.1.4
@@ -3327,6 +3331,8 @@ snapshots:
       rehype: 13.0.2
       rehype-format: 5.0.1
       remark-directive: 4.0.0
+    optionalDependencies:
+      '@expressive-code/core': 0.44.0
     transitivePeerDependencies:
       - supports-color
 
