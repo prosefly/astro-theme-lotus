@@ -13,10 +13,10 @@ declare global {
 }
 
 function initSearchDialog(): void {
-  const dialog = document.querySelector('[data-lotus-search-dialog]');
-  const input = dialog?.querySelector<HTMLInputElement>('[data-lotus-search-input]');
-  const results = dialog?.querySelector<HTMLElement>('[data-lotus-search-results]');
-  const triggers = Array.from(document.querySelectorAll('[data-lotus-search-trigger]'));
+  const dialog = document.querySelector('[data-search-dialog]');
+  const input = dialog?.querySelector<HTMLInputElement>('[data-search-input]');
+  const results = dialog?.querySelector<HTMLElement>('[data-search-results]');
+  const triggers = Array.from(document.querySelectorAll('[data-search-trigger]'));
 
   if (!(dialog instanceof HTMLDialogElement) || !input || !results || !triggers.length) {
     return;
@@ -42,7 +42,7 @@ function initSearchDialog(): void {
   };
 
   const updateSelectedResult = () => {
-    const links = Array.from(results.querySelectorAll('[data-lotus-search-result]'));
+    const links = Array.from(results.querySelectorAll('[data-search-result]'));
 
     links.forEach((link, index) => {
       const isActive = index === selectedIndex;
@@ -171,8 +171,8 @@ function initSearchDialog(): void {
     trigger.addEventListener('click', openDialog);
   });
 
-  dialog.querySelector('[data-lotus-search-close]')?.addEventListener('click', closeDialog);
-  dialog.querySelector('[data-lotus-search-form]')?.addEventListener('submit', (event) => {
+  dialog.querySelector('[data-search-close]')?.addEventListener('click', closeDialog);
+  dialog.querySelector('[data-search-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     navigateToSelectedResult();
   });

@@ -40,7 +40,7 @@ function loadScript(src: string): Promise<void> {
     return Promise.resolve();
   }
 
-  const existing = document.querySelector<HTMLScriptElement>(`script[data-lotus-inkeep-script="${src}"]`);
+  const existing = document.querySelector<HTMLScriptElement>(`script[data-inkeep-script="${src}"]`);
 
   if (existing) {
     return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ function loadScript(src: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.async = true;
-    script.dataset.lotusInkeepScript = src;
+    script.dataset.inkeepScript = src;
     script.defer = true;
     script.src = src;
     script.type = 'module';
@@ -89,14 +89,14 @@ function withLotusColorMode(settings: InkeepSettings): InkeepSettings {
 }
 
 async function initInkeepAssistant(): Promise<void> {
-  const element = document.querySelector<HTMLElement>('[data-lotus-inkeep]');
+  const element = document.querySelector<HTMLElement>('[data-inkeep]');
 
   if (!element) {
     return;
   }
 
-  const settings = parseSettings(element.dataset.lotusInkeepSettings);
-  const scriptUrl = element.dataset.lotusInkeepScriptUrl;
+  const settings = parseSettings(element.dataset.inkeepSettings);
+  const scriptUrl = element.dataset.inkeepScriptUrl;
 
   if (!settings || !scriptUrl) {
     return;

@@ -23,7 +23,7 @@ function isThemeMode(mode: string | undefined | null): mode is ThemeMode {
 }
 
 function initThemeSwitches(): void {
-  const switches = Array.from(document.querySelectorAll<HTMLElement>('[data-lotus-theme-switch]'));
+  const switches = Array.from(document.querySelectorAll<HTMLElement>('[data-theme-switch]'));
 
   if (!switches.length) {
     return;
@@ -64,11 +64,11 @@ function initThemeSwitches(): void {
   setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : root.dataset.theme || 'system');
 
   switches.forEach((switcher) => {
-    if (switcher.dataset.lotusThemeSwitchReady) {
+    if (switcher.dataset.themeSwitchReady) {
       return;
     }
 
-    switcher.dataset.lotusThemeSwitchReady = 'true';
+    switcher.dataset.themeSwitchReady = 'true';
 
     switcher.addEventListener('click', (event) => {
       if (!(event.target instanceof Element)) {

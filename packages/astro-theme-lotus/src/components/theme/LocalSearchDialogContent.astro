@@ -30,20 +30,20 @@ const algoliaApiKey = algoliaConfig?.apiKey;
   <dialog
     aria-label={t('search.label')}
     class="lotus-search-dialog lotus-border-muted w-[min(42rem,calc(100vw-2rem))] rounded-[min(var(--lotus-radius-lg),1rem)] border bg-(--lotus-background) p-0 text-(--lotus-text) shadow-xl shadow-black/10"
-    data-lotus-algolia-api-key={algoliaApiKey}
-    data-lotus-algolia-app-id={algoliaAppId}
-    data-lotus-algolia-index-name={algoliaIndexName}
-    data-lotus-search-dialog
-    data-lotus-search-index={searchIndexHref}
-    data-lotus-search-loading={t('search.loading')}
-    data-lotus-search-no-results={t('search.noResults')}
-    data-lotus-pagefind-bundle={pagefindBundlePath}
-    data-lotus-search-provider={searchProvider}
-    data-lotus-search-type-to-search={t('search.typeToSearch')}
-    data-lotus-search-unavailable={t('search.unavailable')}
+    data-algolia-api-key={algoliaApiKey}
+    data-algolia-app-id={algoliaAppId}
+    data-algolia-index-name={algoliaIndexName}
+    data-search-dialog
+    data-search-index={searchIndexHref}
+    data-search-loading={t('search.loading')}
+    data-search-no-results={t('search.noResults')}
+    data-pagefind-bundle={pagefindBundlePath}
+    data-search-provider={searchProvider}
+    data-search-type-to-search={t('search.typeToSearch')}
+    data-search-unavailable={t('search.unavailable')}
     id="lotus-search-dialog"
   >
-  <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-lotus-search-form>
+  <form class="lotus-border-subtle flex h-14 items-center gap-3 border-b px-4" data-search-form>
     <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-(--lotus-text-muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-3.5-3.5" />
@@ -55,7 +55,7 @@ const algoliaApiKey = algoliaConfig?.apiKey;
       aria-label={t('search.label')}
       class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
       autocomplete="off"
-      data-lotus-search-input
+      data-search-input
       placeholder={t('search.placeholder')}
       role="combobox"
       type="search"
@@ -63,7 +63,7 @@ const algoliaApiKey = algoliaConfig?.apiKey;
     <button
       aria-label={t('search.closeLabel')}
       class="lotus-focus-ring inline-flex h-8 w-8 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-      data-lotus-search-close
+      data-search-close
       type="button"
     >
       <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
@@ -74,7 +74,7 @@ const algoliaApiKey = algoliaConfig?.apiKey;
   </form>
   <div
     class="lotus-scrollbar max-h-[min(30rem,calc(100dvh-10rem))] overflow-y-auto p-2"
-    data-lotus-search-results
+    data-search-results
     id="lotus-search-results"
     aria-label={t('search.label')}
     aria-live="polite"

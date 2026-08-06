@@ -48,7 +48,7 @@ function isActive(href: string): boolean {
       block={mobile}
       class={(item.variant ?? 'text') === 'text' && mobile ? 'px-3 py-2' : undefined}
       color={item.color ?? 'neutral'}
-      data-lotus-dropdown-close={mobile ? true : undefined}
+      data-dropdown-close={mobile ? true : undefined}
       external={item.external}
       href={item.external ? item.href : localizeDocsHref(themeConfig, item.href, currentLocale.key)}
       trailingIcon={item.trailingIcon}

@@ -13,7 +13,7 @@ const { hasAssistant = false } = Astro.props;
   aria-haspopup="dialog"
   aria-label={t('search.label')}
   class="lotus-focus-ring inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) lg:h-9 lg:w-9 lg:border lg:border-(--lotus-border-muted) lg:hover:bg-transparent xl:hidden"
-  data-lotus-search-trigger
+  data-search-trigger
   type="button"
 >
   <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
@@ -29,7 +29,7 @@ const { hasAssistant = false } = Astro.props;
     'lotus-focus-ring lotus-border-muted hidden h-9 min-w-0 items-center gap-2 rounded-(--lotus-radius-md) border px-3 text-start text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong) xl:flex',
     hasAssistant ? 'w-52 2xl:w-56' : 'w-64',
   ]}
-  data-lotus-search-trigger
+  data-search-trigger
   type="button"
 >
   <svg aria-hidden="true" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">

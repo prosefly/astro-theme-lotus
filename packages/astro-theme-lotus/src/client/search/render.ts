@@ -15,7 +15,7 @@ export function createSearchResultElement(
 ): HTMLAnchorElement {
   const link = document.createElement('a');
   link.className = 'lotus-search-result lotus-focus-ring block px-3 py-2.5 transition-colors';
-  link.dataset.lotusSearchResult = '';
+  link.dataset.searchResult = '';
   link.href = item.href ?? '#';
   link.id = `lotus-search-result-${index}`;
   link.setAttribute('role', 'option');

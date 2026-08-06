@@ -1,5 +1,5 @@
 async function getLotusCopyText(root: HTMLElement): Promise<string> {
-  const markdownUrl = root.dataset.lotusPageMarkdownUrl;
+  const markdownUrl = root.dataset.pageMarkdownUrl;
 
   if (!markdownUrl) {
     throw new Error('Markdown URL is not available.');
@@ -43,9 +43,9 @@ function getAbsoluteUrl(value: string | undefined, fallback: string): string {
 }
 
 function getPageActionValues(root: HTMLElement): Record<string, string> {
-  const title = root.dataset.lotusPageTitle ?? document.title;
-  const url = getAbsoluteUrl(root.dataset.lotusPageUrl, getCurrentPageUrl());
-  const markdownUrl = getAbsoluteUrl(root.dataset.lotusPageMarkdownUrl, url);
+  const title = root.dataset.pageTitle ?? document.title;
+  const url = getAbsoluteUrl(root.dataset.pageUrl, getCurrentPageUrl());
+  const markdownUrl = getAbsoluteUrl(root.dataset.pageMarkdownUrl, url);
 
   return {
     title,
@@ -66,14 +66,14 @@ function interpolatePageActionHref(template: string, values: Record<string, stri
 
 function updateLotusPageActionLinks(root: HTMLElement): void {
   const values = getPageActionValues(root);
-  const assistantPromptTemplate = root.dataset.lotusPageAssistantPrompt || 'Read this documentation page: {url}';
+  const assistantPromptTemplate = root.dataset.pageAssistantPrompt || 'Read this documentation page: {url}';
   const assistantPrompt = interpolatePageActionHref(assistantPromptTemplate, values);
 
   root
-    .querySelectorAll<HTMLAnchorElement>('a[data-lotus-page-action], a[data-lotus-page-action-href-template]')
+    .querySelectorAll<HTMLAnchorElement>('a[data-page-action], a[data-page-action-href-template]')
     .forEach((link) => {
-      const type = link.dataset.lotusPageAction;
-      const template = link.dataset.lotusPageActionHrefTemplate;
+      const type = link.dataset.pageAction;
+      const template = link.dataset.pageActionHrefTemplate;
 
       if (template) {
         link.href = interpolatePageActionHref(template, values);
@@ -125,24 +125,24 @@ function restoreLabel(label: Element | null, text: string): void {
 }
 
 function initLotusPageActions(): void {
-  document.querySelectorAll('[data-lotus-page-actions]').forEach((root) => {
-    if (!(root instanceof HTMLElement) || root.dataset.lotusPageActionsReady) {
+  document.querySelectorAll('[data-page-actions]').forEach((root) => {
+    if (!(root instanceof HTMLElement) || root.dataset.pageActionsReady) {
       return;
     }
 
-    root.dataset.lotusPageActionsReady = 'true';
+    root.dataset.pageActionsReady = 'true';
     updateLotusPageActionLinks(root);
 
-    root.querySelectorAll('[data-lotus-copy-page]').forEach((button) => {
+    root.querySelectorAll('[data-copy-page]').forEach((button) => {
       if (!(button instanceof HTMLButtonElement)) {
         return;
       }
 
-      const label = button.querySelector('[data-lotus-copy-label]');
-      const originalLabel = label?.textContent ?? root.dataset.lotusPageCopyLabel ?? 'Copy page';
-      const copyingLabel = root.dataset.lotusPageCopyingLabel ?? 'Copying...';
-      const copiedLabel = root.dataset.lotusPageCopiedLabel ?? 'Copied';
-      const copyFailedLabel = root.dataset.lotusPageCopyFailedLabel ?? 'Copy failed';
+      const label = button.querySelector('[data-copy-label]');
+      const originalLabel = label?.textContent ?? root.dataset.pageCopyLabel ?? 'Copy page';
+      const copyingLabel = root.dataset.pageCopyingLabel ?? 'Copying...';
+      const copiedLabel = root.dataset.pageCopiedLabel ?? 'Copied';
+      const copyFailedLabel = root.dataset.pageCopyFailedLabel ?? 'Copy failed';
 
       button.addEventListener('click', async () => {
         button.disabled = true;

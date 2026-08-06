@@ -54,7 +54,7 @@ function getOptionalNumber(element: HTMLElement, name: string): number | undefin
 }
 
 function getSearchParameters(element: HTMLElement): Record<string, unknown> | undefined {
-  const value = element.dataset.lotusDocsearchSearchParameters;
+  const value = element.dataset.docsearchSearchParameters;
 
   if (!value) {
     return undefined;
@@ -72,7 +72,7 @@ function getSearchParameters(element: HTMLElement): Record<string, unknown> | un
 }
 
 function loadStylesheet(href: string): Promise<void> {
-  const existing = document.querySelector<HTMLLinkElement>(`link[data-lotus-docsearch-css="${href}"]`);
+  const existing = document.querySelector<HTMLLinkElement>(`link[data-docsearch-css="${href}"]`);
 
   if (existing) {
     return Promise.resolve();
@@ -80,7 +80,7 @@ function loadStylesheet(href: string): Promise<void> {
 
   return new Promise((resolve, reject) => {
     const link = document.createElement('link');
-    link.dataset.lotusDocsearchCss = href;
+    link.dataset.docsearchCss = href;
     link.href = href;
     link.rel = 'stylesheet';
     link.addEventListener('load', () => resolve(), { once: true });
@@ -94,7 +94,7 @@ function loadScript(src: string): Promise<void> {
     return Promise.resolve();
   }
 
-  const existing = document.querySelector<HTMLScriptElement>(`script[data-lotus-docsearch-js="${src}"]`);
+  const existing = document.querySelector<HTMLScriptElement>(`script[data-docsearch-js="${src}"]`);
 
   if (existing) {
     return new Promise((resolve, reject) => {
@@ -106,7 +106,7 @@ function loadScript(src: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.async = true;
-    script.dataset.lotusDocsearchJs = src;
+    script.dataset.docsearchJs = src;
     script.src = src;
     script.addEventListener('load', () => resolve(), { once: true });
     script.addEventListener('error', () => reject(new Error(`Unable to load DocSearch JS: ${src}`)), { once: true });
@@ -115,12 +115,12 @@ function loadScript(src: string): Promise<void> {
 }
 
 function injectThemeStyles(): void {
-  if (document.querySelector('[data-lotus-docsearch-theme]')) {
+  if (document.querySelector('[data-docsearch-theme]')) {
     return;
   }
 
   const style = document.createElement('style');
-  style.dataset.lotusDocsearchTheme = '';
+  style.dataset.docsearchTheme = '';
   style.textContent = `
     :root {
       --docsearch-primary-color: var(--lotus-accent);
@@ -163,24 +163,24 @@ function injectThemeStyles(): void {
 }
 
 async function initDocSearch(): Promise<void> {
-  const container = document.querySelector<HTMLElement>('[data-lotus-docsearch]');
-  const triggers = Array.from(document.querySelectorAll<HTMLElement>('[data-lotus-search-trigger]'));
+  const container = document.querySelector<HTMLElement>('[data-docsearch]');
+  const triggers = Array.from(document.querySelectorAll<HTMLElement>('[data-search-trigger]'));
 
   if (!container || !triggers.length) {
     return;
   }
 
-  const appId = container.dataset.lotusDocsearchAppId;
-  const apiKey = container.dataset.lotusDocsearchApiKey;
-  const indexName = container.dataset.lotusDocsearchIndexName;
+  const appId = container.dataset.docsearchAppId;
+  const apiKey = container.dataset.docsearchApiKey;
+  const indexName = container.dataset.docsearchIndexName;
 
   if (!appId || !apiKey || !indexName) {
     return;
   }
 
-  await loadStylesheet(container.dataset.lotusDocsearchCssUrl || defaultCssUrl);
+  await loadStylesheet(container.dataset.docsearchCssUrl || defaultCssUrl);
   injectThemeStyles();
-  await loadScript(container.dataset.lotusDocsearchJsUrl || defaultJsUrl);
+  await loadScript(container.dataset.docsearchJsUrl || defaultJsUrl);
 
   if (!window.docsearch) {
     return;
@@ -191,15 +191,15 @@ async function initDocSearch(): Promise<void> {
     appId,
     apiKey,
     indexName,
-    askAi: container.dataset.lotusDocsearchAskAi || undefined,
-    disableUserPersonalization: getOptionalBoolean(container, 'lotusDocsearchDisableUserPersonalization'),
-    insights: getOptionalBoolean(container, 'lotusDocsearchInsights'),
+    askAi: container.dataset.docsearchAskAi || undefined,
+    disableUserPersonalization: getOptionalBoolean(container, 'docsearchDisableUserPersonalization'),
+    insights: getOptionalBoolean(container, 'docsearchInsights'),
     keyboardShortcuts: {
       'Ctrl/Cmd+K': true,
       '/': false,
     },
-    maxResultsPerGroup: getOptionalNumber(container, 'lotusDocsearchMaxResultsPerGroup'),
-    placeholder: container.dataset.lotusDocsearchPlaceholder,
+    maxResultsPerGroup: getOptionalNumber(container, 'docsearchMaxResultsPerGroup'),
+    placeholder: container.dataset.docsearchPlaceholder,
     searchParameters: getSearchParameters(container),
   });
 

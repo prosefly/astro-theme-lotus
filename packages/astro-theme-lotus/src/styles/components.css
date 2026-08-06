@@ -193,7 +193,7 @@
   color: var(--lotus-text-strong);
 }
 
-[data-lotus-theme-switch] [data-active] {
+[data-theme-switch] [data-active] {
   background: var(--lotus-accent-soft);
   color: var(--lotus-text-strong);
 }

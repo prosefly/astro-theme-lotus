@@ -69,7 +69,7 @@ const currentSlug = getCurrentSlug(currentLocale);
         <a
           aria-current={active ? 'page' : undefined}
           class="lotus-focus-ring flex items-center gap-2 rounded-[min(var(--lotus-radius-md),0.5rem)] px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
-          data-lotus-dropdown-close
+          data-dropdown-close
           href={getLocalizedHref(themeConfig, currentSlug, locale.key)}
           hreflang={locale.lang}
         >

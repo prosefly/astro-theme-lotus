@@ -14,7 +14,7 @@ const {
 } = Astro.props;
 ---
 
-<details class:list={['group/dropdown relative open:z-50', className]} data-lotus-dropdown>
+<details class:list={['group/dropdown relative open:z-50', className]} data-dropdown>
   <summary
     aria-expanded="false"
     aria-label={triggerLabel}
@@ -26,7 +26,7 @@ const {
   >
     <slot name="trigger" />
   </summary>
-  <div class:list={contentClass} data-lotus-dropdown-content>
+  <div class:list={contentClass} data-dropdown-content>
     <slot />
   </div>
 </details>

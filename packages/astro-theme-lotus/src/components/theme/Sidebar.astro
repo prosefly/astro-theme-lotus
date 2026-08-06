@@ -21,11 +21,11 @@ const ariaLabel = label ?? t('sidebar.accessibleLabel');
 
 <div
   class="lotus-sidebar-scroll relative h-full min-h-0 flex-1 max-h-(--lotus-sidebar-max-height) overflow-hidden"
-  data-lotus-sidebar-scroll
+  data-sidebar-scroll
   style={`--lotus-sidebar-max-height: ${maxHeight}`}
 >
-  <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-lotus-sidebar-fade-top></div>
-  <nav aria-label={ariaLabel} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto pt-6 pb-2 pe-2" data-lotus-sidebar-scroll-area>
+  <div class="lotus-sidebar-fade lotus-sidebar-fade-top" data-sidebar-fade-top></div>
+  <nav aria-label={ariaLabel} class="lotus-scrollbar h-full max-h-[inherit] space-y-7 overflow-y-auto pt-6 pb-2 pe-2" data-sidebar-scroll-area>
     {sidebar.links.length > 0 && (
       <div class="space-y-1">
         {sidebar.links.map((item) => (
@@ -47,7 +47,7 @@ const ariaLabel = label ?? t('sidebar.accessibleLabel');
       </section>
     ))}
   </nav>
-  <div class="lotus-sidebar-fade lotus-sidebar-fade-bottom" data-lotus-sidebar-fade-bottom></div>
+  <div class="lotus-sidebar-fade lotus-sidebar-fade-bottom" data-sidebar-fade-bottom></div>
 </div>
 
 <script>

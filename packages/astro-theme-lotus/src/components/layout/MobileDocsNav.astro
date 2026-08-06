@@ -60,7 +60,7 @@ function getHeadingIndent(depth: number): string {
       aria-expanded="false"
       aria-label={t('mobileDocs.openMenu')}
       class="lotus-focus-ring flex h-9 min-w-0 flex-1 items-center gap-3 rounded-(--lotus-radius-md) text-start text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
-      data-lotus-mobile-sidebar-open
+      data-mobile-sidebar-open
       type="button"
     >
       <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center">
@@ -101,7 +101,7 @@ function getHeadingIndent(depth: number): string {
                     getHeadingIndent(heading.depth),
                     'text-(--lotus-text-muted) hover:text-(--lotus-text-strong)',
                   ]}
-                  data-lotus-dropdown-close
+                  data-dropdown-close
                   data-toc-link={heading.slug}
                   href={`#${heading.slug}`}
                 >
@@ -117,7 +117,7 @@ function getHeadingIndent(depth: number): string {
 
   <div
     class="lotus-mobile-sidebar fixed h-screen inset-0 z-50 lg:hidden"
-    data-lotus-mobile-sidebar
+    data-mobile-sidebar
     hidden
     id="lotus-mobile-sidebar"
     inert
@@ -125,7 +125,7 @@ function getHeadingIndent(depth: number): string {
     <button
       aria-label={t('mobileDocs.closeMenu')}
       class="lotus-mobile-sidebar-backdrop absolute inset-0 bg-black/30"
-      data-lotus-mobile-sidebar-close
+      data-mobile-sidebar-close
       type="button"
     ></button>
     <aside
@@ -140,7 +140,7 @@ function getHeadingIndent(depth: number): string {
           <button
             aria-label={t('mobileDocs.closeMenu')}
             class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
-            data-lotus-mobile-sidebar-close
+            data-mobile-sidebar-close
             type="button"
           >
             <Icon aria-hidden="true" class="h-5 w-5" name="lucide:x" />
@@ -150,14 +150,14 @@ function getHeadingIndent(depth: number): string {
 
       <div class="shrink-0 p-4">
         {activeSection ? (
-          <details class="group/lotus-section-switch relative" data-lotus-section-switch>
+          <details class="group/lotus-section-switch relative" data-section-switch>
             <summary class="lotus-focus-ring flex min-h-12 cursor-pointer list-none items-center gap-3 rounded-(--lotus-radius-md) bg-(--lotus-surface) px-3 py-2 text-(--lotus-text-strong) marker:hidden">
               <span class="relative h-5 w-5 shrink-0">
                 {sections.map((section) => (
                   section.icon && (
                     <span
                       class="absolute inset-0"
-                      data-lotus-section-summary-icon={section.slug}
+                      data-section-summary-icon={section.slug}
                       hidden={section.slug !== activeSectionSlug}
                     >
                       <Icon
@@ -170,10 +170,10 @@ function getHeadingIndent(depth: number): string {
                 ))}
               </span>
               <span class="min-w-0 flex-1">
-                <span class="block truncate text-base font-semibold" data-lotus-section-summary-label>
+                <span class="block truncate text-base font-semibold" data-section-summary-label>
                   {activeSection.label}
                 </span>
-                <span class="block truncate text-xs text-(--lotus-text-muted)" data-lotus-section-summary-count>
+                <span class="block truncate text-xs text-(--lotus-text-muted)" data-section-summary-count>
                   {formatPageCountLabel(activeSection.items.length)}
                 </span>
               </span>
@@ -189,9 +189,9 @@ function getHeadingIndent(depth: number): string {
                   aria-current={section.slug === activeSectionSlug ? 'page' : undefined}
                   class="lotus-focus-ring lotus-mobile-section-option flex min-h-14 w-full items-center gap-3 rounded-(--lotus-radius-md) px-3 py-2 text-start transition-colors"
                   data-active={section.slug === activeSectionSlug ? '' : undefined}
-                  data-lotus-section-count={formatPageCountLabel(section.items.length)}
-                  data-lotus-section-label={section.label}
-                  data-lotus-section-option={section.slug}
+                  data-section-count={formatPageCountLabel(section.items.length)}
+                  data-section-label={section.label}
+                  data-section-option={section.slug}
                   type="button"
                 >
                   {section.icon && (
@@ -230,7 +230,7 @@ function getHeadingIndent(depth: number): string {
           return sectionSidebar && (
             <div
               class="lotus-mobile-section-panel min-h-0 flex-1"
-              data-lotus-section-panel={section.slug}
+              data-section-panel={section.slug}
               hidden={section.slug !== activeSectionSlug}
             >
               <Sidebar currentPath={currentPath} maxHeight="100%" sidebar={sectionSidebar} />

@@ -26,7 +26,7 @@ function getActionLabel(label: string, icon?: string): string {
     <a
       aria-label={mobile ? label : getActionLabel(label, social.icon)}
       class="lotus-focus-ring inline-flex h-9 w-9 items-center justify-center rounded-(--lotus-radius-md) text-(--lotus-text-muted) transition-colors hover:text-(--lotus-text-strong)"
-      data-lotus-dropdown-close={mobile ? true : undefined}
+      data-dropdown-close={mobile ? true : undefined}
       href={social.href}
       rel={social.external ? 'noreferrer' : undefined}
       target={social.external ? '_blank' : undefined}

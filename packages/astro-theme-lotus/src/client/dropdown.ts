@@ -1,14 +1,14 @@
 let lotusDropdownContentId = 0;
 
 function initLotusDropdowns(): void {
-  document.querySelectorAll('[data-lotus-dropdown]').forEach((details) => {
-    if (!(details instanceof HTMLDetailsElement) || details.dataset.lotusDropdownReady) {
+  document.querySelectorAll('[data-dropdown]').forEach((details) => {
+    if (!(details instanceof HTMLDetailsElement) || details.dataset.dropdownReady) {
       return;
     }
 
-    details.dataset.lotusDropdownReady = 'true';
+    details.dataset.dropdownReady = 'true';
     const summary = details.querySelector('summary');
-    const content = details.querySelector<HTMLElement>('[data-lotus-dropdown-content]');
+    const content = details.querySelector<HTMLElement>('[data-dropdown-content]');
 
     if (summary && content) {
       if (!content.id) {
@@ -32,7 +32,7 @@ function initLotusDropdowns(): void {
         return;
       }
 
-      document.querySelectorAll('[data-lotus-dropdown][open]').forEach((otherDetails) => {
+      document.querySelectorAll('[data-dropdown][open]').forEach((otherDetails) => {
         if (otherDetails !== details && otherDetails instanceof HTMLDetailsElement) {
           otherDetails.open = false;
         }
@@ -56,7 +56,7 @@ function initLotusDropdowns(): void {
       details.querySelector('summary')?.focus();
     });
 
-    details.querySelectorAll('[data-lotus-dropdown-close]').forEach((trigger) => {
+    details.querySelectorAll('[data-dropdown-close]').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         details.open = false;
       });

@@ -24,7 +24,7 @@ function getInkeepSettings(config: Extract<AssistantConfig, { provider: 'inkeep'
       ...config.baseSettings,
     },
     modalSettings: {
-      triggerSelector: '[data-lotus-assistant-trigger]',
+      triggerSelector: '[data-assistant-trigger]',
       ...config.modalSettings,
     },
     searchSettings: config.searchSettings,
@@ -39,7 +39,7 @@ function getKapaAttributes(config: Extract<AssistantConfig, { provider: 'kapa' }
     'data-project-color': config.projectColor ?? defaultAccentColor,
     'data-project-logo': config.projectLogo,
     'data-launcher-button-hidden': 'true',
-    'data-modal-override-open-selector-ask-ai': '[data-lotus-assistant-trigger]',
+    'data-modal-override-open-selector-ask-ai': '[data-assistant-trigger]',
     ...(config.attributes ?? {}),
   };
 }
@@ -48,9 +48,9 @@ function getKapaAttributes(config: Extract<AssistantConfig, { provider: 'kapa' }
 {assistant && assistant.provider === 'inkeep' && (
   <>
     <div
-      data-lotus-inkeep
-      data-lotus-inkeep-script-url={assistant.scriptUrl ?? inkeepScriptUrl}
-      data-lotus-inkeep-settings={stringifyData(getInkeepSettings(assistant))}
+      data-inkeep
+      data-inkeep-script-url={assistant.scriptUrl ?? inkeepScriptUrl}
+      data-inkeep-settings={stringifyData(getInkeepSettings(assistant))}
       hidden
     />
     <script>
