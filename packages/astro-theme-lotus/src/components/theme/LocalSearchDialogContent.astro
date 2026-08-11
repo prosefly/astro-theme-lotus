@@ -53,7 +53,7 @@ const algoliaApiKey = algoliaConfig?.apiKey;
       aria-controls="lotus-search-results"
       aria-expanded="false"
       aria-label={t('search.label')}
-      class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted)"
+      class="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-(--lotus-text-muted) [&::-webkit-search-cancel-button]:appearance-none"
       autocomplete="off"
       data-search-input
       placeholder={t('search.placeholder')}
