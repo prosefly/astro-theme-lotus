@@ -1,20 +1,20 @@
-.lotus-prose :where(blockquote) {
+.lotus-prose :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-inline-start: 0.25rem solid var(--lotus-prose-border);
   color: var(--lotus-text-muted);
   padding-inline-start: 1rem;
 }
 
-.lotus-prose :where(blockquote p) {
+.lotus-prose :where(blockquote p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: inherit;
 }
 
-.lotus-prose :where(hr) {
+.lotus-prose :where(hr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border: 0;
   border-block-start: 1px solid var(--lotus-prose-border);
   margin-block-start: 3em;
 }
 
-.lotus-prose :where(table) {
+.lotus-prose :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-collapse: collapse;
   display: table;
   font-size: 0.875em;
@@ -24,33 +24,33 @@
   width: 100%;
 }
 
-.lotus-prose :where(thead) {
+.lotus-prose :where(thead):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-block-end: 2px solid var(--lotus-prose-border);
 }
 
-.lotus-prose :where(tr) {
+.lotus-prose :where(tr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-block-end: 1px solid var(--lotus-prose-border);
 }
 
-.lotus-prose :where(th, td) {
+.lotus-prose :where(th, td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   padding: 0.5714286em 0.5714286em;
   text-align: start;
   vertical-align: top;
 }
 
-.lotus-prose :where(th:first-child, td:first-child) {
+.lotus-prose :where(th:first-child, td:first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   padding-inline-start: 0;
 }
 
-.lotus-prose :where(th:last-child, td:last-child) {
+.lotus-prose :where(th:last-child, td:last-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   padding-inline-end: 0;
 }
 
-.lotus-prose :where(th) {
+.lotus-prose :where(th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-strong);
   font-weight: 600;
 }
 
-.lotus-prose :where(td) {
+.lotus-prose :where(td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-muted);
 }

@@ -1,4 +1,4 @@
-.lotus-prose :where(a) {
+.lotus-prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-accent);
   font-weight: 500;
   text-decoration: underline;
@@ -6,27 +6,33 @@
   text-underline-offset: 0.18em;
 }
 
-.lotus-prose :where(a:hover) {
+.lotus-prose :where(a:hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   text-decoration-color: var(--lotus-accent);
 }
 
-.lotus-prose :where(a:focus-visible) {
+.lotus-prose :where(a:focus-visible):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-radius: var(--lotus-radius-sm);
   outline: 2px solid var(--lotus-accent);
   outline-offset: 0.15em;
 }
 
-.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a) {
+.lotus-prose
+  :where(h1, h2, h3, h4, h5, h6)
+  :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: inherit;
   font-weight: inherit;
   text-decoration-color: color-mix(in oklab, currentColor 28%, transparent);
 }
 
-.lotus-prose :where(h1, h2, h3, h4, h5, h6) :where(a:hover) {
+.lotus-prose
+  :where(h1, h2, h3, h4, h5, h6)
+  :where(a:hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   text-decoration-color: currentColor;
 }
 
-.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+.lotus-prose
+  :where(h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  > :where(a.lotus-heading-anchor):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   position: absolute;
   inset-block-start: 0.2em;
   inset-inline-start: -1.45em;
@@ -46,39 +52,49 @@
     opacity 150ms ease;
 }
 
-.lotus-prose :where(h4) > :where(a.lotus-heading-anchor) {
+.lotus-prose
+  :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  > :where(a.lotus-heading-anchor):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   inset-block-start: 0.14em;
 }
 
-.lotus-prose :where(h2, h3, h4):hover > :where(a.lotus-heading-anchor),
-.lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor:focus-visible) {
+.lotus-prose
+  :where(h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *)):hover
+  > :where(a.lotus-heading-anchor):not(:where([class~="not-prose"], [class~="not-prose"] *)),
+.lotus-prose
+  :where(h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  > :where(a.lotus-heading-anchor:focus-visible):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text);
   opacity: 1;
 }
 
-.lotus-prose :where(a.lotus-heading-anchor:hover) {
+.lotus-prose :where(a.lotus-heading-anchor:hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-color: var(--lotus-border-hover);
   color: var(--lotus-accent);
   text-decoration: none;
 }
 
-.lotus-prose :where(a.lotus-heading-anchor) :where(svg) {
+.lotus-prose
+  :where(a.lotus-heading-anchor):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  :where(svg):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   inline-size: 0.58em;
   block-size: 0.58em;
 }
 
 @media (max-width: 1023px) {
-  .lotus-prose :where(h2, h3, h4) > :where(a.lotus-heading-anchor) {
+  .lotus-prose
+    :where(h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *))
+    > :where(a.lotus-heading-anchor):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     display: none;
   }
 }
 
-.lotus-prose :where(strong) {
+.lotus-prose :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-strong);
   font-weight: 700;
 }
 
-.lotus-prose :where(mark) {
+.lotus-prose :where(mark):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: color-mix(
     in oklab,
     var(--lotus-color-yellow-400, oklch(0.852 0.199 91.936)) 34%,
@@ -89,7 +105,7 @@
   padding: 0.075em 0.25em;
 }
 
-.lotus-prose :where(kbd) {
+.lotus-prose :where(kbd):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-surface);
   border: 1px solid var(--lotus-border-muted);
   border-block-end-color: var(--lotus-border-hover);
@@ -113,24 +129,24 @@
   unicode-bidi: isolate;
 }
 
-.lotus-prose :where(abbr[title]) {
+.lotus-prose :where(abbr[title]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   cursor: help;
   text-decoration: underline dotted var(--lotus-border-hover);
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
 }
 
-.lotus-prose :where(small) {
+.lotus-prose :where(small):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-muted);
   font-size: 0.875em;
 }
 
-.lotus-prose :where(del, s) {
+.lotus-prose :where(del, s):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-muted);
   text-decoration-color: var(--lotus-border-hover);
 }
 
-.lotus-prose :where(ins) {
+.lotus-prose :where(ins):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-accent-soft);
   border-radius: var(--lotus-radius-sm);
   color: var(--lotus-text-strong);
@@ -140,40 +156,40 @@
   text-underline-offset: 0.18em;
 }
 
-.lotus-prose :where(sub, sup:not(:has(a[data-footnote-ref]))) {
+.lotus-prose :where(sub, sup:not(:has(a[data-footnote-ref]))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   font-size: 0.75em;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
 
-.lotus-prose :where(sub) {
+.lotus-prose :where(sub):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   inset-block-end: -0.25em;
 }
 
-.lotus-prose :where(sup:not(:has(a[data-footnote-ref]))) {
+.lotus-prose :where(sup:not(:has(a[data-footnote-ref]))):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   inset-block-start: -0.5em;
 }
 
-.lotus-prose :where(samp, var) {
+.lotus-prose :where(samp, var):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   font-family: var(--lotus-prose-font-mono);
   font-size: 0.875em;
 }
 
-.lotus-prose :where(samp) {
+.lotus-prose :where(samp):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-strong);
 }
 
-.lotus-prose :where(var) {
+.lotus-prose :where(var):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-accent);
   font-style: italic;
 }
 
-.lotus-prose :where(q) {
+.lotus-prose :where(q):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-strong);
 }
 
-.lotus-prose :where(cite) {
+.lotus-prose :where(cite):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-muted);
   font-style: italic;
 }

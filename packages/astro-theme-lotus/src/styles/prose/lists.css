@@ -1,49 +1,49 @@
-.lotus-prose :where(ul, ol) {
+.lotus-prose :where(ul, ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   padding-inline-start: 1.625em;
 }
 
-.lotus-prose :where(ul) {
+.lotus-prose :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   list-style-type: disc;
 }
 
-.lotus-prose :where(ol) {
+.lotus-prose :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   list-style-type: decimal;
 }
 
-.lotus-prose :where(li) {
+.lotus-prose :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   padding-inline-start: 0.375em;
 }
 
-.lotus-prose :where(li)::marker {
+.lotus-prose :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *))::marker {
   color: var(--lotus-prose-marker);
   font-weight: 400;
 }
 
-.lotus-prose :where(li + li, li > p + p) {
+.lotus-prose :where(li + li, li > p + p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0.5em;
 }
 
-.lotus-prose :where(li > ul, li > ol) {
+.lotus-prose :where(li > ul, li > ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0.75em;
 }
 
-.lotus-prose :where(ul.contains-task-list) {
+.lotus-prose :where(ul.contains-task-list):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   list-style: none;
   padding-inline-start: 0;
 }
 
-.lotus-prose :where(li.task-list-item) {
+.lotus-prose :where(li.task-list-item):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   align-items: flex-start;
   display: flex;
   gap: 0.625em;
   padding-inline-start: 0;
 }
 
-.lotus-prose :where(li.task-list-item + li.task-list-item) {
+.lotus-prose :where(li.task-list-item + li.task-list-item):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0.5em;
 }
 
-.lotus-prose :where(li.task-list-item > input[type="checkbox"]) {
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   appearance: none;
   background: var(--lotus-background);
   border: 1px solid var(--lotus-border-hover);
@@ -57,7 +57,7 @@
   width: 1em;
 }
 
-.lotus-prose :where(li.task-list-item > input[type="checkbox"])::before {
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]):not(:where([class~="not-prose"], [class~="not-prose"] *))::before {
   background: currentColor;
   clip-path: polygon(14% 44%, 0 59%, 39% 100%, 100% 19%, 84% 6%, 37% 70%);
   content: "";
@@ -68,11 +68,11 @@
   width: 0.625em;
 }
 
-.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked) {
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-accent-soft);
   border-color: color-mix(in oklab, var(--lotus-accent) 52%, transparent);
 }
 
-.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked)::before {
+.lotus-prose :where(li.task-list-item > input[type="checkbox"]:checked):not(:where([class~="not-prose"], [class~="not-prose"] *))::before {
   transform: scale(1);
 }

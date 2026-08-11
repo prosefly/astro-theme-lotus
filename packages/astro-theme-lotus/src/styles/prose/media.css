@@ -1,9 +1,9 @@
-.lotus-prose :where(img, video, iframe) {
+.lotus-prose :where(img, video, iframe):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-radius: var(--lotus-prose-surface-radius);
   max-width: 100%;
 }
 
-.lotus-prose :where(iframe) {
+.lotus-prose :where(iframe):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: var(--lotus-surface);
   border: 1px solid var(--lotus-prose-border);
   display: block;
@@ -15,30 +15,30 @@
   iframe[src*="youtu.be"],
   iframe[src*="vimeo.com"],
   iframe[src*="player.vimeo.com"]
-) {
+):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   aspect-ratio: 16 / 9;
   height: auto;
   width: 100%;
 }
 
-.lotus-prose :where(figcaption) {
+.lotus-prose :where(figcaption):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: var(--lotus-text-muted);
   font-size: 0.875em;
   line-height: 1.4285714;
   margin-block-start: 0.8571429em;
 }
 
-.lotus-prose :where(figcaption > *) {
+.lotus-prose :where(figcaption > *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: inherit;
   margin-block: 0;
 }
 
-.lotus-prose :where(figcaption > * + *) {
+.lotus-prose :where(figcaption > * + *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0.5em;
 }
 
 @media (max-width: 640px) {
-  .lotus-prose :where(table) {
+  .lotus-prose :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     display: block;
     overflow-x: auto;
   }
