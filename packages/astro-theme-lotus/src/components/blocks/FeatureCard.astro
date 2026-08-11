@@ -1,0 +1,65 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { resolveIconName } from '../../lib/icons';
+
+interface Props {
+  title?: string;
+  description?: string;
+  icon?: string;
+  href?: string;
+  external?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  title,
+  description,
+  icon,
+  href,
+  external = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+const Tag = href ? 'a' : 'article';
+const iconName = icon ? resolveIconName(icon) : undefined;
+const cardClasses = [
+  'not-prose lotus-focus-ring group block h-full rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-muted) p-5 text-start transition-colors',
+  href
+    ? 'hover:border-(--lotus-accent)'
+    : '',
+  className,
+];
+---
+
+<Tag
+  class:list={cardClasses}
+  href={href}
+  rel={external ? 'noreferrer' : undefined}
+  target={external ? '_blank' : undefined}
+  {...attrs}
+>
+  {iconName && (
+    <span class="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-[min(var(--lotus-radius-md),0.75rem)] bg-(--lotus-accent-soft) text-(--lotus-accent)">
+      <Icon aria-hidden="true" class="h-5 w-5" name={iconName} />
+    </span>
+  )}
+
+  {(Astro.slots.has('title') || title) && (
+    <h3 class="text-base font-semibold leading-6 text-(--lotus-text-strong)">
+      <slot name="title">{title}</slot>
+    </h3>
+  )}
+
+  {(Astro.slots.has('description') || description) && (
+    <p class="mt-2 text-sm leading-6 text-(--lotus-text-muted)">
+      <slot name="description">{description}</slot>
+    </p>
+  )}
+
+  {Astro.slots.has('default') && (
+    <div class="mt-4 text-sm leading-6 text-(--lotus-text)">
+      <slot />
+    </div>
+  )}
+</Tag>

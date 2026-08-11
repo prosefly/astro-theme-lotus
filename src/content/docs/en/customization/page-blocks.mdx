@@ -1,0 +1,216 @@
+---
+title: Page Blocks
+description: Use reusable Lotus blocks for landing pages, pricing pages, and product pages.
+---
+
+import {
+  CTA,
+  FeatureCard,
+  FeatureGrid,
+  Hero,
+  PageContainer,
+  PageSection,
+  Pricing,
+  PricingCard,
+} from '@prosefly/astro-theme-lotus/blocks';
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
+
+Page blocks are optional layout components exported from
+`@prosefly/astro-theme-lotus/blocks`. Use them for pages that should share the
+Lotus design system without using the documentation article layout.
+
+Blocks use Lotus CSS tokens, accept common props for fast setup, and expose
+slots when a page needs custom content.
+
+## Import
+
+```astro
+---
+import {
+  CTA,
+  FeatureCard,
+  FeatureGrid,
+  Hero,
+  PageContainer,
+  PageSection,
+  Pricing,
+  PricingCard,
+} from '@prosefly/astro-theme-lotus/blocks';
+---
+```
+
+## Containers
+
+Use `PageSection` for vertical page rhythm and `PageContainer` for responsive
+horizontal width. Most higher-level blocks do not include outer page spacing, so
+you can compose them inside sections.
+
+<PageSection container={false} padding="sm" class="rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-muted) bg-(--lotus-surface)/55">
+  <PageContainer size="md" class="text-center">
+    <p class="text-sm font-medium text-(--lotus-accent)">Page primitives</p>
+    <h3 class="mt-3 text-2xl font-semibold text-(--lotus-text-strong)">
+      Compose sections without rewriting spacing utilities.
+    </h3>
+    <p class="mt-4 text-(--lotus-text-muted)">
+      Use the same spacing and max-width choices as the rest of the Lotus site.
+    </p>
+  </PageContainer>
+</PageSection>
+
+```astro
+<PageSection container={false} padding="md">
+  <PageContainer size="md">
+    <h1>Custom page content</h1>
+  </PageContainer>
+</PageSection>
+```
+
+## Hero
+
+`Hero` supports `default`, `centered`, `split`, and `docs` variants.
+
+<Hero
+  eyebrow="Astro theme"
+  headingLevel={3}
+  title="Build documentation and product pages with one system."
+  description="Use page blocks for homepages, product pages, pricing pages, and lightweight marketing sections."
+  variant="split"
+  actions={[
+    { label: 'Get started', href: '/docs/overview/', trailingIcon: 'lucide:arrow-right' },
+    { label: 'View source', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, variant: 'outline' },
+  ]}
+>
+  <div slot="visual" class="rounded-[min(var(--lotus-radius-lg),1rem)] border border-(--lotus-border-muted) bg-(--lotus-background) p-4">
+    <CodeBlock
+      code={`pnpm add @prosefly/astro-theme-lotus
+pnpm add @prosefly/astro-components`}
+      lang="sh"
+    />
+  </div>
+</Hero>
+
+```astro
+<Hero
+  eyebrow="Astro theme"
+  headingLevel={3}
+  title="Build documentation and product pages with one system."
+  description="Use page blocks for homepages and product pages."
+  variant="split"
+  actions={[
+    { label: 'Get started', href: '/docs/', trailingIcon: 'lucide:arrow-right' },
+    { label: 'View source', href: 'https://github.com/prosefly/astro-theme-lotus', external: true, variant: 'outline' },
+  ]}
+>
+  <CodeBlock slot="visual" code="pnpm add @prosefly/astro-theme-lotus" lang="sh" />
+</Hero>
+```
+
+## Features
+
+Use `FeatureGrid` with `FeatureCard` for feature lists and quick links.
+
+<FeatureGrid>
+  <FeatureCard
+    icon="lucide:route"
+    title="Generated routes"
+    description="Lotus owns docs routes while the rest of the Astro project stays open."
+  />
+  <FeatureCard
+    icon="lucide:palette"
+    title="Design tokens"
+    description="Blocks follow the same color, radius, and typography tokens as the theme."
+  />
+  <FeatureCard
+    icon="lucide:blocks"
+    title="Composable sections"
+    description="Use props for common cases and slots for custom content."
+  />
+</FeatureGrid>
+
+```astro
+<FeatureGrid>
+  <FeatureCard icon="lucide:route" title="Generated routes">
+    Docs pages can share one navigation shell.
+  </FeatureCard>
+  <FeatureCard icon="lucide:palette" title="Design tokens">
+    Blocks follow the active Lotus appearance.
+  </FeatureCard>
+</FeatureGrid>
+```
+
+## Pricing
+
+Use `Pricing` and `PricingCard` for simple pricing sections. The first version
+does not include billing toggles or subscription logic.
+
+<Pricing>
+  <PricingCard
+    name="Open Source"
+    price="$0"
+    description="Use Lotus for personal, commercial, and team documentation."
+    highlighted
+    badge="Current"
+    features={[
+      'Astro integration',
+      'Responsive docs navigation',
+      'Search and Markdown routes',
+      'BSD-3-Clause license',
+    ]}
+    action={{ label: 'Get started', href: '/docs/overview/' }}
+  />
+  <PricingCard
+    name="Custom Site"
+    price="Self-hosted"
+    description="Deploy the generated Astro site to any static host."
+    features={[
+      'No hosted account required',
+      'No traffic-based theme limits',
+      'Bring your own analytics',
+    ]}
+    action={{ label: 'Deployment docs', href: '/docs/deployment/', variant: 'outline' }}
+  />
+  <PricingCard
+    name="Sponsorship"
+    price="Optional"
+    description="Support ongoing work without unlocking a separate feature tier."
+    features={[
+      'Public source',
+      'Community roadmap',
+      'Commercial usage allowed',
+    ]}
+    action={{ label: 'Sponsor', href: 'https://github.com/sponsors/prosefly', external: true, variant: 'outline' }}
+  />
+</Pricing>
+
+## CTA
+
+Use `CTA` near the end of a landing page or feature page.
+
+<CTA
+  headingLevel={3}
+  title="Start from the starter template."
+  description="Use the same Lotus shell for docs pages, product pages, and static marketing routes."
+  variant="subtle"
+  actions={[
+    { label: 'Install Lotus', href: '/docs/installation/', trailingIcon: 'lucide:arrow-right' },
+    { label: 'View page layouts', href: '/docs/customization/page-layouts/', variant: 'outline' },
+  ]}
+/>
+
+## Props And Slots
+
+Props are shortcuts for common content. Slots take priority when present.
+
+| Block | Main props | Slots |
+| --- | --- | --- |
+| `PageContainer` | `as`, `size` | default |
+| `PageSection` | `as`, `container`, `containerClass`, `padding`, `size` | default |
+| `Hero` | `variant`, `headingLevel`, `eyebrow`, `title`, `description`, `actions` | `eyebrow`, `title`, `description`, `actions`, `visual`, `footer` |
+| `FeatureGrid` | `columns` | default |
+| `FeatureCard` | `title`, `description`, `icon`, `href`, `external` | `title`, `description`, default |
+| `Pricing` | none | default |
+| `PricingCard` | `name`, `price`, `description`, `features`, `action`, `highlighted`, `badge` | `name`, `price`, `description`, `features`, `action`, `badge` |
+| `CTA` | `variant`, `headingLevel`, `title`, `description`, `actions` | `title`, `description`, `actions` |
+
+Blocks do not read `theme.config.json`. They only consume the current Lotus CSS
+tokens, so they can be used in custom Astro routes and layouts.

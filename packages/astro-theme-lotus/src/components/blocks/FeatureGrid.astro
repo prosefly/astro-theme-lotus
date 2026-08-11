@@ -1,0 +1,31 @@
+---
+type FeatureGridColumns = 2 | 3 | 4;
+
+interface Props {
+  columns?: FeatureGridColumns;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  columns = 3,
+  class: className,
+  ...attrs
+} = Astro.props;
+const columnClasses: Record<FeatureGridColumns, string> = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 xl:grid-cols-3',
+  4: 'sm:grid-cols-2 xl:grid-cols-4',
+};
+---
+
+<div
+  class:list={[
+    'not-prose grid gap-4',
+    columnClasses[columns],
+    className,
+  ]}
+  {...attrs}
+>
+  <slot />
+</div>

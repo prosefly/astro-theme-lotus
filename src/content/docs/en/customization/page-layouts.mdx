@@ -20,8 +20,6 @@ should share the same theme shell without using the docs sidebar layout.
 | `DocsLayout` | Documentation chrome with the sticky docs header, left sidebar, main content slot, right aside slot, and footer. |
 | `SiteHeader` | Site header with brand, search, navbar, socials, language selector, theme switch, and mobile menu. |
 | `SiteFooter` | Footer shell using the configured brand, copyright, credits, and footer links. |
-| `PageContainer` | Responsive max-width container with Lotus horizontal page padding. |
-| `PageSection` | Page section wrapper with configurable vertical spacing and optional container. |
 | `SplashLayout` | Complete splash page layout with site header, hero area, content section, and footer. |
 | `TextLayout` | Complete centered prose layout for terms, privacy, and other plain text pages. |
 
@@ -110,10 +108,10 @@ Use `BaseLayout` when the page needs a custom composition:
 ---
 import {
   BaseLayout,
-  PageSection,
   SiteFooter,
   SiteHeader,
 } from '@prosefly/astro-theme-lotus/layouts';
+import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
 import { Card, CardGrid } from '@prosefly/astro-components';
 ---
 
@@ -198,10 +196,10 @@ pages.
 import { getCollection, render } from 'astro:content';
 import {
   BaseLayout,
-  PageContainer,
   SiteFooter,
   SiteHeader,
 } from '@prosefly/astro-theme-lotus/layouts';
+import { PageContainer } from '@prosefly/astro-theme-lotus/blocks';
 import { Prose } from '@prosefly/astro-theme-lotus/components';
 
 export async function getStaticPaths() {

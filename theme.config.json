@@ -138,7 +138,8 @@
             "customization/css-styling",
             "customization/theme-components",
             "customization/overriding-components",
-            "customization/page-layouts"
+            "customization/page-layouts",
+            "customization/page-blocks"
           ]
         },
         {

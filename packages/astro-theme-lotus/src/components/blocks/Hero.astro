@@ -1,0 +1,124 @@
+---
+import Button from '../ui/Button.astro';
+
+type HeroVariant = 'default' | 'centered' | 'split' | 'docs';
+type HeroActionVariant = 'text' | 'soft' | 'outline' | 'solid' | 'ghost';
+type HeroActionColor = 'neutral' | 'accent';
+
+interface HeroAction {
+  label: string;
+  href: string;
+  external?: boolean;
+  variant?: HeroActionVariant;
+  color?: HeroActionColor;
+  trailingIcon?: string;
+}
+
+interface Props {
+  variant?: HeroVariant;
+  headingLevel?: 1 | 2 | 3;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  actions?: HeroAction[];
+  class?: string;
+  contentClass?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'default',
+  headingLevel = 1,
+  eyebrow,
+  title,
+  description,
+  actions = [],
+  class: className,
+  contentClass,
+  ...attrs
+} = Astro.props;
+const hasVisual = Astro.slots.has('visual');
+const hasFooter = Astro.slots.has('footer');
+const hasActions = Astro.slots.has('actions') || actions.length > 0;
+const TitleTag = `h${headingLevel}` as keyof HTMLElementTagNameMap;
+const isCentered = variant === 'centered';
+const isSplit = variant === 'split' || (variant === 'default' && hasVisual);
+const rootClasses = [
+  'not-prose lotus-block-hero overflow-hidden border-b border-(--lotus-border-subtle) bg-(--lotus-background)',
+  variant === 'docs' && 'bg-(--lotus-surface)/45',
+  className,
+];
+const innerClasses = [
+  'mx-auto w-full max-w-screen-2xl px-5 py-16 sm:px-6 sm:py-20',
+  isSplit && 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.9fr)] lg:items-center',
+  isCentered && 'text-center',
+  contentClass,
+];
+const contentClasses = [
+  'min-w-0',
+  isCentered ? 'mx-auto max-w-4xl' : 'max-w-3xl',
+];
+---
+
+<section class:list={rootClasses} {...attrs}>
+  <div class:list={innerClasses}>
+    <div class:list={contentClasses}>
+      {(Astro.slots.has('eyebrow') || eyebrow) && (
+        <p class:list={[
+          'mb-5 font-mono text-xs font-medium uppercase tracking-normal text-(--lotus-text-muted)',
+          isCentered && 'mx-auto',
+        ]}>
+          <slot name="eyebrow">{eyebrow}</slot>
+        </p>
+      )}
+
+      {(Astro.slots.has('title') || title) && (
+        <TitleTag class="max-w-4xl text-4xl font-semibold leading-tight text-(--lotus-text-strong) sm:text-5xl lg:text-6xl">
+          <slot name="title">{title}</slot>
+        </TitleTag>
+      )}
+
+      {(Astro.slots.has('description') || description) && (
+        <p class:list={[
+          'mt-6 max-w-2xl text-base leading-7 text-(--lotus-text) sm:text-lg sm:leading-8',
+          isCentered && 'mx-auto',
+        ]}>
+          <slot name="description">{description}</slot>
+        </p>
+      )}
+
+      {hasActions && (
+        <div class:list={['mt-8 flex flex-wrap gap-3', isCentered && 'justify-center']}>
+          <slot name="actions">
+            {actions.map((action, index) => (
+              <Button
+                color={action.color ?? (index === 0 ? 'accent' : 'neutral')}
+                external={action.external}
+                href={action.href}
+                trailingIcon={action.trailingIcon}
+                variant={action.variant ?? (index === 0 ? 'solid' : 'outline')}
+              >
+                {action.label}
+              </Button>
+            ))}
+          </slot>
+        </div>
+      )}
+
+      {hasFooter && (
+        <div class="mt-8">
+          <slot name="footer" />
+        </div>
+      )}
+    </div>
+
+    {hasVisual && (
+      <div class:list={[
+        'min-w-0',
+        variant === 'default' && 'lg:justify-self-end',
+      ]}>
+        <slot name="visual" />
+      </div>
+    )}
+  </div>
+</section>

@@ -1,0 +1,108 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import Button from '../ui/Button.astro';
+
+type PricingActionVariant = 'text' | 'soft' | 'outline' | 'solid' | 'ghost';
+type PricingActionColor = 'neutral' | 'accent';
+
+interface PricingAction {
+  label: string;
+  href: string;
+  external?: boolean;
+  variant?: PricingActionVariant;
+  color?: PricingActionColor;
+  trailingIcon?: string;
+}
+
+interface Props {
+  name?: string;
+  price?: string;
+  description?: string;
+  features?: string[];
+  action?: PricingAction;
+  highlighted?: boolean;
+  badge?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  price,
+  description,
+  features = [],
+  action,
+  highlighted = false,
+  badge,
+  class: className,
+  ...attrs
+} = Astro.props;
+const cardClasses = [
+  'not-prose flex h-full flex-col rounded-[min(var(--lotus-radius-lg),1rem)] border p-6',
+  highlighted
+    ? 'border-(--lotus-accent) bg-(--lotus-accent-soft)'
+    : 'border-(--lotus-border-muted) bg-(--lotus-background)',
+  className,
+];
+---
+
+<article class:list={cardClasses} {...attrs}>
+  <div class="flex items-start justify-between gap-4">
+    {(Astro.slots.has('name') || name) && (
+      <h3 class="text-base font-semibold leading-6 text-(--lotus-text-strong)">
+        <slot name="name">{name}</slot>
+      </h3>
+    )}
+    {(Astro.slots.has('badge') || badge) && (
+      <span class="rounded-(--lotus-radius-sm) bg-(--lotus-background) px-2 py-1 text-xs font-medium text-(--lotus-accent)">
+        <slot name="badge">{badge}</slot>
+      </span>
+    )}
+  </div>
+
+  {(Astro.slots.has('price') || price) && (
+    <div class="mt-5 text-4xl font-semibold leading-none text-(--lotus-text-strong)">
+      <slot name="price">{price}</slot>
+    </div>
+  )}
+
+  {(Astro.slots.has('description') || description) && (
+    <p class="mt-4 text-sm leading-6 text-(--lotus-text-muted)">
+      <slot name="description">{description}</slot>
+    </p>
+  )}
+
+  {(Astro.slots.has('features') || features.length > 0) && (
+    <div class="mt-6 border-t border-(--lotus-border-subtle) pt-6">
+      <slot name="features">
+        <ul class="space-y-3 text-sm leading-6 text-(--lotus-text)">
+          {features.map((feature) => (
+            <li class="flex gap-2.5">
+              <Icon aria-hidden="true" class="mt-1 h-4 w-4 shrink-0 text-(--lotus-accent)" name="lucide:check" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </slot>
+    </div>
+  )}
+
+  {(Astro.slots.has('action') || action) && (
+    <div class="mt-6">
+      <slot name="action">
+        {action && (
+          <Button
+            class="w-full"
+            color={action.color ?? (highlighted ? 'accent' : 'neutral')}
+            external={action.external}
+            href={action.href}
+            trailingIcon={action.trailingIcon}
+            variant={action.variant ?? (highlighted ? 'solid' : 'outline')}
+          >
+            {action.label}
+          </Button>
+        )}
+      </slot>
+    </div>
+  )}
+</article>
