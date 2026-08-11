@@ -64,7 +64,8 @@ These are the main tokens components should use.
 | `--lotus-border-muted` | Default component borders. |
 | `--lotus-border-subtle` | Low-emphasis dividers and sticky chrome borders. |
 | `--lotus-border-hover` | Stronger border state for hoverable controls. |
-| `--lotus-code-background` | Inline code and plain code block background. |
+| `--lotus-code-background` | Inline code and code body background. |
+| `--lotus-code-surface` | Code frame header, tab bar, and toolbar surface. |
 | `--lotus-code-border` | Plain code block border. |
 
 Light mode derives text from darker gray steps. Dark mode switches these tokens
@@ -164,6 +165,9 @@ config and prose CSS.
 | `codeFontFamily` | `var(--lotus-font-mono)` |
 | `uiFontFamily` | `var(--lotus-font-sans)` |
 | `focusBorder` | `var(--lotus-accent)` |
+
+Expressive Code frame chrome, such as headers, tab bars, and terminal toolbars,
+uses `--lotus-code-surface` through Lotus prose CSS.
 | `--ec-brdRad` | `var(--lotus-prose-surface-radius)` |
 | `--ec-frm-frameBoxShdCssVal` | `none` |
 | `--ec-frm-inlBtnBg` | `var(--lotus-surface)` |

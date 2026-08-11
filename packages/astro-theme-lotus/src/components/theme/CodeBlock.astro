@@ -63,7 +63,7 @@ const html = await highlightCode(highlightedCode, lang);
 
   .lotus-code-block__header {
     align-items: center;
-    background: var(--lotus-background);
+    background: var(--lotus-code-surface);
     border-block-end: 1px solid var(--lotus-code-border);
     block-size: var(--lotus-code-header-height);
     box-sizing: border-box;
@@ -80,6 +80,7 @@ const html = await highlightCode(highlightedCode, lang);
   }
 
   .lotus-code-block__body {
+    background: var(--lotus-code-background);
     max-width: 100%;
     overflow-x: auto;
   }

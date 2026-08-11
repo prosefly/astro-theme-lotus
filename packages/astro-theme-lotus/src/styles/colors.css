@@ -107,7 +107,8 @@
   --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-400) 20%, transparent);
   --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-400) 54%, transparent);
   --lotus-surface: var(--lotus-gray-50);
-  --lotus-code-background: var(--lotus-gray-50);
+  --lotus-code-background: var(--lotus-background);
+  --lotus-code-surface: var(--lotus-gray-50);
   --lotus-code-border: color-mix(in oklab, var(--lotus-gray-400) 24%, transparent);
   --lotus-accent: var(--lotus-accent-light);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 12%, var(--lotus-background));
@@ -310,7 +311,8 @@
   --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
   --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
   --lotus-surface: color-mix(in oklab, var(--lotus-gray-900) 65%, var(--lotus-background));
-  --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
+  --lotus-code-background: var(--lotus-background);
+  --lotus-code-surface: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
   --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
   --lotus-accent: var(--lotus-accent-dark);
   --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
@@ -345,7 +347,8 @@
     --lotus-border-subtle: color-mix(in oklab, var(--lotus-gray-500) 20%, transparent);
     --lotus-border-hover: color-mix(in oklab, var(--lotus-gray-500) 54%, transparent);
     --lotus-surface: color-mix(in oklab, var(--lotus-gray-900) 65%, var(--lotus-background));
-    --lotus-code-background: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
+    --lotus-code-background: var(--lotus-background);
+    --lotus-code-surface: color-mix(in oklab, var(--lotus-gray-900) 70%, var(--lotus-gray-950));
     --lotus-code-border: color-mix(in oklab, var(--lotus-gray-500) 28%, transparent);
     --lotus-accent: var(--lotus-accent-dark);
     --lotus-accent-soft: color-mix(in oklab, var(--lotus-accent) 16%, var(--lotus-background));
