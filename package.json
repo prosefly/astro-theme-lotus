@@ -21,7 +21,7 @@
     "@prosefly/astro-theme-lotus": "workspace:*",
     "@tailwindcss/vite": "latest",
     "@types/node": "latest",
-    "astro": "^7.1.2",
+    "astro": "^7.2.0",
     "tailwindcss": "latest",
     "typescript": "^6.0.3"
   },
