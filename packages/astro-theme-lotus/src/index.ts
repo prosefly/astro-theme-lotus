@@ -57,18 +57,18 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
           entrypoint: new URL('./middleware.ts', import.meta.url),
         });
 
-        updateConfig({
+        const configUpdate = {
           markdown: resolveMarkdownConfig(mergedOptions, astroConfig.markdown),
           integrations: [
             ...(expressiveCodeOptions === false
               ? []
               : [astroExpressiveCode(expressiveCodeOptions)]),
             mdx(),
-              proseflyIcon({
-                apiBase: config.iconify?.apiBase,
-                preload: getIconPreloadNames(config),
-                scan: config.iconify?.scan,
-              }),
+            proseflyIcon({
+              apiBase: config.iconify?.apiBase,
+              preload: getIconPreloadNames(config),
+              scan: config.iconify?.scan,
+            }),
           ],
           vite: {
             plugins: [
@@ -78,7 +78,9 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               tailwindcss(),
             ],
           },
-        });
+        } as Parameters<typeof updateConfig>[0];
+
+        updateConfig(configUpdate);
       },
       'astro:build:done': async ({ dir, logger }) => {
         await buildPagefindIndex(config, dir, logger);
