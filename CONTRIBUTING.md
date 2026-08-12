@@ -32,6 +32,31 @@ pnpm run check
 pnpm run build
 ```
 
+## Git Commit Style
+
+Use short, conventional-style commit messages:
+
+```text
+type(scope): summary
+```
+
+- Use lowercase `type` values such as `fix`, `feat`, `docs`, `style`,
+  `refactor`, `test`, `chore`, `build`, and `ci`.
+- Add a `scope` when it helps identify the affected area, for example
+  `theme`, `docs`, `sidebar`, `search`, `content`, or `deps`.
+- Keep the summary imperative, present tense, and under 72 characters when
+  practical.
+- Use the commit body for context, migration notes, or follow-up details when a
+  change is not self-explanatory.
+
+Examples:
+
+```text
+fix(theme): avoid deep Astro config type comparisons
+docs: document content routing defaults
+chore(deps): align Astro workspace dependencies
+```
+
 ## Documentation Changes
 
 Keep documentation aligned with the public API in `packages/astro-theme-lotus`
