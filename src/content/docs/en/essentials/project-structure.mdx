@@ -15,7 +15,7 @@ folders only when the project needs them.
 Use this for a documentation-only site where every page lives under the docs
 route.
 
-<FileTree>
+<FileTree iconSet="vscode-icons">
 
 - astro.config.ts registers the Lotus integration
 - theme.config.json stores Lotus theme config
@@ -40,7 +40,7 @@ Keep the default loader base and the default `docsBase: '/'`.
 Use this for a documentation-only site. It matches Lotus defaults and does not
 need an explicit `docsBase`.
 
-<FileTree>
+<FileTree iconSet="vscode-icons">
 
 - astro.config.ts registers the Lotus integration
 - theme.config.json uses the default `docsBase: '/'`
@@ -65,7 +65,7 @@ Markdown route is `/installation.md`.
 Use this when the site needs a top-level marketing or product homepage at `/`
 and documentation under `/docs`.
 
-<FileTree>
+<FileTree iconSet="vscode-icons">
 
 - astro.config.ts registers the Lotus integration
 - theme.config.json sets `docsBase: '/docs'`
@@ -92,7 +92,7 @@ footer, tokens, and theme initialization as the docs pages.
 
 Use this when each locale has its own content directory.
 
-<FileTree>
+<FileTree iconSet="vscode-icons">
 
 - src
   - content.config.ts registers the docs collection
@@ -120,7 +120,7 @@ Sidebar strings stay locale-neutral. Reference `configuration/project`, not
 Use this when the project replaces shell components or adds local UI around the
 Lotus theme.
 
-<FileTree>
+<FileTree iconSet="vscode-icons">
 
 - src
   - content.config.ts
