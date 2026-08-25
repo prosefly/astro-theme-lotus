@@ -201,8 +201,28 @@
         "title": "Projects",
         "links": [
           {
+            "label": "Astro Theme Lotus",
+            "href": "https://prosefly.dev/themes/lotus/",
+            "external": true
+          },
+          {
+            "label": "Astro Theme Dahlia",
+            "href": "https://prosefly.dev/themes/dahlia/",
+            "external": true
+          },
+          {
             "label": "Astro Components",
             "href": "https://prosefly.dev/docs/astro-components/",
+            "external": true
+          },
+          {
+            "label": "Astro Components",
+            "href": "https://prosefly.dev/docs/astro-components/",
+            "external": true
+          },
+          {
+            "label": "Astro OpenAPI",
+            "href": "https://prosefly.dev/docs/astro-openapi/",
             "external": true
           }
         ]
