@@ -23,7 +23,16 @@ function getChromeHeight(): number {
   return parsedChromeHeight || 112;
 }
 
+let teardownTableOfContents: (() => void) | undefined;
+
+function cleanupTableOfContents(): void {
+  teardownTableOfContents?.();
+  teardownTableOfContents = undefined;
+}
+
 function initTableOfContents(): void {
+  cleanupTableOfContents();
+
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-toc-link]'));
 
   if (!links.length) {
@@ -49,7 +58,9 @@ function initTableOfContents(): void {
 
   const tocLists = Array.from(document.querySelectorAll('[data-toc-list]'));
   let ticking = false;
+  let animationFrame: number | undefined;
   let headingPositions: HeadingPosition[] = [];
+  let destroyed = false;
 
   const setActiveLink = (activeSlug?: string) => {
     links.forEach((link) => {
@@ -123,41 +134,64 @@ function initTableOfContents(): void {
   };
 
   const updateActiveLink = () => {
-    if (ticking) {
+    if (ticking || destroyed) {
       return;
     }
 
     ticking = true;
-    window.requestAnimationFrame(() => {
+    animationFrame = window.requestAnimationFrame(() => {
+      animationFrame = undefined;
+
+      if (destroyed) {
+        return;
+      }
+
       setActiveLink(getActiveSlug());
       ticking = false;
     });
   };
 
-  links.forEach((link) => {
-    link.addEventListener('click', () => {
-      const slug = link.getAttribute('data-toc-link');
+  const handleLinkClick = (event: Event) => {
+    const slug = (event.currentTarget as HTMLAnchorElement).getAttribute('data-toc-link');
 
-      if (slug) {
-        setActiveLink(slug);
-      }
-    });
-  });
+    if (slug) {
+      setActiveLink(slug);
+    }
+  };
+  const handleResize = () => {
+    measureHeadings();
+    updateActiveLink();
+  };
+  const handleLoad = () => {
+    measureHeadings();
+    updateActiveLink();
+  };
 
+  links.forEach((link) => link.addEventListener('click', handleLinkClick));
   window.addEventListener('scroll', updateActiveLink, { passive: true });
-  window.addEventListener('resize', () => {
-    measureHeadings();
-    updateActiveLink();
-  });
-  window.addEventListener('load', () => {
-    measureHeadings();
-    updateActiveLink();
-  });
-  document.querySelectorAll('[data-mobile-toc-menu]').forEach((menu) => {
-    menu.addEventListener('toggle', updateActiveLink);
-  });
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('load', handleLoad);
+  const mobileTocMenus = document.querySelectorAll('[data-mobile-toc-menu]');
+  mobileTocMenus.forEach((menu) => menu.addEventListener('toggle', updateActiveLink));
   measureHeadings();
   setActiveLink(getActiveSlug());
+
+  teardownTableOfContents = () => {
+    destroyed = true;
+
+    if (animationFrame !== undefined) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = undefined;
+    }
+
+    links.forEach((link) => link.removeEventListener('click', handleLinkClick));
+    window.removeEventListener('scroll', updateActiveLink);
+    window.removeEventListener('resize', handleResize);
+    window.removeEventListener('load', handleLoad);
+    mobileTocMenus.forEach((menu) => menu.removeEventListener('toggle', updateActiveLink));
+  };
 }
 
 initTableOfContents();
+document.addEventListener('astro:before-swap', cleanupTableOfContents);
+document.addEventListener('astro:page-load', initTableOfContents);

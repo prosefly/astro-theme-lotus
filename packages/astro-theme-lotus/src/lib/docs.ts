@@ -51,6 +51,28 @@ export interface DocsNavigationContext {
   entrySections: Map<string, string>;
 }
 
+export interface DocsNavigationHandoff {
+  locale: NormalizedLocale;
+  sections: DocsSectionNav[];
+  sidebars: Record<string, DocsSidebarNav>;
+  currentSection?: string;
+}
+
+export function createDocsNavigationHandoff(
+  context: Pick<DocsNavigationContext, 'locale' | 'sections' | 'sidebars'>,
+  currentSection: string | undefined,
+): DocsNavigationHandoff {
+  return {
+    locale: context.locale,
+    sections: context.sections.map((section) => ({
+      ...section,
+      active: section.slug === currentSection,
+    })),
+    sidebars: context.sidebars,
+    currentSection,
+  };
+}
+
 function getEntryOrder(entry: DocsEntry): number {
   return entry.data.sidebar?.order ?? entry.data.order ?? Number.MAX_SAFE_INTEGER;
 }

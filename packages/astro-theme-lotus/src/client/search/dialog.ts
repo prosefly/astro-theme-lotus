@@ -4,7 +4,18 @@ import { createSearchProvider } from './provider';
 import { createSearchMessageElement, createSearchResultList } from './render';
 import type { SearchResult } from './types';
 
-export {};
+export function createSearchRequestGuard() {
+  let version = 0;
+
+  return {
+    begin() {
+      return ++version;
+    },
+    isCurrent(requestVersion: number) {
+      return requestVersion === version;
+    },
+  };
+}
 
 declare global {
   interface Window {
@@ -32,6 +43,7 @@ function initSearchDialog(): void {
   let activeResults: SearchResult[] = [];
   let selectedIndex = -1;
   let providerReady = false;
+  const searchRequests = createSearchRequestGuard();
 
   const setMessage = (message: string) => {
     activeResults = [];
@@ -81,6 +93,7 @@ function initSearchDialog(): void {
   };
 
   const renderResults = async () => {
+    const requestVersion = searchRequests.begin();
     const query = input.value.trim();
 
     if (!query) {
@@ -93,10 +106,24 @@ function initSearchDialog(): void {
     }
 
     try {
-      activeResults = await provider.search(query);
+      const nextResults = await provider.search(query);
+
+      if (!searchRequests.isCurrent(requestVersion)) {
+        return;
+      }
+
+      activeResults = nextResults;
       providerReady = true;
     } catch {
+      if (!searchRequests.isCurrent(requestVersion)) {
+        return;
+      }
+
       setMessage(messages.unavailable);
+      return;
+    }
+
+    if (!searchRequests.isCurrent(requestVersion)) {
       return;
     }
 
@@ -146,11 +173,20 @@ function initSearchDialog(): void {
     input.setAttribute('aria-expanded', 'true');
     window.setTimeout(() => input.focus(), 0);
     if (!providerReady) {
+      const loadVersion = searchRequests.begin();
       provider.load()
         .then(() => {
+          if (!searchRequests.isCurrent(loadVersion)) {
+            return;
+          }
+
           providerReady = true;
         })
         .catch(() => {
+          if (!searchRequests.isCurrent(loadVersion)) {
+            return;
+          }
+
           setMessage(messages.unavailable);
         });
     }
@@ -191,7 +227,7 @@ function initSearchDialog(): void {
   });
 }
 
-if (!window.__lotusSearchDialogReady) {
+if (typeof window !== 'undefined' && !window.__lotusSearchDialogReady) {
   window.__lotusSearchDialogReady = true;
 
   if (document.readyState === 'loading') {

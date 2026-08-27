@@ -1,5 +1,9 @@
 ---
-import { getDocsContext, getSidebarSectionTitle } from '../lib/docs';
+import {
+  getDocsContext,
+  getSidebarSectionTitle,
+  type DocsNavigationHandoff,
+} from '../lib/docs';
 import type { NormalizedLocale } from '../lib/i18n';
 import type { HeadConfig } from '../lib/page/head';
 import type { JsonLdNode } from '../lib/page/schema';
@@ -20,14 +24,17 @@ interface Props {
   currentPath?: string;
   currentSection?: string;
   currentSlug?: string;
+  docsNavigation?: DocsNavigationHandoff;
   headings?: Heading[];
   pagefind?: boolean;
 }
 
 const props = Astro.props;
-const docsContext = await getDocsContext(props.currentSection, props.locale?.key);
-const sidebars = docsContext.sidebars;
-const sidebar = props.currentSection ? sidebars[props.currentSection] ?? { links: [], groups: [] } : { links: [], groups: [] };
+const docsNavigation: DocsNavigationHandoff = props.docsNavigation
+  ?? await getDocsContext(props.currentSection, props.locale?.key);
+const currentSection = props.currentSection ?? docsNavigation.currentSection;
+const sidebars = docsNavigation.sidebars;
+const sidebar = currentSection ? sidebars[currentSection] ?? { links: [], groups: [] } : { links: [], groups: [] };
 const sectionTitle = props.currentSlug ? getSidebarSectionTitle(sidebar, props.currentSlug) : undefined;
 ---
 
@@ -41,9 +48,9 @@ const sectionTitle = props.currentSlug ? getSidebarSectionTitle(sidebar, props.c
   sectionTitle={sectionTitle}
   headings={props.headings}
   pagefind={props.pagefind}
-  subnav={docsContext.sections}
   sidebar={sidebar}
   sidebars={sidebars}
+  subnav={docsNavigation.sections}
 >
   <slot />
 

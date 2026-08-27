@@ -1,11 +1,24 @@
+const initializedSidebarContainers = new WeakSet<HTMLElement>();
+let teardownLotusSidebarScroll: (() => void) | undefined;
+
+function cleanupLotusSidebarScroll(): void {
+  teardownLotusSidebarScroll?.();
+  teardownLotusSidebarScroll = undefined;
+}
+
 function initLotusSidebarScroll(): void {
-  const containers = Array.from(document.querySelectorAll('[data-sidebar-scroll]'));
+  cleanupLotusSidebarScroll();
+
+  const controller = new AbortController();
+  const containers = Array.from(document.querySelectorAll('[data-sidebar-scroll]'))
+    .filter((container): container is HTMLElement => container instanceof HTMLElement);
 
   for (const container of containers) {
-    if (!(container instanceof HTMLElement) || container.dataset.sidebarReady) {
+    if (initializedSidebarContainers.has(container)) {
       continue;
     }
 
+    initializedSidebarContainers.add(container);
     container.dataset.sidebarReady = 'true';
 
     const scrollArea = container.querySelector<HTMLElement>('[data-sidebar-scroll-area]');
@@ -26,11 +39,17 @@ function initLotusSidebarScroll(): void {
       bottomFade.toggleAttribute('data-visible', overflow && !atBottom);
     };
 
-    scrollArea.addEventListener('scroll', updateFades, { passive: true });
-    window.addEventListener('resize', updateFades);
+    scrollArea.addEventListener('scroll', updateFades, { passive: true, signal: controller.signal });
+    window.addEventListener('resize', updateFades, { signal: controller.signal });
     updateFades();
   }
+
+  teardownLotusSidebarScroll = () => {
+    controller.abort();
+    containers.forEach((container) => initializedSidebarContainers.delete(container));
+  };
 }
 
 initLotusSidebarScroll();
+document.addEventListener('astro:before-swap', cleanupLotusSidebarScroll);
 document.addEventListener('astro:page-load', initLotusSidebarScroll);

@@ -1,4 +1,14 @@
+const initializedDrawers = new WeakSet<HTMLElement>();
+let teardownMobileDocsNav: (() => void) | undefined;
+
+function cleanupMobileDocsNav(): void {
+  teardownMobileDocsNav?.();
+  teardownMobileDocsNav = undefined;
+}
+
 function initMobileDocsNav(): void {
+  cleanupMobileDocsNav();
+
   const drawer = document.querySelector<HTMLElement>('[data-mobile-sidebar]');
   const openButtons = Array.from(document.querySelectorAll('[data-mobile-sidebar-open]'));
   const closeButtons = drawer
@@ -11,14 +21,18 @@ function initMobileDocsNav(): void {
   const summaryCount = document.querySelector('[data-section-summary-count]');
   const summaryIcons = Array.from(document.querySelectorAll<HTMLElement>('[data-section-summary-icon]'));
 
-  if (!drawer || !openButtons.length || drawer.dataset.mobileDocsNavReady) {
+  if (!drawer || !openButtons.length || initializedDrawers.has(drawer)) {
     return;
   }
 
+  initializedDrawers.add(drawer);
   drawer.dataset.mobileDocsNavReady = 'true';
 
+  const controller = new AbortController();
   let closeTimer: number | undefined;
+  let openAnimationFrame: number | undefined;
   let previousOverflow = '';
+  let overflowLocked = false;
   let previousFocus: HTMLElement | null = null;
 
   const getFocusableElements = () => Array.from(
@@ -34,14 +48,20 @@ function initMobileDocsNav(): void {
   };
 
   const openDrawer = () => {
-    window.clearTimeout(closeTimer);
+    if (closeTimer !== undefined) {
+      window.clearTimeout(closeTimer);
+      closeTimer = undefined;
+    }
+
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     drawer.hidden = false;
     drawer.removeAttribute('inert');
     setOpenButtonState(true);
     previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
-    window.requestAnimationFrame(() => {
+    overflowLocked = true;
+    openAnimationFrame = window.requestAnimationFrame(() => {
+      openAnimationFrame = undefined;
       drawer.setAttribute('data-open', '');
       getFocusableElements()[0]?.focus({ preventScroll: true });
     });
@@ -52,69 +72,24 @@ function initMobileDocsNav(): void {
       return;
     }
 
+    if (openAnimationFrame !== undefined) {
+      window.cancelAnimationFrame(openAnimationFrame);
+      openAnimationFrame = undefined;
+    }
+
     drawer.removeAttribute('data-open');
     document.documentElement.style.overflow = previousOverflow;
+    overflowLocked = false;
     setOpenButtonState(false);
     previousFocus?.focus({ preventScroll: true });
     drawer.setAttribute('inert', '');
     closeTimer = window.setTimeout(() => {
+      closeTimer = undefined;
       drawer.hidden = true;
     }, 180);
   };
 
-  openButtons.forEach((button) => {
-    button.addEventListener('click', openDrawer);
-  });
-
-  closeButtons.forEach((button) => {
-    button.addEventListener('click', closeDrawer);
-  });
-
-  drawer.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeDrawer);
-  });
-
-  sectionOptions.forEach((option) => {
-    option.addEventListener('click', () => {
-      const slug = option.getAttribute('data-section-option');
-
-      if (!slug) {
-        return;
-      }
-
-      sectionOptions.forEach((item) => {
-        const active = item.getAttribute('data-section-option') === slug;
-        item.toggleAttribute('data-active', active);
-
-        if (active) {
-          item.setAttribute('aria-current', 'page');
-        } else {
-          item.removeAttribute('aria-current');
-        }
-      });
-
-      sectionPanels.forEach((panel) => {
-        panel.hidden = panel.getAttribute('data-section-panel') !== slug;
-      });
-      window.dispatchEvent(new Event('resize'));
-
-      summaryIcons.forEach((icon) => {
-        icon.hidden = icon.getAttribute('data-section-summary-icon') !== slug;
-      });
-
-      if (summaryLabel) {
-        summaryLabel.textContent = option.getAttribute('data-section-label') ?? '';
-      }
-
-      if (summaryCount) {
-        summaryCount.textContent = option.getAttribute('data-section-count') ?? '';
-      }
-
-      sectionSwitch?.removeAttribute('open');
-    });
-  });
-
-  window.addEventListener('keydown', (event) => {
+  const handleKeydown = (event: KeyboardEvent) => {
     if (drawer.hidden) {
       return;
     }
@@ -147,7 +122,74 @@ function initMobileDocsNav(): void {
       event.preventDefault();
       first.focus();
     }
-  });
+  };
+
+  const handleSectionOption = (event: Event) => {
+    const option = event.currentTarget as HTMLElement;
+    const slug = option.getAttribute('data-section-option');
+
+    if (!slug) {
+      return;
+    }
+
+    sectionOptions.forEach((item) => {
+      const active = item.getAttribute('data-section-option') === slug;
+      item.toggleAttribute('data-active', active);
+
+      if (active) {
+        item.setAttribute('aria-current', 'page');
+      } else {
+        item.removeAttribute('aria-current');
+      }
+    });
+
+    sectionPanels.forEach((panel) => {
+      panel.hidden = panel.getAttribute('data-section-panel') !== slug;
+    });
+    window.dispatchEvent(new Event('resize'));
+
+    summaryIcons.forEach((icon) => {
+      icon.hidden = icon.getAttribute('data-section-summary-icon') !== slug;
+    });
+
+    if (summaryLabel) {
+      summaryLabel.textContent = option.getAttribute('data-section-label') ?? '';
+    }
+
+    if (summaryCount) {
+      summaryCount.textContent = option.getAttribute('data-section-count') ?? '';
+    }
+
+    sectionSwitch?.removeAttribute('open');
+  };
+
+  openButtons.forEach((button) => button.addEventListener('click', openDrawer, { signal: controller.signal }));
+  closeButtons.forEach((button) => button.addEventListener('click', closeDrawer, { signal: controller.signal }));
+  drawer.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeDrawer, { signal: controller.signal }));
+  sectionOptions.forEach((option) => option.addEventListener('click', handleSectionOption, { signal: controller.signal }));
+  window.addEventListener('keydown', handleKeydown, { signal: controller.signal });
+
+  teardownMobileDocsNav = () => {
+    controller.abort();
+    initializedDrawers.delete(drawer);
+
+    if (closeTimer !== undefined) {
+      window.clearTimeout(closeTimer);
+      closeTimer = undefined;
+    }
+
+    if (openAnimationFrame !== undefined) {
+      window.cancelAnimationFrame(openAnimationFrame);
+      openAnimationFrame = undefined;
+    }
+
+    if (overflowLocked) {
+      document.documentElement.style.overflow = previousOverflow;
+      overflowLocked = false;
+    }
+  };
 }
 
 initMobileDocsNav();
+document.addEventListener('astro:before-swap', cleanupMobileDocsNav);
+document.addEventListener('astro:page-load', initMobileDocsNav);

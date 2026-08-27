@@ -71,7 +71,7 @@ export function getLocales(config: LotusThemeConfig): NormalizedLocale[] {
     return {
       key,
       label: locale.label,
-      lang: locale.lang ?? (key === ROOT_LOCALE ? locale.label : key),
+      lang: locale.lang ?? (key === ROOT_LOCALE ? 'en' : key),
       dir: locale.dir ?? getLanguageDirection(locale.lang ?? key),
       directory,
       pathPrefix: key === ROOT_LOCALE ? '' : normalizePathSegment(key),

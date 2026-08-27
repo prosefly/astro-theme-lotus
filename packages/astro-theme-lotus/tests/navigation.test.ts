@@ -59,6 +59,24 @@ describe('localized navigation', () => {
     expect(getLanguageDirection('zh-CN')).toBe('ltr');
   });
 
+  it('uses stable language tags for locales without explicit language tags', () => {
+    const config = resolveLotusConfig({
+      locales: {
+        root: { label: 'English' },
+        'ja-jp': { label: '日本語' },
+      },
+    });
+    const locales = getLocales(config);
+
+    expect(locales.find((locale) => locale.key === 'root')?.lang).toBe('en');
+    expect(locales.find((locale) => locale.key === 'ja-jp')?.lang).toBe('ja-jp');
+
+    const explicitRoot = getLocales(resolveLotusConfig({
+      locales: { root: { label: 'English', lang: 'en-GB' } },
+    }));
+    expect(explicitRoot[0]?.lang).toBe('en-GB');
+  });
+
   it('maps localized entry ids and slug overrides to public slugs', () => {
     expect(getLocalizedSlugFromEntryId(localizedConfig, 'en/overview')).toMatchObject({
       locale: { key: 'root' },

@@ -12,6 +12,7 @@ import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getEntryContributors } from '../lib/contributors';
 import {
   getDocsContext,
+  createDocsNavigationHandoff,
   getEntrySectionFromContext,
   getEntrySlug,
   getSidebarPagination,
@@ -58,6 +59,7 @@ export async function getStaticPaths() {
 
     return docsContext.entries.map((entry) => {
       const entrySlug = getEntrySlug(entry);
+      const currentSection = getEntrySectionFromContext(docsContext, entry);
 
       return {
         params: {
@@ -69,7 +71,7 @@ export async function getStaticPaths() {
         props: {
           entry,
           currentLocale,
-          currentSection: getEntrySectionFromContext(docsContext, entry),
+          docsNavigation: createDocsNavigationHandoff(docsContext, currentSection),
         },
       };
     });
@@ -78,7 +80,8 @@ export async function getStaticPaths() {
   return paths.flat();
 }
 
-const { entry, currentLocale, currentSection } = Astro.props;
+const { entry, currentLocale, docsNavigation } = Astro.props;
+const currentSection = docsNavigation.currentSection;
 const { Content, headings } = await render(entry);
 const tocHeadings = getTableOfContentsHeadings(
   headings as MarkdownHeading[],
@@ -86,9 +89,8 @@ const tocHeadings = getTableOfContentsHeadings(
 );
 const isTextTemplate = entry.data.template === 'text';
 const isSplashTemplate = entry.data.template === 'splash';
-const docsContext = await getDocsContext(currentSection, currentLocale.key);
-const subnav = docsContext.sections;
-const sidebars = docsContext.sidebars;
+const subnav = docsNavigation.sections;
+const sidebars = docsNavigation.sidebars;
 const sidebar = currentSection ? sidebars[currentSection] ?? { links: [], groups: [] } : { links: [], groups: [] };
 const entrySlug = getEntrySlug(entry);
 const sectionTitle = getSidebarSectionTitle(sidebar, entrySlug);
@@ -182,6 +184,7 @@ const jsonLd = createDocsJsonLd({
     locale={currentLocale}
     currentPath={currentPath}
     currentSection={currentSection}
+    docsNavigation={docsNavigation}
     currentSlug={entrySlug}
     pagefind={entry.data.pagefind}
     headings={tocHeadings}
