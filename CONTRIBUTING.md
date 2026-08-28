@@ -100,6 +100,6 @@ pushing release tags:
 
 - `@prosefly/astro-theme-lotus`: `.github/workflows/release.yml`
 
-Use tags named `astro-theme-lotus-v0.1.0`, matching the package version
-exactly. `@prosefly/astro-components` releases from the sibling
+Use tags named after the package version, such as `0.7.1`, matching the package
+version exactly. `@prosefly/astro-components` releases from the sibling
 `prosefly/astro-components` repository.
