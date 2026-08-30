@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import type { AstroConfig } from 'astro';
+import { isUnifiedProcessor } from '@astrojs/markdown-remark';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
-import { resolveMarkdownConfig } from '../src/lib/config/markdown';
+import {
+  rehypeImageGallery,
+  remarkCalloutDirectives,
+  remarkPackageManagerTabs,
+} from '@prosefly/astro-components/markdown';
+import { resolveMarkdownConfig, resolveMarkdownExtensions } from '../src/lib/config/markdown';
 import { remarkHeadingIds } from '../src/lib/markdown/heading-ids';
 
 interface TestNode {
@@ -45,6 +51,14 @@ function markdownConfig(config: Partial<AstroConfig['markdown']> = {}): AstroCon
   return config as AstroConfig['markdown'];
 }
 
+function processorOptions(config: ReturnType<typeof resolveMarkdownConfig>) {
+  const processor = config.processor;
+  if (!processor || !isUnifiedProcessor(processor)) {
+    throw new Error('Expected a unified Markdown processor');
+  }
+  return processor.options;
+}
+
 describe('markdown transforms', () => {
   it('enables CJK friendly parsing automatically for CJK locales', () => {
     const config = resolveMarkdownConfig({
@@ -53,7 +67,7 @@ describe('markdown transforms', () => {
         'zh-cn': { label: '简体中文', lang: 'zh-CN', directory: 'zh-cn' },
       },
     }, markdownConfig());
-    const plugins = config.processor.options.remarkPlugins;
+    const plugins = processorOptions(config).remarkPlugins;
 
     expect(plugins).toContain(remarkCjkFriendly);
     expect(plugins).toContain(remarkCjkFriendlyGfmStrikethrough);
@@ -69,8 +83,8 @@ describe('markdown transforms', () => {
       },
     }, markdownConfig());
 
-    expect(disabled.processor.options.remarkPlugins).not.toContain(remarkCjkFriendly);
-    expect(disabled.processor.options.remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
+    expect(processorOptions(disabled).remarkPlugins).not.toContain(remarkCjkFriendly);
+    expect(processorOptions(disabled).remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
 
     const withoutGfm = resolveMarkdownConfig({
       markdown: {
@@ -80,8 +94,25 @@ describe('markdown transforms', () => {
       gfm: false,
     }));
 
-    expect(withoutGfm.processor.options.remarkPlugins).toContain(remarkCjkFriendly);
-    expect(withoutGfm.processor.options.remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
+    expect(processorOptions(withoutGfm).remarkPlugins).toContain(remarkCjkFriendly);
+    expect(processorOptions(withoutGfm).remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
+  });
+
+  it('maps theme extensions around shared component transforms', () => {
+    const config = resolveMarkdownConfig({
+      markdown: {
+        calloutDirectives: false,
+        packageManagerTabs: false,
+        imageGallery: false,
+      },
+    }, markdownConfig());
+    const extensions = resolveMarkdownExtensions({}, markdownConfig());
+
+    expect(processorOptions(config).remarkPlugins).not.toContain(remarkCalloutDirectives);
+    expect(processorOptions(config).remarkPlugins).not.toContain(remarkPackageManagerTabs);
+    expect(processorOptions(config).rehypePlugins).not.toContain(rehypeImageGallery);
+    expect(extensions.remarkPluginsBeforeTransforms?.[0]).toBe(remarkHeadingIds);
+    expect(extensions.rehypePluginsAfterTransforms?.[0]).toBeTypeOf('function');
   });
 
   it('generates stable slugs for headings and duplicate headings', () => {

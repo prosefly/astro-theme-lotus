@@ -1,7 +1,6 @@
 ---
 import type { MarkdownHeading } from 'astro';
 import { render } from 'astro:content';
-import '@prosefly/astro-components/markdown/image-gallery.css';
 import DocsContextLayout from '../layouts/DocsContextLayout.astro';
 import SplashLayout from '../layouts/SplashLayout.astro';
 import TextLayout from '../layouts/TextLayout.astro';
@@ -236,8 +235,5 @@ const jsonLd = createDocsJsonLd({
       />
     </Fragment>
 
-    <script>
-      import '@prosefly/astro-components/markdown/image-gallery.js';
-    </script>
   </DocsContextLayout>
 )}
