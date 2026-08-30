@@ -12,18 +12,30 @@
   "siteNav": [
     {
       "label": "Docs",
+      "translations": {
+        "zh-cn": "文档"
+      },
       "href": "/docs/"
     },
     {
       "label": "Pricing",
+      "translations": {
+        "zh-cn": "价格"
+      },
       "href": "/pricing/"
     },
     {
       "label": "Sponsors",
+      "translations": {
+        "zh-cn": "赞助"
+      },
       "href": "/sponsors/"
     },
     {
       "label": "Source",
+      "translations": {
+        "zh-cn": "源代码"
+      },
       "href": "https://github.com/prosefly/astro-theme-lotus",
       "variant": "solid",
       "trailingIcon": "lucide:chevron-right"
@@ -80,7 +92,7 @@
           },
           "link": "https://github.com/prosefly/astro-theme-lotus/discussions",
           "external": true,
-          "icon": "lucide:messages-square"
+          "icon": "lucide:heart-handshake"
         },
         {
           "label": "Getting Started",
