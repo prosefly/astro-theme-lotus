@@ -21,12 +21,13 @@
     "@prosefly/astro-theme-lotus": "workspace:*",
     "@tailwindcss/vite": "latest",
     "@types/node": "latest",
-    "astro": "^7.2.8",
+    "astro": "^7.2.9",
     "tailwindcss": "latest",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@prosefly/astro-components": "^0.6.0",
+    "pagefind": "^1.5.2",
     "vitest": "^4.1.11"
   }
 }

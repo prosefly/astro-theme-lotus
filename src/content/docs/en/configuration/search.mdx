@@ -46,6 +46,14 @@ searches it entirely in the browser.
 Use Pagefind when a site has enough content that a dedicated static search index
 is a better fit than shipping one JSON file.
 
+Pagefind is an optional peer dependency. Install it before selecting this
+provider:
+
+```sh
+pnpm add pagefind
+# or: npm install pagefind
+```
+
 ```ts
 search: {
   provider: 'pagefind',

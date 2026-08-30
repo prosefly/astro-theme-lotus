@@ -1,8 +1,35 @@
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as pagefind from 'pagefind';
 import type { LotusThemeConfig } from '../theme';
 import { getPagefindOutputSubdir, getPagefindSearchConfig } from './index';
+
+interface PagefindIndex {
+  addDirectory(options: { path: string; glob?: string }): Promise<{ errors: string[]; page_count: number }>;
+  writeFiles(options: { outputPath: string }): Promise<{ errors: string[] }>;
+  deleteIndex(): Promise<unknown>;
+}
+
+interface PagefindModule {
+  createIndex(options: {
+    excludeSelectors: string[];
+    rootSelector?: string;
+  }): Promise<{ index?: PagefindIndex; errors: string[] }>;
+  close(): Promise<unknown>;
+}
+
+type PagefindLoader = () => Promise<PagefindModule>;
+
+export async function loadPagefind(importPagefind: PagefindLoader = () => import('pagefind')): Promise<PagefindModule> {
+  try {
+    return await importPagefind();
+  } catch (error) {
+    const reason = error instanceof Error && error.message ? ` ${error.message}` : '';
+    throw new Error(
+      `The Pagefind search provider is enabled, but the optional 'pagefind' package could not be loaded.${reason} Install it with 'pnpm add pagefind' or 'npm install pagefind'.`,
+      { cause: error },
+    );
+  }
+}
 
 interface PagefindLogger {
   info(message: string): void;
@@ -20,6 +47,7 @@ export async function buildPagefindIndex(
   config: LotusThemeConfig,
   dir: URL,
   logger: PagefindLogger,
+  loadPagefindModule: PagefindLoader = loadPagefind,
 ): Promise<void> {
   const searchConfig = getPagefindSearchConfig(config);
 
@@ -27,6 +55,7 @@ export async function buildPagefindIndex(
     return;
   }
 
+  const pagefind = await loadPagefindModule();
   const siteDir = fileURLToPath(dir);
   const outputSubdir = getPagefindOutputSubdir(searchConfig);
   const outputPath = join(siteDir, outputSubdir);

@@ -13,6 +13,7 @@ import {
   resolveLotusConfig,
 } from '../src/lib/config/resolve';
 import { getLotusInjectedRoutes } from '../src/lib/routes';
+import { buildPagefindIndex, loadPagefind } from '../src/lib/search/pagefind';
 
 function getRoutePatterns(options: Parameters<typeof resolveLotusConfig>[0]) {
   return getLotusInjectedRoutes(resolveLotusConfig(options)).map((route) => route.pattern);
@@ -251,5 +252,57 @@ describe('Lotus config', () => {
     ]);
 
     expect(getRoutePatterns({ llms: { full: true } })).toContain('/llms-full.txt');
+  });
+
+  it('does not load Pagefind for local or disabled search', async () => {
+    const loadPagefindModule = async () => {
+      throw new Error('Pagefind should not be loaded');
+    };
+    const logger = { info: () => {} };
+
+    await expect(buildPagefindIndex(
+      resolveLotusConfig({ search: { provider: 'local' } }),
+      new URL('file:///tmp/lotus-pagefind-test/'),
+      logger,
+      loadPagefindModule,
+    )).resolves.toBeUndefined();
+    await expect(buildPagefindIndex(
+      resolveLotusConfig({ search: false }),
+      new URL('file:///tmp/lotus-pagefind-test/'),
+      logger,
+      loadPagefindModule,
+    )).resolves.toBeUndefined();
+  });
+
+  it('loads Pagefind only for the Pagefind provider', async () => {
+    let loaded = false;
+    const pagefindModule = {
+      createIndex: async () => ({
+        errors: [],
+        index: {
+          addDirectory: async () => ({ errors: [], page_count: 0 }),
+          writeFiles: async () => ({ errors: [] }),
+          deleteIndex: async () => null,
+        },
+      }),
+      close: async () => null,
+    };
+
+    await expect(buildPagefindIndex(
+      resolveLotusConfig({ search: { provider: 'pagefind' } }),
+      new URL('file:///tmp/lotus-pagefind-test/'),
+      { info: () => {} },
+      async () => {
+        loaded = true;
+        return pagefindModule;
+      },
+    )).resolves.toBeUndefined();
+    expect(loaded).toBe(true);
+  });
+
+  it('reports how to install the optional Pagefind package when loading fails', async () => {
+    await expect(loadPagefind(async () => {
+      throw new Error('Cannot find package');
+    })).rejects.toThrow('pnpm add pagefind');
   });
 });
