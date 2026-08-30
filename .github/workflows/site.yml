@@ -73,8 +73,8 @@ jobs:
           mv pro/src/pages/api src/pages/
           cp pro/src/openapi/cafe.yaml src/openapi.yaml
           rm -fr pro
-          cp tools/pro/astro.config.ts ./
-          cp tools/pro/content.config.ts ./src/
+          cp ./astro.pro.ts ./astro.config.ts
+          cp ./src/content.pro.ts ./src/content.config.ts
 
       - name: Check site
         run: pnpm check
