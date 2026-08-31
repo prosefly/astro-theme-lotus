@@ -1,0 +1,46 @@
+---
+import { getEntry, render } from 'astro:content';
+import { DocsContextLayout } from '@prosefly/astro-theme-lotus/layouts';
+import { PageAside, PageHeader } from '@prosefly/astro-theme-lotus/components';
+
+const introduction = await getEntry('api', 'introduction');
+
+if (!introduction) {
+  throw new Error('Missing OpenAPI introduction entry.');
+}
+
+const { Content, headings } = await render(introduction);
+const currentPath = Astro.url.pathname;
+const pageUrl = Astro.site ? new URL(currentPath, Astro.site).toString() : currentPath;
+const markdownUrl = Astro.site ? new URL('/api/index.md', Astro.site).toString() : '/api/index.md';
+---
+
+<DocsContextLayout
+  title={introduction.data.title}
+  description={introduction.data.description}
+  currentPath={currentPath}
+  currentSection="api"
+  currentSlug={introduction.id}
+  headings={headings}
+>
+  <PageHeader
+    description={introduction.data.description}
+    markdownUrl={markdownUrl}
+    pageUrl={pageUrl}
+    sectionTitle="API Reference"
+    title={introduction.data.title}
+  />
+
+  <div class="lotus-prose py-8">
+    <Content />
+  </div>
+
+  <Fragment slot="aside">
+    <PageAside
+      currentSlug={introduction.id}
+      headings={headings}
+      pageUrl={pageUrl}
+      title={introduction.data.title}
+    />
+  </Fragment>
+</DocsContextLayout>

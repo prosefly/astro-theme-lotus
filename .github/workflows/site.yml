@@ -52,27 +52,10 @@ jobs:
       - name: Test package
         run: pnpm test
 
-      - name: Generate pro template token
-        id: pro-template-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.PROSEFLY_APP_CLIENT_ID }}
-          private-key: ${{ secrets.PROSEFLY_APP_PRIVATE_KEY }}
-          owner: prosefly
-          repositories: astro-template-lotus-pro
-
-      - name: Clone pro template
-        uses: actions/checkout@v7
-        with:
-          repository: prosefly/astro-template-lotus-pro
-          path: pro
-          token: ${{ steps.pro-template-token.outputs.token }}
-
       - name: Prepare pro feature
         run: |
-          mv pro/src/pages/api src/pages/
-          cp pro/src/openapi/cafe.yaml src/openapi.yaml
-          rm -fr pro
+          mv .github/pro/api src/pages/
+          mv .github/pro/cafe.yaml src/openapi.yaml
           cp ./astro.pro.ts ./astro.config.ts
           cp ./src/content.pro.ts ./src/content.config.ts
 

@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import type { OpenApiHttpExchangeEntry } from '@prosefly-pro/astro-openapi';
+import { DocsContextLayout } from '@prosefly-pro/astro-theme-lotus/layouts';
+import {
+  ApiMarkdown,
+  ApiMethodBadge,
+  ApiReferenceAside,
+  ApiRequestSection,
+  ApiResponsesSection,
+  ApiSecuritySection,
+} from '@prosefly-pro/astro-openapi/components';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('api')).filter((entry) => entry.id !== 'introduction');
+
+  return entries.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as {
+  entry: CollectionEntry<'api'> & OpenApiHttpExchangeEntry;
+};
+const currentPath = Astro.url.pathname;
+const sectionTitle = entry.data.group.label;
+const path = 'path' in entry.data
+  ? entry.data.path
+  : undefined;
+---
+
+<DocsContextLayout
+  title={entry.data.title}
+  description={entry.data.description ?? entry.data.summary}
+  currentPath={currentPath}
+  currentSection="api"
+  currentSlug={entry.id}
+>
+  <header class="border-b border-(--lotus-border-subtle) pb-8">
+    <a class="text-sm font-medium text-(--lotus-accent)" href="/api/">{sectionTitle}</a>
+    <h1 class="mt-5 text-4xl font-semibold tracking-normal text-(--lotus-text-strong)">{entry.data.summary}</h1>
+    {entry.data.lead && (
+      <ApiMarkdown
+        class="lotus-prose mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted)"
+        content={entry.data.lead}
+      />
+    )}
+    {path && (
+      <div class="mt-6 flex min-w-0 flex-wrap items-center gap-3 rounded-(--lotus-radius-lg) border border-(--lotus-border-muted) bg-(--lotus-surface) px-4 py-3">
+        <ApiMethodBadge method={entry.data.method} />
+        <code class="break-all text-sm font-semibold text-(--lotus-text-strong)">{path}</code>
+      </div>
+    )}
+  </header>
+
+  <div class="mt-8 flex flex-col gap-10">
+    {entry.data.content && (
+      <ApiMarkdown class="lotus-prose max-w-3xl" content={entry.data.content} />
+    )}
+    <ApiSecuritySection operation={entry} />
+    <ApiRequestSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
+    <ApiResponsesSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
+  </div>
+
+  <Fragment slot="aside">
+    <ApiReferenceAside entry={entry} />
+  </Fragment>
+</DocsContextLayout>
+
+<style is:global>
+  :root {
+    --lotus-toc-width: 28rem;
+  }
+</style>
