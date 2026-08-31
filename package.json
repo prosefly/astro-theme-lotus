@@ -16,18 +16,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@astrojs/check": "latest",
-    "@astrojs/mdx": "latest",
+    "@prosefly/astro-components": "^0.6.1",
     "@prosefly/astro-theme-lotus": "workspace:*",
-    "@tailwindcss/vite": "latest",
-    "@types/node": "latest",
-    "astro": "^7.2.9",
-    "tailwindcss": "latest",
-    "typescript": "^6.0.3"
+    "astro": "^7.2.9"
   },
   "devDependencies": {
-    "@prosefly/astro-components": "^0.6.1",
+    "@astrojs/check": "latest",
+    "@types/node": "latest",
     "pagefind": "^1.5.2",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   }
 }
