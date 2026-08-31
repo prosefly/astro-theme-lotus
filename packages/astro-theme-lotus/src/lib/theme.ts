@@ -106,7 +106,9 @@ export type PageActionType =
   | 'copy-page'
   | 'view-markdown'
   | 'open-chatgpt'
-  | 'open-claude';
+  | 'open-claude'
+  | 'open-grok'
+  | 'open-perplexity';
 
 export interface PageActionConfig {
   type?: PageActionType | (string & {});

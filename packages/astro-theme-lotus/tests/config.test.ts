@@ -55,6 +55,17 @@ describe('Lotus config', () => {
     expect(resolveLotusConfig({ pageActions: [] }).pageActions).toEqual([]);
   });
 
+  it('includes all built-in page actions by default', () => {
+    expect(defaultConfig.pageActions.map((action) => action.type)).toEqual([
+      'copy-page',
+      'view-markdown',
+      'open-chatgpt',
+      'open-claude',
+      'open-grok',
+      'open-perplexity',
+    ]);
+  });
+
   it('keeps global head entries for rendering and style injection', () => {
     expect(resolveLotusConfig({
       head: [

@@ -24,6 +24,8 @@ export const defaultConfig: LotusThemeConfig = {
     { type: 'view-markdown', icon: 'lucide:file-text' },
     { type: 'open-chatgpt', icon: 'simple-icons:openai' },
     { type: 'open-claude', icon: 'simple-icons:claude' },
+    { type: 'open-grok', icon: 'hugeicons:grok' },
+    { type: 'open-perplexity', icon: 'simple-icons:perplexity' },
   ],
   contributors: false,
   components: {},

@@ -27,8 +27,10 @@ const t = Astro.locals.t;
 const defaultActionMeta: Record<PageActionType, { label: string; icon: string }> = {
   'copy-page': { label: t('pageActions.copyPage'), icon: 'lucide:copy' },
   'view-markdown': { label: t('pageActions.viewMarkdown'), icon: 'lucide:file-text' },
-  'open-chatgpt': { label: t('pageActions.openChatGPT'), icon: 'simple-icons:openai' },
-  'open-claude': { label: t('pageActions.openClaude'), icon: 'simple-icons:claude' },
+  'open-chatgpt': { label: t('pageActions.openAssistant', { assistant: 'ChatGPT' }), icon: 'simple-icons:openai' },
+  'open-claude': { label: t('pageActions.openAssistant', { assistant: 'Claude' }), icon: 'simple-icons:claude' },
+  'open-grok': { label: t('pageActions.openAssistant', { assistant: 'Grok' }), icon: 'hugeicons:grok' },
+  'open-perplexity': { label: t('pageActions.openAssistant', { assistant: 'Perplexity' }), icon: 'simple-icons:perplexity' },
 };
 
 function isKnownAction(type?: string): type is PageActionType {
@@ -68,6 +70,14 @@ function getDefaultHref(type?: string): string | undefined {
     return `https://claude.ai/new?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
   }
 
+  if (type === 'open-grok') {
+    return `https://grok.com/?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
+  if (type === 'open-perplexity') {
+    return `https://www.perplexity.ai/search?q=${encodeURIComponent(createAssistantPrompt(pageUrl))}`;
+  }
+
   return undefined;
 }
 
@@ -95,6 +105,7 @@ const resolvedActions = actions.map(resolveAction).filter((action): action is Re
 const primaryAction =
   resolvedActions.find((action) => action.isCopy) ??
   resolvedActions[0];
+const dropdownActions = resolvedActions.filter((action) => action !== primaryAction && !action.isCopy);
 ---
 
 {primaryAction && resolvedActions.length > 0 && (
@@ -111,7 +122,10 @@ const primaryAction =
   >
     {primaryAction.isCopy ? (
       <button
-        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70"
+        class:list={[
+          'lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface) disabled:pointer-events-none disabled:opacity-70',
+          dropdownActions.length === 0 && 'rounded-e-(--lotus-radius-md)',
+        ]}
         data-copy-page
         type="button"
       >
@@ -120,7 +134,10 @@ const primaryAction =
       </button>
     ) : (
       <a
-        class="lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)"
+        class:list={[
+          'lotus-focus-ring inline-flex h-8 items-center gap-1.5 rounded-s-(--lotus-radius-md) px-2.5 font-medium text-(--lotus-text-strong) transition-colors hover:bg-(--lotus-surface)',
+          dropdownActions.length === 0 && 'rounded-e-(--lotus-radius-md)',
+        ]}
         href={primaryAction.href}
         data-page-action={primaryAction.type}
         data-page-action-href-template={primaryAction.hrefTemplate}
@@ -131,31 +148,21 @@ const primaryAction =
         <span>{primaryAction.label}</span>
       </a>
     )}
-    <Dropdown
-      class="static"
-      contentClass="absolute start-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:start-auto sm:end-0 sm:w-56"
-      triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-e-(--lotus-radius-md) border-s lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
-      triggerLabel={t('pageActions.show')}
-    >
-      <Fragment slot="trigger">
-        <Icon
-          aria-hidden="true"
-          class="h-3.5 w-3.5 transition-transform group-open/dropdown:rotate-180"
-          name="lucide:chevron-down"
-        />
-      </Fragment>
-      {resolvedActions.map((action) => (
-        action.isCopy ? (
-          <button
-            class="lotus-focus-ring flex w-full items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-start text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong) disabled:pointer-events-none disabled:opacity-70"
-            data-copy-page
-            data-dropdown-close
-            type="button"
-          >
-            <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
-            <span aria-live="polite" data-copy-label>{action.label}</span>
-          </button>
-        ) : (
+    {dropdownActions.length > 0 && (
+      <Dropdown
+        class="static"
+        contentClass="absolute start-0 top-[calc(100%+0.5rem)] z-50 w-[min(14rem,calc(100vw-2.5rem))] overflow-hidden rounded-[min(var(--lotus-radius-lg),1rem)] border lotus-border-muted bg-(--lotus-background) p-1 shadow-lg shadow-black/5 sm:start-auto sm:end-0 sm:w-56"
+        triggerClass="lotus-focus-ring flex h-8 w-8 cursor-pointer items-center justify-center rounded-e-(--lotus-radius-md) border-s lotus-border-muted text-(--lotus-text-muted) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
+        triggerLabel={t('pageActions.show')}
+      >
+        <Fragment slot="trigger">
+          <Icon
+            aria-hidden="true"
+            class="h-3.5 w-3.5 transition-transform group-open/dropdown:rotate-180"
+            name="lucide:chevron-down"
+          />
+        </Fragment>
+        {dropdownActions.map((action) => (
           <a
             class="lotus-focus-ring flex items-center gap-1.5 rounded-(--lotus-radius-md) px-2.5 py-1.5 text-sm text-(--lotus-text) transition-colors hover:bg-(--lotus-surface) hover:text-(--lotus-text-strong)"
             data-dropdown-close
@@ -168,9 +175,9 @@ const primaryAction =
             <Icon aria-hidden="true" class="h-3.5 w-3.5 text-(--lotus-text-muted)" name={action.icon} />
             <span>{action.label}</span>
           </a>
-        )
-      ))}
-    </Dropdown>
+        ))}
+      </Dropdown>
+    )}
   </div>
 )}
 

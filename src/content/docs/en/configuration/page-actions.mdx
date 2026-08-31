@@ -13,6 +13,8 @@ pageActions: [
   { type: 'view-markdown' },
   { type: 'open-chatgpt' },
   { type: 'open-claude' },
+  { type: 'open-grok' },
+  { type: 'open-perplexity' },
 ]
 ```
 
@@ -24,7 +26,7 @@ pageActions: []
 
 ## Built-In Actions
 
-Lotus includes four built-in action types.
+Lotus includes six built-in action types.
 
 | Type | Behavior |
 | --- | --- |
@@ -32,6 +34,8 @@ Lotus includes four built-in action types.
 | `view-markdown` | Opens the generated `.md` route. |
 | `open-chatgpt` | Opens ChatGPT with the current page URL. |
 | `open-claude` | Opens Claude with the current page URL. |
+| `open-grok` | Opens Grok with the current page URL. |
+| `open-perplexity` | Opens Perplexity with the current page URL. |
 
 Built-in labels and icons can be overridden.
 
@@ -70,5 +74,5 @@ Custom `href` values can use page variables.
 
 ## Layout
 
-The first action is shown as an outline button. Remaining actions live in the
-dropdown opened by the chevron.
+The copy action is shown as an outline button. The remaining actions live in
+the dropdown opened by the chevron; Copy page is not repeated there.

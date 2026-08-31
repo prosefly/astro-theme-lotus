@@ -87,6 +87,16 @@ function updateLotusPageActionLinks(root: HTMLElement): void {
 
       if (type === 'open-claude') {
         link.href = `https://claude.ai/new?q=${encodeURIComponent(assistantPrompt)}`;
+        return;
+      }
+
+      if (type === 'open-grok') {
+        link.href = `https://grok.com/?q=${encodeURIComponent(assistantPrompt)}`;
+        return;
+      }
+
+      if (type === 'open-perplexity') {
+        link.href = `https://www.perplexity.ai/search?q=${encodeURIComponent(assistantPrompt)}`;
       }
     });
 }
