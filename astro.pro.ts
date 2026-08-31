@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import lotus, { type LotusIntegrationOptions } from '@prosefly/astro-theme-lotus';
-import openapi, { loadOpenApiDocsNav } from '@prosefly/astro-openapi';
+import openapi, { loadOpenApiDocsNav } from '@prosefly-pro/astro-openapi';
 import theme from './theme.config.json';
 
 const themeConfig = theme as LotusIntegrationOptions;

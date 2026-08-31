@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { type Loader } from 'astro/loaders';
 import { docsLoader, docsSchema } from '@prosefly/astro-theme-lotus/content';
-import { openApiLoader, openApiSchema } from '@prosefly/astro-openapi';
+import { openApiLoader, openApiSchema } from '@prosefly-pro/astro-openapi';
 
 const docs = defineCollection({
   loader: docsLoader() as Loader,

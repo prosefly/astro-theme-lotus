@@ -37,17 +37,17 @@ jobs:
           node-version: 24
           cache: pnpm
           registry-url: https://npm.pkg.github.com
-          scope: "@prosefly"
+          scope: '@prosefly-pro'
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
       - name: Install dependencies
         env:
-          NODE_AUTH_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.PROSEFLY_PRO_API_KEY }}
         run: |
           pnpm install
-          pnpm install @prosefly/astro-openapi
+          pnpm install @prosefly-pro/astro-openapi
 
       - name: Test package
         run: pnpm test
