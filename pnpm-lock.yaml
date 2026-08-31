@@ -75,9 +75,6 @@ importers:
       remark-cjk-friendly-gfm-strikethrough:
         specifier: ^2.3.1
         version: 2.3.1(@types/mdast@4.0.4)(micromark-util-types@2.0.2)(micromark@4.0.2)(unified@11.0.5)
-      shiki:
-        specifier: ^4.3.1
-        version: 4.4.3
       vite:
         specifier: ^8.2.1
         version: 8.2.2(@types/node@26.4.0)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.0)
