@@ -43,7 +43,7 @@
     "src"
   ],
   "peerDependencies": {
-    "@prosefly/astro-components": "^0.6.1",
+    "@prosefly/astro-components": "^0.6.2",
     "pagefind": "^1.5.2",
     "astro": "^7.0.0"
   },
