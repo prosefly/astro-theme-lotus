@@ -16,9 +16,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@prosefly/astro-components": "^0.6.1",
+    "@prosefly/astro-components": "^0.6.2",
     "@prosefly/astro-theme-lotus": "workspace:*",
-    "astro": "^7.2.9"
+    "astro": "^7.2.10"
   },
   "devDependencies": {
     "@astrojs/check": "latest",
