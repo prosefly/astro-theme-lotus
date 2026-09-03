@@ -1,3 +1,8 @@
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 const initializedDropdowns = new WeakSet<HTMLDetailsElement>();
 let lotusDropdownContentId = 0;
 let teardownLotusDropdowns: (() => void) | undefined;
@@ -87,6 +92,9 @@ function initLotusDropdowns(): void {
   };
 }
 
-initLotusDropdowns();
+proseflyLotus.initDropdowns = initLotusDropdowns;
+proseflyLotus.initDropdowns?.();
 document.addEventListener('astro:before-swap', cleanupLotusDropdowns);
-document.addEventListener('astro:page-load', initLotusDropdowns);
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initDropdowns?.();
+});

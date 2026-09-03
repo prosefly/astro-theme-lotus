@@ -1,3 +1,8 @@
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 async function getLotusCopyText(root: HTMLElement): Promise<string> {
   const markdownUrl = root.dataset.pageMarkdownUrl;
 
@@ -186,5 +191,8 @@ function initLotusPageActions(): void {
   });
 }
 
-initLotusPageActions();
-document.addEventListener('astro:page-load', initLotusPageActions);
+proseflyLotus.initPageActions = initLotusPageActions;
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initPageActions?.();
+});
+proseflyLotus.initPageActions?.();

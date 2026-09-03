@@ -1,10 +1,7 @@
-declare global {
-  interface Window {
-    __lotusThemeSwitchReady?: boolean;
-  }
-}
-
 export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
 
 const storageKey = 'lotus-theme';
 const root = document.documentElement;
@@ -99,14 +96,17 @@ function initThemeSwitches(): void {
   });
 }
 
-if (!window.__lotusThemeSwitchReady) {
-  window.__lotusThemeSwitchReady = true;
+if (!proseflyLotus.themeSwitchReady) {
+  proseflyLotus.themeSwitchReady = true;
+  proseflyLotus.initThemeSwitches = initThemeSwitches;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initThemeSwitches, { once: true });
   } else {
-    initThemeSwitches();
+    proseflyLotus.initThemeSwitches?.();
   }
 
-  document.addEventListener('astro:page-load', initThemeSwitches);
+  document.addEventListener('astro:page-load', () => {
+    proseflyLotus.initThemeSwitches?.();
+  });
 }

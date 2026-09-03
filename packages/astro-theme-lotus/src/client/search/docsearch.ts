@@ -1,11 +1,7 @@
 export {};
 
-declare global {
-  interface Window {
-    __lotusDocSearchReady?: boolean;
-    docsearch?: (props: DocSearchProps) => DocSearchInstance;
-  }
-}
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
 
 interface DocSearchInstance {
   open(): void;
@@ -210,14 +206,15 @@ async function initDocSearch(): Promise<void> {
   });
 }
 
-if (!window.__lotusDocSearchReady) {
-  window.__lotusDocSearchReady = true;
+if (!proseflyLotus.docSearchReady) {
+  proseflyLotus.docSearchReady = true;
+  proseflyLotus.initDocSearch = initDocSearch;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      void initDocSearch();
+      void proseflyLotus.initDocSearch?.();
     }, { once: true });
   } else {
-    void initDocSearch();
+    void proseflyLotus.initDocSearch?.();
   }
 }

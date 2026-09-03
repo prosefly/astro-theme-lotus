@@ -1,3 +1,8 @@
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 interface HeadingTarget {
   heading: HTMLElement;
   slug: string;
@@ -192,6 +197,9 @@ function initTableOfContents(): void {
   };
 }
 
-initTableOfContents();
+proseflyLotus.initTableOfContents = initTableOfContents;
+proseflyLotus.initTableOfContents?.();
 document.addEventListener('astro:before-swap', cleanupTableOfContents);
-document.addEventListener('astro:page-load', initTableOfContents);
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initTableOfContents?.();
+});

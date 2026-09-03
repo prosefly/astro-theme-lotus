@@ -1,3 +1,8 @@
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 const initializedSidebarContainers = new WeakSet<HTMLElement>();
 let teardownLotusSidebarScroll: (() => void) | undefined;
 
@@ -50,6 +55,9 @@ function initLotusSidebarScroll(): void {
   };
 }
 
-initLotusSidebarScroll();
+proseflyLotus.initSidebarScroll = initLotusSidebarScroll;
+proseflyLotus.initSidebarScroll();
 document.addEventListener('astro:before-swap', cleanupLotusSidebarScroll);
-document.addEventListener('astro:page-load', initLotusSidebarScroll);
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initSidebarScroll?.();
+});

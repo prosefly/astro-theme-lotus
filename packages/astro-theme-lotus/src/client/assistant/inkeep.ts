@@ -1,13 +1,7 @@
 export {};
 
-declare global {
-  interface Window {
-    __lotusInkeepAssistantReady?: boolean;
-    Inkeep?: {
-      ModalSearchAndChat(settings: InkeepSettings): unknown;
-    };
-  }
-}
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
 
 interface InkeepSettings {
   defaultView?: string;
@@ -111,14 +105,15 @@ async function initInkeepAssistant(): Promise<void> {
   window.Inkeep.ModalSearchAndChat(withLotusColorMode(settings));
 }
 
-if (!window.__lotusInkeepAssistantReady) {
-  window.__lotusInkeepAssistantReady = true;
+if (!proseflyLotus.inkeepAssistantReady) {
+  proseflyLotus.inkeepAssistantReady = true;
+  proseflyLotus.initInkeepAssistant = initInkeepAssistant;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      void initInkeepAssistant();
+      void proseflyLotus.initInkeepAssistant?.();
     }, { once: true });
   } else {
-    void initInkeepAssistant();
+    void proseflyLotus.initInkeepAssistant?.();
   }
 }

@@ -4,6 +4,11 @@ import { createSearchProvider } from './provider';
 import { createSearchMessageElement, createSearchResultList } from './render';
 import type { SearchResult } from './types';
 
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 export function createSearchRequestGuard() {
   let version = 0;
 
@@ -15,12 +20,6 @@ export function createSearchRequestGuard() {
       return requestVersion === version;
     },
   };
-}
-
-declare global {
-  interface Window {
-    __lotusSearchDialogReady?: boolean;
-  }
 }
 
 function initSearchDialog(): void {
@@ -227,12 +226,15 @@ function initSearchDialog(): void {
   });
 }
 
-if (typeof window !== 'undefined' && !window.__lotusSearchDialogReady) {
-  window.__lotusSearchDialogReady = true;
+if (!proseflyLotus.searchDialogReady) {
+  proseflyLotus.searchDialogReady = true;
+  proseflyLotus.initSearchDialog = initSearchDialog;
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSearchDialog, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      void proseflyLotus.initSearchDialog?.();
+    }, { once: true });
   } else {
-    initSearchDialog();
+    void proseflyLotus.initSearchDialog?.();
   }
 }

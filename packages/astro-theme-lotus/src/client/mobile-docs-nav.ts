@@ -1,3 +1,8 @@
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 const initializedDrawers = new WeakSet<HTMLElement>();
 let teardownMobileDocsNav: (() => void) | undefined;
 
@@ -190,6 +195,9 @@ function initMobileDocsNav(): void {
   };
 }
 
-initMobileDocsNav();
+proseflyLotus.initMobileDocsNav = initMobileDocsNav;
+proseflyLotus.initMobileDocsNav?.();
 document.addEventListener('astro:before-swap', cleanupMobileDocsNav);
-document.addEventListener('astro:page-load', initMobileDocsNav);
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initMobileDocsNav?.();
+});

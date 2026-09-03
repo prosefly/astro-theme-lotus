@@ -1,5 +1,10 @@
 import { getCustomAccentVariables } from '../lib/colors';
 
+export {};
+
+const prosefly = window.__prosefly ??= {};
+const proseflyLotus = (prosefly.lotus ??= {});
+
 const appearanceStorageKeys = {
   accent: 'lotus-preview-accent',
   gray: 'lotus-preview-gray',
@@ -15,12 +20,6 @@ type InitialAppearance = {
   accentDark: string;
 };
 
-declare global {
-  interface Window {
-    __lotusAppearanceInitial?: InitialAppearance;
-  }
-}
-
 const hexColorPattern = /^#(?:[\da-f]{3}|[\da-f]{6})$/i;
 
 function getAppearanceRoot(): HTMLElement {
@@ -28,10 +27,10 @@ function getAppearanceRoot(): HTMLElement {
 }
 
 function getInitialAppearance(): InitialAppearance {
-  if (!window.__lotusAppearanceInitial) {
+  if (!proseflyLotus.appearanceInitial) {
     const root = getAppearanceRoot();
 
-    window.__lotusAppearanceInitial = {
+    proseflyLotus.appearanceInitial = {
       accent: root.dataset.accent ?? '',
       gray: root.dataset.gray ?? '',
       radius: root.dataset.radius ?? '',
@@ -40,7 +39,7 @@ function getInitialAppearance(): InitialAppearance {
     };
   }
 
-  return window.__lotusAppearanceInitial;
+  return proseflyLotus.appearanceInitial;
 }
 
 function setAppearanceValue(key: AppearanceKey, value: string): void {
@@ -216,5 +215,8 @@ function initLotusAppearancePalette(): void {
   });
 }
 
-initLotusAppearancePalette();
-document.addEventListener('astro:page-load', initLotusAppearancePalette);
+proseflyLotus.initAppearancePalette = initLotusAppearancePalette;
+proseflyLotus.initAppearancePalette?.();
+document.addEventListener('astro:page-load', () => {
+  proseflyLotus.initAppearancePalette?.();
+});
