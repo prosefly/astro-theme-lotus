@@ -86,6 +86,7 @@ function entryToSidebarItem(
     label: entry.title,
     href: getLocalizedHref(config, entry.slug, localeKey),
     slug: entry.slug,
+    icon: entry.icon,
   };
 }
 

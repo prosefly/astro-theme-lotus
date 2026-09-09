@@ -109,6 +109,7 @@ function entryToSidebarContentEntry(entry: DocsEntry): SidebarContentEntry {
   return {
     slug: getEntrySlug(entry),
     title: entry.data.sidebar?.label ?? entry.data.title,
+    icon: entry.data.sidebar?.icon,
     order: getEntryOrder(entry),
     hidden: entry.data.sidebar?.hidden ?? false,
   };
@@ -116,6 +117,23 @@ function entryToSidebarContentEntry(entry: DocsEntry): SidebarContentEntry {
 
 function entriesToSidebarContentEntries(entries: DocsEntry[]): SidebarContentEntry[] {
   return entries.map(entryToSidebarContentEntry);
+}
+
+function inheritSidebarIcon(entry: DocsEntry, fallback?: DocsEntry): DocsEntry {
+  if (entry.data.sidebar?.icon !== undefined || fallback?.data.sidebar?.icon === undefined) {
+    return entry;
+  }
+
+  return {
+    ...entry,
+    data: {
+      ...entry.data,
+      sidebar: {
+        ...entry.data.sidebar,
+        icon: fallback.data.sidebar.icon,
+      },
+    },
+  };
 }
 
 export function getEntrySlug(entry: DocsEntry): string {
@@ -195,7 +213,9 @@ export async function getDocsEntries(localeKey?: string): Promise<DocsEntry[]> {
       const entriesBySlug = new Map(defaultEntries.map((entry) => [getEntrySlug(entry), entry]));
 
       for (const entry of localeEntries) {
-        entriesBySlug.set(getEntrySlug(entry), entry);
+        const slug = getEntrySlug(entry);
+
+        entriesBySlug.set(slug, inheritSidebarIcon(entry, entriesBySlug.get(slug)));
       }
 
       localizedEntries = [...entriesBySlug.values()];

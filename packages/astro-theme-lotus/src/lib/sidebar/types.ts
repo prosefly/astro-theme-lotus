@@ -5,6 +5,7 @@ export interface DocsNavItem {
   href: string;
   slug: string;
   section?: string;
+  icon?: string;
   order: number;
 }
 
@@ -53,6 +54,7 @@ export interface DocsPaginationNav {
 export interface SidebarContentEntry {
   slug: string;
   title: string;
+  icon?: string;
   order: number;
   hidden: boolean;
 }

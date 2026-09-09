@@ -110,6 +110,7 @@ function entryToNavItem(
     href: getLocalizedHref(config, entry.slug, localeKey),
     slug: entry.slug,
     section,
+    icon: entry.icon,
     order: entry.order,
   };
 }
@@ -120,6 +121,7 @@ function navItemToSidebarItem(item: DocsNavItem): DocsSidebarItem {
     href: item.href,
     order: item.order,
     slug: item.slug,
+    icon: item.icon,
   };
 }
 

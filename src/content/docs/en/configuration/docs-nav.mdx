@@ -107,6 +107,10 @@ String items reference content collection entry IDs. With the default
 items: ['overview', 'installation', 'deployment']
 ```
 
+String items use the page's frontmatter `title` as their label and its optional
+`sidebar.icon` as their icon. A localized page can override the default locale's
+icon; otherwise it inherits that icon automatically.
+
 `'installation'` resolves to `src/content/docs/installation.mdx` in a
 monolingual site, or to the current locale's `installation.mdx` in an i18n site.
 For this example site, root English content lives in `src/content/docs/en/`, but

@@ -42,6 +42,7 @@ const badgeSchema = z.union([
 
 const sidebarSchema = z.object({
   label: z.string().optional(),
+  icon: z.string().optional(),
   order: z.number().optional(),
   hidden: z.boolean().optional(),
   badge: badgeSchema.optional(),

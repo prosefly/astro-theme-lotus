@@ -34,13 +34,13 @@ const localizedConfig = resolveLotusConfig({
 
 const sidebarEntries: SidebarContentEntry[] = [
   { slug: 'index', title: 'Home', order: 0, hidden: false },
-  { slug: 'overview', title: 'Overview', order: 1, hidden: false },
+  { slug: 'overview', title: 'Overview', icon: 'lucide:map', order: 1, hidden: false },
   { slug: 'installation', title: 'Installation', order: 2, hidden: false },
   { slug: 'configuration/appearance', title: 'Appearance', order: 20, hidden: false },
   { slug: 'configuration/navigation', title: 'Navigation', order: 10, hidden: false },
   { slug: 'configuration/advanced/cache', title: 'Cache', order: 30, hidden: false },
   { slug: 'configuration/secret', title: 'Secret', order: 40, hidden: true },
-  { slug: 'components/card', title: 'Card', order: 1, hidden: false },
+  { slug: 'components/card', title: 'Card', icon: 'lucide:layout-grid', order: 1, hidden: false },
 ];
 
 describe('localized navigation', () => {
@@ -135,10 +135,10 @@ describe('sidebar navigation', () => {
       structure: 'tree',
     }, 'root');
 
-    expect(flatItems.map((item) => [item.label, item.href])).toEqual([
-      ['Navigation', '/docs/configuration/navigation/'],
-      ['Appearance', '/docs/configuration/appearance/'],
-      ['Cache', '/docs/configuration/advanced/cache/'],
+    expect(flatItems.map((item) => [item.label, item.href, item.icon])).toEqual([
+      ['Navigation', '/docs/configuration/navigation/', undefined],
+      ['Appearance', '/docs/configuration/appearance/', undefined],
+      ['Cache', '/docs/configuration/advanced/cache/', undefined],
     ]);
     expect(treeItems).toMatchObject([
       { label: 'Navigation' },
@@ -200,7 +200,7 @@ describe('sidebar navigation', () => {
     expect(resolved.sidebars.guide.groups[0]).toMatchObject({
       title: '入门',
       items: [
-        { label: 'Overview', href: '/docs/zh-cn/overview/' },
+        { label: 'Overview', href: '/docs/zh-cn/overview/', icon: 'lucide:map' },
         { label: 'Installation', href: '/docs/zh-cn/installation/' },
         {
           label: '配置',
@@ -217,6 +217,7 @@ describe('sidebar navigation', () => {
         href: '/docs/zh-cn/components/card/',
         order: 1,
         slug: 'components/card',
+        icon: 'lucide:layout-grid',
       },
     ]);
   });
