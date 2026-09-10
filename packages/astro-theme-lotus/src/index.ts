@@ -40,7 +40,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         logger,
         updateConfig,
       }) => {
-        const fileOptions = loadLotusConfigFile(astroConfig.root);
+        const fileOptions = loadLotusConfigFile(astroConfig.root, addWatchFile);
         const mergedOptions = normalizeLegacyLotusConfigOptions(
           mergeLotusConfigOptions(fileOptions, options),
           (message) => logger.warn(message),

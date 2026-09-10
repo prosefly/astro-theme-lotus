@@ -58,8 +58,13 @@ export function resolveLotusConfig(options: LotusIntegrationOptions): LotusTheme
   };
 }
 
-export function loadLotusConfigFile(root: URL): LotusIntegrationOptions {
+export function loadLotusConfigFile(
+  root: URL,
+  addWatchFile?: (path: URL | string) => void,
+): LotusIntegrationOptions {
   const configUrl = new URL(LOTUS_CONFIG_FILE, root);
+  addWatchFile?.(configUrl);
+
   if (!existsSync(configUrl)) {
     return {};
   }

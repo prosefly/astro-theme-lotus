@@ -78,10 +78,12 @@ describe('Lotus config', () => {
     ]);
   });
 
-  it('loads theme.config.json and strips schema metadata', () => {
+  it('loads and watches theme.config.json while stripping schema metadata', () => {
     const root = mkdtempSync(join(tmpdir(), 'lotus-config-'));
 
     try {
+      const rootUrl = pathToFileURL(`${root}/`);
+      const watchedFiles: Array<URL | string> = [];
       writeFileSync(join(root, 'theme.config.json'), JSON.stringify({
         $schema: 'https://prosefly.dev/schema/lotus.json',
         name: 'JSON Docs',
@@ -91,7 +93,7 @@ describe('Lotus config', () => {
         },
       }));
 
-      const fileOptions = loadLotusConfigFile(pathToFileURL(`${root}/`));
+      const fileOptions = loadLotusConfigFile(rootUrl, (file) => watchedFiles.push(file));
 
       expect(fileOptions).toEqual({
         name: 'JSON Docs',
@@ -100,6 +102,7 @@ describe('Lotus config', () => {
           accent: 'emerald',
         },
       });
+      expect(watchedFiles).toEqual([new URL('theme.config.json', rootUrl)]);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
