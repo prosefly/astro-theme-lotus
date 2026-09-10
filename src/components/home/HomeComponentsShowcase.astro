@@ -1,6 +1,7 @@
 ---
 import { Callout, Icon, TabItem, Tabs } from '@prosefly/astro-components';
 import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
+import { CodeBlock } from '@prosefly/astro-theme-lotus/components';
 ---
 
 <PageSection class="border-b border-(--lotus-border-subtle) bg-(--lotus-surface)/55" padding="lg" size="xl">
@@ -32,15 +33,15 @@ import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
       <Callout type="note" title="Shared appearance tokens">
         Components respond to the same accent, gray scale, radius, and color mode as Lotus.
       </Callout>
-      <Tabs defaultValue="pnpm" copy>
-        <TabItem label="pnpm" value="pnpm">
-          <pre><code>pnpm add @prosefly/astro-components</code></pre>
+      <Tabs class="pf-package-manager-tab" defaultValue="pnpm" copy>
+        <TabItem label="pnpm" value="pnpm" icon="simple-icons:pnpm">
+          <CodeBlock lang="shell" code="pnpm add @prosefly/astro-components" />
         </TabItem>
-        <TabItem label="npm" value="npm">
-          <pre><code>npm install @prosefly/astro-components</code></pre>
+        <TabItem label="npm" value="npm" icon="simple-icons:npm">
+          <CodeBlock lang="shell" code="npm install @prosefly/astro-components" />
         </TabItem>
-        <TabItem label="yarn" value="yarn">
-          <pre><code>yarn add @prosefly/astro-components</code></pre>
+        <TabItem label="yarn" value="yarn" icon="simple-icons:yarn">
+          <CodeBlock lang="shell" code="yarn add @prosefly/astro-components" />
         </TabItem>
       </Tabs>
       <div class="component-index grid border-t border-(--lotus-border-subtle) sm:grid-cols-3">
@@ -130,6 +131,11 @@ import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
     min-width: 0;
   }
 
+  .component-stage :global(.lotus-code-block) {
+    border-radius: 0;
+    border: none;
+  }
+
   .component-stage :global(pre) {
     border: 0;
     box-sizing: border-box;
@@ -137,6 +143,7 @@ import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
     max-width: 100%;
     overflow-x: auto;
     width: 100%;
+    padding: 0;
   }
 
   .component-stage :global(.pf-tabs__panels),
