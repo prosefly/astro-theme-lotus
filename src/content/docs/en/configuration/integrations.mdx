@@ -1,15 +1,20 @@
 ---
 title: Integrations
-description: Configure Iconify preloading, Expressive Code, callout directives, CJK Markdown, and package manager tabs.
+description: Configure OpenAPI references, Iconify preloading, Expressive Code, callout directives, CJK Markdown, and package manager tabs.
 
 ---
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
 Lotus includes integrations for icons, syntax highlighting, callout directives,
-CJK-friendly Markdown, image galleries, and package-manager command tabs.
+CJK-friendly Markdown, image galleries, package-manager command tabs, and optional
+OpenAPI reference pages.
 
 <CardGrid>
+  <Card icon="lucide:braces" title="OpenAPI" href="#openapi">
+    Generate API reference routes, navigation, search entries, and Markdown from
+    one or more OpenAPI documents.
+  </Card>
   <Card icon="lucide:sparkles" title="Iconify" href="#iconify">
     Preload icon data used by the theme, MDX components, theme config, and
     static `Icon` usage.
@@ -33,6 +38,78 @@ CJK-friendly Markdown, image galleries, and package-manager command tabs.
     Transform Markdown image-only paragraphs into responsive gallery figures.
   </Card>
 </CardGrid>
+
+## OpenAPI
+
+Lotus can use the restricted `@prosefly-pro/astro-openapi` package when it is
+installed in the documentation project. The package is loaded only when an
+`openapi` option is configured. If the package is unavailable, Lotus omits its
+generated routes and navigation while the rest of the site continues to build.
+
+```sh
+pnpm add @prosefly-pro/astro-openapi
+```
+
+Configure one OpenAPI document directly and add its generated navigation where
+it should appear:
+
+```ts
+lotus({
+  openapi: {
+    file: './src/openapi.yaml',
+    base: '/api',
+  },
+  docsNav: [
+    {
+      slug: 'api',
+      label: 'API Reference',
+      icon: 'lucide:braces',
+      items: [{ openapi: {} }],
+    },
+  ],
+})
+```
+
+Lotus injects the introduction, operation, webhook, and Markdown routes. It also
+adds the reference content to local search, Pagefind output, `llms.txt`, and
+`llms-full.txt`. A separate content collection or files under `src/pages` are
+not required.
+
+For multiple documents, give every source a unique name and route base:
+
+```ts
+lotus({
+  openapi: {
+    sources: {
+      cafe: {
+        file: './src/openapi/cafe.yaml',
+        base: '/api/cafe',
+      },
+      fruits: {
+        file: './src/openapi/fruits.yaml',
+        base: '/api/fruits',
+      },
+    },
+  },
+  docsNav: [
+    {
+      slug: 'cafe-api',
+      label: 'Cafe API',
+      items: [{ openapi: { source: 'cafe' } }],
+    },
+    {
+      slug: 'fruits-api',
+      label: 'Fruits API',
+      items: [{ openapi: { source: 'fruits' } }],
+    },
+  ],
+})
+```
+
+The source name belongs to the OpenAPI configuration; it is not an Astro content
+collection name. This allows a shared `theme.config.json` to declare the API
+reference in every environment: installing the restricted package enables it,
+while public or local installs without registry access simply omit it.
 
 ## Iconify
 

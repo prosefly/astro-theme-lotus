@@ -29,6 +29,7 @@ export interface LotusIntegrationOptions {
   socials?: ThemeSocialLink[];
   themeModeControl?: LotusThemeConfig['themeModeControl'];
   docsNav?: DocsNavConfig[];
+  openapi?: LotusThemeConfig['openapi'];
   /** @deprecated Use `docsNav` instead. */
   sidebars?: DocsNavConfig[];
   search?: LotusThemeConfig['search'];

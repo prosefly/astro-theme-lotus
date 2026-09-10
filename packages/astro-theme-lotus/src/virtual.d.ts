@@ -5,6 +5,24 @@ declare module 'virtual:prosefly/lotus/config' {
   export default config;
 }
 
+declare module 'virtual:prosefly/lotus/openapi' {
+  import type { OpenApiManifest } from './lib/openapi/types';
+
+  const manifest: OpenApiManifest;
+  export default manifest;
+}
+
+declare module '@prosefly-pro/astro-openapi/components' {
+  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+  export const ApiMarkdown: AstroComponentFactory;
+  export const ApiMethodBadge: AstroComponentFactory;
+  export const ApiReferenceAside: AstroComponentFactory;
+  export const ApiRequestSection: AstroComponentFactory;
+  export const ApiResponsesSection: AstroComponentFactory;
+  export const ApiSecuritySection: AstroComponentFactory;
+}
+
 declare module 'virtual:prosefly/lotus/styles.css' {}
 
 declare namespace App {

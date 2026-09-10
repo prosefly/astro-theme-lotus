@@ -9,6 +9,12 @@
     "dark": "/lotus-dark.svg"
   },
   "docsBase": "/docs",
+  "openapi": {
+    "file": "./src/openapi.yaml",
+    "base": "/api",
+    "operationBase": "endpoints",
+    "groupBy": "auto"
+  },
   "siteNav": [
     {
       "label": "Docs",
@@ -194,6 +200,19 @@
         "references/theme-tokens",
         "references/typography",
         "references/expressive-code"
+      ]
+    },
+    {
+      "slug": "api",
+      "label": "API Reference",
+      "translations": {
+        "zh-cn": "API 参考"
+      },
+      "icon": "lucide:braces",
+      "items": [
+        {
+          "openapi": {}
+        }
       ]
     }
   ],

@@ -1,0 +1,75 @@
+---
+import { ApiMarkdown } from '@prosefly-pro/astro-openapi/components';
+import PageAside from 'virtual:prosefly/lotus/components/PageAside';
+import PageHeader from 'virtual:prosefly/lotus/components/PageHeader';
+import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import DocsContextLayout from '../layouts/DocsContextLayout.astro';
+import {
+  createDocsNavigationHandoff,
+  getDocsContext,
+  getSidebarPagination,
+} from '../lib/docs';
+import { getLocaleByKey } from '../lib/i18n';
+import { getOpenApiHeadings } from '../lib/openapi/markdown';
+import { loadOpenApiPage } from '../lib/openapi/runtime';
+import type { OpenApiIntroductionEntry } from '../lib/openapi/types';
+import type { LotusThemeConfig } from '../lib/theme';
+
+const loaded = await loadOpenApiPage(Astro.url.pathname);
+
+if (!loaded || loaded.entry.data.type !== 'introduction') {
+  return new Response('Not found', { status: 404 });
+}
+
+const { entry, page } = loaded as typeof loaded & { entry: OpenApiIntroductionEntry };
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const locale = getLocaleByKey(themeConfig, page.localeKey);
+const docsContext = await getDocsContext(undefined, locale.key);
+const currentSection = docsContext.entrySections.get(page.identity);
+const docsNavigation = createDocsNavigationHandoff(docsContext, currentSection);
+const sidebar = currentSection ? docsContext.sidebars[currentSection] : undefined;
+const pageNavigation = sidebar
+  ? getSidebarPagination(sidebar, page.identity)
+  : {};
+const headings = await getOpenApiHeadings(entry.body);
+const currentPath = page.href;
+const pageUrl = Astro.site ? new URL(currentPath, Astro.site).toString() : currentPath;
+const markdownUrl = Astro.site ? new URL(page.markdownHref, Astro.site).toString() : page.markdownHref;
+---
+
+<DocsContextLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  locale={locale}
+  currentPath={currentPath}
+  currentSection={currentSection}
+  currentSlug={page.identity}
+  docsNavigation={docsNavigation}
+  headings={headings}
+  pagefind
+>
+  <PageHeader
+    description={entry.data.description}
+    markdownUrl={markdownUrl}
+    pageActions={themeConfig.pageActions}
+    pageUrl={pageUrl}
+    title={entry.data.title}
+  />
+
+  <ApiMarkdown class="lotus-prose py-8" content={entry.body} />
+
+  <div class="mt-8">
+    <PageNavigation navigation={pageNavigation} />
+  </div>
+
+  <Fragment slot="aside">
+    <PageAside
+      currentSlug={page.identity}
+      headings={headings}
+      markdownUrl={markdownUrl}
+      pageUrl={pageUrl}
+      title={entry.data.title}
+    />
+  </Fragment>
+</DocsContextLayout>

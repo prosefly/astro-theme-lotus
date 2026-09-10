@@ -52,13 +52,6 @@ jobs:
       - name: Test package
         run: pnpm test
 
-      - name: Prepare pro feature
-        run: |
-          mv .github/pro/api src/pages/
-          mv .github/pro/cafe.yaml src/openapi.yaml
-          cp ./astro.pro.ts ./astro.config.ts
-          cp ./src/content.pro.ts ./src/content.config.ts
-
       - name: Check site
         run: pnpm check
 

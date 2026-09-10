@@ -8,6 +8,7 @@ import {
 import { getLocalizedHref, getLocales } from '../lib/i18n';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
+import { getOpenApiSearchItems } from '../lib/openapi/content';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 
@@ -73,7 +74,9 @@ export const GET: APIRoute = async ({ props }) => {
     };
   });
 
-  return new Response(JSON.stringify({ items }), {
+  const openApiItems = await getOpenApiSearchItems(docsContext.locale.key);
+
+  return new Response(JSON.stringify({ items: [...items, ...openApiItems] }), {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'public, max-age=0, must-revalidate',

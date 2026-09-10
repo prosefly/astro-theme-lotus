@@ -56,6 +56,61 @@ export type SidebarBadge =
 
 export type MaybePromise<T> = T | Promise<T>;
 
+export interface OpenApiSchemaBudgetOptions {
+  maxDepth?: number;
+  maxArrayItems?: number;
+  maxObjectEntries?: number;
+  maxNodes?: number;
+}
+
+export interface OpenApiOperationGroupInput {
+  method: string;
+  operationId?: string;
+  path: string;
+  summary: string;
+  tags: string[];
+  prosefly?: Record<string, unknown>;
+}
+
+export type OpenApiGroupBy =
+  | 'auto'
+  | 'path'
+  | 'tag'
+  | ((operation: OpenApiOperationGroupInput) =>
+      | string
+      | { label?: string; slug?: string }
+      | undefined);
+
+export interface OpenApiSourceConfig {
+  file: string;
+  base?: string;
+  operationBase?: string;
+  groupBy?: OpenApiGroupBy;
+  schemaBudget?: OpenApiSchemaBudgetOptions;
+}
+
+export interface OpenApiIntegrationConfig {
+  sources: Record<string, OpenApiSourceConfig>;
+}
+
+export type OpenApiConfig = OpenApiSourceConfig | OpenApiIntegrationConfig;
+
+export interface SidebarOpenApiOptions {
+  source?: string;
+  introduction?:
+    | false
+    | {
+        label?: string;
+        link?: string;
+      };
+  methodBadge?:
+    | false
+    | {
+        position?: SidebarBadgePosition;
+        variant?: SidebarBadgeVariant;
+      };
+}
+
 export interface SidebarLinkItem {
   label: string;
   link: string;
@@ -83,11 +138,16 @@ export interface SidebarAutogenerateItem {
   };
 }
 
+export interface SidebarOpenApiItem {
+  openapi: SidebarOpenApiOptions;
+}
+
 export type SidebarItemConfig =
   | string
   | SidebarLinkItem
   | SidebarGroupItem
-  | SidebarAutogenerateItem;
+  | SidebarAutogenerateItem
+  | SidebarOpenApiItem;
 
 export interface DocsNavConfig {
   slug?: string;
@@ -291,6 +351,7 @@ export interface LotusThemeConfig {
   socials: ThemeSocialLink[];
   themeModeControl: ThemeModeControl;
   docsNav: DocsNavConfig[];
+  openapi?: OpenApiConfig;
   search: SearchConfig;
   assistant: AssistantConfig;
   llms: LlmsOption;

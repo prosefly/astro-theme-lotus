@@ -12,6 +12,8 @@ import { resolveLlmsConfig } from '../lib/config';
 import { createPageMarkdown } from '../lib/page/actions';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import type { LotusThemeConfig } from '../lib/theme';
+import { createOpenApiPageMarkdown } from '../lib/openapi/markdown';
+import { loadOpenApiPages } from '../lib/openapi/runtime';
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 
@@ -75,6 +77,7 @@ export const GET: APIRoute = async ({ site, request }) => {
   );
   const linkedSlugs = new Set<string>();
   const baseUrl = site ?? new URL(request.url);
+  const openApiPages = await loadOpenApiPages(defaultLocale.key);
   const lines: string[] = [
     `# ${themeConfig.name}`,
     '',
@@ -120,6 +123,34 @@ export const GET: APIRoute = async ({ site, request }) => {
     lines.push('');
   }
 
+  const openApiSources = new Map<string, typeof openApiPages>();
+
+  for (const page of openApiPages) {
+    const pages = openApiSources.get(page.page.sourceKey) ?? [];
+
+    pages.push(page);
+    openApiSources.set(page.page.sourceKey, pages);
+  }
+
+  for (const pages of openApiSources.values()) {
+    const introduction = pages.find(({ entry }) => entry.data.type === 'introduction');
+    const title = introduction?.reference.introduction.data.source.title ?? 'API Reference';
+
+    lines.push(`## ${escapeMarkdownText(title)}`, '');
+
+    for (const { entry, page } of pages) {
+      const entryTitle = entry.data.type === 'introduction'
+        ? entry.data.title
+        : entry.data.summary;
+      const description = entry.data.description;
+      const href = new URL(page.markdownHref, baseUrl).toString();
+
+      lines.push(formatLink(entryTitle, href, description));
+    }
+
+    lines.push('');
+  }
+
   if (isFull) {
     lines.push('## Full Documentation', '');
 
@@ -127,6 +158,17 @@ export const GET: APIRoute = async ({ site, request }) => {
       const markdownHref = getLocalizedMarkdownHref(themeConfig, getEntrySlug(entry), defaultLocale.key);
       const href = new URL(markdownHref, baseUrl).toString();
       appendFullEntry(lines, entry, href);
+    }
+
+    for (const { entry, page } of openApiPages) {
+      lines.push(
+        '---',
+        '',
+        createOpenApiPageMarkdown(entry).trim(),
+        '',
+        `Source: ${new URL(page.markdownHref, baseUrl).toString()}`,
+        '',
+      );
     }
   }
 

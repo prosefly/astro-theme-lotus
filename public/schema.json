@@ -82,6 +82,12 @@
       "type": "array",
       "items": { "$ref": "#/$defs/docsNavSection" }
     },
+    "openapi": {
+      "oneOf": [
+        { "$ref": "#/$defs/openapiSource" },
+        { "$ref": "#/$defs/openapiIntegration" }
+      ]
+    },
     "search": {
       "oneOf": [
         { "const": false },
@@ -356,7 +362,8 @@
         { "type": "string" },
         { "$ref": "#/$defs/docsNavLinkItem" },
         { "$ref": "#/$defs/docsNavGroupItem" },
-        { "$ref": "#/$defs/docsNavAutogenerateItem" }
+        { "$ref": "#/$defs/docsNavAutogenerateItem" },
+        { "$ref": "#/$defs/docsNavOpenApiItem" }
       ]
     },
     "docsNavLinkItem": {
@@ -421,6 +428,88 @@
             }
           }
         }
+      }
+    },
+    "docsNavOpenApiItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["openapi"],
+      "properties": {
+        "openapi": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source": { "type": "string" },
+            "introduction": {
+              "oneOf": [
+                { "const": false },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "label": { "type": "string" },
+                    "link": { "type": "string" }
+                  }
+                }
+              ]
+            },
+            "methodBadge": {
+              "oneOf": [
+                { "const": false },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "position": {
+                      "type": "string",
+                      "enum": ["leading", "trailing"]
+                    },
+                    "variant": {
+                      "type": "string",
+                      "enum": ["solid", "soft", "subtle", "outline"]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "openapiSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": { "type": "string" },
+        "base": { "type": "string" },
+        "operationBase": { "type": "string" },
+        "groupBy": {
+          "type": "string",
+          "enum": ["auto", "path", "tag"]
+        },
+        "schemaBudget": { "$ref": "#/$defs/openapiSchemaBudget" }
+      }
+    },
+    "openapiIntegration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/openapiSource" }
+        }
+      }
+    },
+    "openapiSchemaBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maxDepth": { "type": "number" },
+        "maxArrayItems": { "type": "number" },
+        "maxObjectEntries": { "type": "number" },
+        "maxNodes": { "type": "number" }
       }
     },
     "docsNavBadge": {

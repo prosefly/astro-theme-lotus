@@ -40,7 +40,7 @@ export function getIconPreloadNames(config: LotusThemeConfig): string[] {
 
   function addSidebarItems(items: SidebarItemConfig[] = []): void {
     for (const item of items) {
-      if (typeof item === 'string' || 'autogenerate' in item) {
+      if (typeof item === 'string' || 'autogenerate' in item || 'openapi' in item) {
         continue;
       }
 

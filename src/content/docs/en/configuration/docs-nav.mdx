@@ -116,6 +116,42 @@ monolingual site, or to the current locale's `installation.mdx` in an i18n site.
 For this example site, root English content lives in `src/content/docs/en/`, but
 the sidebar still references it as `installation`.
 
+## OpenAPI Items
+
+When the optional OpenAPI integration is configured, add its generated
+navigation as an item source:
+
+```ts
+{
+  slug: 'api',
+  label: 'API Reference',
+  items: [{ openapi: {} }],
+}
+```
+
+Select a named source when more than one OpenAPI document is configured:
+
+```ts
+{
+  slug: 'cafe-api',
+  label: 'Cafe API',
+  items: [
+    {
+      openapi: {
+        source: 'cafe',
+        introduction: { label: 'Overview' },
+        methodBadge: { position: 'leading', variant: 'soft' },
+      },
+    },
+  ],
+}
+```
+
+Set `introduction` or `methodBadge` to `false` to omit them from navigation.
+OpenAPI items can be mixed with manual links and nested inside sidebar groups.
+See [OpenAPI](/docs/configuration/integrations/#openapi) for source and route
+configuration.
+
 ## Link Items
 
 Use link items for internal or external links that are not generated from docs

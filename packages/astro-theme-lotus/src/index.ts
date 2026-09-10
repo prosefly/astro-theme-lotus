@@ -21,16 +21,20 @@ import { componentOverridePlugin } from './lib/overriding';
 import { getLotusInjectedRoutes } from './lib/routes';
 import { buildPagefindIndex } from './lib/search/pagefind';
 import { getIconPreloadNames } from './lib/preload-icons';
+import { getOpenApiInjectedRoutes, prepareOpenApi } from './lib/openapi/setup';
+import { emptyOpenApiManifest, openApiManifestPlugin } from './lib/openapi/virtual';
 import { lotusStylesPlugin } from './lib/styles';
 
 export default function lotus(options: LotusIntegrationOptions = {}): AstroIntegration {
   let config = resolveLotusConfig(normalizeLegacyLotusConfigOptions(options));
+  let openApiManifest = emptyOpenApiManifest;
 
   return {
     name: '@prosefly/astro-theme-lotus',
     hooks: {
       'astro:config:setup': async ({
         addMiddleware,
+        addWatchFile,
         config: astroConfig,
         injectRoute,
         logger,
@@ -48,8 +52,15 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
         config = resolveLotusConfig(mergedOptions);
         config = resolveLocalAssetConfig(config, astroConfig.publicDir);
         config = await resolveAsyncLotusConfig(config);
+        const preparedOpenApi = await prepareOpenApi(config, astroConfig.root, { addWatchFile });
+
+        config = preparedOpenApi.config;
+        openApiManifest = preparedOpenApi.manifest;
 
         for (const route of getLotusInjectedRoutes(config)) {
+          injectRoute(route);
+        }
+        for (const route of getOpenApiInjectedRoutes(openApiManifest)) {
           injectRoute(route);
         }
 
@@ -78,6 +89,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
               ? []
               : [astroExpressiveCode(expressiveCodeOptions)]),
             mdx(),
+            ...(preparedOpenApi.integration ? [preparedOpenApi.integration] : []),
           ],
           ...(expressiveCodeOptions === false
             ? {
@@ -91,6 +103,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
           vite: {
             plugins: [
               lotusConfigPlugin(config),
+              openApiManifestPlugin(openApiManifest),
               componentOverridePlugin(config.components ?? {}, astroConfig.root),
               lotusStylesPlugin(astroConfig.root, astroConfig.srcDir, config.head),
               tailwindcss(),
@@ -117,12 +130,20 @@ export type {
   FooterSection,
   LocaleConfig,
   LotusThemeConfig,
+  OpenApiConfig,
+  OpenApiGroupBy,
+  OpenApiIntegrationConfig,
+  OpenApiOperationGroupInput,
+  OpenApiSchemaBudgetOptions,
+  OpenApiSourceConfig,
   OverrideComponentName,
   OverrideComponentsConfig,
   PageActionConfig,
   RadiusScale,
   SearchConfig,
   SidebarItemConfig,
+  SidebarOpenApiItem,
+  SidebarOpenApiOptions,
   SiteNavItem,
   ThemeAccent,
   ThemeLogo,

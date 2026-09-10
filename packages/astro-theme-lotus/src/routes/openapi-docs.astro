@@ -1,0 +1,93 @@
+---
+import {
+  ApiMarkdown,
+  ApiMethodBadge,
+  ApiReferenceAside,
+  ApiRequestSection,
+  ApiResponsesSection,
+  ApiSecuritySection,
+} from '@prosefly-pro/astro-openapi/components';
+import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
+import rawThemeConfig from 'virtual:prosefly/lotus/config';
+import DocsContextLayout from '../layouts/DocsContextLayout.astro';
+import {
+  createDocsNavigationHandoff,
+  getDocsContext,
+  getSidebarPagination,
+} from '../lib/docs';
+import { getLocaleByKey } from '../lib/i18n';
+import { loadOpenApiPage } from '../lib/openapi/runtime';
+import type { OpenApiExchangeEntry } from '../lib/openapi/types';
+import type { LotusThemeConfig } from '../lib/theme';
+
+const loaded = await loadOpenApiPage(Astro.url.pathname);
+
+if (!loaded || loaded.entry.data.type === 'introduction') {
+  return new Response('Not found', { status: 404 });
+}
+
+const { entry, page } = loaded as typeof loaded & { entry: OpenApiExchangeEntry };
+const themeConfig = rawThemeConfig as LotusThemeConfig;
+const locale = getLocaleByKey(themeConfig, page.localeKey);
+const docsContext = await getDocsContext(undefined, locale.key);
+const currentSection = docsContext.entrySections.get(page.identity);
+const docsNavigation = createDocsNavigationHandoff(docsContext, currentSection);
+const sidebar = currentSection ? docsContext.sidebars[currentSection] : undefined;
+const pageNavigation = sidebar
+  ? getSidebarPagination(sidebar, page.identity)
+  : {};
+const currentPath = page.href;
+const sectionTitle = entry.data.group.label;
+const endpoint = entry.data.path ?? entry.data.name;
+---
+
+<DocsContextLayout
+  title={entry.data.summary}
+  description={entry.data.description ?? entry.data.summary}
+  locale={locale}
+  currentPath={currentPath}
+  currentSection={currentSection}
+  currentSlug={page.identity}
+  docsNavigation={docsNavigation}
+  pagefind
+>
+  <header class="lotus-border-subtle border-b pb-8">
+    <p class="text-sm font-medium text-(--lotus-accent)">{sectionTitle}</p>
+    <h1 class="mt-5 text-4xl font-semibold tracking-normal text-(--lotus-text-strong)">{entry.data.summary}</h1>
+    {entry.data.lead && (
+      <ApiMarkdown
+        class="lotus-prose mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted)"
+        content={entry.data.lead}
+      />
+    )}
+    {endpoint && (
+      <div class="mt-6 flex min-w-0 flex-wrap items-center gap-3 rounded-(--lotus-radius-lg) border border-(--lotus-border-muted) bg-(--lotus-surface) px-4 py-3">
+        <ApiMethodBadge method={entry.data.method} />
+        <code class="break-all text-sm font-semibold text-(--lotus-text-strong)">{endpoint}</code>
+      </div>
+    )}
+  </header>
+
+  <div class="mt-8 flex flex-col gap-10">
+    {entry.data.content && (
+      <ApiMarkdown class="lotus-prose max-w-3xl" content={entry.data.content} />
+    )}
+    <ApiSecuritySection operation={entry} />
+    <ApiRequestSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
+    <ApiResponsesSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
+  </div>
+
+  <div class="mt-8">
+    <PageNavigation navigation={pageNavigation} />
+  </div>
+
+  <Fragment slot="aside">
+    <ApiReferenceAside entry={entry} />
+  </Fragment>
+</DocsContextLayout>
+
+<style is:global>
+  :root {
+    --lotus-toc-width: 28rem;
+  }
+</style>
