@@ -1,0 +1,85 @@
+---
+title: Embed
+description: Render rich provider embeds or metadata cards from a URL.
+sidebar:
+  icon: "lucide:panels-top-left"
+---
+
+import { Embed } from '@prosefly/astro-components';
+
+`Embed` renders supplied metadata immediately. When metadata is incomplete, it
+tries a supported oEmbed provider, selected Schema.org websites, and finally
+OpenGraph.
+
+<Embed
+  kind="link"
+  url="https://astro-theme-lotus.prosefly.dev/"
+  title="Astro Theme Lotus"
+  description="A documentation theme for Astro, built for expressive content."
+  image="/images/og.png"
+  siteName="Prosefly"
+  fetch={false}
+/>
+
+## Import
+
+```mdx
+import { Embed } from '@prosefly/astro-components';
+```
+
+## Explicit Metadata
+
+Pass display metadata directly for deterministic builds. Explicit props always
+take precedence over resolved metadata.
+
+```mdx
+<Embed
+  kind="link"
+  url="https://astro-theme-lotus.prosefly.dev/"
+  title="Astro Theme Lotus"
+  description="A documentation theme for Astro, built for expressive content."
+  image="/images/og.png"
+  siteName="Prosefly"
+/>
+```
+
+## Resolve a URL
+
+With only a URL, `Embed` resolves supported providers during Astro rendering
+and caches the result under `.astro/prosefly/embed`.
+
+```mdx
+<Embed url="https://www.youtube.com/watch?v=-a0ecQMq-rM" />
+```
+
+Supported oEmbed providers include YouTube, Vimeo, Spotify, SoundCloud, Apple
+Music, Apple Podcasts, X, Bluesky, and Flickr. Selected App Store, Google Play,
+Product Hunt, Letterboxd, and Rotten Tomatoes pages use Schema.org metadata.
+Other URLs fall back to OpenGraph and then an ordinary linked card.
+
+Set `fetch={false}` when intentionally rendering incomplete explicit metadata
+without a remote request.
+
+```mdx
+<Embed
+  url="https://example.com/article"
+  title="A deliberately minimal card"
+  fetch={false}
+/>
+```
+
+## Props
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `url` | `string` | Required HTTP or HTTPS URL. |
+| `kind` | `'auto' \| 'link' \| 'application' \| 'product' \| 'movie' \| 'book' \| 'review'` | Selects the presentation; defaults to `auto`. |
+| `title` | `string` | Explicit title; overrides resolved metadata. |
+| `description` | `string` | Explicit summary. |
+| `image` | `string` | Preview image or application icon. |
+| `siteName` | `string` | Provider or website name. |
+| `author` | `string` | Author, creator, or developer. |
+| `rating` | `{ value, best?, worst?, count? }` | Rating information. |
+| `price` | `{ amount, currency?, availability? } \| { low, high, currency?, availability? }` | Exact price or range. |
+| `fetch` | `boolean` | Set to `false` to disable metadata resolution. |
+| `external` | `boolean` | Opens links in a new tab; defaults to `true`. |

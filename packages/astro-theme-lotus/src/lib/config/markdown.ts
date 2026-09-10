@@ -50,6 +50,7 @@ export function resolveMarkdownConfig(
       calloutDirectives: markdownOptions.calloutDirectives,
       packageManagerTabs: markdownOptions.packageManagerTabs,
       imageGallery: markdownOptions.imageGallery,
+      mermaid: markdownOptions.mermaid,
       ...extensions,
     }, markdownConfig),
   };

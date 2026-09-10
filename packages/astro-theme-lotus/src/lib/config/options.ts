@@ -15,6 +15,7 @@ export interface LotusMarkdownOptions {
   cjkFriendly?: boolean | 'auto';
   packageManagerTabs?: false;
   imageGallery?: false;
+  mermaid?: false;
 }
 
 export interface LotusIntegrationOptions {

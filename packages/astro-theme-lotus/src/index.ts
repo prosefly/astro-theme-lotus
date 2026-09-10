@@ -82,6 +82,7 @@ export default function lotus(options: LotusIntegrationOptions = {}): AstroInteg
                 calloutDirectives: mergedOptions.markdown?.calloutDirectives,
                 packageManagerTabs: mergedOptions.markdown?.packageManagerTabs,
                 imageGallery: mergedOptions.markdown?.imageGallery,
+                mermaid: mergedOptions.markdown?.mermaid,
                 ...resolveMarkdownExtensions(mergedOptions, astroConfig.markdown),
               },
             }),

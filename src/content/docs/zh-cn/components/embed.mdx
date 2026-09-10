@@ -1,0 +1,82 @@
+---
+title: Embed
+description: 根据 URL 渲染第三方嵌入内容或富媒体信息卡片。
+sidebar:
+  icon: "lucide:panels-top-left"
+---
+
+import { Embed } from '@prosefly/astro-components';
+
+`Embed` 会直接渲染已经提供的 metadata。如果信息不完整，它会依次尝试受支持的
+oEmbed provider、指定网站的 Schema.org 数据，最后再读取 OpenGraph。
+
+<Embed
+  kind="link"
+  url="https://astro-theme-lotus.prosefly.dev/"
+  title="Astro Theme Lotus"
+  description="A documentation theme for Astro, built for expressive content."
+  image="/images/og.png"
+  siteName="Prosefly"
+  fetch={false}
+/>
+
+## 导入
+
+```mdx
+import { Embed } from '@prosefly/astro-components';
+```
+
+## 显式提供 Metadata
+
+直接传入展示信息可以让构建结果完全确定。显式 props 总会覆盖自动解析的数据。
+
+```mdx
+<Embed
+  kind="link"
+  url="https://astro-theme-lotus.prosefly.dev/"
+  title="Astro Theme Lotus"
+  description="A documentation theme for Astro, built for expressive content."
+  image="/images/og.png"
+  siteName="Prosefly"
+/>
+```
+
+## 自动解析 URL
+
+只传入 URL 时，`Embed` 会在 Astro 渲染期间解析受支持的 provider，并将结果缓存
+到 `.astro/prosefly/embed`。
+
+```mdx
+<Embed url="https://www.youtube.com/watch?v=-a0ecQMq-rM" />
+```
+
+支持的 oEmbed provider 包括 YouTube、Vimeo、Spotify、SoundCloud、Apple
+Music、Apple Podcasts、X、Bluesky 和 Flickr。指定的 App Store、Google Play、
+Product Hunt、Letterboxd 和 Rotten Tomatoes 页面会使用 Schema.org 数据。
+其他 URL 会依次回退到 OpenGraph 和普通链接卡片。
+
+如果只想渲染不完整的显式信息，而不发起远程请求，请设置 `fetch={false}`。
+
+```mdx
+<Embed
+  url="https://example.com/article"
+  title="A deliberately minimal card"
+  fetch={false}
+/>
+```
+
+## Props
+
+| Prop | Type | 说明 |
+| --- | --- | --- |
+| `url` | `string` | 必填的 HTTP 或 HTTPS URL。 |
+| `kind` | `'auto' \| 'link' \| 'application' \| 'product' \| 'movie' \| 'book' \| 'review'` | 选择展示形式，默认为 `auto`。 |
+| `title` | `string` | 显式标题，会覆盖自动解析结果。 |
+| `description` | `string` | 显式摘要。 |
+| `image` | `string` | 预览图或应用图标。 |
+| `siteName` | `string` | Provider 或网站名称。 |
+| `author` | `string` | 作者、创作者或开发者。 |
+| `rating` | `{ value, best?, worst?, count? }` | 评分信息。 |
+| `price` | `{ amount, currency?, availability? } \| { low, high, currency?, availability? }` | 确切价格或价格范围。 |
+| `fetch` | `boolean` | 设为 `false` 可关闭 metadata 解析。 |
+| `external` | `boolean` | 在新标签页打开链接，默认为 `true`。 |

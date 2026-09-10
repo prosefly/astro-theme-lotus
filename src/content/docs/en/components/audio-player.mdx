@@ -1,0 +1,70 @@
+---
+title: AudioPlayer
+description: Present audio with metadata and accessible playback controls.
+sidebar:
+  icon: "lucide:audio-lines"
+---
+
+import { AudioPlayer } from '@prosefly/astro-components';
+
+`AudioPlayer` builds a themed control surface around the native audio element.
+
+<AudioPlayer
+  album="Prehistoric Sessions"
+  artist="NASA"
+  duration="11:06"
+  src="https://shikwasa.js.org/assets/STS-133_FD11_Mission_Status_Briefing.mp3"
+  title="STS-133 FD11 Mission Status Briefing"
+/>
+
+## Import
+
+```mdx
+import { AudioPlayer } from '@prosefly/astro-components';
+```
+
+## Basic Usage
+
+```mdx
+<AudioPlayer
+  album="Prehistoric Sessions"
+  artist="NASA"
+  artwork="/images/cover.webp"
+  duration="11:06"
+  src="/audio/briefing.mp3"
+  title="STS-133 FD11 Mission Status Briefing"
+/>
+```
+
+Pass a number of seconds to `duration` to let the component format it. A string
+is displayed as written until the browser discovers a finite duration from the
+audio metadata.
+
+The enhanced controls include playback-speed cycling, 15-second replay,
+30-second forward, mute, and Media Session integration where supported. Native
+audio controls remain available as the no-JavaScript fallback.
+
+## Multiple Sources
+
+Use `source` children when an audio file is available in multiple formats.
+
+```mdx
+<AudioPlayer artist="Artist" title="Song title">
+  <source src="/audio/song.mp3" type="audio/mpeg" />
+  <source src="/audio/song.ogg" type="audio/ogg" />
+</AudioPlayer>
+```
+
+## Props
+
+The component also accepts native `audio` attributes such as `src`, `autoplay`,
+`loop`, `muted`, and `crossorigin`.
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `title` | `string` | Visible track or episode title. |
+| `artist` | `string` | Artist, speaker, or creator. |
+| `album` | `string` | Optional collection or album. |
+| `artwork` | `string \| ImageMetadata` | Artwork URL or imported Astro image. |
+| `duration` | `string \| number` | Initial label or duration in seconds. |
+| `preload` | `'none' \| 'metadata' \| 'auto'` | Defaults to `metadata`. |

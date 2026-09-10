@@ -4,8 +4,9 @@ import { isUnifiedProcessor } from '@astrojs/markdown-remark';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
 import {
-  rehypeImageGallery,
+  rehypeMermaid,
   remarkCalloutDirectives,
+  remarkImageGallery,
   remarkPackageManagerTabs,
 } from '@prosefly/astro-components/markdown';
 import { resolveMarkdownConfig, resolveMarkdownExtensions } from '../src/lib/config/markdown';
@@ -104,15 +105,32 @@ describe('markdown transforms', () => {
         calloutDirectives: false,
         packageManagerTabs: false,
         imageGallery: false,
+        mermaid: false,
       },
     }, markdownConfig());
     const extensions = resolveMarkdownExtensions({}, markdownConfig());
 
     expect(processorOptions(config).remarkPlugins).not.toContain(remarkCalloutDirectives);
     expect(processorOptions(config).remarkPlugins).not.toContain(remarkPackageManagerTabs);
-    expect(processorOptions(config).rehypePlugins).not.toContain(rehypeImageGallery);
+    expect(processorOptions(config).remarkPlugins).not.toContain(remarkImageGallery);
+    expect(processorOptions(config).rehypePlugins).not.toContain(rehypeMermaid);
     expect(extensions.remarkPluginsBeforeTransforms?.[0]).toBe(remarkHeadingIds);
     expect(extensions.rehypePluginsAfterTransforms?.[0]).toBeTypeOf('function');
+  });
+
+  it('enables Mermaid rendering and excludes its source from syntax highlighting', () => {
+    const config = resolveMarkdownConfig({}, markdownConfig({
+      syntaxHighlight: {
+        type: 'shiki',
+        excludeLangs: ['math'],
+      },
+    }));
+
+    expect(processorOptions(config).rehypePlugins).toContain(rehypeMermaid);
+    expect(config.syntaxHighlight).toEqual({
+      type: 'shiki',
+      excludeLangs: ['math', 'mermaid'],
+    });
   });
 
   it('generates stable slugs for headings and duplicate headings', () => {

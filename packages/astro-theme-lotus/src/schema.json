@@ -193,7 +193,8 @@
           ]
         },
         "packageManagerTabs": { "const": false },
-        "imageGallery": { "const": false }
+        "imageGallery": { "const": false },
+        "mermaid": { "const": false }
       }
     },
     "footer": {

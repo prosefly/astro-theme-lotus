@@ -1,14 +1,14 @@
 ---
 title: Integrations
-description: Configure OpenAPI references, Iconify preloading, Expressive Code, callout directives, CJK Markdown, and package manager tabs.
+description: Configure OpenAPI references, Iconify preloading, Expressive Code, Mermaid diagrams, and Markdown transforms.
 
 ---
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
-Lotus includes integrations for icons, syntax highlighting, callout directives,
-CJK-friendly Markdown, image galleries, package-manager command tabs, and optional
-OpenAPI reference pages.
+Lotus includes integrations for icons, syntax highlighting, Mermaid diagrams,
+callout directives, CJK-friendly Markdown, image galleries, package-manager
+command tabs, and optional OpenAPI reference pages.
 
 <CardGrid>
   <Card icon="lucide:braces" title="OpenAPI" href="#openapi">
@@ -22,6 +22,10 @@ OpenAPI reference pages.
   <Card icon="lucide:code-2" title="Expressive Code" href="#expressive-code">
     Render syntax-highlighted code blocks with frames, copy buttons, markers,
     and theme-aware styling.
+  </Card>
+  <Card icon="lucide:git-branch" title="Mermaid" href="#mermaid">
+    Render supported Mermaid code blocks as responsive, themed SVG diagrams at
+    build time.
   </Card>
   <Card icon="lucide:terminal" title="Package Manager Tabs" href="#package-manager-tabs">
     Turn recognized npm and Python install commands into synchronized tabbed
@@ -157,6 +161,25 @@ renderer.
 lotus({
   markdown: {
     expressiveCode: false,
+  },
+})
+```
+
+## Mermaid
+
+Lotus renders supported `mermaid` code blocks as responsive inline SVG during
+the Astro build. It is enabled by default, ships no Mermaid runtime to the
+browser, and automatically keeps Mermaid source out of syntax highlighting.
+
+See [Mermaid Diagrams](/docs/essentials/mermaid/) for supported diagram types,
+authoring syntax, accessibility, and theming.
+
+Disable the transform when Mermaid blocks should remain ordinary code:
+
+```ts
+lotus({
+  markdown: {
+    mermaid: false,
   },
 })
 ```

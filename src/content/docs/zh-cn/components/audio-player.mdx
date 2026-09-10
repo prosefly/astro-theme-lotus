@@ -1,0 +1,68 @@
+---
+title: AudioPlayer
+description: 展示音频信息，并提供易用且无障碍的播放控制。
+sidebar:
+  icon: "lucide:audio-lines"
+---
+
+import { AudioPlayer } from '@prosefly/astro-components';
+
+`AudioPlayer` 在原生 audio 元素外提供一套与主题一致的播放界面。
+
+<AudioPlayer
+  album="Prehistoric Sessions"
+  artist="NASA"
+  duration={666}
+  src="https://shikwasa.js.org/assets/STS-133_FD11_Mission_Status_Briefing.mp3"
+  title="STS-133 FD11 Mission Status Briefing"
+/>
+
+## 导入
+
+```mdx
+import { AudioPlayer } from '@prosefly/astro-components';
+```
+
+## 基本用法
+
+```mdx
+<AudioPlayer
+  album="Prehistoric Sessions"
+  artist="NASA"
+  artwork="/images/cover.webp"
+  duration={666}
+  src="/audio/briefing.mp3"
+  title="STS-133 FD11 Mission Status Briefing"
+/>
+```
+
+`duration` 可以传入秒数，由组件负责格式化；也可以传入字符串，并在浏览器读取到
+有效的音频时长前按原样显示。
+
+增强控制栏支持切换播放速度、后退 15 秒、前进 30 秒、静音，以及浏览器支持时的
+Media Session 集成。JavaScript 不可用时仍会保留原生 audio controls。
+
+## 多种音频格式
+
+同一段音频有多种格式时，可以传入多个 `source` 子元素。
+
+```mdx
+<AudioPlayer artist="Artist" title="Song title">
+  <source src="/audio/song.mp3" type="audio/mpeg" />
+  <source src="/audio/song.ogg" type="audio/ogg" />
+</AudioPlayer>
+```
+
+## Props
+
+组件也接受 `src`、`autoplay`、`loop`、`muted` 和 `crossorigin` 等原生
+`audio` 属性。
+
+| Prop | Type | 说明 |
+| --- | --- | --- |
+| `title` | `string` | 显示的音轨或节目标题。 |
+| `artist` | `string` | 艺术家、讲者或创作者。 |
+| `album` | `string` | 可选的专辑或集合名称。 |
+| `artwork` | `string \| ImageMetadata` | 图片 URL 或导入的 Astro image。 |
+| `duration` | `string \| number` | 初始时长文字，或以秒为单位的时长。 |
+| `preload` | `'none' \| 'metadata' \| 'auto'` | 默认为 `metadata`。 |

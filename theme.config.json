@@ -142,7 +142,8 @@
             "essentials/markdown-syntax",
             "essentials/admonitions",
             "essentials/images",
-            "essentials/code-blocks"
+            "essentials/code-blocks",
+            "essentials/mermaid"
           ]
         },
         {
@@ -183,7 +184,9 @@
         "components/steps",
         "components/tabs",
         "components/accordion",
-        "components/file-tree"
+        "components/file-tree",
+        "components/audio-player",
+        "components/embed"
       ]
     },
     {

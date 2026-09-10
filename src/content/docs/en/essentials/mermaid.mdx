@@ -1,0 +1,330 @@
+---
+title: Mermaid Diagrams
+description: Turn Mermaid code blocks into responsive, themed SVG diagrams at build time.
+---
+
+import { Callout, Steps, TabItem, Tabs } from '@prosefly/astro-components';
+
+Write a fenced code block with the `mermaid` language and Lotus turns it into a
+static SVG. The same syntax works in Markdown and MDX, requires no component
+import, and ships no Mermaid runtime to the browser.
+
+## Quick Start
+
+Add `title="..."` after the language when the diagram needs a specific
+accessible name. Without it, the renderer derives a name from the diagram type.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Publishing flow"
+    flowchart LR
+      Markdown --> Astro
+      Astro --> SVG
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Publishing flow"
+    flowchart LR
+      Markdown --> Astro
+      Astro --> SVG
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+The transform runs during the Astro build. It replaces the code block with a
+responsive `<figure>` containing inline SVG, so the result appears immediately
+and continues to work when JavaScript is disabled.
+
+## Supported Diagram Types
+
+Rendering is powered by
+[`beautiful-mermaid`](https://github.com/lukilabs/beautiful-mermaid) and supports
+a focused subset of Mermaid:
+
+| Diagram | Opening declaration | Good for |
+| --- | --- | --- |
+| Flowchart | `flowchart LR` or `graph TD` | Processes, decisions, and architecture |
+| State | `stateDiagram-v2` | Lifecycles and transitions |
+| Sequence | `sequenceDiagram` | Requests and interactions over time |
+| Class | `classDiagram` | Types, members, and relationships |
+| Entity relationship | `erDiagram` | Data models and cardinality |
+| XY chart | `xychart-beta` | Bar, line, and combined charts |
+
+### Flowchart
+
+Flowcharts support top-down, left-right, bottom-top, and right-left directions,
+along with labels and common node shapes.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Content publishing decision"
+    flowchart TD
+      Draft[Write draft] --> Review{Approved?}
+      Review -->|Yes| Publish[Publish page]
+      Review -->|No| Draft
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Content publishing decision"
+    flowchart TD
+      Draft[Write draft] --> Review{Approved?}
+      Review -->|Yes| Publish[Publish page]
+      Review -->|No| Draft
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+### State Diagram
+
+Use state diagrams when the important information is how one state changes
+into another.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Article lifecycle"
+    stateDiagram-v2
+      [*] --> Draft
+      Draft --> Review: submit
+      Review --> Published: approve
+      Review --> Draft: request changes
+      Published --> [*]
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Article lifecycle"
+    stateDiagram-v2
+      [*] --> Draft
+      Draft --> Review: submit
+      Review --> Published: approve
+      Review --> Draft: request changes
+      Published --> [*]
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+### Sequence Diagram
+
+Sequence diagrams make request order and cache behavior visible without a long
+procedural explanation.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Cached metadata request"
+    sequenceDiagram
+      participant Page
+      participant Cache
+      participant Provider
+      Page->>Cache: Resolve URL
+      alt Cached
+        Cache-->>Page: Return metadata
+      else Missing
+        Cache->>Provider: Fetch metadata
+        Provider-->>Cache: Return response
+        Cache-->>Page: Return metadata
+      end
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Cached metadata request"
+    sequenceDiagram
+      participant Page
+      participant Cache
+      participant Provider
+      Page->>Cache: Resolve URL
+      alt Cached
+        Cache-->>Page: Return metadata
+      else Missing
+        Cache->>Provider: Fetch metadata
+        Provider-->>Cache: Return response
+        Cache-->>Page: Return metadata
+      end
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+### Class Diagram
+
+Class diagrams support members, methods, annotations, inheritance, composition,
+aggregation, dependencies, and relationship labels.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Markdown rendering classes"
+    classDiagram
+      class MarkdownPage {
+        +String title
+        +String body
+        +render() String
+      }
+      class Diagram {
+        +String source
+        +toSVG() String
+      }
+      MarkdownPage *-- Diagram
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Markdown rendering classes"
+    classDiagram
+      class MarkdownPage {
+        +String title
+        +String body
+        +render() String
+      }
+      class Diagram {
+        +String source
+        +toSVG() String
+      }
+      MarkdownPage *-- Diagram
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+### Entity Relationship Diagram
+
+Use an ER diagram to show entities and cardinality. Entity fields are optional
+when the relationships are the main point.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Documentation content model"
+    erDiagram
+      SITE ||--o{ PAGE : contains
+      PAGE ||--o{ DIAGRAM : renders
+      PAGE {
+        string slug
+        string title
+      }
+      DIAGRAM {
+        string type
+        string source
+      }
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Documentation content model"
+    erDiagram
+      SITE ||--o{ PAGE : contains
+      PAGE ||--o{ DIAGRAM : renders
+      PAGE {
+        string slug
+        string title
+      }
+      DIAGRAM {
+        string type
+        string source
+      }
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+### XY Chart
+
+XY charts accept bar and line series. The accent token supplies the primary
+series color and the renderer derives additional series from it.
+
+<Tabs>
+  <TabItem label="Preview">
+    ```mermaid title="Documentation traffic by month"
+    xychart-beta
+      title "Documentation traffic"
+      x-axis [Jan, Feb, Mar, Apr, May, Jun]
+      y-axis "Visits (K)" 0 --> 50
+      bar [18, 24, 29, 31, 38, 46]
+      line [16, 22, 27, 34, 40, 44]
+    ```
+  </TabItem>
+  <TabItem label="Source">
+    ````markdown
+    ```mermaid title="Documentation traffic by month"
+    xychart-beta
+      title "Documentation traffic"
+      x-axis [Jan, Feb, Mar, Apr, May, Jun]
+      y-axis "Visits (K)" 0 --> 50
+      bar [18, 24, 29, 31, 38, 46]
+      line [16, 22, 27, 34, 40, 44]
+    ```
+    ````
+  </TabItem>
+</Tabs>
+
+<Callout type="note" title="A focused Mermaid subset">
+  Gantt charts, mindmaps, pie charts, user journeys, and C4 diagrams are not
+  currently supported. Unsupported syntax fails the build instead of silently
+  producing an empty or incomplete diagram.
+</Callout>
+
+## Authoring Rules
+
+<Steps>
+
+1. **Use the exact `mermaid` language.**
+
+   Other language names remain normal code blocks.
+
+2. **Add a short, descriptive title.**
+
+   Write `title="Request lifecycle"` on the opening fence. It becomes the SVG
+   `<title>` referenced by `aria-labelledby`; it is not a visible caption.
+
+3. **Use supported Mermaid syntax.**
+
+   `beautiful-mermaid` intentionally implements the six diagram families listed
+   above, not the complete Mermaid grammar.
+
+4. **Treat render failures as content errors.**
+
+   Invalid and unsupported diagrams stop the build. The error includes the
+   source file and code-block line so the diagram can be fixed at its origin.
+
+</Steps>
+
+## Theming
+
+The generated SVG references the same CSS custom properties as Lotus. It
+updates with the site's light or dark theme without being rendered again.
+
+| Token | Diagram role |
+| --- | --- |
+| `--pf-background` | Diagram background and color calculations |
+| `--pf-text` | Primary labels |
+| `--pf-text-muted` | Secondary labels and annotations |
+| `--pf-surface` | Node surfaces |
+| `--pf-border-subtle` | Node and group borders |
+| `--pf-border-muted` | Connectors |
+| `--pf-accent` | Arrowheads and chart series |
+| `--pf-font-sans` | Labels and headings |
+| `--pf-font-mono` | Monospaced diagram text |
+
+## Configuration
+
+Mermaid rendering is enabled by default. Lotus also safely adds `mermaid` to
+the existing `markdown.syntaxHighlight.excludeLangs` list so the transform
+receives the original code-block source.
+
+To keep the other Markdown transforms but render Mermaid as ordinary code:
+
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+
+export default defineConfig({
+  integrations: [
+    lotus({
+      markdown: { mermaid: false },
+    }),
+  ],
+});
+```
