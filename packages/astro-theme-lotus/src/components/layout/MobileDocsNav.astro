@@ -223,7 +223,7 @@ function getHeadingIndent(depth: number): string {
         )}
       </div>
 
-      <div class="relative z-0 flex min-h-0 flex-1 flex-col overflow-hidden px-4 py-3">
+      <div class="relative z-0 flex min-h-0 flex-1 flex-col overflow-hidden">
         {sections.map((section) => {
           const sectionSidebar = sidebars[section.slug] ?? (section.slug === activeSectionSlug ? sidebar : undefined);
 
@@ -245,3 +245,11 @@ function getHeadingIndent(depth: number): string {
 <script>
   import '../../client/mobile-docs-nav';
 </script>
+
+<style is:global>
+  .lotus-mobile-section-panel .lotus-scrollbar {
+    padding-block: calc(var(--spacing) * 3);
+    padding-inline-start: calc(var(--spacing) * 4);
+    padding-inline-end: calc(var(--spacing) * 4 + env(safe-area-inset-bottom));
+  }
+</style>
