@@ -1,7 +1,8 @@
 ---
+import type { ComponentProps } from 'astro/types';
 import SocialIcons from '../theme/SocialIcons.astro';
 
-const props = Astro.props as any;
+const props = Astro.props as ComponentProps<typeof SocialIcons>;
 ---
 
 <SocialIcons {...props} />

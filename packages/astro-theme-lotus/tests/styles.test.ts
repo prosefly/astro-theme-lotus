@@ -21,11 +21,21 @@ describe('Lotus styles', () => {
         ],
       );
 
-      await (plugin.buildStart as any).call({
+      const buildStart = typeof plugin.buildStart === 'function'
+        ? plugin.buildStart
+        : plugin.buildStart?.handler;
+      if (!buildStart) {
+        throw new Error('Expected the Lotus styles plugin to define buildStart');
+      }
+
+      const pluginContext = {
         addWatchFile(file: string) {
           watchedFiles.push(file);
         },
-      });
+      } as unknown as ThisParameterType<typeof buildStart>;
+      const inputOptions = {} as Parameters<typeof buildStart>[0];
+
+      await buildStart.call(pluginContext, inputOptions);
 
       const generatedCss = readFileSync(join(root, '.astro/lotus/styles.css'), 'utf8');
 

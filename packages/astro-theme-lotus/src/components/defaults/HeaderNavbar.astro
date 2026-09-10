@@ -1,7 +1,8 @@
 ---
+import type { ComponentProps } from 'astro/types';
 import NavbarLinks from '../theme/NavbarLinks.astro';
 
-const props = Astro.props as any;
+const props = Astro.props as ComponentProps<typeof NavbarLinks>;
 ---
 
 <NavbarLinks {...props} />

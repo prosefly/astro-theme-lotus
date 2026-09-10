@@ -10,6 +10,7 @@
     "dev": "astro dev",
     "prebuild": "node tools/sync-schema.mjs",
     "build": "astro build",
+    "lint": "eslint .",
     "preview": "astro preview",
     "precheck": "node tools/sync-schema.mjs",
     "check": "astro check",
@@ -22,9 +23,14 @@
   },
   "devDependencies": {
     "@astrojs/check": "latest",
+    "@eslint/js": "^10.0.1",
     "@types/node": "latest",
+    "eslint": "^10.10.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "globals": "^17.12.0",
     "pagefind": "^1.5.2",
     "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.0",
     "vitest": "^4.1.11"
   }
 }

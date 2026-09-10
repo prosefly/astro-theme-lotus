@@ -78,7 +78,7 @@ export function loadLotusConfigFile(
     return options;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to read ${configPath}: ${message}`);
+    throw new Error(`Failed to read ${configPath}: ${message}`, { cause: error });
   }
 }
 
