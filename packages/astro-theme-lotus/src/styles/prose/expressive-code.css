@@ -1,4 +1,5 @@
-.lotus-prose .expressive-code {
+.prose .expressive-code {
+  margin: var(--lotus-prose-flow) 0;
   --ec-brdRad: var(--lotus-prose-surface-radius);
   --ec-frm-edActTabBg: var(--lotus-code-surface);
   --ec-frm-edActTabIndBtmCol: var(--lotus-code-surface);
@@ -13,19 +14,19 @@
   --ec-frm-trmTtbBrdBtmCol: var(--lotus-border-subtle);
 }
 
-.lotus-prose .expressive-code .frame {
+.prose .expressive-code .frame {
   --button-spacing: calc((var(--lotus-code-header-height) - 2rem) / 2);
 
   border-radius: var(--lotus-prose-surface-radius);
   box-shadow: none;
 }
 
-.lotus-prose .expressive-code pre {
+.prose .expressive-code pre {
   background: var(--lotus-code-background) !important;
   border-radius: var(--lotus-prose-surface-radius);
 }
 
-.lotus-prose .expressive-code .frame .header {
+.prose .expressive-code .frame .header {
   align-items: center;
   background: var(--lotus-code-surface);
   block-size: var(--lotus-code-header-height);
@@ -36,14 +37,14 @@
   padding-block: 0;
 }
 
-.lotus-prose .expressive-code .frame:not(.is-terminal) .header,
-.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .header {
+.prose .expressive-code .frame:not(.is-terminal) .header,
+.prose .expressive-code .frame.has-title:not(.is-terminal) .header {
   background: var(--lotus-code-surface);
   padding-inline-start: var(--ec-uiPadInl);
   padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
 }
 
-.lotus-prose .expressive-code .frame:not(.is-terminal) .header::before {
+.prose .expressive-code .frame:not(.is-terminal) .header::before {
   border: var(--ec-brdWd) solid var(--lotus-code-border);
   border-bottom: none;
   border-radius: inherit;
@@ -53,7 +54,7 @@
   position: absolute;
 }
 
-.lotus-prose .expressive-code .frame:not(.is-terminal) .header::after {
+.prose .expressive-code .frame:not(.is-terminal) .header::after {
   background: var(--lotus-border-subtle);
   block-size: var(--ec-brdWd);
   content: "";
@@ -63,21 +64,21 @@
   position: absolute;
 }
 
-.lotus-prose .expressive-code .frame:not(.is-terminal) pre,
-.lotus-prose .expressive-code .frame:not(.is-terminal) code {
+.prose .expressive-code .frame:not(.is-terminal) pre,
+.prose .expressive-code .frame:not(.is-terminal) code {
   background: var(--lotus-code-background) !important;
   border-top: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.lotus-prose .expressive-code .frame.has-title:not(.is-terminal),
-.lotus-prose .expressive-code .frame.is-terminal {
+.prose .expressive-code .frame.has-title:not(.is-terminal),
+.prose .expressive-code .frame.is-terminal {
   --button-spacing: calc((var(--lotus-code-header-height) - 2rem) / 2);
 }
 
-.lotus-prose .expressive-code .frame .pf-code-header-language,
-.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title {
+.prose .expressive-code .frame .pf-code-header-language,
+.prose .expressive-code .frame.has-title:not(.is-terminal) .title {
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -90,63 +91,63 @@
   padding: 0;
 }
 
-.lotus-prose .expressive-code .frame.has-title:not(.is-terminal) .title::after {
+.prose .expressive-code .frame.has-title:not(.is-terminal) .title::after {
   content: none;
 }
 
-.lotus-prose .expressive-code .frame.is-terminal .header {
+.prose .expressive-code .frame.is-terminal .header {
   background: var(--lotus-code-surface);
   padding-block: 0;
   padding-inline-end: calc(var(--ec-uiPadInl) + 2rem);
 }
 
-.lotus-prose .expressive-code .copy {
+.prose .expressive-code .copy {
   inset-block-start: calc(var(--ec-brdWd) + (var(--lotus-code-header-height) - 2rem) / 2);
 }
 
-.lotus-prose .expressive-code .copy button {
+.prose .expressive-code .copy button {
   background: transparent;
   border-radius: var(--lotus-radius-md);
   height: 2rem;
   width: 2rem;
 }
 
-.lotus-prose .expressive-code .copy button div {
+.prose .expressive-code .copy button div {
   background: var(--lotus-surface);
   opacity: 0;
 }
 
-.lotus-prose .expressive-code .copy button::before {
+.prose .expressive-code .copy button::before {
   border-color: transparent;
   opacity: 0;
 }
 
-.lotus-prose .expressive-code .copy button::after {
+.prose .expressive-code .copy button::after {
   background-color: var(--lotus-text-muted);
   margin: 0.5rem;
 }
 
-.lotus-prose .expressive-code .copy button:hover,
-.lotus-prose .expressive-code .copy button:focus-visible {
+.prose .expressive-code .copy button:hover,
+.prose .expressive-code .copy button:focus-visible {
   opacity: 1;
 }
 
-.lotus-prose .expressive-code .copy button:hover div,
-.lotus-prose .expressive-code .copy button:focus-visible div {
+.prose .expressive-code .copy button:hover div,
+.prose .expressive-code .copy button:focus-visible div {
   opacity: 1;
 }
 
-.lotus-prose .expressive-code .copy button:hover::after,
-.lotus-prose .expressive-code .copy button:focus-visible::after {
+.prose .expressive-code .copy button:hover::after,
+.prose .expressive-code .copy button:focus-visible::after {
   background-color: var(--lotus-text-strong);
 }
 
-.lotus-prose .expressive-code .copy button:focus-visible {
+.prose .expressive-code .copy button:focus-visible {
   outline: 2px solid var(--lotus-accent);
   outline-offset: 2px;
 }
 
-.lotus-prose .expressive-code .copy .feedback {
+.prose .expressive-code .copy .feedback {
   --tooltip-bg: var(--lotus-text-strong);
 
   background-color: var(--lotus-text-strong);
@@ -155,13 +156,13 @@
 }
 
 @media (hover: hover) {
-  .lotus-prose .expressive-code .copy button {
+  .prose .expressive-code .copy button {
     opacity: 0;
   }
 
-  .lotus-prose .expressive-code .frame:hover .copy button:not(:hover),
-  .lotus-prose .expressive-code .frame:focus-within .copy button,
-  .lotus-prose .expressive-code .frame .copy .feedback.show ~ button:not(:hover) {
+  .prose .expressive-code .frame:hover .copy button:not(:hover),
+  .prose .expressive-code .frame:focus-within .copy button,
+  .prose .expressive-code .frame .copy .feedback.show ~ button:not(:hover) {
     opacity: 1;
   }
 }

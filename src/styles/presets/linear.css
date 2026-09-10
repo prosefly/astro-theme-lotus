@@ -22,12 +22,9 @@
   --lotus-radius-lg: 0.625rem;
 }
 
-.lotus-prose {
-  --lotus-prose-heading-leading: 1.18;
-}
-
-.lotus-prose :where(h1, h2, h3, h4) {
+.prose :where(h1, h2, h3, h4) {
   font-weight: 650;
+  line-height: 1.18;
 }
 
 [data-theme="dark"] {

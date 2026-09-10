@@ -1,0 +1,226 @@
+---
+title: 排版
+description: 查看默认的正文尺寸、间距和 Markdown 元素样式。
+
+---
+
+本页集中展示 Lotus 支持的 Markdown 模式，便于在同一个页面中检查排版变更，
+无需在不同的功能页面之间来回切换。页面有意以普通内容元素为主，而不是使用
+自定义布局组件。
+
+Lotus 的正文排版针对带有侧边栏和页内目录的文档页面进行了优化。正文在密集的
+导航旁仍应保持易读，标题则需要清楚地区分章节，同时避免呈现为页面级展示文字。
+
+Lotus 使用官方 Tailwind CSS Typography 插件作为 Markdown 的排版基础。为渲染后的
+内容添加 `class="prose"`；如果外层布局已经限制了内容宽度，再添加 `max-w-none`。
+可以使用 `prose-sm`、`prose-base` 或 `prose-lg` 选择不同的字号层级。
+
+对于不应继承文章排版的嵌入式应用或组件区域，请使用 `not-prose`。排除规则由
+Tailwind Typography 负责处理，因此嵌套控件和组件标记不会受到正文样式级联的影响。
+
+## 标题
+
+上方的页面标题由 frontmatter 渲染为文档的 `h1`。正文标题从 `h2` 开始，以保持
+页内目录和文档大纲稳定。
+
+### 三级标题
+
+子章节的标题应小于章节标题，但在较长的技术文档中仍需要足够醒目。它适合用于
+聚焦的主题、配置分组，或较大章节中的操作步骤。
+
+#### 四级标题
+
+较小的标题适合内容密集的参考文档，尤其适合放在短段落或列表之前。
+
+##### 五级标题
+
+五级标题应保持紧凑，不应打断正文的阅读节奏。
+
+###### 六级标题
+
+只有少数层级很深的参考页面会用到六级标题。
+
+## 段落与换行
+
+段落之间使用空行分隔。段落间距应清晰到足以快速浏览，同时保持紧凑，让中等长度的
+指南仍能形成连续的阅读体验。
+
+这个段落在第一句话后使用硬换行。\
+第二行在视觉上应与第一行保持关联。
+
+## 强调
+
+当术语需要突出显示时，请使用**粗体文字**。*斜体文字*适合少量用于措辞、引文或
+引用标签。内容确实需要更强的强调时，可以组合为**_粗斜体文字_**。
+
+GitHub Flavored Markdown 还支持使用~~删除线文字~~表示已删除或过时的内容。
+
+## 链接
+
+[安装指南](/docs/zh-cn/installation/)之类的行内链接应保持清晰可见，同时避免从句子中
+夺走过多注意力。
+
+同一个 URL 多次出现时，引用式链接会很方便。这个句子链接到
+[Astro 文档][astro-docs]。
+
+[astro-docs]: https://docs.astro.build/
+
+## 脚注
+
+脚注适合补充不应打断正文阅读的小段说明。[^theme-note]
+
+[^theme-note]: 这个脚注用于检查 Markdown 渲染器生成的间距和返回链接样式。
+
+## 行内代码
+
+`docsBase`、`themeConfig.docsNav`、`theme.config.json` 和
+`--lotus-text-muted` 等行内代码应自然地嵌入正文，不应改变段落的阅读节奏。
+
+## 列表
+
+无序列表适合展示相关说明或功能：
+
+- 配置项目元数据、favicon、页脚链接和外观 token。
+- 使用 MDX 和默认文档布局编写页面。
+- 在项目需要自定义行为时覆盖指定的主题组件。
+
+有序列表适合展示操作流程：
+
+1. 安装主题包和 Astro integration。
+2. 在配置的 docs collection 中添加文档内容。
+3. 启动开发服务器并检查生成的导航。
+
+嵌套列表应保持紧凑：
+
+- 外观
+  - 强调色
+  - 灰阶
+  - 圆角
+- 导航
+  - 顶部导航链接
+  - 侧边栏分组
+  - 页脚分区
+
+GitHub Flavored Markdown 支持任务列表：
+
+- [x] 创建文档结构
+- [x] 配置 MDX 和 Expressive Code
+- [ ] 发布软件包
+
+## 引用块
+
+> 文档排版应清楚地呈现内容结构，而不必把每个章节都变成视觉组件。
+
+引用块可以包含多个段落。
+
+> 第一段用于引出引用的观点。
+>
+> 第二段应保持相同的 muted 色调和左侧边线。
+
+## 代码块
+
+围栏代码块默认使用 Expressive Code 渲染。
+
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import lotus from '@prosefly/astro-theme-lotus';
+
+export default defineConfig({
+  integrations: [lotus()],
+});
+```
+
+同时也支持纯文本代码块。
+
+```txt
+src/content/docs/
+  overview.mdx
+  configuration/
+    appearance.mdx
+```
+
+## 包管理器命令
+
+包含包管理器安装命令的 shell 代码块，可以由 Lotus Markdown integration 转换为
+包管理器标签页。
+
+```sh
+pnpm add @prosefly/astro-theme-lotus
+```
+
+同时也支持 Python 包管理器命令。
+
+```sh
+uv add astro-lotus-example
+```
+
+## 图片
+
+图片应保持自身宽高比、适应内容栏宽度，并继承正文区域的圆角。
+
+![摆放着笔记本电脑和记事本的暖色调安静书桌](https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80)
+
+图片说明应使用 muted 文本和紧凑间距。
+
+<figure>
+  <img
+    alt="星空下的深色山脉景观"
+    src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80"
+  />
+  <figcaption>
+    Unsplash 图片让排版页面能够同时用于检查媒体间距、圆角、图片说明和深色模式对比度。
+  </figcaption>
+</figure>
+
+## 表格
+
+表格适合展示紧凑的参考信息。
+
+| 元素 | 用途 | 视觉目标 |
+| --- | --- | --- |
+| 段落 | 主要阅读内容 | 舒适的行高和稳定的阅读节奏 |
+| 二级标题 | 主要内容章节 | 紧凑但易于浏览 |
+| 三级标题 | 子章节 | 层级清晰且字号不过大 |
+| 行内代码 | Token 或 API 名称 | 清晰可见但不过分突出 |
+| 表格 | 参考数据 | 足够紧凑，便于反复查看 |
+
+较长的表格在窄屏设备上也应保持易读。
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `appearance.accent` | `'indigo'` | 设置链接、当前导航项和获得焦点的控件所使用的主要强调色。 |
+| `appearance.gray` | `'neutral'` | 选择文本、边框、表面和 muted UI 使用的中性灰阶。 |
+| `appearance.radius` | `'medium'` | 控制全局圆角风格，同时允许固定组件限制极端取值。 |
+
+## 水平分隔线
+
+分隔线上方的内容应与当前页面保持关联，下方内容则应呈现为独立的收尾区块。
+
+---
+
+最后的段落可用于检查正文、分隔线和后续内容之间的视觉关系。
+
+## 转义字符
+
+经过转义的 Markdown 标点应按字面显示：
+
+\*这段文字不应显示为斜体。\*
+
+\`这段文字不应显示为行内代码。\`
+
+## 原始 HTML 与 MDX
+
+MDX 允许在 Markdown 内容中使用 HTML 元素。<kbd>Ctrl</kbd> + <kbd>K</kbd>
+等键盘标签应与周围文字对齐。
+
+<mark>高亮文字</mark>、<abbr title="应用程序编程接口">API</abbr> 和
+<small>小号文字</small>等行内 HTML 应继承周围正文的排版节奏。
+
+新增内容可以使用 <ins>带下划线的文字</ins>，已删除的内容可以使用
+<del>删除内容</del>。
+
+数学和技术记号可以使用行内下标与上标：H<sub>2</sub>O 和 x<sup>2</sup>。
+
+程序输出可以使用 <samp>200 OK</samp>，变量可以使用 <var>request</var>，
+短引用可以使用 <q>语义化 token 让组件保持稳定</q>，引文出处则可以使用
+<cite>Lotus 设计说明</cite>。

@@ -57,7 +57,7 @@ const markdownUrl = Astro.site ? new URL(page.markdownHref, Astro.site).toString
     title={entry.data.title}
   />
 
-  <ApiMarkdown class="lotus-prose py-8" content={entry.body} />
+  <ApiMarkdown class="prose max-w-none py-8" content={entry.body} />
 
   <div class="mt-8">
     <PageNavigation navigation={pageNavigation} />

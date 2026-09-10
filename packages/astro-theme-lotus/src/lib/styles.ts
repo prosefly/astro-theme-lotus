@@ -1,10 +1,12 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
 import { isHeadStyleSource, type HeadConfig } from './page/head';
 
 const virtualStylesModuleId = 'virtual:prosefly/lotus/styles.css';
+const typographyPluginFile = createRequire(import.meta.url).resolve('@tailwindcss/typography');
 const styleFileUrls = [
   new URL('../styles/colors.css', import.meta.url),
   new URL('../styles/tokens.css', import.meta.url),
@@ -12,7 +14,6 @@ const styleFileUrls = [
   new URL('../styles/prose/inline.css', import.meta.url),
   new URL('../styles/prose/lists.css', import.meta.url),
   new URL('../styles/prose/footnotes.css', import.meta.url),
-  new URL('../styles/prose/blocks.css', import.meta.url),
   new URL('../styles/prose/code.css', import.meta.url),
   new URL('../styles/prose/expressive-code.css', import.meta.url),
   new URL('../styles/prose/media.css', import.meta.url),
@@ -84,11 +85,13 @@ function writeLotusStylesFile(
   customStyleFiles: string[],
 ) {
   mkdirSync(dirname(file), { recursive: true });
+  const typographyPluginPath = toCssSourcePath(relative(dirname(file), typographyPluginFile));
 
   writeFileSync(
     file,
     [
       `@import "tailwindcss" source("${projectSourcePath}");`,
+      `@plugin "${typographyPluginPath}";`,
       `@source "${lotusSourcePath}";`,
       ...styleFileUrls.map((url) => readFileSync(fileURLToPath(url), 'utf8')),
       baseCss,

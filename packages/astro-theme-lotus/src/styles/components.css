@@ -197,3 +197,12 @@
   background: var(--lotus-accent-soft);
   color: var(--lotus-text-strong);
 }
+
+/* Preserve the Steps rhythm while its content inherits prose typography. */
+.prose .pf-steps > li {
+  margin-block: 0;
+}
+
+.prose .pf-steps > li > p + p {
+  margin-block-start: 0.5em;
+}

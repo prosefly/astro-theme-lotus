@@ -16,17 +16,17 @@
   --lotus-accent-contrast: oklch(99% 0.012 85);
 }
 
-.lotus-prose {
+.prose {
   --lotus-prose-font-heading: var(--lotus-serif);
-  --lotus-prose-leading: 1.78;
+  line-height: 1.78;
 }
 
-.lotus-prose :where(h1, h2, h3, h4) {
+.prose :where(h1, h2, h3, h4) {
   font-weight: 600;
   letter-spacing: 0;
 }
 
-.lotus-prose :where(blockquote) {
+.prose :where(blockquote) {
   background: color-mix(in oklab, var(--lotus-accent) 5%, var(--lotus-background));
   border-inline-start-color: color-mix(in oklab, var(--lotus-accent) 58%, transparent);
   border-radius: min(var(--lotus-radius-lg), 0.875rem);

@@ -15,8 +15,8 @@
   --lotus-accent-contrast: white;
 }
 
-.lotus-prose {
-  --lotus-prose-leading: 1.72;
+.prose {
+  line-height: 1.72;
 }
 
 [data-theme="dark"] {

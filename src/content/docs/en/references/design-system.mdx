@@ -86,9 +86,10 @@ Lotus does not load web fonts by default. It exposes font tokens and starts with
 system font stacks. Projects that want Inter, JetBrains Mono, or a brand font
 can load those fonts in their app and override the font tokens.
 
-Typography inside Markdown is styled through `.lotus-prose`. That layer controls
-the reading rhythm, heading scale, lists, tables, blockquotes, footnotes, code,
-and common inline HTML elements such as `kbd`, `mark`, and `abbr`.
+Typography inside Markdown is styled through Tailwind Typography's `.prose`
+class. Lotus maps its semantic tokens into that layer and adds focused styles
+for heading anchors, task lists, footnotes, embedded media, and code frames.
+Use `.not-prose` for component surfaces that should opt out of article styles.
 
 ## Layout
 

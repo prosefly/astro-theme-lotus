@@ -29,6 +29,9 @@ describe('Lotus styles', () => {
 
       const generatedCss = readFileSync(join(root, '.astro/lotus/styles.css'), 'utf8');
 
+      expect(generatedCss).toMatch(/@plugin ".*typography\/src\/index\.js";/);
+      expect(generatedCss).toContain('.prose :where(blockquote)');
+      expect(generatedCss).toContain('quotes: none;');
       expect(generatedCss).toContain(':root { --lotus-accent: hotpink; }');
       expect(generatedCss.lastIndexOf(':root { --lotus-accent: hotpink; }')).toBeGreaterThan(
         generatedCss.indexOf('--lotus-background'),

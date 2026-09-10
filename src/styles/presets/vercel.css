@@ -22,11 +22,11 @@
   --lotus-radius-lg: 0.5rem;
 }
 
-.lotus-prose :where(h1, h2, h3, h4) {
+.prose :where(h1, h2, h3, h4) {
   font-weight: 700;
 }
 
-.lotus-prose :where(a) {
+.prose :where(a) {
   text-decoration-color: currentColor;
 }
 

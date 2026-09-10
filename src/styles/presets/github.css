@@ -15,11 +15,11 @@
   --lotus-accent-contrast: #ffffff;
 }
 
-.lotus-prose :where(a) {
+.prose :where(a) {
   text-decoration-thickness: 1px;
 }
 
-.lotus-prose :where(:not(pre) > code) {
+.prose :where(:not(pre) > code) {
   font-weight: 500;
 }
 

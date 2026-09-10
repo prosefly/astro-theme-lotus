@@ -56,7 +56,7 @@ const endpoint = entry.data.path ?? entry.data.name;
     <h1 class="mt-5 text-4xl font-semibold tracking-normal text-(--lotus-text-strong)">{entry.data.summary}</h1>
     {entry.data.lead && (
       <ApiMarkdown
-        class="lotus-prose mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted)"
+        class="prose mt-4 max-w-3xl text-base leading-7 text-(--lotus-text-muted)"
         content={entry.data.lead}
       />
     )}
@@ -70,11 +70,11 @@ const endpoint = entry.data.path ?? entry.data.name;
 
   <div class="mt-8 flex flex-col gap-10">
     {entry.data.content && (
-      <ApiMarkdown class="lotus-prose max-w-3xl" content={entry.data.content} />
+      <ApiMarkdown class="prose max-w-3xl" content={entry.data.content} />
     )}
     <ApiSecuritySection operation={entry} />
-    <ApiRequestSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
-    <ApiResponsesSection markdownClass="lotus-prose lotus-prose-sm" operation={entry} />
+    <ApiRequestSection markdownClass="prose prose-sm" operation={entry} />
+    <ApiResponsesSection markdownClass="prose prose-sm" operation={entry} />
   </div>
 
   <div class="mt-8">

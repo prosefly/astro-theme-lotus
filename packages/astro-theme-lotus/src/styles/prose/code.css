@@ -1,37 +1,5 @@
-.lotus-prose :where(:not(pre) > code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  background: var(--lotus-code-background);
-  border-radius: var(--lotus-radius-sm);
-  color: var(--lotus-text-strong);
-  font-family: var(--lotus-prose-font-mono);
-  font-size: 0.875em;
-  font-weight: 600;
-  padding: 0.15em 0.35em;
-}
-
-.lotus-prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  background: var(--lotus-code-background);
-  border: 1px solid var(--lotus-code-border);
-  border-radius: var(--lotus-prose-surface-radius);
-  color: var(--lotus-text);
-  font-family: var(--lotus-prose-font-mono);
-  font-size: 0.875em;
-  line-height: 1.7142857;
-  max-width: 100%;
-  overflow-x: auto;
-  padding: 0.8571429em 1.1428571em;
-}
-
-.lotus-prose :where(pre code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  background: transparent;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  padding: 0;
-}
-
 /* Astro/Shiki emits light inline styles plus dark CSS variables. */
-:root[data-theme="dark"] .lotus-prose :where(.astro-code, .astro-code span) {
+:root[data-theme="dark"] .prose :where(.astro-code, .astro-code span) {
   background-color: var(--shiki-dark-bg) !important;
   color: var(--shiki-dark) !important;
   font-style: var(--shiki-dark-font-style) !important;
@@ -40,7 +8,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="system"] .lotus-prose :where(.astro-code, .astro-code span) {
+  :root[data-theme="system"] .prose :where(.astro-code, .astro-code span) {
     background-color: var(--shiki-dark-bg) !important;
     color: var(--shiki-dark) !important;
     font-style: var(--shiki-dark-font-style) !important;

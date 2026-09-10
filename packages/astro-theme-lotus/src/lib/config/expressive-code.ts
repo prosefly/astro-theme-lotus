@@ -17,9 +17,20 @@ const lucideCopyIcon = createInlineSvgUrl([
   `</svg>`,
 ]);
 
+const proseIsolationPlugin = {
+  name: 'Lotus prose isolation',
+  hooks: {
+    postprocessRenderedBlockGroup: ({ renderData }) => {
+      const classNames = renderData.groupAst.properties.className as string[] | undefined;
+
+      renderData.groupAst.properties.className = [...(classNames ?? []), 'not-prose'];
+    },
+  },
+} satisfies NonNullable<AstroExpressiveCodeOptions['plugins']>[number];
+
 const defaultExpressiveCodeOptions: AstroExpressiveCodeOptions = {
   themes: ['github-light', 'github-dark'],
-  plugins: [pluginLineNumbers(), expressiveCodeHeaderIcons()],
+  plugins: [pluginLineNumbers(), expressiveCodeHeaderIcons(), proseIsolationPlugin],
   defaultProps: {
     showLineNumbers: false,
   },

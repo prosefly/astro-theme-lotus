@@ -15,11 +15,11 @@
   --lotus-accent-contrast: white;
 }
 
-.lotus-prose :where(a) {
+.prose :where(a) {
   text-decoration-color: color-mix(in oklab, var(--lotus-accent) 30%, transparent);
 }
 
-.lotus-prose :where(blockquote) {
+.prose :where(blockquote) {
   border-inline-start-color: color-mix(in oklab, var(--lotus-accent) 42%, transparent);
 }
 
