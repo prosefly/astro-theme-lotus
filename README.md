@@ -87,7 +87,7 @@ Create `theme.config.json` in the project root. Options passed to
   "$schema": "https://prosefly.dev/schema/lotus.json",
   "name": "Acme Docs",
   "description": "Documentation for Acme.",
-  "logo": "/logo.svg",
+  "logo": "/images/logo.svg",
   "siteNav": [
     { "label": "Docs", "href": "/" },
     { "label": "GitHub", "href": "https://github.com/acme/acme", "external": true }
@@ -127,6 +127,7 @@ Create `theme.config.json` in the project root. Options passed to
 ## Links
 
 - Documentation: <https://astro-theme-lotus.prosefly.dev/docs/overview/>
+- Showcase: <https://astro-theme-lotus.prosefly.dev/showcase/>
 - Starter template:
   <https://github.com/prosefly/astro-template-lotus-starter>
 - npm package: <https://www.npmjs.com/package/@prosefly/astro-theme-lotus>

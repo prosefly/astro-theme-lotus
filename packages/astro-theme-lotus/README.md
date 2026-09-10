@@ -96,6 +96,7 @@ Common integration options include `docsBase`, `siteNav`, `docsNav`,
 ## Links
 
 - Documentation: <https://astro-theme-lotus.prosefly.dev/docs/overview/>
+- Showcase: <https://astro-theme-lotus.prosefly.dev/showcase/>
 - Repository: <https://github.com/prosefly/astro-theme-lotus>
 - Starter template:
   <https://github.com/prosefly/astro-template-lotus-starter>

@@ -1,0 +1,306 @@
+---
+import { Icon } from '@prosefly/astro-components';
+import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
+import {
+  BaseLayout,
+  SiteFooter,
+  SiteHeader,
+} from '@prosefly/astro-theme-lotus/layouts';
+import { sites } from '@/lib/showcases';
+
+const title = 'Showcase';
+const description = 'Explore documentation sites and project pages built with Astro Theme Lotus.';
+---
+
+<BaseLayout title={title} description={description}>
+  <SiteHeader currentPath="/showcase/" surface />
+  <main>
+    <PageSection class="showcase-hero border-b border-(--lotus-border-subtle)" padding="lg" size="xl">
+      <div class="showcase-hero__content">
+        <p class="section-label">Showcase</p>
+        <h1>Documentation sites built with Lotus.</h1>
+        <p>
+          Explore real project pages and starter sites using Lotus for beautiful,
+          accessible, and fast Astro documentation.
+        </p>
+      </div>
+    </PageSection>
+
+    <PageSection class="showcase-sites bg-(--lotus-background)" padding="lg" size="xl">
+      <div class="site-grid">
+        {sites.map((site) => (
+          <article class="site-card">
+            <div class="site-card__preview" aria-hidden="true">
+              <div class="site-card__chrome">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <img src={site.image} alt="" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="site-card__body">
+              <p>{site.eyebrow}</p>
+              <h2>{site.name}</h2>
+              <p>{site.description}</p>
+
+              <ul aria-label={`${site.name} details`}>
+                {site.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+
+              <div class="site-card__actions">
+                <a class="showcase-button showcase-button--primary" href={site.href}>
+                  Visit site <Icon name="lucide:arrow-up-right" />
+                </a>
+                {site.source && (
+                  <a class="showcase-button showcase-button--secondary" href={site.source}>
+                    <Icon name="simple-icons:github" /> Source
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </PageSection>
+
+    <PageSection class="showcase-submit border-t border-(--lotus-border-subtle) bg-(--lotus-surface)" padding="md" size="xl">
+      <div class="submit-panel">
+        <div>
+          <p class="section-label">Built with Lotus?</p>
+          <h2>Share your site with the community.</h2>
+          <p>
+            Open a GitHub discussion with the site URL, source repository, and a
+            short description. Community examples can be added to this showcase.
+          </p>
+        </div>
+        <a class="showcase-button showcase-button--primary" href="https://github.com/prosefly/astro-theme-lotus/discussions">
+          Open discussion <Icon name="lucide:arrow-up-right" />
+        </a>
+      </div>
+    </PageSection>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .section-label {
+    color: var(--lotus-text-muted);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .showcase-hero {
+    background:
+      radial-gradient(circle at 78% 12%, color-mix(in oklab, var(--lotus-accent) 10%, transparent), transparent 28rem),
+      linear-gradient(180deg, color-mix(in oklab, var(--lotus-accent-soft) 20%, var(--lotus-background)) 0%, var(--lotus-background) 78%);
+  }
+
+  .showcase-hero__content {
+    max-width: 52rem;
+  }
+
+  .showcase-hero h1 {
+    color: var(--lotus-text-strong);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    margin-top: 1rem;
+  }
+
+  .showcase-hero__content > p:last-child {
+    color: var(--lotus-text);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.8;
+    margin-top: 1.25rem;
+    max-width: 43rem;
+  }
+
+  .site-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .site-card {
+    background: color-mix(in oklab, var(--lotus-background) 88%, var(--lotus-surface));
+    border: 1px solid var(--lotus-border-subtle);
+    border-radius: min(var(--lotus-radius-xl), 1.125rem);
+    display: grid;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .site-card__preview {
+    aspect-ratio: 16 / 10;
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--lotus-accent-soft) 62%, transparent), transparent),
+      var(--lotus-surface);
+    border-bottom: 1px solid var(--lotus-border-subtle);
+    display: grid;
+    grid-template-rows: 2.25rem minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .site-card__chrome {
+    align-items: center;
+    background: color-mix(in oklab, var(--lotus-background) 86%, transparent);
+    border-bottom: 1px solid var(--lotus-border-subtle);
+    display: flex;
+    gap: 0.4rem;
+    padding-inline: 0.9rem;
+  }
+
+  .site-card__chrome span {
+    background: var(--lotus-border-muted);
+    border-radius: 999px;
+    height: 0.55rem;
+    width: 0.55rem;
+  }
+
+  .site-card img {
+    background: var(--lotus-background);
+    border: 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    width: 100%;
+  }
+
+  .site-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.1rem, 3vw, 1.5rem);
+  }
+
+  .site-card__body > p:first-child {
+    color: var(--lotus-accent);
+    font-family: var(--lotus-font-mono);
+    font-size: 0.75rem;
+    margin: 0;
+  }
+
+  .site-card h2,
+  .submit-panel h2 {
+    color: var(--lotus-text-strong);
+    font-size: clamp(1.35rem, 3vw, 1.7rem);
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .site-card__body > p:not(:first-child),
+  .submit-panel p:not(.section-label) {
+    color: var(--lotus-text-muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .site-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-card li {
+    border: 1px solid var(--lotus-border-subtle);
+    border-radius: var(--lotus-radius-md);
+    color: var(--lotus-text);
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.55rem;
+  }
+
+  .site-card__actions,
+  .submit-panel {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .site-card__actions {
+    margin-top: auto;
+  }
+
+  .showcase-button {
+    align-items: center;
+    border-radius: var(--lotus-radius-md);
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 600;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    padding-inline: 0.95rem;
+    text-decoration: none;
+    transition: opacity 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .showcase-button:focus-visible {
+    outline: 2px solid var(--lotus-accent);
+    outline-offset: 3px;
+  }
+
+  .showcase-button--primary {
+    background: var(--lotus-accent);
+    color: var(--lotus-accent-contrast);
+  }
+
+  .showcase-button--primary:hover {
+    opacity: 0.9;
+  }
+
+  .showcase-button--secondary {
+    background: var(--lotus-background);
+    border: 1px solid var(--lotus-border-muted);
+    color: var(--lotus-text-strong);
+  }
+
+  .showcase-button--secondary:hover {
+    border-color: var(--lotus-accent);
+  }
+
+  .showcase-button :global(.pf-icon) {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .submit-panel {
+    justify-content: space-between;
+  }
+
+  .submit-panel > div {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 44rem;
+  }
+
+  .submit-panel .section-label {
+    margin: 0;
+  }
+
+  @media (min-width: 56rem) {
+    .site-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .site-card__actions,
+    .showcase-button,
+    .submit-panel {
+      align-items: stretch;
+    }
+
+    .showcase-button {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>

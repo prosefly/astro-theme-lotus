@@ -1,12 +1,12 @@
 {
-  "$schema": "https://prosefly.dev/schema/lotus.json",
+  "$schema": "./public/schema.json",
   "name": "Lotus",
   "description": "A documentation theme for Astro.",
   "favicon": "/favicon.svg",
   "logo": {
     "variant": "lockup",
-    "light": "/lotus-light.svg",
-    "dark": "/lotus-dark.svg"
+    "light": "/images/lotus-light.svg",
+    "dark": "/images/lotus-dark.svg"
   },
   "docsBase": "/docs",
   "openapi": {
@@ -24,6 +24,13 @@
       "href": "/docs/"
     },
     {
+      "label": "Showcase",
+      "translations": {
+        "zh-cn": "案例"
+      },
+      "href": "/showcase/"
+    },
+    {
       "label": "Pricing",
       "translations": {
         "zh-cn": "价格"
@@ -36,15 +43,6 @@
         "zh-cn": "赞助"
       },
       "href": "/sponsors/"
-    },
-    {
-      "label": "Source",
-      "translations": {
-        "zh-cn": "源代码"
-      },
-      "href": "https://github.com/prosefly/astro-theme-lotus",
-      "variant": "solid",
-      "trailingIcon": "lucide:chevron-right"
     }
   ],
   "socials": [
