@@ -14,19 +14,19 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
           <span>Prosefly theme</span>
         </span>
         <span class="home-hero__meta-stack">
-          <span>Astro v7</span>
-          <span>Tailwind CSS v4</span>
-          <span>MDX</span>
+          <span>Beautiful UI</span>
+          <span>Accessible shell</span>
+          <span>PageSpeed 100</span>
         </span>
       </p>
 
       <h1 class="home-hero__title max-w-3xl font-semibold text-(--lotus-text-strong)">
-        Build Astro documentation <span>without rebuilding the shell.</span>
+        Beautiful Astro docs, <span>fast and accessible.</span>
       </h1>
       <p class="mt-6 max-w-2xl text-lg leading-8 text-(--lotus-text) sm:text-xl sm:leading-9">
-        Lotus provides docs routes, responsive navigation, search, MDX
-        components, and design tokens. The rest of the Astro project stays
-        under your control.
+        Lotus gives Astro developers a polished documentation shell with MDX,
+        responsive navigation, search, i18n, dark mode, and design tokens. Your
+        project stays in your control.
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
@@ -215,11 +215,23 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
   }
 
   .home-preview {
+    container-name: home-preview;
+    container-type: inline-size;
     overflow: visible;
   }
 
   .home-preview__mobile {
     display: none;
+  }
+
+  @container home-preview (max-width: 39rem) {
+    .home-preview__desktop {
+      display: none;
+    }
+
+    .home-preview__mobile {
+      display: block;
+    }
   }
 
   @media (max-width: 639px) {
@@ -242,14 +254,6 @@ import LotusMobileDocsPreview from './LotusMobileDocsPreview.astro';
 
     .home-command {
       padding-inline: 0.75rem;
-    }
-
-    .home-preview__desktop {
-      display: none;
-    }
-
-    .home-preview__mobile {
-      display: block;
     }
   }
 

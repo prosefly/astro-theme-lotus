@@ -4,11 +4,11 @@ import { PageSection } from '@prosefly/astro-theme-lotus/blocks';
 
 const reports = [
   {
-    title: 'PageSpeed Insights',
-    description: 'Current mobile report scores 100 across all categories.',
+    title: 'Performance, accessibility, best practices, and SEO',
+    description: 'Current mobile report for a Lotus docs page scores 100 across all PageSpeed categories.',
     href: 'https://pagespeed.web.dev/analysis/https-astro-theme-lotus-prosefly-dev-docs-installation/e31wz7q0ic?form_factor=mobile',
     icon: 'lucide:gauge',
-    eyebrow: 'Mobile report',
+    eyebrow: 'PageSpeed Insights',
     metric: '100 / 100',
   },
   {
@@ -21,18 +21,19 @@ const reports = [
   },
 ];
 
-const traits = ['Static output', 'Minimal client JavaScript', 'Deploy-friendly search'];
+const traits = ['Polished docs UI', 'Accessible navigation', 'Minimal client JavaScript'];
 ---
 
 <PageSection class="home-proof bg-(--lotus-background)" padding="lg" size="xl">
   <div class="proof-panel grid gap-10 lg:grid-cols-[minmax(0,0.75fr)_minmax(30rem,1fr)] lg:items-center">
     <div>
-      <p class="section-label">Built for static docs</p>
-      <h2 class="heading mt-3">Fast, lightweight documentation by default.</h2>
+      <p class="section-label">Designed for documentation quality</p>
+      <h2 class="heading mt-3">Good-looking docs that stay accessible and fast.</h2>
       <p class="mt-5 max-w-xl text-base leading-7 text-(--lotus-text-muted)">
-        Lotus keeps the docs shell static-first, with focused client JavaScript
-        for navigation, search, and theme controls. External reports stay one
-        click away without turning the homepage into a score dashboard.
+        Lotus pairs restrained visual defaults with semantic navigation,
+        keyboard-friendly controls, and static-first output. The demo keeps
+        external quality reports one click away without turning the homepage
+        into a score dashboard.
       </p>
       <ul class="trait-list mt-7">
         {traits.map((trait) => (

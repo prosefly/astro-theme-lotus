@@ -1,11 +1,23 @@
 # Astro Theme Lotus
 
-Lotus is an installable documentation theme for Astro v7, Tailwind CSS v4, and
-MDX. It gives your project generated docs routes, responsive navigation, table
-of contents, search, dark mode, i18n, theme tokens, and docs components without
-turning the whole site into a theme fork.
+Lotus helps Astro developers build beautiful, accessible, and fast
+documentation sites without designing the docs shell from scratch.
+
+It is an installable documentation theme for Astro v7, Tailwind CSS v4, and
+MDX. Lotus gives your project generated docs routes, responsive navigation,
+table of contents, search, dark mode, i18n, theme tokens, and docs components
+without turning the whole site into a theme fork.
 
 ![Lotus documentation theme preview](.github/assets/light-dark.png)
+
+## Why Lotus
+
+- Beautiful documentation defaults with readable prose, compact navigation, and
+  polished light and dark modes.
+- Accessible shell patterns for keyboard-friendly navigation, semantic content,
+  focus states, and theme controls.
+- Fast static output with minimal client JavaScript and a current PageSpeed
+  Insights mobile report scoring 100 across all categories.
 
 ## Quick Start
 
