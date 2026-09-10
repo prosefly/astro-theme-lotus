@@ -3,27 +3,6 @@ export {};
 const prosefly = window.__prosefly ??= {};
 const proseflyLotus = (prosefly.lotus ??= {});
 
-interface DocSearchInstance {
-  open(): void;
-}
-
-interface DocSearchProps {
-  container: HTMLElement;
-  appId: string;
-  apiKey: string;
-  indexName: string;
-  askAi?: string;
-  disableUserPersonalization?: boolean;
-  insights?: boolean;
-  maxResultsPerGroup?: number;
-  placeholder?: string;
-  searchParameters?: Record<string, unknown>;
-  keyboardShortcuts?: {
-    'Ctrl/Cmd+K'?: boolean;
-    '/'?: boolean;
-  };
-}
-
 const defaultCssUrl = 'https://cdn.jsdelivr.net/npm/@docsearch/css@4';
 const defaultJsUrl = 'https://cdn.jsdelivr.net/npm/@docsearch/js@4';
 
