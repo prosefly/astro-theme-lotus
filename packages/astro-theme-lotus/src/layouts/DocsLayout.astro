@@ -21,6 +21,7 @@ interface Props {
   title: string;
   description?: string;
   head?: HeadConfig;
+  headDefaults?: HeadConfig;
   jsonLd?: JsonLdNode | JsonLdNode[];
   locale?: NormalizedLocale;
   currentPath?: string;
@@ -36,6 +37,7 @@ const {
   title,
   description,
   head,
+  headDefaults,
   jsonLd,
   locale,
   currentPath = Astro.url.pathname,
@@ -57,7 +59,7 @@ const pagefindAttrs = pagefindEnabled
 const pagefindIgnoreAttrs = pagefindEnabled ? { 'data-pagefind-ignore': true } : {};
 ---
 
-<BaseLayout title={title} description={description} head={head} jsonLd={jsonLd} locale={currentLocale}>
+<BaseLayout title={title} description={description} head={head} headDefaults={headDefaults} jsonLd={jsonLd} locale={currentLocale}>
   <Header
     currentPath={currentPath}
     headings={headings}

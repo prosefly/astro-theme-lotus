@@ -11,8 +11,10 @@ import PageNavigation from 'virtual:prosefly/lotus/components/PageNavigation';
 import { getEntryContributors } from '../lib/contributors';
 import {
   getDocsContext,
+  getDocsEntries,
   createDocsNavigationHandoff,
   getEntrySectionFromContext,
+  getEntryLocale,
   getEntrySlug,
   getSidebarPagination,
   getSidebarSectionTitle,
@@ -26,6 +28,7 @@ import {
 import { getEntryLastUpdated } from '../lib/page/last-updated';
 import type { HeadConfig } from '../lib/page/head';
 import { createDocsJsonLd } from '../lib/page/schema';
+import { createLanguageAlternateHead, getDocsLanguageAlternates, getSeoUrl } from '../lib/page/seo';
 import { resolveEditUrl } from '../lib/page/edit-link';
 import { isPagefindSearchEnabled } from '../lib/search';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
@@ -53,6 +56,7 @@ function getTableOfContentsHeadings(
 export async function getStaticPaths() {
   const themeConfig = rawThemeConfig as LotusThemeConfig;
   const locales = getLocales(themeConfig);
+  const alternatesByEntry = getDocsLanguageAlternates(themeConfig, await getDocsEntries());
   const paths = await Promise.all(locales.map(async (currentLocale) => {
     const docsContext = await getDocsContext(undefined, currentLocale.key);
 
@@ -71,6 +75,7 @@ export async function getStaticPaths() {
           entry,
           currentLocale,
           docsNavigation: createDocsNavigationHandoff(docsContext, currentSection),
+          languageAlternates: alternatesByEntry.get(entry.id) ?? [],
         },
       };
     });
@@ -79,7 +84,7 @@ export async function getStaticPaths() {
   return paths.flat();
 }
 
-const { entry, currentLocale, docsNavigation } = Astro.props;
+const { entry, currentLocale, docsNavigation, languageAlternates } = Astro.props;
 const currentSection = docsNavigation.currentSection;
 const { Content, headings } = await render(entry);
 const tocHeadings = getTableOfContentsHeadings(
@@ -116,7 +121,19 @@ const pagefindIgnoreAttrs = isPagefindSearchEnabled(themeConfig)
   ? { 'data-pagefind-ignore': true }
   : {};
 const docsHead: HeadConfig = [
-  ...(entry.data.head ?? []),
+  ...(Astro.site ? [{
+    tag: 'link',
+    attrs: {
+      rel: 'canonical',
+      // A fallback route renders the source language's content, not a translation.
+      href: getSeoUrl(
+        getLocalizedHref(themeConfig, entrySlug, getEntryLocale(entry).key),
+        Astro.site,
+        Astro.url.pathname,
+      ),
+    },
+  }] : []),
+  ...createLanguageAlternateHead(languageAlternates, Astro.site, Astro.url.pathname),
   {
     tag: 'link',
     attrs: {
@@ -167,18 +184,19 @@ const jsonLd = createDocsJsonLd({
 ---
 
 {isSplashTemplate ? (
-  <SplashLayout title={entry.data.title} description={entry.data.description} head={entry.data.head} hero={entry.data.hero} locale={currentLocale} pagefind={entry.data.pagefind}>
+  <SplashLayout title={entry.data.title} description={entry.data.description} headDefaults={docsHead} head={entry.data.head} hero={entry.data.hero} locale={currentLocale} pagefind={entry.data.pagefind}>
     <Content />
   </SplashLayout>
 ) : isTextTemplate ? (
-  <TextLayout title={entry.data.title} description={entry.data.description} head={entry.data.head} locale={currentLocale} pagefind={entry.data.pagefind}>
+  <TextLayout title={entry.data.title} description={entry.data.description} headDefaults={docsHead} head={entry.data.head} locale={currentLocale} pagefind={entry.data.pagefind}>
     <Content />
   </TextLayout>
 ) : (
   <DocsContextLayout
     title={entry.data.title}
     description={entry.data.description}
-    head={docsHead}
+    headDefaults={docsHead}
+    head={entry.data.head}
     jsonLd={jsonLd}
     locale={currentLocale}
     currentPath={currentPath}

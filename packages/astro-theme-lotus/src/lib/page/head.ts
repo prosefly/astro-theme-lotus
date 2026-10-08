@@ -42,9 +42,16 @@ function hasTag(head: HeadConfig, entry: HeadConfigEntry): boolean {
       return hasOneOf(head, entry, ['name', 'property', 'http-equiv']);
     case 'link':
       return head.some(
-        ({ attrs }) =>
+        ({ tag, attrs }) => tag === 'link' && (
           (entry.attrs?.rel === 'canonical' && attrs?.rel === 'canonical') ||
-          (entry.attrs?.rel === 'sitemap' && attrs?.rel === 'sitemap'),
+          (entry.attrs?.rel === 'sitemap' && attrs?.rel === 'sitemap') ||
+          (entry.attrs?.rel === 'alternate' && attrs?.rel === 'alternate' &&
+            Boolean(entry.attrs.hreflang) &&
+            String(attrs.hreflang).toLowerCase() === String(entry.attrs.hreflang).toLowerCase()) ||
+          (entry.attrs?.rel === 'alternate' && attrs?.rel === 'alternate' &&
+            !entry.attrs.hreflang && !attrs.hreflang &&
+            Boolean(entry.attrs.type) && attrs.type === entry.attrs.type)
+        ),
       );
     default:
       return false;

@@ -20,6 +20,10 @@ upgrade affects your documentation site.
 
 ## Unreleased
 
+- Added automatic canonical and Open Graph metadata, plus language alternates
+  for existing translations, with support for custom slugs and head overrides.
+- Fixed custom frontmatter slugs losing locale and translation identity in
+  `docsLoader`.
 - Added a **Try it** API console to OpenAPI operation pages when the source
   configures `playground.proxy`; the proxy can be deployed independently of
   Astro.

@@ -1,4 +1,5 @@
 import { glob } from 'astro/loaders';
+import { slug } from 'github-slugger';
 import { z } from 'astro/zod';
 import type { SchemaContext } from 'astro:content';
 import type { HeadConfig } from './lib/page/head';
@@ -12,6 +13,13 @@ export function docsLoader(options: DocsLoaderOptions = {}) {
   return glob({
     pattern: options.pattern ?? '**/*.mdx',
     base: options.base ?? './src/content/docs',
+    // Keep locale and translation identity separate from the public slug.
+    generateId: ({ entry }) => entry
+      .replace(/\.(md|mdx)$/i, '')
+      .split('/')
+      .map((segment) => slug(segment))
+      .join('/')
+      .replace(/\/index$/, ''),
   });
 }
 

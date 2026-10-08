@@ -30,6 +30,7 @@ interface Props {
   title: string;
   description?: string;
   head?: HeadConfig;
+  headDefaults?: HeadConfig;
   locale?: NormalizedLocale;
   pagefind?: boolean;
   hero?: {
@@ -40,7 +41,7 @@ interface Props {
   };
 }
 
-const { title, description, head, hero, locale, pagefind = true } = Astro.props;
+const { title, description, head, headDefaults, hero, locale, pagefind = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const heroTitle = hero?.title ?? title;
 const heroTagline = hero?.tagline ?? description;
@@ -69,7 +70,7 @@ function getButtonColor(action: HeroAction): 'neutral' | 'accent' {
 }
 ---
 
-<BaseLayout title={title} description={description} head={head} locale={locale}>
+<BaseLayout title={title} description={description} head={head} headDefaults={headDefaults} locale={locale}>
   <MainHeader surface />
 
   <main {...pagefindAttrs}>

@@ -19,6 +19,7 @@ interface Props {
   title: string;
   description?: string;
   head?: HeadConfig;
+  headDefaults?: HeadConfig;
   jsonLd?: JsonLdNode | JsonLdNode[];
   locale?: NormalizedLocale;
   currentPath?: string;
@@ -42,6 +43,7 @@ const sectionTitle = props.currentSlug ? getSidebarSectionTitle(sidebar, props.c
   title={props.title}
   description={props.description}
   head={props.head}
+  headDefaults={props.headDefaults}
   jsonLd={props.jsonLd}
   locale={props.locale}
   currentPath={props.currentPath}

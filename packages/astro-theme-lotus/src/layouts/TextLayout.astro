@@ -12,11 +12,12 @@ interface Props {
   title: string;
   description?: string;
   head?: HeadConfig;
+  headDefaults?: HeadConfig;
   locale?: NormalizedLocale;
   pagefind?: boolean;
 }
 
-const { title, description, head, locale, pagefind = true } = Astro.props;
+const { title, description, head, headDefaults, locale, pagefind = true } = Astro.props;
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const pagefindEnabled = isPagefindSearchEnabled(themeConfig);
 const pagefindAttrs = pagefindEnabled
@@ -26,7 +27,7 @@ const pagefindAttrs = pagefindEnabled
   : {};
 ---
 
-<BaseLayout title={title} description={description} head={head} locale={locale}>
+<BaseLayout title={title} description={description} head={head} headDefaults={headDefaults} locale={locale}>
   <MainHeader surface />
 
   <main class="mx-auto max-w-screen-2xl px-5 py-12 sm:px-6 sm:py-16">

@@ -8,6 +8,7 @@ import {
   type HeadConfigEntry,
 } from '../lib/page/head';
 import { stringifyJsonLd, type JsonLdNode } from '../lib/page/schema';
+import { createOpenGraphHead } from '../lib/page/seo';
 import rawThemeConfig from 'virtual:prosefly/lotus/config';
 import Assistant from 'virtual:prosefly/lotus/components/Assistant';
 import { getDefaultLocale, type NormalizedLocale } from '../lib/i18n';
@@ -18,12 +19,13 @@ interface Props {
   title?: string;
   description?: string;
   head?: HeadConfig;
+  headDefaults?: HeadConfig;
   jsonLd?: JsonLdNode | JsonLdNode[];
   locale?: NormalizedLocale;
 }
 
 const themeConfig = rawThemeConfig as LotusThemeConfig;
-const { title, description = themeConfig.description, head, jsonLd, locale = getDefaultLocale(themeConfig) } = Astro.props;
+const { title, description = themeConfig.description, head, headDefaults, jsonLd, locale = getDefaultLocale(themeConfig) } = Astro.props;
 const themeAttrs = getThemeAttributes();
 const pageTitle = title
   ? `${title} - ${themeConfig.name}`
@@ -31,21 +33,27 @@ const pageTitle = title
 const generator = `Lotus (${packageJson.version}) by Prosefly`;
 const jsonLdContent = jsonLd ? stringifyJsonLd(jsonLd) : undefined;
 const faviconLinks = normalizeFaviconLinks(themeConfig.favicon);
-const headEntries = createHead(
+const pageHead = createHead(
   [
     { tag: 'meta', attrs: { charset: 'utf-8' } },
     { tag: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
     { tag: 'title', content: pageTitle },
     ...(description ? [{ tag: 'meta', attrs: { name: 'description', content: description } }] : []),
+    ...(Astro.site
+      ? [{ tag: 'link', attrs: { rel: 'canonical', href: new URL(Astro.url.pathname, Astro.site).href } }]
+      : []),
     { tag: 'meta', attrs: { name: 'generator', content: generator } },
     ...faviconLinks.map((link) => ({ tag: 'link', attrs: link })),
     ...(jsonLdContent
       ? [{ tag: 'script', attrs: { type: 'application/ld+json' }, content: jsonLdContent }]
       : []),
   ],
+  headDefaults,
   themeConfig.head,
   head,
-).filter((entry) => !isHeadStyleSource(entry));
+);
+const headEntries = createHead(createOpenGraphHead(pageHead), pageHead)
+  .filter((entry) => !isHeadStyleSource(entry));
 const themeInitScript = `
 (() => {
   try {
