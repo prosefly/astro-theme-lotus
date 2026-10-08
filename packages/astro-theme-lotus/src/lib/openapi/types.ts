@@ -13,6 +13,9 @@ export interface ResolvedOpenApiConfig {
   operationBase: string;
   groupBy: unknown;
   schemaBudget?: unknown;
+  playground?: false | {
+    proxy: string;
+  };
   source?: string;
 }
 

@@ -87,6 +87,9 @@ export interface OpenApiSourceConfig {
   operationBase?: string;
   groupBy?: OpenApiGroupBy;
   schemaBudget?: OpenApiSchemaBudgetOptions;
+  playground?: false | {
+    proxy: string;
+  };
 }
 
 export interface OpenApiIntegrationConfig {

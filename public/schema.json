@@ -489,7 +489,13 @@
           "type": "string",
           "enum": ["auto", "path", "tag"]
         },
-        "schemaBudget": { "$ref": "#/$defs/openapiSchemaBudget" }
+        "schemaBudget": { "$ref": "#/$defs/openapiSchemaBudget" },
+        "playground": {
+          "oneOf": [
+            { "const": false },
+            { "$ref": "#/$defs/openapiPlayground" }
+          ]
+        }
       }
     },
     "openapiIntegration": {
@@ -511,6 +517,14 @@
         "maxArrayItems": { "type": "number" },
         "maxObjectEntries": { "type": "number" },
         "maxNodes": { "type": "number" }
+      }
+    },
+    "openapiPlayground": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proxy"],
+      "properties": {
+        "proxy": { "type": "string" }
       }
     },
     "docsNavBadge": {

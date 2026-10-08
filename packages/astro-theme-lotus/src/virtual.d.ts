@@ -15,8 +15,8 @@ declare module 'virtual:prosefly/lotus/openapi' {
 declare module '@prosefly-pro/astro-openapi/components' {
   import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
+  export const ApiEndpoint: AstroComponentFactory;
   export const ApiMarkdown: AstroComponentFactory;
-  export const ApiMethodBadge: AstroComponentFactory;
   export const ApiReferenceAside: AstroComponentFactory;
   export const ApiRequestSection: AstroComponentFactory;
   export const ApiResponsesSection: AstroComponentFactory;

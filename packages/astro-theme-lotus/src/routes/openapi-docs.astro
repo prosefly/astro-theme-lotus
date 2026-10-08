@@ -1,7 +1,7 @@
 ---
 import {
+  ApiEndpoint,
   ApiMarkdown,
-  ApiMethodBadge,
   ApiReferenceAside,
   ApiRequestSection,
   ApiResponsesSection,
@@ -26,7 +26,7 @@ if (!loaded || loaded.entry.data.type === 'introduction') {
   return new Response('Not found', { status: 404 });
 }
 
-const { entry, page } = loaded as typeof loaded & { entry: OpenApiExchangeEntry };
+const { entry, page, reference } = loaded as typeof loaded & { entry: OpenApiExchangeEntry };
 const themeConfig = rawThemeConfig as LotusThemeConfig;
 const locale = getLocaleByKey(themeConfig, page.localeKey);
 const docsContext = await getDocsContext(undefined, locale.key);
@@ -38,7 +38,6 @@ const pageNavigation = sidebar
   : {};
 const currentPath = page.href;
 const sectionTitle = entry.data.group.label;
-const endpoint = entry.data.path ?? entry.data.name;
 ---
 
 <DocsContextLayout
@@ -60,12 +59,7 @@ const endpoint = entry.data.path ?? entry.data.name;
         content={entry.data.lead}
       />
     )}
-    {endpoint && (
-      <div class="mt-6 flex min-w-0 flex-wrap items-center gap-3 rounded-(--lotus-radius-lg) border border-(--lotus-border-muted) bg-(--lotus-surface) px-4 py-3">
-        <ApiMethodBadge method={entry.data.method} />
-        <code class="break-all text-sm font-semibold text-(--lotus-text-strong)">{endpoint}</code>
-      </div>
-    )}
+    <ApiEndpoint class="mt-6" operation={entry} playground={reference.config.playground} />
   </header>
 
   <div class="mt-8 flex flex-col gap-10">

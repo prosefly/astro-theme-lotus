@@ -72,6 +72,7 @@ describe('optional OpenAPI integration', () => {
       openapi: {
         file: './src/openapi.yaml',
         base: '/docs/api',
+        playground: { proxy: 'https://proxy.example.com/_proxy' },
       },
       docsNav: [{
         slug: 'api',
@@ -86,6 +87,9 @@ describe('optional OpenAPI integration', () => {
 
     expect(watched).toEqual(['./src/openapi.yaml']);
     expect(prepared.integration?.name).toBe('fake-openapi');
+    expect(prepared.config.openapi).toMatchObject({
+      playground: { proxy: 'https://proxy.example.com/_proxy' },
+    });
     expect(prepared.config.docsNav[0]?.items).toMatchObject([
       {
         label: 'Introduction',
@@ -225,7 +229,12 @@ function createOpenApiModule(): OpenApiModule {
 }
 
 function resolveSource(
-  source: { file: string; base?: string; operationBase?: string },
+  source: {
+    file: string;
+    base?: string;
+    operationBase?: string;
+    playground?: false | { proxy: string };
+  },
   name?: string,
 ): ResolvedOpenApiConfig {
   return {

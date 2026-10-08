@@ -62,6 +62,9 @@ lotus({
   openapi: {
     file: './src/openapi.yaml',
     base: '/api',
+    playground: {
+      proxy: 'https://proxy.example.com/_proxy',
+    },
   },
   docsNav: [
     {
@@ -78,6 +81,13 @@ Lotus injects the introduction, operation, webhook, and Markdown routes. It also
 adds the reference content to local search, Pagefind output, `llms.txt`, and
 `llms-full.txt`. A separate content collection or files under `src/pages` are
 not required.
+
+When `playground.proxy` is set, operation pages show a **Try it** dialog for
+path, query, header, authentication, and request-body input. The proxy is a
+separate Fetch handler provided by `@prosefly-pro/astro-openapi/proxy`; it can
+run on a Worker or another Fetch-compatible runtime and does not require an
+Astro server. Configure its `verifyOrigin` callback to accept only your docs
+site origins.
 
 For multiple documents, give every source a unique name and route base:
 
