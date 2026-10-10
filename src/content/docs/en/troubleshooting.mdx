@@ -29,8 +29,9 @@ root search index is `/search.json`. With `docsBase: '/docs'`, it is
 ## Icons do not render
 
 Use full Iconify names such as `lucide:search` or configure aliases where
-supported. If an icon name is built dynamically, add it to `iconify.preload`
-because static scanning cannot detect it.
+supported. If an icon name is built dynamically, register the Astro Components
+integration explicitly and add it to `icons.preload`, because static scanning
+cannot detect it.
 
 ## A component override does not apply
 

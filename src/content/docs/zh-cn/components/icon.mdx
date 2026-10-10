@@ -79,9 +79,14 @@ title.
 <Icon name="lucide:sparkles" apiBase="https://api.iconify.design" />
 ```
 
-安装 Lotus integration 后，它会预加载 Astro 和 MDX 文件中的静态 icon usage，并按 Iconify
-prefix 合并请求。例如，`lucide:star`、`lucide:search` 和 `lucide:copy` 可以通过一个
+当项目没有自行注册时，Lotus 会使用默认参数添加 Astro Components integration。
+该 integration 会预加载 Astro 和 MDX 文件中的静态 icon usage，并按 Iconify prefix
+合并请求。例如，`lucide:star`、`lucide:search` 和 `lucide:copy` 可以通过一个
 `lucide` 请求获取。
+
+如需修改扫描、预加载或 API endpoint，请自行注册
+`@prosefly/astro-components/integration` 并配置其 `icons` 参数。Lotus 检测到已有
+integration 后，不会再添加一份。
 
 无法被静态检测到的 icons 仍会回退到单独的 API 请求。
 

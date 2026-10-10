@@ -299,20 +299,23 @@ XY 图表支持柱状和折线数据系列。主数据系列使用 accent token�
 
 ## 配置
 
-Mermaid 默认启用。Lotus 还会安全地将 `mermaid` 添加到已有的
-`markdown.syntaxHighlight.excludeLangs`，确保转换收到原始代码块源码。
+默认的 Astro Components integration 会启用 Mermaid，并安全地将 `mermaid`
+添加到已有的 `markdown.syntaxHighlight.excludeLangs`，确保转换收到原始代码块源码。
 
-如果要保留其他 Markdown transforms，但将 Mermaid 渲染成普通代码，可以关闭它：
+如果要保留其他 Markdown transforms，但将 Mermaid 渲染成普通代码，
+请显式注册并配置 Astro Components integration：
 
 ```ts title="astro.config.ts"
 import { defineConfig } from 'astro/config';
+import proseflyComponents from '@prosefly/astro-components/integration';
 import lotus from '@prosefly/astro-theme-lotus';
 
 export default defineConfig({
   integrations: [
-    lotus({
+    proseflyComponents({
       markdown: { mermaid: false },
     }),
+    lotus(),
   ],
 });
 ```

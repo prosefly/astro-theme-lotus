@@ -125,7 +125,9 @@ Disable automatic package-manager tabs when you want npm or pip commands to
 render as plain code blocks.
 
 ```ts
-lotus({
+import proseflyComponents from '@prosefly/astro-components/integration';
+
+proseflyComponents({
   markdown: {
     packageManagerTabs: false,
   },

@@ -11,11 +11,7 @@ import type {
 
 export interface LotusMarkdownOptions {
   expressiveCode?: false | AstroExpressiveCodeOptions;
-  calloutDirectives?: false;
   cjkFriendly?: boolean | 'auto';
-  packageManagerTabs?: false;
-  imageGallery?: false;
-  mermaid?: false;
 }
 
 export interface LotusIntegrationOptions {
@@ -47,7 +43,6 @@ export interface LotusIntegrationOptions {
   defaultLocale?: LotusThemeConfig['defaultLocale'];
   locales?: LotusThemeConfig['locales'];
   ui?: LotusThemeConfig['ui'];
-  iconify?: Partial<NonNullable<LotusThemeConfig['iconify']>>;
   markdown?: LotusMarkdownOptions;
   footer?: {
     copyright?: string;

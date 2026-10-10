@@ -49,6 +49,11 @@ export default defineConfig({
 });
 ```
 
+Lotus adds `@prosefly/astro-components/integration` with default options when
+it is not already registered. Register that integration yourself when you need
+to customize its icon or Markdown behavior; Lotus will use your registration
+instead of adding another copy.
+
 ```json
 {
   "$schema": "https://prosefly.dev/schema/lotus.json",
@@ -90,7 +95,7 @@ and footer. The integration also injects a Markdown source route at `*.md` and a
 search index route at `search.json`.
 
 Common integration options include `docsBase`, `siteNav`, `docsNav`,
-`pageActions`, `footer`, `iconify`, `markdown`, `themeModeControl`,
+`pageActions`, `footer`, `markdown`, `themeModeControl`,
 `head`, and `components` overrides.
 
 ## Links

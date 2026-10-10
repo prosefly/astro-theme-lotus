@@ -84,10 +84,15 @@ Iconify-compatible API endpoint with `apiBase`.
 <Icon name="lucide:sparkles" apiBase="https://api.iconify.design" />
 ```
 
-When the Lotus integration is installed, it preloads static icon usage in Astro
-and MDX files and groups requests by Iconify prefix. For example,
+Lotus adds the Astro Components integration with default options when the
+project has not registered it. The integration preloads static icon usage in
+Astro and MDX files and groups requests by Iconify prefix. For example,
 `lucide:star`, `lucide:search`, and `lucide:copy` can be fetched through one
 `lucide` request.
+
+To customize scanning, preloads, or the API endpoint, register
+`@prosefly/astro-components/integration` yourself and configure its `icons`
+option. Lotus detects the existing integration and does not add another copy.
 
 Icons that cannot be detected statically still fall back to an individual API
 request.

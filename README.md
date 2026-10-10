@@ -58,6 +58,11 @@ export default defineConfig({
 });
 ```
 
+Lotus adds `@prosefly/astro-components/integration` with default options when
+it is not already registered. Register that integration yourself when you need
+to customize its icon or Markdown behavior; Lotus will use your registration
+instead of adding another copy.
+
 Register your docs collection:
 
 ```ts

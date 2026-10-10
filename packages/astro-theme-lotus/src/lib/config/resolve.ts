@@ -24,7 +24,6 @@ const mergeableOptionKeys = new Set<keyof LotusIntegrationOptions>([
   'appearance',
   'components',
   'footer',
-  'iconify',
   'locales',
   'markdown',
   'source',
@@ -47,10 +46,6 @@ export function resolveLotusConfig(options: LotusIntegrationOptions): LotusTheme
     },
     pageActions: themeOptions.pageActions ?? defaultConfig.pageActions,
     docsBase: normalizeDocsBasePath(themeOptions.docsBase, defaultConfig.docsBase),
-    iconify: {
-      ...defaultConfig.iconify,
-      ...themeOptions.iconify,
-    },
     footer: {
       ...defaultConfig.footer,
       ...themeOptions.footer,

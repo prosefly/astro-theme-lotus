@@ -1,8 +1,4 @@
-import { isUnifiedProcessor } from '@astrojs/markdown-remark';
-import {
-  resolveMarkdownConfig as resolveSharedMarkdownConfig,
-  type MarkdownOptions,
-} from '@prosefly/astro-components/markdown';
+import { isUnifiedProcessor, unified } from '@astrojs/markdown-remark';
 import type { AstroConfig } from 'astro';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
@@ -33,46 +29,54 @@ export function resolveMarkdownConfig(
 ) {
   const markdownOptions = options.markdown ?? {};
   const expressiveCodeOptions = resolveExpressiveCodeOptions(markdownOptions.expressiveCode);
-  const extensions = resolveMarkdownExtensions(options, markdownConfig);
-
-  return {
-    ...(expressiveCodeOptions === false
-      ? {
-          shikiConfig: {
-            themes: {
-              light: 'github-light',
-              dark: 'github-dark',
-            },
+  const existingProcessor = markdownConfig.processor;
+  const syntaxHighlightConfig = expressiveCodeOptions === false
+    ? {
+        shikiConfig: {
+          themes: {
+            light: 'github-light',
+            dark: 'github-dark',
           },
-        }
-      : {}),
-    ...resolveSharedMarkdownConfig({
-      calloutDirectives: markdownOptions.calloutDirectives,
-      packageManagerTabs: markdownOptions.packageManagerTabs,
-      imageGallery: markdownOptions.imageGallery,
-      mermaid: markdownOptions.mermaid,
-      ...extensions,
-    }, markdownConfig),
-  };
-}
+        },
+      }
+    : {};
 
-export function resolveMarkdownExtensions(
-  options: LotusIntegrationOptions,
-  markdownConfig: AstroConfig['markdown'],
-): Pick<MarkdownOptions, 'remarkPluginsBeforeTransforms' | 'remarkPluginsAfterTransforms' | 'rehypePluginsBeforeTransforms' | 'rehypePluginsAfterTransforms'> {
-  const markdownProcessor = markdownConfig?.processor;
-  const unifiedOptions = markdownProcessor && isUnifiedProcessor(markdownProcessor)
-    ? markdownProcessor.options
+  if (
+    existingProcessor
+    && !isUnifiedProcessor(existingProcessor)
+    && existingProcessor.name !== 'satteri'
+  ) {
+    return {
+      ...markdownConfig,
+      ...syntaxHighlightConfig,
+    };
+  }
+
+  const unifiedOptions = existingProcessor && isUnifiedProcessor(existingProcessor)
+    ? existingProcessor.options
     : undefined;
-  const gfm = unifiedOptions?.gfm ?? markdownConfig?.gfm;
+  const gfm = unifiedOptions?.gfm ?? markdownConfig.gfm;
   const cjkFriendlyPlugins = shouldUseCjkFriendly(options)
     ? [remarkCjkFriendly, ...(gfm === false ? [] : [remarkCjkFriendlyGfmStrikethrough])]
     : [];
+  const processor = unified({
+    remarkPlugins: [
+      remarkHeadingIds,
+      ...cjkFriendlyPlugins,
+      ...(unifiedOptions?.remarkPlugins ?? markdownConfig.remarkPlugins ?? []),
+    ],
+    rehypePlugins: [
+      ...(unifiedOptions?.rehypePlugins ?? markdownConfig.rehypePlugins ?? []),
+      rehypeHeadingAnchors,
+    ],
+    remarkRehype: unifiedOptions?.remarkRehype ?? markdownConfig.remarkRehype,
+    gfm,
+    smartypants: unifiedOptions?.smartypants ?? markdownConfig.smartypants,
+  });
 
   return {
-    remarkPluginsBeforeTransforms: [remarkHeadingIds, ...cjkFriendlyPlugins],
-    remarkPluginsAfterTransforms: [],
-    rehypePluginsBeforeTransforms: [],
-    rehypePluginsAfterTransforms: [rehypeHeadingAnchors],
+    ...markdownConfig,
+    ...syntaxHighlightConfig,
+    processor,
   };
 }

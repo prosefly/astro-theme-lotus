@@ -1,7 +1,7 @@
 export { defaultConfig } from './defaults';
 export { resolveExpressiveCodeOptions } from './expressive-code';
 export { resolveLlmsConfig } from './llms';
-export { resolveMarkdownConfig, resolveMarkdownExtensions } from './markdown';
+export { resolveMarkdownConfig } from './markdown';
 export { defineLotusConfig } from './options';
 export {
   loadLotusConfigFile,

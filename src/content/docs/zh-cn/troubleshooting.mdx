@@ -27,7 +27,8 @@ Astro 组件和 TypeScript。
 ## 图标没有渲染
 
 使用完整 Iconify 名称，例如 `lucide:search`，或在支持的位置配置别名。如果图标名称
-是动态生成的，需要将它加入 `iconify.preload`，因为静态扫描无法检测动态名称。
+是动态生成的，请显式注册 Astro Components integration，并将它加入
+`icons.preload`，因为静态扫描无法检测动态名称。
 
 ## 组件覆盖没有生效
 

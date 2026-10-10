@@ -20,6 +20,10 @@ upgrade affects your documentation site.
 
 ## Unreleased
 
+- Changed Astro Components ownership: Lotus now adds its integration with
+  defaults only when the project has not registered it. Icon and shared
+  Markdown behavior must be customized through
+  `@prosefly/astro-components/integration` instead of Lotus options.
 - Added automatic canonical and Open Graph metadata, plus language alternates
   for existing translations, with support for custom slugs and head overrides.
 - Fixed custom frontmatter slugs losing locale and translation identity in

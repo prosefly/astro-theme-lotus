@@ -48,7 +48,6 @@ describe('Lotus config', () => {
       ...defaultConfig.footer,
       copyright: 'Copyright',
     });
-    expect(config.iconify).toEqual(defaultConfig.iconify);
   });
 
   it('keeps explicit empty page actions instead of falling back to defaults', () => {

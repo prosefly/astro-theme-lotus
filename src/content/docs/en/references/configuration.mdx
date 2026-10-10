@@ -36,8 +36,8 @@ export default defineConfig({
 ```
 
 Values passed to `lotus({...})` override `theme.config.json`. Object options
-such as `appearance`, `footer`, `iconify`, `locales`, `markdown`, `source`, and
-`ui` are shallow-merged; arrays such as `siteNav`, `socials`, and `docsNav`
+such as `appearance`, `footer`, `locales`, `markdown`, `source`, and `ui` are
+shallow-merged; arrays such as `siteNav`, `socials`, and `docsNav`
 replace the JSON value when provided.
 
 Component overrides are integration-only. Configure `components` in
@@ -92,8 +92,7 @@ styles. Page frontmatter `head` entries are merged after global entries.
 | `components` | `{}` in `lotus({...})` only | [Overriding Components](/docs/customization/overriding-components/) |
 | `head` | `[]` | [CSS & Styling](/docs/customization/css-styling/) |
 | `credits` | `true` | [Footer](/docs/configuration/footer/#credits) |
-| `iconify` | default Iconify API, scan enabled | [Integrations](/docs/configuration/integrations/#iconify) |
-| `markdown` | all transforms enabled, Expressive Code defaults | [Integrations](/docs/configuration/integrations/) |
+| `markdown` | CJK auto-detection and Expressive Code defaults | [Integrations](/docs/configuration/integrations/) |
 
 ## TypeScript Options
 

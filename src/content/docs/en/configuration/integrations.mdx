@@ -1,23 +1,22 @@
 ---
 title: Integrations
-description: Configure OpenAPI references, Iconify preloading, Expressive Code, Mermaid diagrams, and Markdown transforms.
+description: Configure Astro Components, OpenAPI references, Expressive Code, and Lotus Markdown behavior.
 
 ---
 
 import { Card, CardGrid } from '@prosefly/astro-components';
 
-Lotus includes integrations for icons, syntax highlighting, Mermaid diagrams,
-callout directives, CJK-friendly Markdown, image galleries, package-manager
-command tabs, and optional OpenAPI reference pages.
+Lotus coordinates Astro Components, syntax highlighting, Lotus-owned Markdown
+behavior, and optional OpenAPI reference pages.
 
 <CardGrid>
   <Card icon="lucide:braces" title="OpenAPI" href="#openapi">
     Generate API reference routes, navigation, search entries, and Markdown from
     one or more OpenAPI documents.
   </Card>
-  <Card icon="lucide:sparkles" title="Iconify" href="#iconify">
-    Preload icon data used by the theme, MDX components, theme config, and
-    static `Icon` usage.
+  <Card icon="lucide:blocks" title="Astro Components" href="#astro-components">
+    Configure shared icons and Markdown transforms explicitly when the defaults
+    are not right for your project.
   </Card>
   <Card icon="lucide:code-2" title="Expressive Code" href="#expressive-code">
     Render syntax-highlighted code blocks with frames, copy buttons, markers,
@@ -42,6 +41,39 @@ command tabs, and optional OpenAPI reference pages.
     Transform Markdown image-only paragraphs into responsive gallery figures.
   </Card>
 </CardGrid>
+
+## Astro Components
+
+Lotus adds `@prosefly/astro-components/integration` with its default options
+when the project has not already registered it. If you register the integration
+yourself, Lotus detects it by name and does not add or configure another copy.
+
+Add it explicitly whenever you need to change icon loading or shared Markdown
+transforms. Register it only once:
+
+```ts title="astro.config.ts"
+import { defineConfig } from 'astro/config';
+import proseflyComponents from '@prosefly/astro-components/integration';
+import lotus from '@prosefly/astro-theme-lotus';
+
+export default defineConfig({
+  integrations: [
+    proseflyComponents({
+      icons: {
+        preload: ['lucide:sparkles'],
+      },
+      markdown: {
+        mermaid: false,
+      },
+    }),
+    lotus(),
+  ],
+});
+```
+
+The integration can appear before or after `lotus()` in the array. Its full
+option types and defaults come from `@prosefly/astro-components` rather than
+the Lotus configuration schema.
 
 ## OpenAPI
 
@@ -127,13 +159,13 @@ while public or local installs without registry access simply omit it.
 
 ## Iconify
 
-Lotus installs the `@prosefly/astro-components/integration` integration internally.
-It preloads icons used by Lotus, icons used by Prosefly components, theme config
-icons, and static `<Icon name="...">` usage in Astro and MDX files.
+The Astro Components integration scans static `<Icon name="...">` usage in
+Astro and MDX files by default. Configure its `icons` option when you need a
+different Iconify endpoint, dynamic icon names, or no source scan.
 
 ```ts
-lotus({
-  iconify: {
+components({
+  icons: {
     apiBase: 'https://api.iconify.design',
     preload: ['lucide:sparkles'],
     scan: true,
@@ -177,17 +209,19 @@ lotus({
 
 ## Mermaid
 
-Lotus renders supported `mermaid` code blocks as responsive inline SVG during
-the Astro build. It is enabled by default, ships no Mermaid runtime to the
-browser, and automatically keeps Mermaid source out of syntax highlighting.
+The default Astro Components integration renders supported `mermaid` code
+blocks as responsive inline SVG during the Astro build. It ships no Mermaid
+runtime to the browser and automatically keeps Mermaid source out of syntax
+highlighting.
 
 See [Mermaid Diagrams](/docs/essentials/mermaid/) for supported diagram types,
 authoring syntax, accessibility, and theming.
 
-Disable the transform when Mermaid blocks should remain ordinary code:
+Configure Astro Components explicitly when Mermaid blocks should remain
+ordinary code:
 
 ```ts
-lotus({
+components({
   markdown: {
     mermaid: false,
   },
@@ -196,32 +230,32 @@ lotus({
 
 ## Package Manager Tabs
 
-Lotus enables the Prosefly package-manager tabs remark plugin by default. It
-turns recognized install commands into tabbed command blocks.
+The default Astro Components integration turns recognized install commands
+into tabbed command blocks.
 
 ```ts
-lotus({
+components({
   markdown: {
     packageManagerTabs: false,
   },
 })
 ```
 
-Set `markdown.packageManagerTabs` to `false` to keep package-manager commands
-as normal code blocks.
+Set the Astro Components `markdown.packageManagerTabs` option to `false` to
+keep package-manager commands as normal code blocks.
 
 ## Callout Directives
 
-Lotus enables the Prosefly callout directive remark plugin by default. This adds
-Starlight-style admonition syntax for `note`, `tip`, `warning`, `caution`, and
-`danger`. See [Admonitions](/docs/essentials/admonitions/) for authoring syntax
-and usage guidance.
+The default Astro Components integration adds Starlight-style admonition syntax
+for `note`, `tip`, `warning`, `caution`, and `danger`. See
+[Admonitions](/docs/essentials/admonitions/) for authoring syntax and usage
+guidance.
 
-Set `markdown.calloutDirectives` to `false` to keep Markdown directives
-untouched.
+Set the Astro Components `markdown.calloutDirectives` option to `false` to keep
+Markdown directives untouched.
 
 ```ts
-lotus({
+components({
   markdown: {
     calloutDirectives: false,
   },
@@ -251,8 +285,8 @@ CommonMark and GFM parsing.
 
 ## Image Galleries
 
-Lotus also installs the Prosefly image gallery rehype plugin. Paragraphs that
-contain only Markdown images are transformed into responsive gallery figures.
+The default Astro Components integration transforms paragraphs containing only
+Markdown images into responsive gallery figures.
 
 See [Images](/docs/essentials/images/) for authoring details.
 
@@ -260,7 +294,7 @@ Disable the transform when a project wants image-only paragraphs to stay as
 normal Markdown output.
 
 ```ts
-lotus({
+components({
   markdown: {
     imageGallery: false,
   },

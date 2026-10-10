@@ -163,21 +163,9 @@
         "additionalProperties": { "type": "string" }
       }
     },
-    "iconify": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "apiBase": { "type": "string" },
-        "preload": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "scan": { "type": "boolean" }
-      }
-    },
     "markdown": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "expressiveCode": {
           "oneOf": [
@@ -185,16 +173,12 @@
             { "type": "object" }
           ]
         },
-        "calloutDirectives": { "const": false },
         "cjkFriendly": {
           "oneOf": [
             { "type": "boolean" },
             { "const": "auto" }
           ]
-        },
-        "packageManagerTabs": { "const": false },
-        "imageGallery": { "const": false },
-        "mermaid": { "const": false }
+        }
       }
     },
     "footer": {

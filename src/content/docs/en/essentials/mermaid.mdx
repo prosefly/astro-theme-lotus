@@ -310,21 +310,25 @@ updates with the site's light or dark theme without being rendered again.
 
 ## Configuration
 
-Mermaid rendering is enabled by default. Lotus also safely adds `mermaid` to
-the existing `markdown.syntaxHighlight.excludeLangs` list so the transform
-receives the original code-block source.
+Mermaid rendering is enabled by the default Astro Components integration. It
+also safely adds `mermaid` to the existing
+`markdown.syntaxHighlight.excludeLangs` list so the transform receives the
+original code-block source.
 
-To keep the other Markdown transforms but render Mermaid as ordinary code:
+To keep the other Markdown transforms but render Mermaid as ordinary code,
+register and configure Astro Components explicitly:
 
 ```ts title="astro.config.ts"
 import { defineConfig } from 'astro/config';
+import proseflyComponents from '@prosefly/astro-components/integration';
 import lotus from '@prosefly/astro-theme-lotus';
 
 export default defineConfig({
   integrations: [
-    lotus({
+    proseflyComponents({
       markdown: { mermaid: false },
     }),
+    lotus(),
   ],
 });
 ```

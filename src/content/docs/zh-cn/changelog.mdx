@@ -19,6 +19,9 @@ import { Badge, Card, CardGrid } from '@prosefly/astro-components';
 
 ## 尚未发布
 
+- 调整 Astro Components 的配置归属：项目未注册时，Lotus 才会使用默认参数添加其
+  integration；图标与共享 Markdown 行为改为通过
+  `@prosefly/astro-components/integration` 自行配置，不再使用 Lotus 参数。
 - 自动生成 canonical、Open Graph 元数据及实际翻译页面的 hreflang，支持自定义
   slug 和 head 覆盖。
 - 修复 `docsLoader` 使用自定义 frontmatter slug 时丢失语言和翻译对应关系的问题。

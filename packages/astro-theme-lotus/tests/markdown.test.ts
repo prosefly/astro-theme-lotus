@@ -5,11 +5,12 @@ import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
 import {
   rehypeMermaid,
+  resolveMarkdownConfig as resolveComponentsMarkdownConfig,
   remarkCalloutDirectives,
   remarkImageGallery,
   remarkPackageManagerTabs,
 } from '@prosefly/astro-components/markdown';
-import { resolveMarkdownConfig, resolveMarkdownExtensions } from '../src/lib/config/markdown';
+import { resolveMarkdownConfig } from '../src/lib/config/markdown';
 import { remarkHeadingIds } from '../src/lib/markdown/heading-ids';
 
 interface TestNode {
@@ -99,33 +100,29 @@ describe('markdown transforms', () => {
     expect(processorOptions(withoutGfm).remarkPlugins).not.toContain(remarkCjkFriendlyGfmStrikethrough);
   });
 
-  it('maps theme extensions around shared component transforms', () => {
-    const config = resolveMarkdownConfig({
-      markdown: {
-        calloutDirectives: false,
-        packageManagerTabs: false,
-        imageGallery: false,
-        mermaid: false,
-      },
-    }, markdownConfig());
-    const extensions = resolveMarkdownExtensions({}, markdownConfig());
+  it('only adds Lotus-owned Markdown transforms', () => {
+    const config = resolveMarkdownConfig({}, markdownConfig());
 
     expect(processorOptions(config).remarkPlugins).not.toContain(remarkCalloutDirectives);
     expect(processorOptions(config).remarkPlugins).not.toContain(remarkPackageManagerTabs);
     expect(processorOptions(config).remarkPlugins).not.toContain(remarkImageGallery);
     expect(processorOptions(config).rehypePlugins).not.toContain(rehypeMermaid);
-    expect(extensions.remarkPluginsBeforeTransforms?.[0]).toBe(remarkHeadingIds);
-    expect(extensions.rehypePluginsAfterTransforms?.[0]).toBeTypeOf('function');
+    expect(processorOptions(config).remarkPlugins[0]).toBe(remarkHeadingIds);
+    expect(processorOptions(config).rehypePlugins.at(-1)).toBeTypeOf('function');
   });
 
-  it('enables Mermaid rendering and excludes its source from syntax highlighting', () => {
-    const config = resolveMarkdownConfig({}, markdownConfig({
+  it('preserves transforms configured by the Astro Components integration', () => {
+    const componentsConfig = resolveComponentsMarkdownConfig({}, markdownConfig({
       syntaxHighlight: {
         type: 'shiki',
         excludeLangs: ['math'],
       },
-    }));
+    })) as AstroConfig['markdown'];
+    const config = resolveMarkdownConfig({}, componentsConfig);
 
+    expect(processorOptions(config).remarkPlugins).toContain(remarkCalloutDirectives);
+    expect(processorOptions(config).remarkPlugins).toContain(remarkPackageManagerTabs);
+    expect(processorOptions(config).remarkPlugins).toContain(remarkImageGallery);
     expect(processorOptions(config).rehypePlugins).toContain(rehypeMermaid);
     expect(config.syntaxHighlight).toEqual({
       type: 'shiki',

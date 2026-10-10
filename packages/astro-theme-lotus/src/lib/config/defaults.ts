@@ -37,11 +37,6 @@ export const defaultConfig: LotusThemeConfig = {
   defaultLocale: undefined,
   locales: undefined,
   ui: undefined,
-  iconify: {
-    apiBase: 'https://api.iconify.design',
-    preload: [],
-    scan: true,
-  },
   footer: {
     copyright: '',
     sections: [],
