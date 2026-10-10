@@ -18,6 +18,7 @@ describe('docs loader', () => {
     expect(generateId({ entry: 'zh-cn/installation.mdx', base, data: { slug: 'getting-started' } }))
       .toBe('zh-cn/installation');
     expect(generateId({ entry: 'en/index.mdx', base, data: {} })).toBe('en');
+    expect(generateId({ entry: 'en/guides/index.mdx', base, data: {} })).toBe('en/guides');
     expect(generateId({ entry: 'A Guide/First Steps.md', base, data: {} })).toBe('a-guide/first-steps');
   });
 });

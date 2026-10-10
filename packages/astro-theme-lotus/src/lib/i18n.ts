@@ -35,6 +35,14 @@ function normalizePathSegment(value: string | undefined): string {
   return value?.trim().replace(/^\/+|\/+$/g, '') ?? '';
 }
 
+function normalizeHtmlRouteSlug(slug: string): string {
+  if (slug === 'index') {
+    return '';
+  }
+
+  return slug.endsWith('/index') ? slug.slice(0, -'/index'.length) : slug;
+}
+
 export function getLanguageDirection(localeKeyOrLang: string | undefined): 'ltr' | 'rtl' {
   if (!localeKeyOrLang) {
     return 'ltr';
@@ -154,9 +162,10 @@ export function getRouteSlugForLocalizedSlug(
 ): string | undefined {
   const { locale, slug } = localizedSlug;
   const normalizedSlug = normalizePathSegment(slug) || 'index';
+  const routeContentSlug = markdown ? normalizedSlug : normalizeHtmlRouteSlug(normalizedSlug);
   const routeSlug = [
     locale.pathPrefix,
-    normalizedSlug === 'index' ? '' : normalizedSlug,
+    routeContentSlug,
   ].filter(Boolean).join('/');
 
   if (markdown) {
@@ -175,11 +184,11 @@ export function getLocalizedHref(
   const normalizedSlug = normalizePathSegment(slug) || 'index';
   const routeSlug = [
     locale.pathPrefix,
-    normalizedSlug === 'index' ? '' : normalizedSlug,
+    normalizeHtmlRouteSlug(normalizedSlug),
   ].filter(Boolean).join('/');
   const basePath = config.docsBase === '/' ? '' : config.docsBase.replace(/\/$/, '');
 
-  return routeSlug ? `${basePath}/${routeSlug}/` : `${basePath || '/'}`;
+  return routeSlug ? `${basePath}/${routeSlug}/` : `${basePath}/`;
 }
 
 export function getLocalizedMarkdownHref(
