@@ -164,7 +164,7 @@ Astro and MDX files by default. Configure its `icons` option when you need a
 different Iconify endpoint, dynamic icon names, or no source scan.
 
 ```ts
-components({
+proseflyComponents({
   icons: {
     apiBase: 'https://api.iconify.design',
     preload: ['lucide:sparkles'],
@@ -221,7 +221,7 @@ Configure Astro Components explicitly when Mermaid blocks should remain
 ordinary code:
 
 ```ts
-components({
+proseflyComponents({
   markdown: {
     mermaid: false,
   },
@@ -234,7 +234,7 @@ The default Astro Components integration turns recognized install commands
 into tabbed command blocks.
 
 ```ts
-components({
+proseflyComponents({
   markdown: {
     packageManagerTabs: false,
   },
@@ -255,7 +255,7 @@ Set the Astro Components `markdown.calloutDirectives` option to `false` to keep
 Markdown directives untouched.
 
 ```ts
-components({
+proseflyComponents({
   markdown: {
     calloutDirectives: false,
   },
@@ -294,7 +294,7 @@ Disable the transform when a project wants image-only paragraphs to stay as
 normal Markdown output.
 
 ```ts
-components({
+proseflyComponents({
   markdown: {
     imageGallery: false,
   },
