@@ -37,7 +37,7 @@
   scroll-margin-top: calc(var(--lotus-docs-chrome-height) + 1.5rem);
 }
 
-.prose :where(blockquote) {
+.prose :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border-inline-start: 0.25rem solid var(--lotus-prose-border);
   color: var(--lotus-text-muted);
   font-style: normal;
@@ -48,16 +48,16 @@
   quotes: none;
 }
 
-.prose :where(blockquote p) {
+.prose :where(blockquote p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   color: inherit;
 }
 
-.prose :where(blockquote p:first-of-type)::before,
-.prose :where(blockquote p:last-of-type)::after {
+.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"], [class~="not-prose"] *))::before,
+.prose :where(blockquote p:last-of-type):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
   content: none;
 }
 
-.prose :where(blockquote > :first-child),
-.prose :where(h1, h2, h3, h4) + blockquote {
+.prose :where(blockquote > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)),
+.prose :where(h1, h2, h3, h4) + blockquote:not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-block-start: 0;
 }

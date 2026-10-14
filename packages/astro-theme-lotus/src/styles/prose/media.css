@@ -15,14 +15,14 @@
   iframe[src*="youtu.be"],
   iframe[src*="vimeo.com"],
   iframe[src*="player.vimeo.com"]
-) {
+):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   aspect-ratio: 16 / 9;
   height: auto;
   width: 100%;
 }
 
 @media (max-width: 640px) {
-  .prose :where(table) {
+  .prose :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     display: block;
     overflow-x: auto;
   }

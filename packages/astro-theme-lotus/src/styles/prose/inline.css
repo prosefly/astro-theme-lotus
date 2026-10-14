@@ -53,8 +53,8 @@
   text-decoration-color: var(--lotus-accent);
 }
 
-.prose code::before,
-.prose code::after {
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::before,
+.prose :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
   content: "";
   display: none;
 }

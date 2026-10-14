@@ -6,6 +6,31 @@ import { describe, expect, it } from 'vitest';
 import { lotusStylesPlugin } from '../src/lib/styles';
 
 describe('Lotus styles', () => {
+  it('excludes component UI from blockquote, iframe, table, and inline-code prose rules', () => {
+    const exclusion = ':not(:where([class~="not-prose"], [class~="not-prose"] *))';
+    const source = (file: string) => readFileSync(
+      new URL(`../src/styles/prose/${file}.css`, import.meta.url),
+      'utf8',
+    );
+    const base = source('base');
+    for (const selector of [
+      '.prose :where(blockquote)',
+      '.prose :where(blockquote p)',
+      '.prose :where(blockquote p:first-of-type)',
+      '.prose :where(blockquote p:last-of-type)',
+      '.prose :where(blockquote > :first-child)',
+      '.prose :where(h1, h2, h3, h4) + blockquote',
+    ]) {
+      expect(base).toContain(selector + exclusion);
+    }
+    const media = source('media');
+    expect(media).toContain('iframe[src*="player.vimeo.com"]\n)' + exclusion);
+    expect(media).toContain('.prose :where(table)' + exclusion);
+    const inline = source('inline');
+    expect(inline).toContain('.prose :where(code)' + exclusion + '::before');
+    expect(inline).toContain('.prose :where(code)' + exclusion + '::after');
+  });
+
   it('appends project head style sources after Lotus styles', async () => {
     const root = mkdtempSync(join(tmpdir(), 'lotus-styles-'));
 
