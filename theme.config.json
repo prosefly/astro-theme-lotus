@@ -43,6 +43,12 @@
         "zh-cn": "赞助"
       },
       "href": "/sponsors/"
+    },
+    {
+      "label": "Prosefly.com",
+      "href": "https://prosefly.com",
+      "external": true,
+      "trailingIcon": "lucide:arrow-up-right"
     }
   ],
   "socials": [
@@ -244,7 +250,7 @@
           },
           {
             "label": "Astro Components",
-            "href": "https://prosefly.dev/docs/astro-components/",
+            "href": "https://astro-components.prosefly.dev/",
             "external": true
           },
           {
